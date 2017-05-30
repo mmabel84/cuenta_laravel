@@ -2,7 +2,7 @@
 
 
 @section('title')
-      Empresas
+      RFC de Empresa
 @endsection 
 
 @section('content')
@@ -11,7 +11,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Datos de empresa</h2>
+                    <h2>Datos de RFC</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -34,7 +34,19 @@
                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de empresa <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Empresa que pertenece</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="select2_single form-control" tabindex="-1">
+                              <option></option>
+                              <option value="E1">Empresa 1</option>
+                              <option value="E2">Empresa 2</option>
+                              
+                            </select>
+                          </div>
+                        </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de RFC <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
@@ -56,6 +68,18 @@
 		                            data-parsley-validation-threshold="10"></textarea>
                             	</div>
                     	</div>
+
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Instancias</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="select2_multiple form-control" multiple="multiple">
+                              <option>Seleccione instancias para agregar RFC</option>
+                              <option>Instancia 1</option>
+                              <option>Instancia 2</option>
+                              <option>Instancia 3</option>
+                            </select>
+                          </div>
+                        </div>
                       
                       
                       <div class="ln_solid"></div>

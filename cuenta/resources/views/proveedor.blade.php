@@ -2,16 +2,15 @@
 
 
 @section('title')
-      Empresas
+      Proveedores
 @endsection 
 
 @section('content')
-	
 
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Datos de empresa</h2>
+                    <h2>Datos de proveedor</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -34,7 +33,7 @@
                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de empresa <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de proveedor <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
@@ -49,20 +48,24 @@
                           <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                         </div>
                       </div>
+
                       <div class="form-group">
-	                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="message">Razón social (20 caracteres min, 100 max)</label>
-	                          <div class="col-md-6 col-sm-6 col-xs-12">
-		                          <textarea id="message" required="required" class="form-control" name="message" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-		                            data-parsley-validation-threshold="10"></textarea>
-                            	</div>
-                    	</div>
-                      
-                      
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Instancias</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="select2_multiple form-control" multiple="multiple">
+                              <option>Seleccione instancias para agregar Proveedor</option>
+                              <option>Instancia 1</option>
+                              <option>Instancia 2</option>
+                              <option>Instancia 3</option>
+                            </select>
+                          </div>
+                        </div>
+                     
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button">Cancelar</button>
-						  <button class="btn btn-primary" type="reset">Limpiar</button>
+						              <button class="btn btn-primary" type="reset">Limpiar</button>
                           <button type="submit" class="btn btn-success">Guardar</button>
                         </div>
                       </div>
@@ -72,4 +75,5 @@
                 </div>
               </div>
 
-@endsection
+
+@endsection 

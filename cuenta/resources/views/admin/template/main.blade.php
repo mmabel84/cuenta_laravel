@@ -35,6 +35,8 @@
     	<script src="{{ asset('build/js/custom.js') }}"></script>  
     	<script src="{{ asset('js/custom.js') }}"></script>      
 
+    	<section>@yield('formjs')</section>
+
     	
 
 
@@ -43,9 +45,31 @@
     <body class="nav-md">
     	<div class="container body">
       		<div class="main_container">
-		    	@include('admin.template.sidenavbar')
-		    	<section>@yield('content')</section>
-    		</div>
+                @include('admin.template.sidenavbar')
+                <div class="right_col" role="main">
+                    <div class="page-title">
+                      <div class="title_left">
+                        <h3>Cuenta <small></small></h3>
+                      </div>
+
+                      <div class="title_right">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+  		    	     <div class="row">  
+    		    	       <section>@yield('content')</section>
+                  </div>
+                </div>
+    		
+
+            </div>
 		</div>
 
     	

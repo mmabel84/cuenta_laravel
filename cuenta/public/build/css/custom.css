@@ -347,11 +347,13 @@ html , body{
     position: fixed
 }
 body .container.body .right_col {
-    background: #F7F7F7
+    background: #F7F7F7;
+    
 }
 .nav-md .container.body .right_col {
     padding: 10px 20px 0;
-    margin-left: 230px
+    margin-left: 230px;
+
 }
 .nav_title {
     width: 230px;
@@ -364,17 +366,26 @@ body .container.body .right_col {
     .nav-md .container.body .right_col,
     .nav-md .container.body .top_nav {
         width: 100%;
-        margin: 0
+        margin: 0;
     }
     .nav-md .container.body .col-md-3.left_col {
         display: none
     }
     .nav-md .container.body .right_col {
         width: 100%;
-        padding-right: 0
+        padding-right: 0;
+
+
+
     }
     .right_col {
-        padding: 10px !important
+        padding: 10px !important;
+        
+
+
+
+
+
     }
 }
 @media (max-width: 1200px) {
@@ -632,8 +643,13 @@ table.no-margin .progress {
 }
 .row {
     margin-right: -10px;
-    margin-left: -10px
+    margin-left: -10px;
+    height: 100%;
 }
+
+
+
+
 .grid_slider .col-md-6 {
     padding: 0 40px
 }

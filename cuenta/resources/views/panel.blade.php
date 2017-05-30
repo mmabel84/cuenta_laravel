@@ -10,26 +10,9 @@
 @section('content')
 
  <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="">
-            <div class="page-title">
-              <div class="title_left">
-                <h3>Tablero de cuenta <small></small></h3>
-              </div>
+        
 
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row tile_count">
+            <div class=" tile_count">
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> Total Gigas asignados</span>
               <div class="count">170</div>
@@ -154,7 +137,6 @@
 
 
 
-              <div class="row">
               <div class="col-md-8 col-sm-8 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -214,7 +196,6 @@
               </div>
 
 
-              <div class="row">
               <div class="col-md-8 col-sm-8 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -275,11 +256,9 @@
               </div>             
 
               
-            </div>
             <div class="clearfix"></div>
             <br />
-          </div>
-        </div>
+
         <!-- /page content -->
   
 

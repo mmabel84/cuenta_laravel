@@ -30,10 +30,11 @@
                 <ul class="nav side-menu">
                   
                   <li><a href="/"><i class="fa fa-dashboard"></i> Panel principal </a>
-                  <li><a href="/empresa"><i class="fa fa-edit"></i> Empresas </a>
-                  <li><a href="/"><i class="fa fa-edit"></i> RFCs de empresa </a>
-                  <li><a href="/"><i class="fa fa-users"></i> Usuarios</a>
-                  <li><a href="/"><i class="fa fa-database"></i> Instancias </a>
+                  <li><a href="/listaempresa"><i class="fa fa-building"></i> Empresas </a>
+                  <li><a href="/listarfc"><i class="fa fa-building-o"></i> RFCs de empresa </a>
+                  <li><a href="/listausuario"><i class="fa fa-users"></i> Usuarios</a>
+                  <li><a href="/listaproveedor"><i class="fa fa-users"></i> Proveedores </a>
+                  <li><a href="/listainstancia"><i class="fa fa-database"></i> Instancias </a>
                   <li><a href="/"><i class="fa fa-gears"></i> Generar respaldo </a>
                   <li><a href="/"><i class="fa fa-wrench"></i> Configuración de la cuenta </a>
 
