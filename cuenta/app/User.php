@@ -6,16 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Bican\Roles\Traits\HasRoleAndPermission;
 use Bican\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
-use Illuminate\Auth\Authenticatable as authAuthenticatable;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Model;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasRoleAndPermissionContract
 
 {
-    use Notifiable;
+    use Notifiable, HasRoleAndPermission;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','users_nick','users_tel','users_f_ultacces','users_activo',
     ];
 
     /**
@@ -34,4 +30,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function basedatosapps(){
+
+        return $this->belongsToMany('App\BasedatosApp');
+    }
+
+    public function bitacoras(){
+
+        return $this->hasMany('App\Bitacora');
+    }
 }

@@ -50,29 +50,20 @@
 
 
 		                      <tbody>
+		                      	@foreach ($empresas as $e)
 		                        <tr>
-		                          <td>Empresa 1</td>
-		                          <td>1234567897654</td>
+		                          <td>{{$e->empr_nom}}</td>
+		                          <td>{{$e->empr_rfc}}</td>
 		                          <td class=" last">
 		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
 		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
+		                          	<a href="{{route('delempr',['id'=>$e->id])}}" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
 
 		                          </td>
 		                          
 		                        </tr>
-		                        <tr>
-		                          <td>Empresa 2</td>
-		                          <td>2345432567895</td>
-		                          <td class=" last">
-		                          <a href="#" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
-		                          <a href="#" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
-
-		                          </td>
-		                          
-		                        </tr>
-		                       
+		                        @endforeach
+		                       		                       
 		                      </tbody>
 		                    </table>
 		                  </div>

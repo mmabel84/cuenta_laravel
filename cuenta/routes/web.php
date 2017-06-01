@@ -14,13 +14,14 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/listaempresa', function () {
-    return view('listaempresa');
-});
+Route::get('/listaempresa','EmprController@index')->name('listempr');
 
-Route::get('/empresa', function () {
-    return view('empresa');
-});
+Route::get('/saveemp','EmprController@save');
+
+Route::get('/delempresa/{id}','EmprController@delete')->name('delempr');
+
+
+
 
 Route::get('/listarfc', function () {
     return view('listarfc');
