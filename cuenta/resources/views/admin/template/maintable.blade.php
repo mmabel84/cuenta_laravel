@@ -1,12 +1,22 @@
 @extends('admin.template.main')
 
-        @section('formjs')
+        @section('formcss')
        	    	<!-- Tables -->
 	    	<link href="{{ asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
 	    	<link href="{{ asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
 	    	<link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
 	    	<link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
 	    	<link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+
+	      
+		@endsection 
+
+
+
+
+		@section('formjs')
+       	    	<!-- Tables -->
+	  
 
 	    	<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -24,6 +34,7 @@
 	    	<script src="{{ asset('vendors/jszip/dist/jszip.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/pdfmake/build/pdfmake.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+	    	<script src="{{ asset('build/js/custom.js') }}"></script>  
 
 	      
 		@endsection 

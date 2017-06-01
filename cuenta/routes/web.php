@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('panel');
-});
+
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/listaempresa', function () {
     return view('listaempresa');
@@ -54,3 +53,6 @@ Route::get('/listaproveedor', function () {
 Route::get('/proveedor', function () {
     return view('proveedor');
 });
+Auth::routes();
+
+
