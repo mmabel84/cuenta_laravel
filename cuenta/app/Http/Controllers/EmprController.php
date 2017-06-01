@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Empresa;
 use Illuminate\Http\Request;
+use View;
+use Illuminate\Support\Facades\Redirect;
 
 class EmprController extends Controller
 {
@@ -12,10 +15,26 @@ class EmprController extends Controller
 
         $empresa = Empresa::all();
 
-        return view('listaempresa')->with('empresas',$empresa);
+        return view('empresas')->with('empresas',$empresa);
     }
 
-    public function save(Request $request)
+    public function create()
+    {       
+
+       return View::make('empresacreate');
+    }
+
+    public function edit($id)
+    {       
+
+    	$empresae = Empresa::find($id);
+
+      	return view('empresa');
+    }
+
+    
+
+    public function store(Request $request)
     {
     	
     	$empresaf = new Empresa;
@@ -23,14 +42,12 @@ class EmprController extends Controller
     	$empresaf->empr_nom = $request->empr_nom;
     	$empresaf->empr_razsoc = $request->empr_razsoc;
     	$empresaf->save();
-
-    	return redirect()->route('listempr');
-
+    	return Redirect::to('empresas');
 
 
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
     	
     	$empresad = Empresa::find($id);
@@ -40,9 +57,10 @@ class EmprController extends Controller
     		$empresad->delete();
     	}
 
-    	return redirect()->route('listempr');
-
+    	return Redirect::to('empresas');
 
 
     }
+
+    
 }

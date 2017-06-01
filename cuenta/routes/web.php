@@ -12,13 +12,20 @@
 */
 
 
+Route::resource('empresas', 'EmprController');
+
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/listaempresa','EmprController@index')->name('listempr');
 
-Route::get('/saveemp','EmprController@save');
+Route::get('/saveemp','EmprController@store')->name('saveemp');
 
 Route::get('/delempresa/{id}','EmprController@delete')->name('delempr');
+
+
+
+
+
+
 
 
 

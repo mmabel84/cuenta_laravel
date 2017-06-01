@@ -31,7 +31,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  	<a href="/empresa"><i class="fa fa-edit right"></i> <b>Crear nueva empresa</b></a>
+		                  	<a href="{{ URL::to('empresas/create') }}"><i class="fa fa-edit right"></i> <b>Crear nueva empresa</b></a>
 		                  </div>
 
 		                  <br/>
@@ -55,9 +55,13 @@
 		                          <td>{{$e->empr_nom}}</td>
 		                          <td>{{$e->empr_rfc}}</td>
 		                          <td class=" last">
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
-		                          	<a href="{{route('delempr',['id'=>$e->id])}}" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
+		                          	<a href="{{ URL::to('empresas/$id/edit') }}" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
+		                          	<a href="{{route('delempr',['id'=>$e->id])}}" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
+		                          	<a href="{{ URL::to('empresas/$id/destroy') }}" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
+		                          	{{ Form::open(array('url' => 'empresas/' . $e->id, 'class' => 'pull-right')) }}
+					                    {{ Form::hidden('_method', 'DELETE') }}
+					                    {{ Form::submit('Eliminar esta empresa', array('class' => 'btn btn-warning')) }}
+					                {{ Form::close() }}
 
 		                          </td>
 		                          
