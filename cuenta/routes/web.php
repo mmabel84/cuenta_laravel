@@ -17,9 +17,7 @@ Route::resource('empresas', 'EmprController');
 Route::get('/', 'HomeController@index')->name('home');
 
 
-Route::get('/saveemp','EmprController@store')->name('saveemp');
 
-Route::get('/delempresa/{id}','EmprController@delete')->name('delempr');
 
 
 

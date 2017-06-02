@@ -35,15 +35,22 @@
 		                  </div>
 
 		                  <br/>
-
+		                  @if (Session::has('message'))
+			                  <div class="alert alert-success alert-dismissible fade in" role="alert">
+			                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+			                    </button>
+			                    <strong>{{ Session::get('message') }}</strong>
+			                  </div>
+			                  @endif
 		                  <div class="x_content table-responsive">
 		                    
-		                    <table id="datatable" class="table table-striped table-bordered bulk_action">
+		                    <table id="datatable" class="table table-striped table-bordered">
 		                      <thead>
 		                        <tr>
-		                          <th class="column-title">Nombre</th>
-		                          <th class="column-title">RFC</th>
-		                          <th class="column-title no-link last"><span class="nobr">Acciones</span>
+		                          <th>Nombre</th>
+		                          <th>RFC</th>
+		                          <th>Razón social</th>
+		                          <th>Acciones</th>
 		                          
 		                        </tr>
 		                      </thead>
@@ -54,14 +61,30 @@
 		                        <tr>
 		                          <td>{{$e->empr_nom}}</td>
 		                          <td>{{$e->empr_rfc}}</td>
-		                          <td class=" last">
-		                          	<a href="{{ URL::to('empresas/$id/edit') }}" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
-		                          	<a href="{{route('delempr',['id'=>$e->id])}}" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
-		                          	<a href="{{ URL::to('empresas/$id/destroy') }}" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
-		                          	{{ Form::open(array('url' => 'empresas/' . $e->id, 'class' => 'pull-right')) }}
-					                    {{ Form::hidden('_method', 'DELETE') }}
-					                    {{ Form::submit('Eliminar esta empresa', array('class' => 'btn btn-warning')) }}
-					                {{ Form::close() }}
+		                          <td>{{$e->empr_razsoc}}</td>
+		                          <td class=" last" width="16.5%">
+		                          	
+                            		<a href="{{route('empresas.edit',['id'=>$e->id])}}" class="btn btn-info btn-xs" type="button"><i class="fa fa-pencil"></i> Editar </a>
+
+                      				{{ Form::open(array('url' => 'empresas/' . $e->id, 'class' => 'pull-right')) }}
+		                          	{{ Form::hidden('_method', 'DELETE') }}
+                      				<button href="{{route('empresas.destroy',['id'=>$e->id])}}" class="btn btn-danger btn-xs" type="submit"><i class="fa fa-trash-o"></i> Eliminar </button>
+									<div class="btn-group">
+						                    <button data-toggle="dropdown" class="btn btn-success dropdown-toggle btn-sm btn-xs right" type="button" aria-expanded="false">Más <span class="caret"></span>
+						                    </button>
+						                    <ul role="menu" class="dropdown-menu">
+						                      <li><a href="#">Action</a>
+						                      </li>
+						                      <li><a href="#">Another action</a>
+						                      </li>
+						                      <li><a href="#">Something else here</a>
+						                      </li>
+						                      <li><a href="#">Separated link</a>
+						                      </li>
+						                    </ul>
+									     </div>
+
+									  {{ Form::close() }}
 
 		                          </td>
 		                          

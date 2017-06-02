@@ -58,27 +58,24 @@
 		                          <td>1234567897654</td>
 		                          <td>Empresa 1</td>
 		                          <td class=" last">
-		                          <a href="#" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
-		                          <a href="#" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Ver instancias"><i class="fa fa-sitemap"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Añadir a instancias"><i class="fa fa-plus-square"></i></a>
+		                          <button href="#" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit fa-lg"></i></button>
+		                          <button href="#" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o fa-lg"></i></button>
+		                          	<button href="#" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash fa-lg"></i></button>
+
+		                          	<div class="btn-group">
+						                    <button href="#"  data-toggle="dropdown" data-placement="left" class="fa fa-plus-square fa-lg dropdown-toggle btn-sm  right" aria-expanded="false"> <span class="caret"></span>
+						                    </button>
+						                    <ul role="menu" class="dropdown-menu">
+						                      <li><a href="#">Añadir a instancia</a>
+						                      </li>
+						                      
+						                    </ul>
+									     </div>
 
 		                          </td>
 		                          
 		                        </tr>
-		                        <tr>
-		                          <td>Empresa Y</td>
-		                          <td>2345432567895</td>
-		                           <td>Empresa 2</td>
-		                          <td class=" last">
-		                          <a href="#" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
-  		                          <a href="#" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Ver instancias"><i class="fa fa-sitemap"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Añadir a instancias"><i class="fa fa-plus-square">
-
-		                          </td>
+		                        
 		                          
 		                        </tr>
 		                       

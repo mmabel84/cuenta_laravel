@@ -10,35 +10,133 @@
 @section('content')
 
  <!-- page content -->
-        
+          
+          
+
+            <div class="col-md-12">
+              <div class="panel panel-body">
+
+                <div class="x_title">
+                  <h4>Aplicaciones</h4>
+                        
+
+                </div>
+                    
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                              
+                            </div>
+                          <div class="col-md-4 col-sm-6 col-xs-12">
+                              <select class="select2_single form-control" tabindex="-1">
+                                <option>Seleccione una empresa</option>
+                                <option value="AK">Empresa 1-1111111</option>
+                                <option value="HI">Empresa 2-2222222</option>
+                                <option value="CA">Empresa 3-3333333</option>
+                                
+                              </select>
+                            </div>
+                          </div>
+
+                    <div class="row">
+                    <div class="col-xs-3">
+
+                      <div class="dashboard-widget-content">
+
+                      <input type="text" id="act_value2" value="25" style="visibility:hidden">
+                      <input type="text" id="max_value2" value="40" style="visibility:hidden">
+                        <div class="sidebar-widget">
+                        <button type="button" class="btn btn-round btn-primary">Contabilidad</button>
+                          <canvas width="140" height="80" id="chart_gauge_02" class="" style="width: 160px; height: 100px;"></canvas>
+                              <div class="goal-wrapper">
+                                <span class="gauge-value pull-left"></span>
+                                <span id="gauge-text2" class="gauge-value pull-left">25</span>
+                                <span id="goal-text2" class="goal-value pull-right">50</span>
+                              </div>                    
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-3">
+
+                      <div class="dashboard-widget-content">
+
+                      <input type="text" id="act_value3" value="70" style="visibility:hidden">
+                      <input type="text" id="max_value3" value="90" style="visibility:hidden">
+                        <div class="sidebar-widget">
+                        <button type="button" class="btn btn-round btn-primary">Bóveda</button>
+                          <canvas width="140" height="80" id="chart_gauge_03" class="" style="width: 160px; height: 100px;"></canvas>
+                              <div class="goal-wrapper">
+                                <span class="gauge-value pull-left"></span>
+                                <span id="gauge-text3" class="gauge-value pull-left">70</span>
+                                <span id="goal-text3" class="goal-value pull-right">90</span>
+                              </div>                    
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-xs-3">
+
+                      <div class="dashboard-widget-content">
+
+                      <input type="text" id="act_value4" value="5" style="visibility:hidden">
+                      <input type="text" id="max_value4" value="30" style="visibility:hidden">
+                        <div class="sidebar-widget">
+                        <button type="button" class="btn btn-round btn-primary">PLD</button>
+                          <canvas width="140" height="80" id="chart_gauge_04" class="" style="width: 160px; height: 100px;"></canvas>
+                              <div class="goal-wrapper">
+                                <span class="gauge-value pull-left"></span>
+                                <span id="gauge-text4" class="gauge-value pull-left">5</span>
+                                <span id="goal-text4" class="goal-value pull-right">30</span>
+                              </div>                    
+
+                        </div>
+                      </div>
+                    </div>
+                  
+                                    
+                  <div class="clearfix"></div>
+
+              </div>
+            </div>
+            </div>
+
+            <div class="x_title">
+                  <h4>Cuenta</h4>
+                        
+
+            </div>
 
             <div class=" tile_count">
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Gigas asignados</span>
-              <div class="count">170</div>
+              <span class="count_top"><i class="fa fa-user"></i>Gigas asignados</span>
+              <div class="count">150</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total RFC asignados</span>
+              <span class="count_top"><i class="fa fa-user"></i>Empresas asignadas</span>
               <div class="count">10</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total RFC creados</span>
+              <span class="count_top"><i class="fa fa-user"></i> Empresas creadas</span>
               <div class="count">3</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total de aplicaciones</span>
-              <div class="count">2</div>
+              <span class="count_top"><i class="fa fa-user"></i> Aplicaciones</span>
+              <div class="count">3</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total de usuarios creados</span>
+              <span class="count_top"><i class="fa fa-user"></i> Usuarios creados</span>
               <div class="count">5</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total de backups generados</span>
+              <span class="count_top"><i class="fa fa-user"></i> Backups generados</span>
               <div class="count">7</div>
             </div>
             
           </div>
+
 
             <div class="clearfix"></div>
 

@@ -27,9 +27,22 @@ class EmprController extends Controller
     public function edit($id)
     {       
 
-    	$empresae = Empresa::find($id);
+    	$empresase = Empresa::find($id);
+    	return View::make('empresaedit')
+            ->with('empresa', $empresase);
+    }
 
-      	return view('empresa');
+    public function update(Request $request, $id)
+    {
+    	$empresau = Empresa::find($id);
+		$empresau->empr_nom = $request->empr_nom;
+        $empresau->empr_rfc = $request->empr_rfc;
+        $empresau->empr_razsoc = $request->empr_razsoc;
+        
+        $empresau->save();
+        \Session::flash('message','Se ha actualizado la empresa: '.$request->empr_nom);
+        return Redirect::to('empresas');
+
     }
 
     
@@ -42,6 +55,7 @@ class EmprController extends Controller
     	$empresaf->empr_nom = $request->empr_nom;
     	$empresaf->empr_razsoc = $request->empr_razsoc;
     	$empresaf->save();
+    	\Session::flash('message','Se ha creado la empresa: '.$request->empr_nom);
     	return Redirect::to('empresas');
 
 
@@ -51,14 +65,23 @@ class EmprController extends Controller
     {
     	
     	$empresad = Empresa::find($id);
+
+    	echo('entre');
     	
-    	if ($empresad)
-    	{
-    		$empresad->delete();
-    	}
+    	$empresad->delete();
+    	\Session::flash('message','Se ha eliminado la empresa: '.$empresad->empr_nom);
 
     	return Redirect::to('empresas');
 
+
+    }
+
+    public function show($id)
+    {
+    	$empresash = Empresa::find($id);
+    	return View::make('empresashow')
+            ->with('empresa', $empresash);
+    	
 
     }
 

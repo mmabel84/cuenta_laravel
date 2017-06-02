@@ -1,4 +1,4 @@
-@extends('admin.template.mainform')
+   @extends('admin.template.mainform')
 
 
 @section('title')
@@ -33,14 +33,15 @@
                     <br />
                     
 
-            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="POST" action="{{route('empresas.store')}}">
+            
+           	 		{{ Form::open(['route' => ['empresas.update', $empresa], 'class'=>'form-horizontal form-label-left']) }}
 
-                      {{ csrf_field() }}
+                      {{ Form::hidden('_method', 'PUT') }}
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de empresa <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="empr_nom" name="empr_nom" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="empr_nom" name="empr_nom" required="required" class="form-control col-md-7 col-xs-12" value="{{$empresa->empr_nom}}">
                         </div>
                       </div>
                       
@@ -48,7 +49,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">RFC <span class="required">*</span> 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="empr_rfc" name="empr_rfc" class="form-control" data-inputmask="'mask' : '*************'">
+                          <input type="text" id="empr_rfc" name="empr_rfc" class="form-control" data-inputmask="'mask' : '*************'" value="{{$empresa->empr_rfc}}">
                           <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                         </div>
                       </div>
@@ -56,7 +57,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="message">Razón social (20 caracteres min, 100 max)</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <textarea id="empr_razsoc" required="required" class="form-control" name="empr_razsoc" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                                data-parsley-validation-threshold="10"></textarea>
+                                data-parsley-validation-threshold="10" value="{{$empresa->empr_razsoc}}"></textarea>
                               </div>
                       </div>
                       
@@ -70,7 +71,7 @@
                         </div>
                       </div>
 
-                    </form>
+                    {{ Form::close() }}
 
                   </div>
                 </div>

@@ -760,41 +760,96 @@ if (typeof NProgress != 'undefined') {
 		  strokeColor: '#F0F3F3',
 		  generateGradient: true
 	  };
+
+
+	  var chart_gauge_settings_bad = {
+		  lines: 12,
+		  angle: 0,
+		  lineWidth: 0.4,
+		  pointer: {
+			  length: 0.75,
+			  strokeWidth: 0.042,
+			  color: '#1D212A'
+		  },
+		  limitMax: 'false',
+		  colorStart: '#FF0000',
+		  colorStop: '#FF0000',
+		  strokeColor: '#F0F3F3',
+		  generateGradient: true
+	  };
+
+	  var chart_gauge_settings_medium = {
+		  lines: 12,
+		  angle: 0,
+		  lineWidth: 0.4,
+		  pointer: {
+			  length: 0.75,
+			  strokeWidth: 0.042,
+			  color: '#1D212A'
+		  },
+		  limitMax: 'false',
+		  colorStart: '#ADFF2F',
+		  colorStop: '#ADFF2F',
+		  strokeColor: '#F0F3F3',
+		  generateGradient: true
+	  };
 		
 		
-		if ($('#chart_gauge_01').length){ 
 		
-			var chart_gauge_01_elem = document.getElementById('chart_gauge_01');
-			var chart_gauge_01 = new Gauge(chart_gauge_01_elem).setOptions(chart_gauge_settings);
-			
-		}	
-		
-		
-		if ($('#gauge-text').length){ 
-		
-			chart_gauge_01.maxValue = 6000;
-			chart_gauge_01.animationSpeed = 32;
-			chart_gauge_01.set(3200);
-			chart_gauge_01.setTextField(document.getElementById("gauge-text"));
-		
-		}
 		
 		if ($('#chart_gauge_02').length){
 		
 			var chart_gauge_02_elem = document.getElementById('chart_gauge_02');
-			var chart_gauge_02 = new Gauge(chart_gauge_02_elem).setOptions(chart_gauge_settings);
+			var chart_gauge_02 = new Gauge(chart_gauge_02_elem).setOptions(chart_gauge_settings_medium);
 			
 		}
 		
 		
 		if ($('#gauge-text2').length){
 			
-			chart_gauge_02.maxValue = 9000;
+			chart_gauge_02.maxValue = document.getElementById("max_value2").value;
 			chart_gauge_02.animationSpeed = 32;
-			chart_gauge_02.set(2400);
-			chart_gauge_02.setTextField(document.getElementById("gauge-text2"));
+			chart_gauge_02.set(document.getElementById("act_value2").value);
+			
 		
 		}
+
+
+		if ($('#chart_gauge_03').length){
+		
+			var chart_gauge_03_elem = document.getElementById('chart_gauge_03');
+			var chart_gauge_03 = new Gauge(chart_gauge_03_elem).setOptions(chart_gauge_settings_bad);
+			
+		}
+		
+		
+		if ($('#gauge-text3').length){
+			
+			chart_gauge_03.maxValue = document.getElementById("max_value3").value;
+			chart_gauge_03.animationSpeed = 32;
+			chart_gauge_03.set(document.getElementById("act_value3").value);
+			
+		
+		}
+
+
+		if ($('#chart_gauge_04').length){
+		
+			var chart_gauge_04_elem = document.getElementById('chart_gauge_04');
+			var chart_gauge_04 = new Gauge(chart_gauge_04_elem).setOptions(chart_gauge_settings);
+			
+		}
+		
+		
+		if ($('#gauge-text4').length){
+			
+			chart_gauge_04.maxValue = document.getElementById("max_value4").value;
+			chart_gauge_04.animationSpeed = 32;
+			chart_gauge_04.set(document.getElementById("act_value4").value);
+			
+		
+		}
+	
 	
 	
 	}   
@@ -4233,7 +4288,7 @@ if (typeof NProgress != 'undefined') {
 				  max: 40,
 				  sort: 'ascending',
 				  data: [{
-					value: 120,
+					value: 100,
 					name: 'Gigas consumidos'
 				  }, {
 					value: 50,
@@ -4505,7 +4560,7 @@ if (typeof NProgress != 'undefined') {
 				  radius: '55%',
 				  center: ['50%', '48%'],
 				  data: [{
-					value: 120,
+					value: 100,
 					name: 'Consumidos',
 					itemStyle: dataStyle1,
 				  }, {
