@@ -56,8 +56,8 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="message">Razón social (20 caracteres min, 100 max)</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <textarea id="empr_razsoc" required="required" class="form-control" name="empr_razsoc" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                                data-parsley-validation-threshold="10" value="{{$empresa->empr_razsoc}}"></textarea>
+                              <input id="empr_razsoc" type="text" required="required" class="form-control" name="empr_razsoc" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
+                                data-parsley-validation-threshold="10" value="{{$empresa->empr_razsoc}}"></input>
                               </div>
                       </div>
                       

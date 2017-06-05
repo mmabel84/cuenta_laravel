@@ -31,7 +31,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  	<a href="/usuario"><i class="fa fa-edit right"></i> <b>Crear nuevo usuario</b></a>
+		                  <a href="{{ URL::to('usuarios/create') }}"><i class="fa fa-edit right"></i> <b>Crear nuevo usuario</b></a>
 		                  </div>
 
 		                  <br/>
@@ -53,34 +53,34 @@
 
 
 		                      <tbody>
+		                      @foreach ($usuarios as $u)
 		                        <tr>
-		                          <td>Usuario 1</td>
-		                          <td>usr1</td>
-		                          <td>usr1@gmail.com</td>
-		                          <td>6463355426</td>
-		                          <td>25/02/2017</td>
-		                          <td class=" last">
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Asociar a instancias"><i class="fa fa-plus-square"></i></a>
+		                          <td>{{$u->name}}</td>
+		                          <td>{{$u->users_nick}}</td>
+		                          <td>{{$u->email}}</td>
+		                          <td>{{$u->users_tel}}</td>
+		                          <td>{{$u->users_f_ultacces}}</td>
+		                          <td class=" last" width="11.5%">
+		                          	
+                            		<a href="{{route('usuarios.edit',['id'=>$u->id])}}" class="btn btn-info btn-xs" data-placement="left" title="Editar"><i class="fa fa-edit fa-2x"></i> </a>
+
+                      				{{ Form::open(array('url' => 'usuarios/' . $u->id, 'class' => 'pull-right')) }}
+		                          	{{ Form::hidden('_method', 'DELETE') }}
+                      				<button href="{{route('usuarios.destroy',['id'=>$u->id])}}" class="btn btn-danger btn-xs" type="submit" data-placement="left" title="Borrar"><i class="fa fa-trash fa-2x"></i></button>
+									<div class="btn-group">
+						                    <button data-toggle="dropdown" class="fa fa-plus-square fa-2x btn btn-success dropdown-toggle btn-sm btn-xs right" type="button" aria-expanded="false"><span class="caret"></span>
+						                    </button>
+						                    <ul role="menu" class="dropdown-menu">
+						                      
+						                    </ul>
+									     </div>
+
+									  {{ Form::close() }}
 
 		                          </td>
 		                          
 		                        </tr>
-		                        <tr>
-		                          <td>Usuario 2</td>
-		                          <td>usr2</td>
-		                          <td>usr2@gmail.com</td>
-		                          <td>6464635426</td>
-		                          <td>10/04/2017</td>
-		                          <td class=" last">
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Editar"><i class="fa fa-edit"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Ver información"><i class="fa fa-file-o"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="fa fa-trash"></i></a>
-		                          	<a href="#" data-toggle="tooltip" data-placement="left" title="Asociar a instancias"><i class="fa fa-plus-square"></i></a>
-		                          </td>
-		                        </tr>
+		                        @endforeach
 		                       
 		                      </tbody>
 		                    </table>

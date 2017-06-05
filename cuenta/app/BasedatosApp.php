@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BasedatosApp extends Model
 {
     protected $table = "bdapp";
-    protected $fillable = ['bdapp_app','bdapp_nombd','bdapp_nomserv','bdapp_gigcons','bdapp_gigdisp','bdapp_empr_id'];
+    protected $fillable = ['bdapp_app','bdapp_nombd','bdapp_nomserv','bdapp_empr_id'];
 
     public function empresa(){
 

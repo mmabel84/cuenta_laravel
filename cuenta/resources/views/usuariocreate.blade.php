@@ -119,7 +119,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <div class="">
                                 <label>
-                                  <input type="checkbox" id="addinstcheck" class="js-switch" onchange="showAddInst()"  unchecked /> Asociar a instancias
+                                  <input type="checkbox" id="addinstcheck" class="js-switch" onchange="showAddInst()"  unchecked /> Asociar a aplicaciones
                                 </label>
 
                                 
@@ -131,12 +131,12 @@
                       <div class="form-group" id="addinstdiv" style="display: none;">
 
                         <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Instancia</label>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <select class="select2_single form-control" tabindex="-1" name="select_instance">
                                 <option></option>
-                                <option value="E1">Instancia 1</option>
-                                <option value="E2">Instancia 2</option>
+                                <option value="E1">Aplicación 1</option>
+                                <option value="E2">Aplicación 2</option>
                                 
                               </select>
                             </div>

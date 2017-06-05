@@ -13,6 +13,8 @@
 
 
 Route::resource('empresas', 'EmprController');
+Route::resource('usuarios', 'UsrController');
+Route::resource('apps', 'AppController');
 
 Route::get('/', 'HomeController@index')->name('home');
 
