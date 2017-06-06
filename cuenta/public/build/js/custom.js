@@ -4159,7 +4159,7 @@ if (typeof NProgress != 'undefined') {
 
 			  var dataStyle = {
 				normal: {
-				  color: 'rgba(0,128,255,0.9)',
+				  color: 'rgba(5,54,102,1)',
 				  label: {
 					show: false
 				  },
@@ -4169,30 +4169,7 @@ if (typeof NProgress != 'undefined') {
 				}
 			  };
 
-			  var dataStyle1 = {
-				normal: {
-				  color: 'rgba(0,128,255,0.6)',
-				  label: {
-					show: false
-				  },
-				  labelLine: {
-					show: false
-				  }
-				}
-			  };
-
-			  var dataStyle2 = {
-				normal: {
-				  color: 'rgba(0,128,255,0.3)',
-				  label: {
-					show: false
-				  },
-				  labelLine: {
-					show: false
-				  }
-				}
-			  };
-
+			  
 			  echartBar.setOption({
 				title: {
 				  text: '',
@@ -4204,7 +4181,7 @@ if (typeof NProgress != 'undefined') {
 				legend: {
 				  x: 'center',
 				  y: 'bottom',
-				  data: ['Empresa1', 'Empresa2','Empresa3']
+				  data: []
 				},
 				toolbox: {
 				  show: true,
@@ -4222,24 +4199,13 @@ if (typeof NProgress != 'undefined') {
 				}],
 				yAxis: [{
 				  type: 'category',
-				  data: ['BOV', 'CON', 'PLD']
+				  data: ['Empresa 1', 'Empresa 2', 'Empresa 3']
 				}],
 				series: [{
-				  name: 'Empresa1',
+				  name: 'Gigas consumidos',
 				  type: 'bar',
-				  data: [20, 5, 0],
+				  data: [30, 50, 20],
 				  itemStyle: dataStyle
-				}, {
-				  name: 'Empresa2',
-				  type: 'bar',
-				  data: [35, 10, 0],
-				  itemStyle: dataStyle1
-				},
-				{
-				  name: 'Empresa3',
-				  type: 'bar',
-				  data: [15, 10, 5],
-				  itemStyle: dataStyle2
 				}]
 			  });
 
@@ -4494,7 +4460,7 @@ if (typeof NProgress != 'undefined') {
 
 			  var dataStyle = {
 				normal: {
-				  color: 'rgba(0,128,128,0.7)',
+				  color: 'rgba(46,179,108,1)',
 				  label: {
 					show: false
 				  },
@@ -4506,7 +4472,7 @@ if (typeof NProgress != 'undefined') {
 
 			  var dataStyle1 = {
 				normal: {
-				  color: 'rgba(0,128,255,0.9)',
+				  color: 'rgba(5,54,102,1)',
 				  label: {
 					show: false
 				  },

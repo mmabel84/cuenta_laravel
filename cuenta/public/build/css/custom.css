@@ -797,7 +797,7 @@ a:focus {
 .nav>li>a {
     position: relative;
     display: block;
-    padding: 13px 15px 12px
+    padding: 15px 12px 12px
 }
 .nav.side-menu>li.current-page,
 .nav.side-menu>li.active {
@@ -4259,7 +4259,3 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
   overflow:auto !important; /*prevent datatables overflowing its container*/
 }
 
-.progress {  
-    background-color: #DCDCDC;  
-    
-}

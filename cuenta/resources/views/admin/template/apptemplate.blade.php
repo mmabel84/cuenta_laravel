@@ -13,6 +13,13 @@
             <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
             <!-- NProgress -->
             <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+            <!-- iCheck -->
+            <link href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
+                <!-- bootstrap-progressbar -->
+           <link href="{{ asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.css') }}" rel="stylesheet"> 
+           <!-- Custom Theme Style --> 
+           <link href="{{ asset('build/css/custom.css') }}" rel="stylesheet">
+            
         @show
     </head>
     @yield('app_body')

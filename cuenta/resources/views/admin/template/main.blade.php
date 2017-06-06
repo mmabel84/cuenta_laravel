@@ -4,14 +4,15 @@
 
 @section('app_css')
     @parent
-    <!-- iCheck -->
-    <link href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">    
-   <!-- bootstrap-progressbar -->
-    <link href="{{ asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
+      
+
+   
     <!-- bootstrap-daterangepicker -->
     <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href="{{ asset('build/css/custom.css') }}" rel="stylesheet">
+    
+    
+
 @endsection
 
 @section('app_body')
@@ -23,14 +24,14 @@
                     <div class="col-md-3 left_col">
                         <div class="left_col scroll-view">
                           <div class="navbar nav_title" style="border: 0;">
-                            <a href="index.html" class="site_title"><i class="fa fa-creative-commons"></i> <span>{{ config('app.name') }}</span></a>
+                            <a href="index.html" class="site_title"><img height="60px" src="{{asset('logo_advans.png')}}"><span>{{ config('app.name') }}</span></a>
                           </div>
                           <div class="clearfix"></div>
                           <!-- menu profile quick info -->
                           <div class="profile clearfix">
                             
                             <div class="profile_info">
-                              <span>Hola</span>
+                              <span><b>BIENVENIDO</b></span>
                               <h2><strong>{{ Auth::user()->name }}</strong></h2>
                             </div>
                           </div>
@@ -41,12 +42,12 @@
                           <div class="menu_section">
                               <ul class="nav side-menu">
                                 
-                                  <li><a href="/"><i class="fa fa-dashboard"></i> <b>Panel</b> </a>
-                                  <li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> <b>Empresas</b> </a>
-                                  <li><a href="{{ URL::to('usuarios') }}"><i class="fa fa-users"></i> <b>Usuarios</b></a>
-                                  <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> <b>Aplicaciones</b> </a>
-                                  <li><a href="/"><i class="fa fa-gears"></i> <b>Respaldos</b> </a>
-                                  <li><a href="/"><i class="fa fa-wrench"></i> <b>Configuración</b> </a>
+                                  <li><a href="/"><i class="fa fa-dashboard"></i> <b>PANEL</b> </a>
+                                  <li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> <b>EMPRESAS</b> </a>
+                                  <li><a href="{{ URL::to('usuarios') }}"><i class="fa fa-users"></i> <b>USUARIOS</b></a>
+                                  <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> <b>APLICACIONES</b> </a>
+                                  <li><a href="/"><i class="fa fa-gears"></i> <b>RESPALDOS</b> </a>
+                                  <li><a href="/"><i class="fa fa-wrench"></i> <b>CONFIGURACIÓN</b> </a>
 
                                   </li>
                                
