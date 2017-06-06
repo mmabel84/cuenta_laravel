@@ -1,34 +1,31 @@
-    @extends('admin.template.maintable')
+@extends('admin.template.main')
 
 
 @section('title')
-      Lista de Instancias
+      Aplicaciones
 @endsection 
+
+@section('app_css')
+    @parent
+    <!-- Datatables -->
+    <link href="{{ asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+
+@endsection
 
 @section('content')
 
-	
+	<div class="container">
+		<div class="row">
 
 
 			<div class="col-md-12 col-sm-12 col-xs-12">
-		                <div class="x_panel">
+		        <div class="x_panel">
 		                  <div class="x_title">
 		                    <h2>Lista de bases de datos de aplicación</h2>
-		                    <ul class="nav navbar-right panel_toolbox">
-		                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-		                      </li>
-		                      <li class="dropdown">
-		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-		                        <ul class="dropdown-menu" role="menu">
-		                          <li><a href="#">Settings 1</a>
-		                          </li>
-		                          <li><a href="#">Settings 2</a>
-		                          </li>
-		                        </ul>
-		                      </li>
-		                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-		                      </li>
-		                    </ul>
 		                    <div class="clearfix"></div>
 		                  </div>
 		                  
@@ -45,16 +42,16 @@
 			                  </div>
 			                  @endif
 
-		                  <div class="x_content table-responsive">
+		                  <div class="x_content">
 		                    
-		                    <table id="datatable" class="table table-striped table-bordered bulk_action">
+		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
 		                        <tr>
-		                          <th class="column-title">Aplicación</th>
-		                          <th class="column-title">Empresa</th>
-		                          <th class="column-title">Nombre de base de datos</th>
-		                          <th class="column-title">Nombre de servidor</th>
-		                          <th class="column-title no-link last"><span class="nobr">Acciones</span>
+		                          <th>Aplicación</th>
+		                          <th>Empresa</th>
+		                          <th>Nombre de base de datos</th>
+		                          <th>Nombre de servidor</th>
+		                          <th>Acciones</th>
 		                          
 		                        </tr>
 		                      </thead>
@@ -70,54 +67,71 @@
 
 		                          <td class=" last" width="11.5%">
 		                          	
-                            		<a href="{{route('apps.edit',['id'=>$a->id])}}" class="btn btn-info btn-xs" data-placement="left" title="Editar"><i class="fa fa-edit fa-2x"></i> </a>
+		                          	
+			                          <div class="btn-group">
+			                          	<div class="btn-group">
+		                          			<button onclick="location.href = 'apps/{{$a->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#790D4E"><i class="fa fa-edit fa-2x"></i> </button>
+			                          	</div>
 
-                      				{{ Form::open(array('url' => 'apps/' . $a->id, 'class' => 'pull-right')) }}
-		                          	{{ Form::hidden('_method', 'DELETE') }}
-                      				<button href="{{route('apps.destroy',['id'=>$a->id])}}" class="btn btn-danger btn-xs" type="submit" data-placement="left" title="Borrar"><i class="fa fa-trash fa-2x"></i></button>
-									<div class="btn-group">
-						                    <button data-toggle="dropdown" class="fa fa-plus-square fa-2x btn btn-success dropdown-toggle btn-sm btn-xs right" type="button" aria-expanded="false"><span class="caret"></span>
-						                    </button>
-						                    <ul role="menu" class="dropdown-menu">
-						                      <li><a href="#">Agregar usuario</a>
-                                              </li>
-						                    </ul>
-									     </div>
+										<div class="btn-group">
+		                          			<button onclick="" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#790D4E"><i class="fa fa-plus-square fa-2x"></i> </button>
+			                          	</div>
 
-									  {{ Form::close() }}
+			                          		
+			                          		{{ Form::open(['route' => ['apps.destroy', $a->id], 'class'=>'pull-right']) }}
+				                          	{{ Form::hidden('_method', 'DELETE') }}
+		                      				<button  href="{{ route('empresas.destroy', $a->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x"></i></button>
+											{{ Form::close() }}
+
+			                          	</div>
+
 
 		                          </td>
 
 		                        </tr>
 		                        @endforeach
-		                        <tr>
-		                       
+	                       
 		                      </tbody>
 		                    </table>
 		                  </div>
 		                </div>
 		              </div>
 
-		              @section('formjs')
-		              @parent
-		              <script>
-					      $( function() {
-					          $('#alertmsgcreation').click(function() {
-					              console.log('alertmsgcta button clicked');
-					          });
-					          
-					         setTimeout(function() {
-					              $('#alertmsgcreation').trigger('click');
-					          }, 4e3);
-					      });
-					    </script>
 
+			</div>
+		</div>
 
-		              @endsection 
+  @endsection
 
-		          	
-		          	
+  @section('app_js') 
+	    @parent
+			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/jszip/dist/jszip.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
-
-
-@endsection
+	   <script>
+	      $( function() {
+	          $('#alertmsgcreation').click(function() {
+	              console.log('alertmsgcreation button clicked');
+	          });
+	          
+	         setTimeout(function() {
+	              $('#alertmsgcreation').trigger('click');
+	          }, 4e3);
+	      });
+	    </script>
+	@endsection

@@ -74,7 +74,7 @@
                     <a href="#" data-toggle="tooltip" data-placement="right" title="Notaría"><i class="fa fa-briefcase fa-3x" style="color: #053666;"></i></a>
                     &nbsp;
                     &nbsp;
-                    <a href="#" data-toggle="tooltip" data-placement="right" title="Control de calidad"><i class="fa fa-cc fa-3x" style=" color:#053666;"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="right" title="Control de calidad"><i class="fa fa-tasks fa-3x" style=" color:#053666;"></i></a>
                     &nbsp;
                     &nbsp;
                     <a href="#" data-toggle="tooltip" data-placement="right" title="Nómina"><i class="fa fa-table fa-3x" style=" color:#053666;"></i></a>
@@ -93,7 +93,7 @@
 
                 <div class="x_panel">
                   <div class="x_title">
-                      <h2>Análisis de tiempo</h2>
+                      <h2>Análisis de tiempo de paquete contratado</h2>
                       <div class="clearfix"></div>
                   </div>
                   <br>
@@ -101,7 +101,7 @@
                       <div class="progress" >
                         <div class="progress-bar" data-transitiongoal="25">25%</div>
                       </div>
-                      <label style=" color:#191970">% de tiempo vs fecha de fin 25/10/2017</label>
+                      <label style=" color:#191970">% de tiempo consumido vs fecha de fin 25/10/2017</label>
 
                    </div>
 
@@ -109,7 +109,7 @@
                         <div class="progress" >
                           <div class="progress-bar" data-transitiongoal="30">35%</div>
                         </div>
-                        <label style=" color:#191970">% de tiempo vs fecha de caducidad 20/10/2017</label>
+                        <label style=" color:#191970">% de tiempo consumido vs fecha de caducidad 20/10/2017</label>
 
                     </div>
 
@@ -145,22 +145,22 @@
 
                  <div class="x_content">
                     <article class="media event">
-                      <a class="pull-left date">
-                        <p class="month">Abril</p>
-                        <p class="day">23</p>
+                      <a class="pull-left date" >
+                        <p class="month" style="color: #053666"><b>Abril</b></p>
+                        <p class="day" style="color: #053666">23</p>
                       </a>
                       <div class="media-body">
-                        <a class="title" href="#">Actualización de bóveda.</a>
+                        <a class="title" href="#" style="color: #053666">Actualización de bóveda.</a>
                         <p>Mejoras a sistema de bóveda para relacionar CFDI...</p>
                       </div>
                     </article>
-                    <article class="media event">
-                      <a class="pull-left date">
-                        <p class="month">Junio</p>
-                        <p class="day">30</p>
+                    <article class="media event" >
+                      <a class="pull-left date" >
+                        <p class="month" style="color: #053666"><b>Junio</b></p>
+                        <p class="day" style="color: #053666">30</p>
                       </a>
                       <div class="media-body">
-                        <a class="title" href="#">Lanzamiento de nueva suite contable.</a>
+                        <a class="title" href="#" style="color: #053666">Lanzamiento de nueva suite contable.</a>
                         <p>Nuevo producto para contabilidad y facturación electrónica...</p>
                       </div>
                     </article>
@@ -222,46 +222,7 @@
                     </div>
                   </div>
 
-                 
-
-
-
-                  <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel">
-                      <div class="x_title">
-                        <h2>Análisis CFDI</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                          </li>
-                          <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                              <li><a href="#">Settings 1</a>
-                              </li>
-                              <li><a href="#">Settings 2</a>
-                              </li>
-                            </ul>
-                          </li>
-                          <li><a class="close-link"><i class="fa fa-close"></i></a>
-                          </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                      </div>
-                      <div class="x_content">
-
-                        <div id="mainb" style="height:350px;"></div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                  
-
-
-                
-
-
-                  
+       
                 <div class="clearfix"></div>
                 <br />
               

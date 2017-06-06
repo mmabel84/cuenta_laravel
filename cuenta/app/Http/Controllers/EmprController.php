@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Empresa;
+use App\BasedatosApp;
+use App\User;
 use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Redirect;
@@ -65,25 +67,24 @@ class EmprController extends Controller
     {
     	
     	$empresad = Empresa::find($id);
+        $apps = BasedatosApp::where('bdapp_empr_id', '=', $id)->get();
 
-    	echo('entre');
-    	
-    	$empresad->delete();
-    	\Session::flash('message','Se ha eliminado la empresa: '.$empresad->empr_nom);
 
-    	return Redirect::to('empresas');
+
+        if (count($apps) == 0)
+        {
+            $empresad->delete();
+            \Session::flash('message','Se ha eliminado la empresa: '.$empresad->empr_nom);
+        }
+        else{
+
+            \Session::flash('failmessage','No se puede eliminar la empresa: '.$empresad->empr_nom. ' mientras existan bases de datos de aplicación dependientes');
+        }
+
+ 	   	return Redirect::to('empresas');
 
 
     }
 
-    public function show($id)
-    {
-    	$empresash = Empresa::find($id);
-    	return View::make('empresashow')
-            ->with('empresa', $empresash);
-    	
-
-    }
-
-    
+        
 }

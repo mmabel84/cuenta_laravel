@@ -24,21 +24,7 @@
 		                <div class="x_panel">
 		                  <div class="x_title">
 		                    <h2>Lista de Empresas</h2>
-		                    <ul class="nav navbar-right panel_toolbox">
-		                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-		                      </li>
-		                      <li class="dropdown">
-		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-		                        <ul class="dropdown-menu" role="menu">
-		                          <li><a href="#">Settings 1</a>
-		                          </li>
-		                          <li><a href="#">Settings 2</a>
-		                          </li>
-		                        </ul>
-		                      </li>
-		                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-		                      </li>
-		                    </ul>
+		                    
 		                    <div class="clearfix"></div>
 		                  </div>
 		                  
@@ -52,6 +38,13 @@
 			                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
 			                    </button>
 			                    <strong>{{ Session::get('message') }}</strong>
+			                  </div>
+			                  @endif
+			               @if (Session::has('failmessage'))
+			                  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+			                    <button id="alertmsgfaildelete" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+			                    </button>
+			                    <strong>{{ Session::get('failmessage') }}</strong>
 			                  </div>
 			                  @endif
 		                  <div class="x_content">
@@ -77,26 +70,21 @@
 		                          
 		                          <td class=" last" width="12%">
 		                          <div>
-		                          	<div class="btn-group">
-		                          		<a href="{{route('empresas.edit',['id'=>$e->id])}}" class="btn btn-info btn-xs" data-placement="left" title="Editar"><i class="fa fa-edit fa-2x"></i> </a>
-		                          	</div>
-
+		                          	
 		                          	<div class="btn-group">
 		                          		<p></p>
-		                          		{{ Form::open(array('url' => 'empresas/' . $e->id, 'class' => 'pull-right')) }}
+		                          		{{ Form::open(['route' => ['empresas.destroy', $e->id], 'class'=>'pull-right']) }}
 			                          	{{ Form::hidden('_method', 'DELETE') }}
-	                      				<button href="{{route('empresas.destroy',['id'=>$e->id])}}" class="btn btn-danger btn-xs" type="submit" data-placement="left" title="Borrar"><i class="fa fa-trash fa-2x"></i></button>
+	                      				<button  href="{{ route('empresas.destroy', $e->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x"></i></button>
 										{{ Form::close() }}
+
+										&nbsp;
+										<div class="btn-group">
+		                          			<button onclick="location.href = 'empresas/{{$e->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#790D4E"><i class="fa fa-edit fa-2x"></i> </button>
+			                          	</div>
+
 		                          	</div>
-
-
-		                          	<div class="btn-group">
-						                    <button data-toggle="dropdown" class="fa fa-plus-square fa-2x btn btn-success dropdown-toggle btn-sm btn-xs right" type="button" aria-expanded="false"><span class="caret"></span>
-						                    </button>
-						                    <ul role="menu" class="dropdown-menu">
-						                      
-						                    </ul>
-									 </div>
+		                          	   	
 
 
 		                          </div>
@@ -125,21 +113,44 @@
 
 @section('app_js') 
     @parent
-    <!-- Datatables -->
-    <script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
-    <!-- FastClick -->
-    <script src="{{ asset('vendors/fastclick/lib/fastclick.js') }}"></script>
-    <!-- Custom Theme Scripts -->
-    <script src="{{ asset('build/js/custom.js') }}"></script>
+   			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/jszip/dist/jszip.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
    <script>
       $( function() {
           $('#alertmsgcreation').click(function() {
-              console.log('alertmsgcta button clicked');
+              console.log('alertmsgcreation button clicked');
           });
           
          setTimeout(function() {
               $('#alertmsgcreation').trigger('click');
+          }, 4e3);
+      });
+    </script>
+
+    <script>
+      $( function() {
+          $('#alertmsgfaildelete').click(function() {
+              console.log('alertmsgfaildelete button clicked');
+          });
+          
+         setTimeout(function() {
+              $('#alertmsgfaildelete').trigger('click');
           }, 4e3);
       });
     </script>
