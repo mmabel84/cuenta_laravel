@@ -33,7 +33,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
 
     public function basedatosapps(){
 
-        return $this->belongsToMany('App\BasedatosApp');
+        return $this->belongsToMany('App\BasedatosApp','bdusr','bdusr_bdusr_id','bdusr_bdapp_id');
     }
 
     public function bitacoras(){

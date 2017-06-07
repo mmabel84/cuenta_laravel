@@ -42,7 +42,7 @@
                           <div class="menu_section">
                               <ul class="nav side-menu">
                                 
-                                  <li><a href="/"><i class="fa fa-dashboard"></i> <b>PANEL</b> </a>
+                                  <li><a href="/"><i class="fa fa-dashboard"></i> <b>TABLERO</b> </a>
                                   <li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> <b>EMPRESAS</b> </a>
                                   <li><a href="{{ URL::to('usuarios') }}"><i class="fa fa-users"></i> <b>USUARIOS</b></a>
                                   <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> <b>APLICACIONES</b> </a>

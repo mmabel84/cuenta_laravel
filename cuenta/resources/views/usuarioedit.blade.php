@@ -12,24 +12,19 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Crear un usuario</h2>
+                    <h2>Editar un usuario</h2>
                        <div class="clearfix"></div>
                   </div>
                   <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('usuarios.store') }}">
-                        {{ csrf_field() }}
+                    {{ Form::open(['route' => ['usuarios.update', $usr], 'class'=>'form-horizontal form-label-left']) }}
+
+                      {{ Form::hidden('_method', 'PUT') }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-3 control-label">Nombre</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
+                                <input id="name" type="text" class="form-control" name="name" value="{{$usr->name}}">
                             </div>
                         </div>
 
@@ -37,7 +32,7 @@
                             <label for="users_tel" class="col-md-3 control-label">Teléfono</label>
 
                             <div class="col-md-6">
-                                <input id="users_tel" type="text" class="form-control" name="users_tel" value="{{ old('users_tel') }}" required autofocus>
+                                <input id="users_tel" type="text" class="form-control" name="users_tel" value="{{$usr->users_tel}}">
 
                             </div>
                         </div>
@@ -46,13 +41,7 @@
                             <label for="email" class="col-md-3 control-label">Correo electrónico</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                                <input id="email" type="email" class="form-control" name="email" value="{{$usr->email}}" required>
                             </div>
                         </div>
 
@@ -60,12 +49,7 @@
                             <label for="users_nick" class="col-md-3 control-label">Usuario</label>
 
                             <div class="col-md-6">
-                                <input id="users_nick" type="text" class="form-control" name="users_nick" value="{{ old('users_nick') }}" required>
-                                 @if ($errors->has('users_nick'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('users_nick') }}</strong>
-                                    </span>
-                                @endif
+                                <input id="users_nick" type="text" class="form-control" name="users_nick" value="{{$usr->users_nick}}" required>
                             </div>
                         </div>
 
@@ -146,7 +130,7 @@
                         <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Base de datos de aplicación</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <select class="select2_single form-control" tabindex="-1" name="bdapp_id" id="bdapp_id">
+                              <select class="select2_single form-control" tabindex="-1" name="select_instance">
                                 <option value="null">Seleccione una base de datos de aplicación ...</option>
                                 @foreach($apps as $app)
                                     <option value="{{ $app->id }}">{{ $app->bdapp_nombd }}</option>
@@ -183,7 +167,8 @@
                       </div>
                      
 
-                    </form>
+                     {{ Form::close() }}
+
                   </div>
                 </div>
               </div>

@@ -2,7 +2,7 @@
 
 
 @section('title')
-      Lista de empresas
+      Empresas
 @endsection 
 
 @section('app_css')
