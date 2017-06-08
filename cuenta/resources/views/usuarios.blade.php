@@ -80,49 +80,40 @@
 
 		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$u->id}}" class="btn btn-xs" data-placement="left" title="Agregar a base de datos de aplicación" style=" color:#790D4E"><i class="fa fa-plus-square fa-2x"></i> </button>
 
-		                          				<form id="form1">
 		                          				
-		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-		                          			     <!-- CSRF Token -->
-    												<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-												<!-- ./ csrf token -->
+		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="{{$u->id}}">
+		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
+		                          			    
 								                    <div class="modal-dialog modal-lg">
 								                      <div class="modal-content">
 
 								                        <div class="modal-header">
 								                          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
 								                          </button>
-								                          <h4 class="modal-title" id="myModalLabel">Agregar usuario a base de datos</h4>
+								                          <h4 class="modal-title" id="myModalLabel"></h4>
+								                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Usuario: {{$u->name}}</label>
 								                        </div>
 								                        <div class="modal-body">
-								                           <div class="form-group">
-			                        						<label class="control-label col-md-4 col-sm-4 col-xs-12">Usuario</label>
-				                       							<div class="col-md-4 col-sm-4 col-xs-12">
-				                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_usr_id" id="select_usr_id">
-					                            						<option value="null">Seleccione un usuario ...</option>
-					                            						@foreach($usuarios as $ur)
-					                                					<option value="{{ $ur->id }}" {{$u->id == $ur->id ? 'selected':''}}>{{ $ur->name }}</option>
-					                           							@endforeach
-					                          						</select>
-				                          						</div>
-				                        					</div>
-				                        					<div class="form-group">
-				                        						<label class="control-label col-md-4 col-sm-4 col-xs-12">Base de datos</label>
+			                        						
 				                        						<div class="col-md-4 col-sm-4 col-xs-12">
-				                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_bd_id" id="select_bd_id">
+				                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_bd_id" id="select_bd_id{{$u->id}}">
 					                            						<option value="null">Seleccione una base de datos ...</option>
 					                            						@foreach($apps as $ap)
 					                                					<option value="{{ $ap->id }}">{{ $ap->bdapp_nombd }}</option>
 					                           							@endforeach
 					                          						</select>
 				                          						</div>
-	                          								</div>
-	                          								<br>	
-	                          								<br>
 
-	                          								<div class="form-group">
-				                        						<label class="control-label col-md-12 col-sm-12 col-xs-12">Base de datos relacionadas</label>
-		                            								<div class="col-md-12 col-sm-12 col-xs-12">
+				                          						<div class="col-md-2 col-sm-2 col-xs-12">
+				                          								<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$u->id}});">Agregar</button>
+				                          						</div>
+
+				                          						<div class="col-md-3 col-sm-3 col-xs-12">
+				                          								<p></p>
+				                          						</div>
+		                          								<br>	
+		                          								<br>
+		                            							<div class="col-md-12 col-sm-12 col-xs-12">
 				                             						 <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      												<thead>
 		                        												<tr>
@@ -144,28 +135,24 @@
 		                          												<td>{{$bd->empresa->empr_rfc}}</td>
 		                          												</tr>
 		                          											@endforeach
+		                          											<div id="result_msg{{$u->id}}"></div>
 		                          											</tbody>
 		                          										</table>
 				                          							</div>
-	                          								</div>
 
-	                          								<div id="result_msg"></div>
+	                          								
 								                        </div>
 								                        <div class="modal-footer">
 								                          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-								                          <button id="addid" type="submit" class="btn btn-primary">Agregar</button>
+								                          
 								                        </div>
 
 								                      </div>
 								                    </div>
 								                  </div>
-								                 </form>
-
-
 
 			                          	</div>
 
-			                          		
 			                          		{{ Form::open(['route' => ['usuarios.destroy', $u->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
 		                      				<button  href="{{ route('usuarios.destroy', $u->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x"></i></button>
@@ -234,17 +221,36 @@
       });
     </script>
 
-	<script type="text/javascript">
-	    $('.btn btn-primary').click(function(){
-	    	var usrid=$('select_usr_id').val();
-	    	var bdid=$('select_bd_id').val();
+	<script>
+	    //$("#addid").click(function(){
+	    	//var usrid=$("select_usr_id").val();
+	    	//var bdid=$("select_bd_id").val();
+	    	function relatedb(usrid){
+	    		//var usrid = document.getElementById("select_usr_id").value;
+	    		//alert(document.getElementById("select_usr_id").text);
+	    		//alert(document.getElementsByName("relatemodal").id);
+	    		//alert(usrid);
+	    		var bdid = document.getElementById("select_bd_id"+usrid).value;
+	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+	    		
 	        $.ajax({
-	        	url:"/addusrdb/{"+usrid+","+bdid+"}",
-	        	method:'POST',
+	        	url:"/addusrdb/"+usrid+"/"+bdid,
+	        	//data:"usrid="+ usrid + "& bdid=" + bdid,
+	        	type:'POST',
 	        	cache:false,
+	        	data: {_token: CSRF_TOKEN},
+    			dataType: 'JSON',
 	        	success:function(result){
-	            $(".result_msg").html(result);
-	        }});
+	        		console.log(result);
+	            	$(".result_msg"+usrid).html(result);
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        		console.log(XMLHttpRequest);
+                    alert("Error: " + errorThrown); 
+                } 
+
+
 	    });
+	    };
 	</script>
 @endsection

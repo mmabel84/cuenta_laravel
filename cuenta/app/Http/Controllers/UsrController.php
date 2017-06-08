@@ -52,12 +52,20 @@ class UsrController extends Controller
     public function relateUsrApp($idusr,$idapp)
     {
 
-        
-        $usr = User::find($idusr);
-  
-        $usr->basedatosapps()->attach($idapp);
+        if ($idusr && $idapp)
+        {
 
-        return 'Usuario agregado exitosamente';
+            $usr = User::find($idusr);
+            $usr->basedatosapps()->attach($idapp);
+        }
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Setting created successfully',
+        );
+        return \Response::json($response);
+        
+
+        //return 'Usuario agregado exitosamente';
 
 
     }

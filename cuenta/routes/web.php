@@ -18,7 +18,7 @@ Route::resource('apps', 'AppController');
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/addusrdb/{usrid,bdid}', 'UsrController@relateUsrApp')->name('relatedb');
+Route::post('/addusrdb/{usrid}/{bdid}', 'UsrController@relateUsrApp')->name('relatedb');
 
 Auth::routes();
 
