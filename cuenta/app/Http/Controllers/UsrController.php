@@ -54,19 +54,38 @@ class UsrController extends Controller
 
         if ($idusr && $idapp)
         {
+            $usrp = User::find($idusr);
+            $bdp = BasedatosApp::find($idapp);
+            $exist = False;
+            /*echo "<pre>";
+            print_r();die();
+            echo "</pre>";*/
+            $bdsrelated = $usrp->basedatosapps()->get();
 
-            $usr = User::find($idusr);
-            $usr->basedatosapps()->attach($idapp);
+            foreach ($bdsrelated as $bd) {
+                if ($bd->id == $idapp){
+                    $exist = True;
+                }
+            }
+
+            if ($exist == True)
+            {
+                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación del usuario ".$usrp->name." con base de datos ".$bdp->bdapp_nombd."</label>");
+            }
+            else
+            {
+                 $usrp->basedatosapps()->attach($idapp);
+                 $response = array ('status' => 'Success', 'result' => '<tr>
+                                 <td>' . $bdp->bdapp_nombd . '</td>' .
+                                '<td>' . $bdp->bdapp_app . '</td>' .
+                                '<td>' . $bdp->empresa->empr_nom . '</td>' .
+                                '<td>' . $bdp->empresa->empr_rfc . '</td>' .
+                            '</tr>');
+            }
         }
-        $response = array(
-            'status' => 'success',
-            'msg' => 'Setting created successfully',
-        );
+       
         return \Response::json($response);
         
-
-        //return 'Usuario agregado exitosamente';
-
 
     }
 
@@ -80,10 +99,21 @@ class UsrController extends Controller
         $usr->users_tel = $request->users_tel;
         $usr->password = bcrypt($request['password']);
         $usr->save();
+        $msg_bd = 'Se ha creado el usuario: '.$request->name.$msg_bd;
 
-        $this->relateUsrApp($usr->id,$request->bdapp_id);
-        
-        \Session::flash('message','Se ha creado el usuario: '.$request->name);
+
+        if ($request->addinstcheck == True){
+            $result = $this.verifyUserInBd($usr->id, $request->bdapp_id);
+            
+            if ($result['exist'] == False){
+                $usr->basedatosapps()->attach($request->bdapp_id);
+            }
+            
+            $msg_bd = $msg_bd.$result['msg'];
+
+       }
+
+        \Session::flash('message',$msg_bd);
         return Redirect::to('usuarios');
 
 
@@ -99,6 +129,8 @@ class UsrController extends Controller
         return view('usuarioedit',['apps'=>$apps,'usr'=>$usre]);
     }
 
+
+
     public function update(Request $request, $id)
     {
         $usru = User::find($id);
@@ -106,12 +138,26 @@ class UsrController extends Controller
         $usru->users_tel = $request->users_tel;
         $usru->email = $request->email;
         $usru->users_nick = $request->users_nick;
-        
+
+
         $usru->save();
-        \Session::flash('message','Se ha actualizado el usuario: '.$usru->name);
+        $msg_update = 'Se ha actualizado el usuario: '.$usru->name;
+        
+        if ($request->addinstcheck == True){
+            $result = $this.verifyUserInBd($usru->id, $request->bdapp_id);
+            
+            if ($result['exist'] == False){
+                $usru->basedatosapps()->attach($request->bdapp_id);
+            }
+            
+            $msg_update = $msg_update.$result['msg'];
+        }
+        \Session::flash('message',$msg_update);
         return Redirect::to('usuarios');
 
     }
+
+    
 
     public function destroy($id)
     {
@@ -123,6 +169,22 @@ class UsrController extends Controller
         return Redirect::to('usuarios');
 
 
+    }
+
+    public function verifyUserInBd($uid, $bdid){
+        $u = User::find($uid);
+        $b = BasedatosApp::find($bdid);
+        $exist = false;
+        $msg = ', asociado a base de datos de aplicación '.$b->bdapp_nombd;
+            foreach ($u->basedatosapps as $bd) {
+                if($bd->id == $bdid){
+                    $exist = true;
+                    $msg = '';
+                }
+            }
+        $result = array ('exist'=>$exist,'msg'=> $msg,'bd'=>$b);
+
+        return $result;
     }
 
 }

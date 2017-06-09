@@ -88,7 +88,7 @@
 								                      <div class="modal-content">
 
 								                        <div class="modal-header">
-								                          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+								                          <button type="button" class="close" data-dismiss="modal">
 								                          </button>
 								                          <h4 class="modal-title" id="myModalLabel"></h4>
 								                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Usuario: {{$u->name}}</label>
@@ -114,7 +114,7 @@
 		                          								<br>	
 		                          								<br>
 		                            							<div class="col-md-12 col-sm-12 col-xs-12">
-				                             						 <table id="datatable-buttons" class="table table-striped table-bordered">
+				                             						 <table id="datatable-buttons{{$u->id}}" class="table table-striped table-bordered">
 		                      												<thead>
 		                        												<tr>
 		                          													<th>Nombre de base de datos</th>
@@ -135,15 +135,17 @@
 		                          												<td>{{$bd->empresa->empr_rfc}}</td>
 		                          												</tr>
 		                          											@endforeach
-		                          											<div id="result_msg{{$u->id}}"></div>
+		                          											<div id="result_success{{$u->id}}"></div>
 		                          											</tbody>
 		                          										</table>
 				                          							</div>
 
+				                          						<div id="result_failure{{$u->id}}"></div>
+
 	                          								
 								                        </div>
 								                        <div class="modal-footer">
-								                          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanFailureDiv({{$u->id}});">Cerrar</button>
 								                          
 								                        </div>
 
@@ -222,14 +224,33 @@
     </script>
 
 	<script>
-	    //$("#addid").click(function(){
-	    	//var usrid=$("select_usr_id").val();
-	    	//var bdid=$("select_bd_id").val();
+	   		
+	   		/*function addPerson(nombd,app,emp,rfc) {
+	  			const row = createRow({
+	    		nombd: nombd,
+	    		app: app,
+	    		emp: emp,
+	    		rfc: rfc,
+	  			$('table tbody').append(row);
+			}
+
+	function createRow(data) {
+	  return (
+	    `<tr>` +
+	      `<td>${$('tbody tr').length + 1}</td>` +
+	      `<td>${data.name}</td>` +
+	      `<td>${data.lastname}</td>` +
+	    `</tr>`
+	 );
+	}*/		function cleanFailureDiv(usrid){
+
+			$("#result_failure"+usrid).html('');
+
+			}
+
+	
 	    	function relatedb(usrid){
-	    		//var usrid = document.getElementById("select_usr_id").value;
-	    		//alert(document.getElementById("select_usr_id").text);
-	    		//alert(document.getElementsByName("relatemodal").id);
-	    		//alert(usrid);
+	    		
 	    		var bdid = document.getElementById("select_bd_id"+usrid).value;
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 	    		
@@ -240,9 +261,23 @@
 	        	cache:false,
 	        	data: {_token: CSRF_TOKEN},
     			dataType: 'JSON',
-	        	success:function(result){
-	        		console.log(result);
-	            	$(".result_msg"+usrid).html(result);
+
+	        	success:function(response){
+	        		if (response['status'] == 'Success'){
+	        			console.log($(".result_success"+usrid));
+	        			$("#datatable-buttons"+usrid).append(response['result']);
+	        			cleanFailureDiv(usrid);
+
+	        		}
+	        		else{
+	        			$("#result_failure"+usrid).html(response['result']);
+	        			console.log($(".result_failure"+usrid));
+	        		}
+
+	        		document.getElementById("select_bd_id"+usrid).value = 'null';
+
+	        		console.log(response);
+
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	        		console.log(XMLHttpRequest);

@@ -51,13 +51,13 @@
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
-                  <select class="select2_single form-control" tabindex="-1">
-                    <option>Seleccione una empresa</option>
-                    <option value="AK">Empresa 1-1111111</option>
-                    <option value="HI">Empresa 2-2222222</option>
-                    <option value="CA">Empresa 3-3333333</option>
-                    
-                  </select>
+                  
+                  <select class="select2_single form-control col-md-6 col-xs-12" name="select_empresa" id="select_empresa">
+                            <option value="null">Seleccione una empresa ...</option>
+                            @foreach($emps as $emp)
+                            <option value="{{ $emp->id }}">{{ $emp->empr_nom }}</option>
+                            @endforeach
+                          </select>
                 </div>
 
                 <div class="col-md-9 col-sm-9 col-xs-12">
