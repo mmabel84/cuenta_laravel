@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BasedatosApp;
+use App\User;
 use App\Empresa;
 use Illuminate\Http\Request;
 use View;
@@ -10,13 +11,17 @@ use Illuminate\Support\Facades\Redirect;
 
 class AppController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
      public function index()
     {       
+        $usrs = User::all();
+        $apps = BasedatosApp::all();
 
-        $app = BasedatosApp::all();
-
-
-        return view('apps')->with('apps',$app);
+        return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
     }
 
     public function create()
@@ -95,6 +100,42 @@ class AppController extends Controller
         $appu->save();
         \Session::flash('message','Se ha actualizado la base de datos de aplicación: '.$request->bdapp_nombd);
         return Redirect::to('apps');
+
+    }
+
+    public function relateAppUsr($idapp,$idusr)
+    {
+
+        if ($idusr && $idapp)
+        {
+            $usrp = User::find($idusr);
+            $bdp = BasedatosApp::find($idapp);
+            $exist = False;
+            $usrrelated = $bdp->users()->get();
+
+            foreach ($usrrelated as $u) {
+                if ($u->id == $idusr){
+                    $exist = True;
+                }
+            }
+
+            if ($exist == True)
+            {
+                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación del usuario ".$usrp->name." con base de datos ".$bdp->bdapp_nombd."</label>");
+            }
+            else
+            {
+                 $bdp->users()->attach($idusr);
+                 $response = array ('status' => 'Success', 'result' => '<tr>
+                                 <td>' . $usrp->name . '</td>' .
+                                '<td>' . $usrp->email . '</td>' .
+                                '<td>' . $usrp->users_tel . '</td>' .
+                            '</tr>');
+            }
+        }
+       
+        return \Response::json($response);
+        
 
     }
 

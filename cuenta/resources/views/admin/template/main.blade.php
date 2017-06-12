@@ -42,14 +42,24 @@
                           <div class="menu_section">
                               <ul class="nav side-menu">
                                 
-                                  <li><a href="/"><i class="fa fa-dashboard"></i> <b>TABLERO</b> </a>
-                                  <li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> <b>EMPRESAS</b> </a>
-                                  <li><a href="{{ URL::to('usuarios') }}"><i class="fa fa-users"></i> <b>USUARIOS</b></a>
-                                  <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> <b>APLICACIONES</b> </a>
-                                  <li><a href="/"><i class="fa fa-gears"></i> <b>RESPALDOS</b> </a>
-                                  <li><a href="/"><i class="fa fa-wrench"></i> <b>CONFIGURACIÓN</b> </a>
+                                  <li><a href="/"><i class="fa fa-dashboard"></i> TABLERO </a></li>
+                                  <li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> EMPRESAS </a></li>
+                                  <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> APLICACIONES </a></li>
+                                  <li><a><i class="fa fa-wrench"></i> CONFIGURACIÓN <span class="fa fa-chevron-down"></span></a>
+                                      <ul class="nav child_menu">
+                                        <li><a href="{{ URL::to('paqs') }}">PAQUETES DE CUENTA</a></li>
+                                      </ul>
+
 
                                   </li>
+                                  <li><a><i class="fa fa-unlock-alt"></i> SEGURIDAD <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                      <li><a href="{{ URL::to('usuarios') }}">USUARIOS</a></li>
+                                      <li><a href="{{ URL::to('roles') }}">ROLES</a></li>
+                                      <li><a href="#">PERMISOS</a></li>
+                                    </ul>
+                                  </li>
+
                                
                               </ul>
                           </div>
@@ -79,7 +89,7 @@
                               <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="" alt="">{{ Auth::user()->name }}
+                                    <img src="{{ Auth::user()->users_pic ? asset('storage/'.Auth::user()->users_pic) : asset('default_avatar_male.jpg')}}" alt="">{{ Auth::user()->name }}
                                     <span class=" fa fa-angle-down"></span>
                                   </a>
                                   <ul class="dropdown-menu dropdown-usermenu pull-right">

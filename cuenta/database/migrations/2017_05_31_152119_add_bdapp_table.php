@@ -18,8 +18,8 @@ class AddBdappTable extends Migration
             $table->string('bdapp_app');
             $table->string('bdapp_nombd');
             $table->string('bdapp_nomserv');
-            $table->float('bdapp_gigcons');
-            $table->float('bdapp_gigdisp');
+            $table->float('bdapp_gigcons')->nullable();
+            $table->float('bdapp_gigdisp')->nullable();
             $table->integer('bdapp_empr_id')->unsigned();
             $table->foreign('bdapp_empr_id')->references('id')->on('empr');
 

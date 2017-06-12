@@ -17,10 +17,10 @@ class AddEmpresaTable extends Migration
             $table->increments('id');
             $table->string('empr_nom');
             $table->string('empr_rfc', 15);
-            $table->text('empr_razsoc');
-            $table->binary('empr_logo');
-            $table->string('empr_logotipo');
-            $table->binary('empr_marc_agua');
+            $table->text('empr_razsoc')->nullable();
+            $table->string('empr_logo')->nullable();
+            $table->string('empr_logotipo')->nullable();
+            $table->string('empr_marc_agua')->nullable();
             $table->timestamps();
         });
     }

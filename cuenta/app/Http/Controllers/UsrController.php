@@ -5,13 +5,68 @@ use App\User;
 use App\BasedatosApp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use View;
+use Bican\Roles\Models\Role;
+use Bican\Roles\Models\Permission;
+use Illuminate\Support\Facades\Validator; 
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Storage; 
 
 class UsrController extends Controller
 {
     use RegistersUsers;
+    //TODO poner en todos los controladores
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function customvalidator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'users_nick' => 'required|string|max:15|unique:users',
+        ]);
+    }
+
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return User
+     */
+    protected function customcreate(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'users_nick' => $data['users_nick'],
+        ]);
+    } 
+
+    public function customregister(Request $request, $values)
+    {
+        $this->customvalidator($values)->validate();
+
+        event(new Registered($user = $this->customcreate($values)));
+
+        $this->registered($request, $user);
+
+        return $user;
+    } 
+
 
     public function index()
     {       
@@ -26,8 +81,10 @@ class UsrController extends Controller
     public function create()
     {       
 
-    	$apps = BasedatosApp::all();
-       return View::make('usuariocreate')->with('apps',$apps);
+        $roles = Role::all();
+        $permissions = Permission::all();
+        $apps = BasedatosApp::all();
+        return view('usuariocreate',['apps'=>$apps,'roles'=>$roles,'permissions'=>$permissions]); 
 
     }
 
@@ -89,88 +146,6 @@ class UsrController extends Controller
 
     }
 
-    public function store(Request $request)
-    {
-        
-        $usr = new User;
-        $usr->name = $request->name;
-        $usr->email = $request->email;
-        $usr->users_nick = $request->users_nick;
-        $usr->users_tel = $request->users_tel;
-        $usr->password = bcrypt($request['password']);
-        $usr->save();
-        $msg_bd = 'Se ha creado el usuario: '.$request->name.$msg_bd;
-
-
-        if ($request->addinstcheck == True){
-            $result = $this.verifyUserInBd($usr->id, $request->bdapp_id);
-            
-            if ($result['exist'] == False){
-                $usr->basedatosapps()->attach($request->bdapp_id);
-            }
-            
-            $msg_bd = $msg_bd.$result['msg'];
-
-       }
-
-        \Session::flash('message',$msg_bd);
-        return Redirect::to('usuarios');
-
-
-    }
-
-    
-
-    public function edit($id)
-    {       
-
-        $usre = User::find($id);
-        $apps = BasedatosApp::all();
-        return view('usuarioedit',['apps'=>$apps,'usr'=>$usre]);
-    }
-
-
-
-    public function update(Request $request, $id)
-    {
-        $usru = User::find($id);
-        $usru->name = $request->name;
-        $usru->users_tel = $request->users_tel;
-        $usru->email = $request->email;
-        $usru->users_nick = $request->users_nick;
-
-
-        $usru->save();
-        $msg_update = 'Se ha actualizado el usuario: '.$usru->name;
-        
-        if ($request->addinstcheck == True){
-            $result = $this.verifyUserInBd($usru->id, $request->bdapp_id);
-            
-            if ($result['exist'] == False){
-                $usru->basedatosapps()->attach($request->bdapp_id);
-            }
-            
-            $msg_update = $msg_update.$result['msg'];
-        }
-        \Session::flash('message',$msg_update);
-        return Redirect::to('usuarios');
-
-    }
-
-    
-
-    public function destroy($id)
-    {
-        
-        $usrd = User::find($id);
-        \Session::flash('message','Se ha eliminado el usuario: '.$usrd->name);
-        $usrd->delete();
-
-        return Redirect::to('usuarios');
-
-
-    }
-
     public function verifyUserInBd($uid, $bdid){
         $u = User::find($uid);
         $b = BasedatosApp::find($bdid);
@@ -186,5 +161,238 @@ class UsrController extends Controller
 
         return $result;
     }
+
+    public function store(Request $request)
+    {
+        /*
+        $usr = new User;
+        $usr->name = $request->name;
+        $usr->email = $request->email;
+        $usr->users_nick = $request->users_nick;
+        $usr->users_tel = $request->users_tel;
+        $usr->password = bcrypt($request['password']);
+        $usr->save();
+        $msg_bd = 'Se ha creado el usuario: '.$request->name;
+
+
+        if ($request->addinstcheck == True){
+            $result = $this->verifyUserInBd($usr->id, $request->bdapp_id);
+            
+            if ($result['exist'] == False){
+                $usr->basedatosapps()->attach($request->bdapp_id);
+            }
+            
+            $msg_bd = $msg_bd.$result['msg'];
+
+       }
+
+        \Session::flash('message',$msg_bd);
+        return Redirect::to('usuarios');*/
+
+
+        $alldata = $request->all();
+
+        $user = $this->customregister($request,$alldata);
+
+        $file     = false;
+        if(array_key_exists('users_pic',$alldata)){
+            $file     = request()->file('users_pic');
+            $path = $request->file('users_pic')->storeAs(
+            'public', $user->id.'.'.$file->getClientOriginalName()
+        );
+        }
+
+
+
+
+        if($file!=false){
+            $user->users_pic = $user->id.'.'.$file->getClientOriginalName();
+        }
+
+        if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
+            $user->users_tel = $alldata['users_tel'];
+        }
+
+        $user->save();
+
+
+
+        if(array_key_exists('roles',$alldata)){
+            foreach ($alldata['roles'] as $rol) {
+                $rolobj = Role::find($rol);
+                $user->attachRole($rolobj);
+            }
+        }
+
+
+        if(array_key_exists('permisos',$alldata)){
+            foreach ($alldata['permisos'] as $perm) {
+                $permobj = Permission::find($perm);
+                $user->attachPermission($permobj);
+            }
+        }
+
+
+        $fmessage = 'Se ha creado el usuario: '.$alldata['name'];
+        \Session::flash('message',$fmessage);
+        $this->registroBitacora($request,'create',$fmessage);
+        return redirect()->route('usuarios.index'); 
+
+
+
+
+
+
+
+    }
+
+    
+
+    public function edit($id)
+    {       
+
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+        $permissions = Permission::all();
+
+
+        return view('usuarioedit',['roles'=>$roles,'permissions'=>$permissions,'user'=>$user]); 
+    }
+
+
+
+    public function update(Request $request, $id)
+    {
+        /*$usru = User::find($id);
+        $usru->name = $request->name;
+        $usru->users_tel = $request->users_tel;
+        $usru->email = $request->email;
+        $usru->users_nick = $request->users_nick;
+
+
+        $usru->save();
+        $msg_update = 'Se ha actualizado el usuario: '.$usru->name;
+        
+        if ($request->addinstcheck == True){
+            $result = $this->verifyUserInBd($usru->id, $request->bdapp_id);
+            
+            if ($result['exist'] == False){
+                $usru->basedatosapps()->attach($request->bdapp_id);
+            }
+            
+            $msg_update = $msg_update.$result['msg'];
+        }
+        \Session::flash('message',$msg_update);
+        return Redirect::to('usuarios');*/
+
+        $alldata = $request->all();
+        $user = User::findOrFail($id);
+
+        /*echo "<pre>";
+        print_r($alldata);die();
+        echo "</pre>";*/
+
+        $file     = false;
+        if(array_key_exists('users_pic',$alldata)){
+            $file     = request()->file('users_pic');
+            $path = $request->file('users_pic')->storeAs(
+            'public', $user->id.'.'.$file->getClientOriginalName()
+        );
+        }else{
+            if(array_key_exists('deleted_pic',$alldata)){
+                if($alldata['deleted_pic']=='1'){
+                    $user->users_pic = 'default_avatar_male.jpg';
+                }
+            }
+        }
+
+
+        if($file!=false){
+            $user->users_pic = $user->id.'.'.$file->getClientOriginalName();
+        }
+
+        if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
+            $user->users_tel = $alldata['users_tel'];
+        }
+
+
+        $user->save();
+
+
+
+        if(array_key_exists('roles',$alldata)){
+            $user->detachAllRoles();
+            foreach ($alldata['roles'] as $rol) {
+                $rolobj = Role::find($rol);
+                $user->attachRole($rolobj);
+            }
+        }
+
+
+        if(array_key_exists('permisos',$alldata)){
+            $user->detachAllPermissions();
+            foreach ($alldata['permisos'] as $perm) {
+                $permobj = Permission::find($perm);
+                $user->attachPermission($permobj);
+
+            }
+        }
+
+
+
+
+
+        $fmessage = 'Se ha modificado el usuario: '.$alldata['name'];
+        \Session::flash('message',$fmessage);
+        $this->registroBitacora($request,'create',$fmessage);
+        return redirect()->route('usuarios.index'); 
+
+    }
+
+    
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $fmessage = 'Se ha eliminado el usuario: '.$user->name;
+            \Session::flash('message',$fmessage);
+        $this->registroBitacora($request,'delete',$fmessage); 
+        
+        $usrd->delete();
+
+        return redirect()->route('usuarios.index'); 
+
+
+    }
+
+
+    public function permsbyroles(Request $request)
+    {
+        $alldata = $request->all();
+        $return_array = array();
+        if(array_key_exists('selected',$alldata) && isset($alldata['selected'])){
+            foreach ($alldata['selected'] as $select) {
+                $role = Role::find((int)$select);
+                $tests = false;
+                if (isset($role)){
+                    $tests = $role->permissions()->get();
+                    foreach ($tests as $test) {
+                        array_push($return_array, $test->id);
+                    }
+                }
+
+
+            }
+        }
+
+        $response = array(
+            'status' => 'success',
+            'msg' => 'Setting created successfully',
+            'roles' => $return_array,
+        );
+        return \Response::json($response);
+    } 
+
+    
 
 }

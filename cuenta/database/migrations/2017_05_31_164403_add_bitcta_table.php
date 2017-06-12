@@ -16,13 +16,13 @@ class AddBitctaTable extends Migration
         Schema::create('bitcta', function (Blueprint $table) {
             $table->increments('id');
             $table->dateTime('bitc_fecha');
-            $table->string('bitc_modulo');
-            $table->string('bitcta_ip');
-            $table->string('bitcta_naveg');
-            $table->string('bitcta_tipo_op');
-            $table->text('bitcta_msg');
-            $table->text('bitcta_result');
-            $table->text('bitcta_dato');
+            $table->string('bitc_modulo')->nullable();
+            $table->string('bitcta_ip')->nullable();
+            $table->string('bitcta_naveg')->nullable();
+            $table->string('bitcta_tipo_op')->nullable();
+            $table->text('bitcta_msg')->nullable();
+            $table->text('bitcta_result')->nullable();
+            $table->text('bitcta_dato')->nullable();
             $table->integer('bitcta_users_id')->unsigned();
 
             $table->foreign('bitcta_users_id')->references('id')->on('users');
