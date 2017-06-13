@@ -17,6 +17,9 @@ Route::resource('usuarios', 'UsrController');
 Route::resource('apps', 'AppController');
 Route::resource('paqs', 'PaqController');
 Route::resource('roles', 'RolController');
+Route::resource('permisos', 'PermController');
+Route::resource('bitacoras', 'BitController');
+Route::resource('appsasign', 'AppAsignController');
 
 Route::get('/', 'HomeController@index')->name('home');
 

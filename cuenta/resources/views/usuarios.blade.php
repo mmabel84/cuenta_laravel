@@ -158,7 +158,7 @@
 
 			                          		{{ Form::open(['route' => ['usuarios.destroy', $u->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
-		                      				<button  href="{{ route('usuarios.destroy', $u->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x"></i></button>
+		                      				<button  href="{{ route('usuarios.destroy', $u->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E" onclick="return confirm('El usuario también será eliminado de todas las bases de datos de aplicación a las que esté asociado. ¿Está seguro que quiere eliminar este registro?')"><i class="fa fa-trash fa-2x"></i></button>
 											{{ Form::close() }}
 
 			                          	</div>

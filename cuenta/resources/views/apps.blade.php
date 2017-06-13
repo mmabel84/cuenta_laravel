@@ -152,7 +152,7 @@
 			                          		
 			                          		{{ Form::open(['route' => ['apps.destroy', $a->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
-		                      				<button  href="{{ route('empresas.destroy', $a->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x"></i></button>
+		                      				<button  href="{{ route('empresas.destroy', $a->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x" onclick="return confirm('Al realizar esta acción se eliminará la base de datos de aplicación correspondiente con todos sus datos, así como los backups guardados en el sistema de dicha base de datos. ¿Está seguro que quiere eliminar este registro?')"></i></button>
 											{{ Form::close() }}
 
 			                          	</div>

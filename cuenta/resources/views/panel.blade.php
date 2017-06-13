@@ -59,25 +59,25 @@
                             @endforeach
                           </select>
                 </div>
-
-                <div class="col-md-9 col-sm-9 col-xs-12">
-                   
-                    <a href="#" data-toggle="tooltip" data-placement="right" title="PLD"><i class="fa fa-money fa-3x" style="color:#053666;"></i></a>
+                <input type="hidden" id="iconsapp" name="iconsapp" value="{{ $appvisible }}">
+                <div class="col-md-9 col-sm-9 col-xs-12" id="diviscons">
+   
+                <!--    <a href="#" data-toggle="tooltip" data-placement="right" title="PLD" id="pld"><i class="fa fa-money fa-3x" style="color:#053666;"></i></a>
                     &nbsp;
                     &nbsp;
-                    <a href="#" data-toggle="tooltip" data-placement="right" title="Contabilidad"><i class="fa fa-bank fa-3x" style="color: #053666;"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="right" title="Contabilidad" id="cont"><i class="fa fa-bank fa-3x" style="color: #053666;"></i></a>
                     &nbsp;
                     &nbsp;
-                    <a href="#" data-toggle="tooltip" data-placement="right" title="Bóveda"><i class="fa fa-archive fa-3x" style="color: #053666;"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="right" title="Bóveda" id="bov"><i class="fa fa-archive fa-3x" style="color: #053666;"></i></a>
                     &nbsp;
                     &nbsp;
-                    <a href="#" data-toggle="tooltip" data-placement="right" title="Notaría"><i class="fa fa-briefcase fa-3x" style="color: #053666;"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="right" title="Notaría" id="not"><i class="fa fa-briefcase fa-3x" style="color: #053666;" ></i></a>
                     &nbsp;
                     &nbsp;
-                    <a href="#" data-toggle="tooltip" data-placement="right" title="Control de calidad"><i class="fa fa-tasks fa-3x" style=" color:#053666;"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="right" title="Control de calidad" id="cc"><i class="fa fa-tasks fa-3x" style=" color:#053666;"></i></a>
                     &nbsp;
                     &nbsp;
-                    <a href="#" data-toggle="tooltip" data-placement="right" title="Nómina"><i class="fa fa-table fa-3x" style=" color:#053666;"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="right" title="Nómina" id="nom"><i class="fa fa-table fa-3x" style=" color:#053666;"></i></a>-->
                 </div>
                  <div class="col-md-2 col-sm-2 col-xs-12">
                 </div>
@@ -249,5 +249,17 @@
       <script src="{{ asset('/vendors/gauge.js/dist/gauge.js') }}"></script>
       
       <script src="{{ asset('build/js/custom.js') }}"></script>
+      <script type="text/javascript">
+        
+  
+        //alert(document.getElementById('iconsapp').value);
+
+        //document.getElementById('diviscons').html(document.getElementById('iconsapp').value);
+        $("#diviscons").html(document.getElementById('iconsapp').value);
+
+        
+      </script>
+
+      
 
 @endsection

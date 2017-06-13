@@ -12,6 +12,7 @@ use Bican\Roles\Models\Permission;
 use Illuminate\Support\Facades\Validator; 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Auth;
 
 class UsrController extends Controller
 {
@@ -164,32 +165,7 @@ class UsrController extends Controller
 
     public function store(Request $request)
     {
-        /*
-        $usr = new User;
-        $usr->name = $request->name;
-        $usr->email = $request->email;
-        $usr->users_nick = $request->users_nick;
-        $usr->users_tel = $request->users_tel;
-        $usr->password = bcrypt($request['password']);
-        $usr->save();
-        $msg_bd = 'Se ha creado el usuario: '.$request->name;
-
-
-        if ($request->addinstcheck == True){
-            $result = $this->verifyUserInBd($usr->id, $request->bdapp_id);
-            
-            if ($result['exist'] == False){
-                $usr->basedatosapps()->attach($request->bdapp_id);
-            }
-            
-            $msg_bd = $msg_bd.$result['msg'];
-
-       }
-
-        \Session::flash('message',$msg_bd);
-        return Redirect::to('usuarios');*/
-
-
+       
         $alldata = $request->all();
 
         $user = $this->customregister($request,$alldata);
@@ -344,21 +320,36 @@ class UsrController extends Controller
 
         $fmessage = 'Se ha modificado el usuario: '.$alldata['name'];
         \Session::flash('message',$fmessage);
-        $this->registroBitacora($request,'create',$fmessage);
+        $this->registroBitacora($request,'update',$fmessage);
         return redirect()->route('usuarios.index'); 
 
     }
 
     
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $user = User::find($id);
-        $fmessage = 'Se ha eliminado el usuario: '.$user->name;
-            \Session::flash('message',$fmessage);
-        $this->registroBitacora($request,'delete',$fmessage); 
-        
-        $usrd->delete();
+        $fmessage = '';
+        $messagetype = '';
+
+        if ($user->id == Auth::user()->id){
+            $fmessage = 'No es posible eliminar al usuario: '.$user->name.'  autenticado';
+            $messagetype = 'failmessage';
+
+        }
+        else
+        {
+            $user->detachAllPermissions();
+            $user->detachAllRoles();
+            $user->basedatosapps()->detach();
+            $fmessage = 'Se ha eliminado el usuario: '.$user->name;
+            $messagetype = 'message';
+            $this->registroBitacora($request,'delete',$fmessage); 
+            $user->delete();
+
+        }
+        \Session::flash($messagetype, $fmessage);
 
         return redirect()->route('usuarios.index'); 
 

@@ -7,16 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class BasedatosApp extends Model
 {
     protected $table = "bdapp";
-    protected $fillable = ['bdapp_app','bdapp_nombd','bdapp_nomserv','bdapp_empr_id'];
+    protected $fillable = ['bdapp_app_id','bdapp_nombd','bdapp_nomserv','bdapp_empr_id'];
 
     public function empresa(){
 
     	return $this->belongsTo('App\Empresa','bdapp_empr_id');
     }
 
+    public function aplicacion(){
+
+        return $this->belongsTo('App\Aplicacion','bdapp_app_id');
+    }
+
     public function backups(){
 
-    	return $this->hasMany('App\Backup');
+    	return $this->hasMany('App\Backup','backbd_bdapp_id');
     }
 
     public function proveedores(){

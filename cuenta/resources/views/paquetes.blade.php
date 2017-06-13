@@ -43,7 +43,6 @@
 		                          <th>Fecha de activación</th>
 		                          <th>Fecha de fin</th>
 		                          <th>Fecha de caducidad</th>
-		                          <th>Acciones</th>
 		                          
 		                        </tr>
 		                      </thead>
@@ -59,14 +58,7 @@
 		                          <td>{{$p->paqapp_f_act}}</td>
 		                          <td>{{$p->paqapp_f_fin}}</td>
 		                          <td>{{$p->paqapp_activo}}</td>
-		                          <td class=" last" width="12.5%">
-		                          	
-		                          	<div class="btn-group">
-			                          	<div class="btn-group">
-		                          			<button onclick="#" class="btn btn-xs" data-placement="left" title="Ver roles y permisos" style=" color:#790D4E"><i class="fa fa-unlock-alt fa-2x"></i> </button>
-			                          	</div>
-			                         </div>
-		                          </td>
+		                         
 		                          		                          
 		                        </tr>
 		                        @endforeach

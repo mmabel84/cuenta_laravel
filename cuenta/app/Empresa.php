@@ -12,6 +12,6 @@ class Empresa extends Model
 
     public function basedatosapps(){
 
-    	return $this->hasMany('App\BasedatosApp');
+    	return $this->hasMany('App\BasedatosApp','bdapp_empr_id');
     }
 }

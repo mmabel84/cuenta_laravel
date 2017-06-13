@@ -2,7 +2,7 @@
 
 
 @section('title')
-      Roles
+      Bitácora
 @endsection 
 
 @section('app_css')
@@ -23,56 +23,42 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 		                <div class="x_panel">
 		                  <div class="x_title">
-		                    <h2>Lista de roles</h2>
+		                    <h2>Bitácora</h2>
 		                    
 		                    <div class="clearfix"></div>
 		                  </div>
-
-		                  <div class="form-group">
-		                  <a href="{{ URL::to('roles/create') }}"><i class="fa fa-edit right"></i> <b>Crear nuevo rol</b></a>
-		                  </div>
-		                  
-		                  
 		                  <br/>
-		                  @if (Session::has('message'))
-			                  <div class="alert alert-success alert-dismissible fade in" role="alert">
-			                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-			                    </button>
-			                    <strong>{{ Session::get('message') }}</strong>
-			                  </div>
-			                  @endif
-		                  
+		                 
 		                  <div class="x_content">
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
 		                        <tr>
-		                          <th>Nombre</th>
-		                          <th>Código</th>
-		                          <th>Descripción</th>
-		                          <th>Nivel</th>
-		                          <th>Acciones</th>
+		                          <th>Fecha</th>
+		                          <th>Operación</th>
+		                          <th>IP</th>
+		                          <th>Navegador</th>
+		                          <th>Mensaje</th>
+		                          <th>Módulo</th>
+		                          <th>Dato</th>
+		                          <th>Resultado</th>
 		                          
 		                        </tr>
 		                      </thead>
 
 
 		                      <tbody>
-		                      	@foreach ($roles as $r)
+		                      	@foreach ($bitacoras as $b)
 		                        <tr>
-		                          <td>{{$r->name}}</td>
-		                          <td>{{$r->slug}}</td>
-		                          <td>{{$r->description}}</td>
-		                          <td>{{$r->level}}</td>
-		                         
-		                          <td class=" last" width="12.5%">
-		                          	
-		                          	<div class="btn-group">
-			                          	<div class="btn-group">
-		                          			<button onclick="location.href = 'roles/{{$r->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#790D4E"><i class="fa fa-edit fa-2x"></i> </button>
-			                          	</div>
-			                         </div>
-		                          </td>
+		                          <td>{{$b->bitc_fecha}}</td>
+		                          <td>{{$b->bitcta_tipo_op}}</td>
+		                          <td>{{$b->bitcta_ip}}</td>
+		                          <td>{{$b->bitcta_naveg}}</td>
+		                          <td>{{$b->bitcta_msg}}</td>
+		                          <td>{{$b->bitc_modulo}}</td>
+		                          <td>{{$b->bitcta_dato}}</td>
+		                          <td>{{$b->bitcta_result}}</td>
+		                      
 		                          		                          
 		                        </tr>
 		                        @endforeach
@@ -114,29 +100,5 @@
 	    	<script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
-	    	<script>
-      $( function() {
-          $('#alertmsgcreation').click(function() {
-              console.log('alertmsgcreation button clicked');
-          });
-          
-         setTimeout(function() {
-              $('#alertmsgcreation').trigger('click');
-          }, 4e3);
-      });
-    </script>
-
-    <script>
-      $( function() {
-          $('#alertmsgfaildelete').click(function() {
-              console.log('alertmsgfaildelete button clicked');
-          });
-          
-         setTimeout(function() {
-              $('#alertmsgfaildelete').trigger('click');
-          }, 4e3);
-      });
-    </script>
-
-   
-@endsection      
+	    	
+@endsection         

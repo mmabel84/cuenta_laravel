@@ -58,19 +58,15 @@
               <div class="x_content">
 
                 <!--<form class="form-horizontal form-label-left input_mask">-->
-                <form id="rolcreateform" class="form-horizontal form-label-left" novalidate action="{{ route('roles.store') }}" method='POST' enctype="multipart/form-data">
-
-                      {{ csrf_field() }}
-
-                    
-
+               {{ Form::open(['route' => ['roles.update', $rol], 'class'=>'form-horizontal form-label-left']) }}
+               {{ Form::hidden('_method', 'PUT') }}
                     <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
                     <td>
 
                         <div class="item form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del rol *" required="required" type="text">
+                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del rol *" required="required" type="text" value="{{$rol->name}}">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('name'))
                                     <span class="help-block">
@@ -82,7 +78,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="slug" class="form-control has-feedback-left" name="slug" placeholder="Código *" required="required" type="text" data-validate-words="1" value="" autocomplete="off">
+                              <input id="slug" class="form-control has-feedback-left" name="slug" placeholder="Código *" required="required" type="text" data-validate-words="1" value="{{$rol->slug}}" autocomplete="off">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('slug'))
                                     <span class="help-block">
@@ -94,7 +90,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="description" class="form-control has-feedback-left" value="" name="description" placeholder="Descripción *" required="required" data-validate-words="1" autocomplete="off">
+                              <input id="description" class="form-control has-feedback-left" name="description" placeholder="Descripción *" required="required" data-validate-words="1" autocomplete="off" value="{{$rol->description}}">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('description'))
                                     <span class="help-block">
@@ -106,7 +102,7 @@
                           
                           <div class="item form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="level" class="form-control has-feedback-left" name="level" placeholder="Nivel *">
+                              <input id="level" class="form-control has-feedback-left" name="level" placeholder="Nivel *" value="{{$rol->level}}">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('level'))
                                     <span class="help-block">
@@ -143,7 +139,7 @@
                                           <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..." name="rolesapp" class="chosen-select form-control" multiple="multiple">
 
                                             @foreach($permissions as $permission)
-                                                <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+                                                <option value="{{ $permission->id }}" {{Auth::user()->customGetRolePerms($rol->id, $permission->id, true) ? 'selected':''}}>{{ $permission->name }}</option>
                                             @endforeach
                                           </select>
                                           </div>
@@ -199,4 +195,4 @@
     <script src="{{ asset('vendors/chosen/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
     <script src="{{ asset('vendors/chosen/docsupport/init.js') }}" type="text/javascript" charset="utf-8"></script>
 
-@endsection    
+@endsection        

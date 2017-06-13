@@ -48,7 +48,9 @@ class EmprController extends Controller
         $empresau->empr_razsoc = $request->empr_razsoc;
         
         $empresau->save();
-        \Session::flash('message','Se ha actualizado la empresa: '.$request->empr_nom);
+        $fmessage = 'Se ha actualizado la empresa: '.$request->empr_nom;
+        $this->registroBitacora($request,'update',$fmessage); 
+        \Session::flash('message',$fmessage);
         return Redirect::to('empresas');
 
     }
@@ -63,28 +65,31 @@ class EmprController extends Controller
     	$empresaf->empr_nom = $request->empr_nom;
     	$empresaf->empr_razsoc = $request->empr_razsoc;
     	$empresaf->save();
-    	\Session::flash('message','Se ha creado la empresa: '.$request->empr_nom);
+        $fmessage = 'Se ha creado la empresa: '.$request->empr_nom;
+        $this->registroBitacora($request,'create',$fmessage); 
+    	\Session::flash('message',$fmessage);
     	return Redirect::to('empresas');
 
 
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
     	
     	$empresad = Empresa::find($id);
         $apps = BasedatosApp::where('bdapp_empr_id', '=', $id)->get();
-
+        $fmessage = 'Se ha eliminado la empresa: '.$empresad->empr_nom;
 
 
         if (count($apps) == 0)
         {
             $empresad->delete();
-            \Session::flash('message','Se ha eliminado la empresa: '.$empresad->empr_nom);
+            $this->registroBitacora($request,'delete',$fmessage); 
+            \Session::flash('message',$fmessage);
         }
         else{
-
-            \Session::flash('failmessage','No se puede eliminar la empresa: '.$empresad->empr_nom. ' mientras existan bases de datos de aplicación dependientes');
+            $fmessage = 'No se puede eliminar la empresa: '.$empresad->empr_nom. ' mientras existan bases de datos de aplicación dependientes';
+            \Session::flash('failmessage',$fmessage);
         }
 
  	   	return Redirect::to('empresas');

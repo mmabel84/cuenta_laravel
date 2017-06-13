@@ -45,14 +45,11 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación</label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="select2_single form-control" tabindex="-1" name="bdapp_app">
-                              <option></option>
-                              <option value="cont">Contabilidad</option>
-                              <option value="bov">Bóveda</option>
-                              <option value="pld">PLD</option>
-                              <option value="nom">Nómina</option>
-                              <option value="not">Notaría</option>
-                              <option value="cc">Control de Calidad</option>
+                            <select class="select2_single form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id">
+                               <option value="null">Seleccione una aplicación ...</option>
+                                @foreach($aplicaciones as $app)
+                                    <option value="{{ $app->id }}">{{ $app->app_nom }}</option>
+                                @endforeach
                               
                             </select>
                           </div>

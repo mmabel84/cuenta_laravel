@@ -44,10 +44,11 @@
                                 
                                   <li><a href="/"><i class="fa fa-dashboard"></i> TABLERO </a></li>
                                   <li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> EMPRESAS </a></li>
-                                  <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> APLICACIONES </a></li>
+                                  <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> BD APLICACIONES </a></li>
                                   <li><a><i class="fa fa-wrench"></i> CONFIGURACIÓN <span class="fa fa-chevron-down"></span></a>
                                       <ul class="nav child_menu">
                                         <li><a href="{{ URL::to('paqs') }}">PAQUETES DE CUENTA</a></li>
+                                        <li><a href="{{ URL::to('appsasign') }}">APLICACIONES ASIGNADAS</a></li>
                                       </ul>
 
 
@@ -56,9 +57,10 @@
                                     <ul class="nav child_menu">
                                       <li><a href="{{ URL::to('usuarios') }}">USUARIOS</a></li>
                                       <li><a href="{{ URL::to('roles') }}">ROLES</a></li>
-                                      <li><a href="#">PERMISOS</a></li>
+                                      <li><a href="{{ URL::to('permisos') }}">PERMISOS</a></li>
                                     </ul>
                                   </li>
+                                  <li><a href="{{ URL::to('bitacoras') }}"><i class="fa fa-eye"></i> BITÁCORA </a></li>
 
                                
                               </ul>

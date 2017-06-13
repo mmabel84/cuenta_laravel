@@ -1,8 +1,8 @@
- @extends('admin.template.main')
+    @extends('admin.template.main')
 
 
 @section('title')
-      Roles
+      Aplicaciones
 @endsection 
 
 @section('app_css')
@@ -23,25 +23,18 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 		                <div class="x_panel">
 		                  <div class="x_title">
-		                    <h2>Lista de roles</h2>
+		                    <h2>Lista de aplicaciones asignadas</h2>
 		                    
 		                    <div class="clearfix"></div>
 		                  </div>
 
-		                  <div class="form-group">
-		                  <a href="{{ URL::to('roles/create') }}"><i class="fa fa-edit right"></i> <b>Crear nuevo rol</b></a>
+		                  <div class="form-group" style="visibility: hidden;">
+		                  <a href="{{ URL::to('appsasign/create') }}"><i class="fa fa-edit right"></i> <b>Crear nueva aplicación</b></a>
 		                  </div>
 		                  
 		                  
 		                  <br/>
-		                  @if (Session::has('message'))
-			                  <div class="alert alert-success alert-dismissible fade in" role="alert">
-			                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-			                    </button>
-			                    <strong>{{ Session::get('message') }}</strong>
-			                  </div>
-			                  @endif
-		                  
+		                 		                  
 		                  <div class="x_content">
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
@@ -49,34 +42,33 @@
 		                        <tr>
 		                          <th>Nombre</th>
 		                          <th>Código</th>
-		                          <th>Descripción</th>
-		                          <th>Nivel</th>
 		                          <th>Acciones</th>
-		                          
 		                        </tr>
 		                      </thead>
-
-
 		                      <tbody>
-		                      	@foreach ($roles as $r)
+		                      	@foreach ($apps as $a)
 		                        <tr>
-		                          <td>{{$r->name}}</td>
-		                          <td>{{$r->slug}}</td>
-		                          <td>{{$r->description}}</td>
-		                          <td>{{$r->level}}</td>
-		                         
-		                          <td class=" last" width="12.5%">
-		                          	
-		                          	<div class="btn-group">
+		                          <td>{{$a->app_nom}}</td>
+		                          <td>{{$a->app_cod}}</td>
+		                          <td>
+		                          <div class="btn-group">
 			                          	<div class="btn-group">
-		                          			<button onclick="location.href = 'roles/{{$r->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#790D4E"><i class="fa fa-edit fa-2x"></i> </button>
+		                          			<button onclick="#" class="btn btn-xs" data-placement="left" title="Ver roles y permisos" style=" color:#790D4E"><i class="fa fa-unlock-alt fa-2x"></i> </button>
 			                          	</div>
 			                         </div>
+		                          	<!--<div class="btn-group">
+		                          		<p></p>
+		                          		{{ Form::open(['route' => ['appsasign.destroy', $a->id], 'class'=>'pull-right']) }}
+			                          	{{ Form::hidden('_method', 'DELETE') }}
+	                      				<button  href="{{ route('appsasign.destroy', $a->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x"></i></button>
+										{{ Form::close() }}
+
+
+		                          	</div>-->
+
 		                          </td>
-		                          		                          
 		                        </tr>
 		                        @endforeach
-		                       		                       
 		                      </tbody>
 		                    </table>
 		                  </div>
@@ -114,29 +106,6 @@
 	    	<script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
-	    	<script>
-      $( function() {
-          $('#alertmsgcreation').click(function() {
-              console.log('alertmsgcreation button clicked');
-          });
-          
-         setTimeout(function() {
-              $('#alertmsgcreation').trigger('click');
-          }, 4e3);
-      });
-    </script>
-
-    <script>
-      $( function() {
-          $('#alertmsgfaildelete').click(function() {
-              console.log('alertmsgfaildelete button clicked');
-          });
-          
-         setTimeout(function() {
-              $('#alertmsgfaildelete').trigger('click');
-          }, 4e3);
-      });
-    </script>
-
+	    	
    
-@endsection      
+@endsection          

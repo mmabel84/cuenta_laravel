@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BasedatosApp;
 use App\User;
 use App\Empresa;
+use App\Aplicacion;
 use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Redirect;
@@ -29,50 +30,63 @@ class AppController extends Controller
 
 
     	$empresa = Empresa::all();
-       return View::make('appcreate')->with('empresas',$empresa);
+        $aplicaciones = Aplicacion::all();
+        return view('appcreate',['empresas'=>$empresa,'aplicaciones'=>$aplicaciones]);
     }
 
     public function store(Request $request)
     {
-    	$apps = BasedatosApp::all();
+    	$bdapps = BasedatosApp::all();
     	$emprexist = null;
+        $appexist = null;
 
-    	foreach ($apps as $a )
+    	foreach ($bdapps as $a )
     	{
-    		if ($a->bdapp_app == $request->bdapp_app && $a->bdapp_empr_id == $request->bdapp_empr_id)
+    		if ($a->bdapp_app_id == $request->bdapp_app_id && $a->bdapp_empr_id == $request->bdapp_empr_id)
     		{
     			$emprexist = Empresa::find($a->bdapp_empr_id)->empr_nom;
+                $appexist = Aplicacion::find($a->bdapp_app_id)->app_nom;
+
     		}
     	}
-
     	
     	if ($emprexist != null)
     	{
-	    	\Session::flash('message','Ya existe una base de datos creada de la empresa: '.$emprexist." con la aplicación ".$request->bdapp_app);
+	    	\Session::flash('message','Ya existe una base de datos creada de la empresa: '.$emprexist." con la aplicación ".$appexist);
 	    	return redirect()->route('apps.create');
     	}
 
-    	$app = new BasedatosApp;
+    	$appbd = new BasedatosApp;
     	$empresa = Empresa::find($request->bdapp_empr_id);
-    	$app->bdapp_app = $request->bdapp_app;
-    	$app->bdapp_empr_id = $request->bdapp_empr_id;
-    	$app->bdapp_nomserv = $request->bdapp_nomserv;
-    	$app->bdapp_nombd =  $empresa->empr_rfc.'_'.$request->bdapp_app;
-    	$app->save();
+        $app = Aplicacion::find($request->bdapp_app_id);
+
+    	$appbd->bdapp_app_id = $request->bdapp_app_id;
+        $appbd->bdapp_app = $app->app_nom;
+    	$appbd->bdapp_empr_id = $request->bdapp_empr_id;
+    	$appbd->bdapp_nomserv = $request->bdapp_nomserv;
+    	$appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;
+    	$appbd->save();
+
         //Generar base de datos con script de app en servidor especificado
-    	\Session::flash('message','Se ha creado la base de datos de aplicación: '.$empresa->empr_rfc."_".$request->bdapp_app);
+        $fmessage = 'Se ha creado la base de datos de aplicación: '.$empresa->empr_rfc."_".$app->app_cod;
+        $this->registroBitacora($request,'create',$fmessage); 
+    	\Session::flash('message',$fmessage);
     	return Redirect::to('apps');
 
 
     }
 
-     public function destroy($id)
+     public function destroy($id, Request $request)
     {
         
         $appd = BasedatosApp::find($id);
+        $appd->users()->detach();
+        $appd-> backups()->delete();
 
         $appd->delete();
-        \Session::flash('message','Se ha eliminado la base de datos de aplicación: '.$appd->bdapp_nombd);
+        $fmessage = 'Se ha eliminado la base de datos de aplicación: '.$appd->bdapp_nombd;
+        $this->registroBitacora($request,'delete',$fmessage); 
+        \Session::flash('message',$fmessage);
 
         return Redirect::to('apps');
 
@@ -92,13 +106,17 @@ class AppController extends Controller
     public function update(Request $request, $id)
     {
         $appu = BasedatosApp::find($id);
-        $appu->bdapp_app = $request->bdapp_app;
+        $app = Aplicacion::find($request->bdapp_app_id);
+        $appu->bdapp_app_id = $request->bdapp_app_id;
+        $appu->bdapp_app = $app->app_nom;
         $appu->bdapp_nomserv = $request->bdapp_nomserv;
         $appu->bdapp_empr_id = $request->bdapp_empr_id;
-         $appu->bdapp_nombd = $request->bdapp_nombd;
+        $appu->bdapp_nombd = $request->bdapp_nombd;
         
         $appu->save();
-        \Session::flash('message','Se ha actualizado la base de datos de aplicación: '.$request->bdapp_nombd);
+        $fmessage = 'Se ha actualizado la base de datos de aplicación: '.$request->bdapp_nombd;
+        $this->registroBitacora($request,'update',$fmessage); 
+        \Session::flash('message',$fmessage);
         return Redirect::to('apps');
 
     }

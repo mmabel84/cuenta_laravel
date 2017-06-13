@@ -2,7 +2,7 @@
 
 
 @section('title')
-      Roles
+      Permisos
 @endsection 
 
 @section('app_css')
@@ -23,13 +23,13 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 		                <div class="x_panel">
 		                  <div class="x_title">
-		                    <h2>Lista de roles</h2>
+		                    <h2>Lista de permisos</h2>
 		                    
 		                    <div class="clearfix"></div>
 		                  </div>
 
 		                  <div class="form-group">
-		                  <a href="{{ URL::to('roles/create') }}"><i class="fa fa-edit right"></i> <b>Crear nuevo rol</b></a>
+		                  <a href="{{ URL::to('permisos/create') }}"><i class="fa fa-edit right"></i> <b>Crear nuevo permiso</b></a>
 		                  </div>
 		                  
 		                  
@@ -50,33 +50,16 @@
 		                          <th>Nombre</th>
 		                          <th>Código</th>
 		                          <th>Descripción</th>
-		                          <th>Nivel</th>
-		                          <th>Acciones</th>
-		                          
 		                        </tr>
 		                      </thead>
-
-
 		                      <tbody>
-		                      	@foreach ($roles as $r)
+		                      	@foreach ($permissions as $p)
 		                        <tr>
-		                          <td>{{$r->name}}</td>
-		                          <td>{{$r->slug}}</td>
-		                          <td>{{$r->description}}</td>
-		                          <td>{{$r->level}}</td>
-		                         
-		                          <td class=" last" width="12.5%">
-		                          	
-		                          	<div class="btn-group">
-			                          	<div class="btn-group">
-		                          			<button onclick="location.href = 'roles/{{$r->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#790D4E"><i class="fa fa-edit fa-2x"></i> </button>
-			                          	</div>
-			                         </div>
-		                          </td>
-		                          		                          
+		                          <td>{{$p->name}}</td>
+		                          <td>{{$p->slug}}</td>
+		                          <td>{{$p->description}}</td>
 		                        </tr>
 		                        @endforeach
-		                       		                       
 		                      </tbody>
 		                    </table>
 		                  </div>
@@ -139,4 +122,4 @@
     </script>
 
    
-@endsection      
+@endsection          
