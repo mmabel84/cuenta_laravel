@@ -188,6 +188,9 @@ class UsrController extends Controller
         if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
             $user->users_tel = $alldata['users_tel'];
         }
+        if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
+            $user->users_nick = $alldata['users_nick'];
+        }
 
         $user->save();
 
@@ -239,28 +242,6 @@ class UsrController extends Controller
 
     public function update(Request $request, $id)
     {
-        /*$usru = User::find($id);
-        $usru->name = $request->name;
-        $usru->users_tel = $request->users_tel;
-        $usru->email = $request->email;
-        $usru->users_nick = $request->users_nick;
-
-
-        $usru->save();
-        $msg_update = 'Se ha actualizado el usuario: '.$usru->name;
-        
-        if ($request->addinstcheck == True){
-            $result = $this->verifyUserInBd($usru->id, $request->bdapp_id);
-            
-            if ($result['exist'] == False){
-                $usru->basedatosapps()->attach($request->bdapp_id);
-            }
-            
-            $msg_update = $msg_update.$result['msg'];
-        }
-        \Session::flash('message',$msg_update);
-        return Redirect::to('usuarios');*/
-
         $alldata = $request->all();
         $user = User::findOrFail($id);
 
@@ -290,23 +271,24 @@ class UsrController extends Controller
         if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
             $user->users_tel = $alldata['users_tel'];
         }
+        if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
+            $user->users_nick = $alldata['users_nick'];
+        }
 
 
         $user->save();
 
 
-
+        $user->detachAllRoles();
         if(array_key_exists('roles',$alldata)){
-            $user->detachAllRoles();
             foreach ($alldata['roles'] as $rol) {
                 $rolobj = Role::find($rol);
                 $user->attachRole($rolobj);
             }
         }
 
-
+        $user->detachAllPermissions();
         if(array_key_exists('permisos',$alldata)){
-            $user->detachAllPermissions();
             foreach ($alldata['permisos'] as $perm) {
                 $permobj = Permission::find($perm);
                 $user->attachPermission($permobj);
@@ -383,6 +365,37 @@ class UsrController extends Controller
         );
         return \Response::json($response);
     } 
+
+
+    public function changepass(Request $request)
+    {
+        $alldata = $request->all();
+        $return_array = array();
+        $user = false;
+        $fmessage = '';
+
+       if(array_key_exists('user',$alldata) && isset($alldata['user'])){
+            $user = User::find($alldata['user']);
+        }
+
+       if($user!=false){
+            if(array_key_exists('password',$alldata) && isset($alldata['password'])){
+                $user->password = bcrypt($alldata['password']);
+                $fmessage = 'Se cambió la contraseña satisfactoriamente a usuario '.$user->name;
+                $this->registroBitacora($request,'password change',$fmessage);
+                //\Session::flash('message', $fmessage); 
+            }
+        }
+
+       $user->save();
+
+       $response = array(
+            'status' => 'success',
+            'msg' => $fmessage,
+            'user' => $alldata['user'],
+        );
+        return \Response::json($response);
+    }
 
     
 

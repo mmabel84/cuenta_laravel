@@ -25,10 +25,18 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('/addusrdb/{usrid}/{bdid}', 'UsrController@relateUsrApp')->name('relatedb');
 Route::post('/addbdusr/{bdid}/{usrid}', 'AppController@relateAppUsr')->name('relateusr');
+Route::post('/cambcont', 'UsrController@changepass')->name('cambiarcontrasena');
 
-Route::post('/permsbyroles/{bdid}', 'AppController@relateAppUsr')->name('relateusr');
+Route::post('/usuarios/permsbyroles', 'UsrController@permsbyroles');
+
+Route::post('/usuarios/{usrid}/permsbyroles', 'UsrController@permsbyroles');
+
+Route::post('/appbyemp', 'HomeController@appbyemp');
 
 Auth::routes();
+
+
+
 
 Route::get('/redirect', function () {
     $query = http_build_query([

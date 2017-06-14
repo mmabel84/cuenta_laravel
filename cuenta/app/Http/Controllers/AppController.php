@@ -61,7 +61,7 @@ class AppController extends Controller
         $app = Aplicacion::find($request->bdapp_app_id);
 
     	$appbd->bdapp_app_id = $request->bdapp_app_id;
-        $appbd->bdapp_app = $app->app_nom;
+        $appbd->bdapp_app = $app->app_cod;
     	$appbd->bdapp_empr_id = $request->bdapp_empr_id;
     	$appbd->bdapp_nomserv = $request->bdapp_nomserv;
     	$appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;

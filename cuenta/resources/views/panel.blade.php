@@ -4,6 +4,27 @@
       Panel de cuenta
 @endsection
 
+@section('app_css')
+    @parent
+    <!-- Datatables -->
+    <link href="{{ asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+
+    <style type="text/css">
+      .disabled {
+                 pointer-events: none;
+                 cursor: default;
+                 opacity: 0.6;
+                 color:grey;
+              }
+
+    </style>
+
+
+@endsection
 
 
 
@@ -17,27 +38,27 @@
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
 
                   <span class="count_top"><b style=" color:#053666;">Gigas asignados</b></span>
-                  <div class="count"><b style=" color:#053666;">150</b></div>
+                  <div class="count"><b style=" color:#053666;">{{ $gigas }}</b></div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                   <span class="count_top"><b style=" color:#053666;">Empresas asignadas</b></span>
-                  <div class="count"><b style=" color:#053666;">10</b></div>
+                  <div class="count"><b style=" color:#053666;">{{ $rfc }}</b></div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                   <span class="count_top"><b style=" color:#053666;">Empresas creadas</b></span>
-                  <div class="count"><b style=" color:#053666;">3</b></div>
+                  <div class="count"><b style=" color:#053666;">{{ $rfccreados }}</b></div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">Aplicaciones</b></span>
-                  <div class="count"><b style=" color:#053666;">6</b></div>
+                  <span class="count_top"><b style=" color:#053666;">Aplicaciones contratadas</b></span>
+                  <div class="count"><b style=" color:#053666;">{{ $apps }}</b></div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                   <span class="count_top"><b style=" color:#053666;">Usuarios creados</b></span>
-                  <div class="count"><b style=" color:#053666;">5</b></div>
+                  <div class="count"><b style=" color:#053666;">{{ $usrs }}</b></div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">Backups generados</b></span>
-                  <div class="count"><b style=" color:#053666;">7</b></div>
+                  <span class="count_top"><b style=" color:#053666;">BD generadas</b></span>
+                  <div class="count"><b style=" color:#053666;">{{ $bdapps }}</b></div>
                 </div>
                 
               </div>
@@ -52,7 +73,7 @@
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
                   
-                  <select class="select2_single form-control col-md-6 col-xs-12" name="select_empresa" id="select_empresa">
+                  <select class="select2_single form-control col-md-6 col-xs-12" name="select_empresa" id="select_empresa" onchange="onSelectEmpresa(this)">
                             <option value="null">Seleccione una empresa ...</option>
                             @foreach($emps as $emp)
                             <option value="{{ $emp->id }}">{{ $emp->empr_nom }}</option>
@@ -84,11 +105,6 @@
               </div>
              </div>
 
-             
-
-
-             
-
               <div class="col-md-9 col-sm-9 col-xs-12">
 
                 <div class="x_panel">
@@ -99,7 +115,7 @@
                   <br>
                   <div class="col-md-6">
                       <div class="progress" >
-                        <div class="progress-bar" data-transitiongoal="25">25%</div>
+                        <div class="progress-bar" data-transitiongoal="{{ $porc_final }}">{{ $porc_final }}%</div>
                       </div>
                       <label style=" color:#191970">% de tiempo consumido vs fecha de fin 25/10/2017</label>
 
@@ -107,7 +123,7 @@
 
                     <div class="col-md-6">
                         <div class="progress" >
-                          <div class="progress-bar" data-transitiongoal="30">35%</div>
+                          <div class="progress-bar" data-transitiongoal="{{ $porc_cad }}">{{ $porc_cad }}%</div>
                         </div>
                         <label style=" color:#191970">% de tiempo consumido vs fecha de caducidad 20/10/2017</label>
 
@@ -258,6 +274,41 @@
         $("#diviscons").html(document.getElementById('iconsapp').value);
 
         
+      </script>
+
+      <script type="text/javascript">
+        
+        function onSelectEmpresa(element){
+
+          $("#pld").addClass('disabled'); 
+          $("#cont").addClass('disabled'); 
+          $("#nom").addClass('disabled'); 
+          $("#bov").addClass('disabled'); 
+          $("#not").addClass('disabled'); 
+          $("#cc").addClass('disabled'); 
+             
+             var selected = element.value;
+
+             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+             $.ajax({
+                url: 'appbyemp',
+                type: 'POST',
+                data: {_token: CSRF_TOKEN,selected:selected},
+                dataType: 'JSON',
+                success: function (data) {
+                    console.log(data['appcodes']);
+                    data['appcodes'].forEach(function(entry){
+                      $("#"+entry).removeClass('disabled');    
+                      }
+                    );
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    
+                }
+            });
+         }
       </script>
 
       

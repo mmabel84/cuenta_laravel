@@ -28,7 +28,7 @@
 		                    <div class="clearfix"></div>
 		                  </div>
 
-		                  <div class="form-group" style="visibility: hidden;">
+		                  <div class="form-group" style="visibility: ;">
 		                  <a href="{{ URL::to('appsasign/create') }}"><i class="fa fa-edit right"></i> <b>Crear nueva aplicación</b></a>
 		                  </div>
 		                  
@@ -56,7 +56,7 @@
 		                          			<button onclick="#" class="btn btn-xs" data-placement="left" title="Ver roles y permisos" style=" color:#790D4E"><i class="fa fa-unlock-alt fa-2x"></i> </button>
 			                          	</div>
 			                         </div>
-		                          	<!--<div class="btn-group">
+		                          	<div class="btn-group">
 		                          		<p></p>
 		                          		{{ Form::open(['route' => ['appsasign.destroy', $a->id], 'class'=>'pull-right']) }}
 			                          	{{ Form::hidden('_method', 'DELETE') }}
@@ -64,7 +64,7 @@
 										{{ Form::close() }}
 
 
-		                          	</div>-->
+		                          	</div>
 
 		                          </td>
 		                        </tr>

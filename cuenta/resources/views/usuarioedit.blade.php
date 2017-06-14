@@ -160,7 +160,7 @@
 
                                 <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
-                                          <select id="roles" name="roles[]" tabindex="1" data-placeholder="Seleccione los roles ..." name="rolesapp" class="chosen-select form-control" onchange="onSelectUserCreate(this)" multiple="multiple">
+                                          <select id="roles" name="roles[]" tabindex="1" data-placeholder="Seleccione los roles ..." class="chosen-select form-control" onchange="onSelectUserCreate(this)" multiple="multiple">
                                             @foreach($roles as $role)
                                                 <option value="{{ $role->id }}" {{$user->hasRole($role->id) ? 'selected':''}} >{{ $role->name }}</option>
                                             @endforeach
@@ -170,7 +170,7 @@
 
                                   <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
-                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..." name="rolesapp" class="chosen-select form-control" multiple="multiple">
+                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..."  class="chosen-select form-control" multiple="multiple">
 
                                             @foreach($permissions as $permission)
                                                 <option value="{{ $permission->id }}" {{$user->customGetUserPerms($permission->id,true) ? 'selected':''}} >{{ $permission->name }}</option>

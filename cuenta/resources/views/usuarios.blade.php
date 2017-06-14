@@ -31,6 +31,11 @@
 		                  </div>
 
 		                  <br/>
+		                  	<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;">
+			                    <button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+			                    </button>
+			                    <strong id="alertpassmsg"></strong>
+			                 </div>
 		                  @if (Session::has('message'))
 			                  <div class="alert alert-success alert-dismissible fade in" role="alert">
 			                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -70,7 +75,7 @@
 		                          <td>{{$u->email}}</td>
 		                          <td>{{$u->users_tel}}</td>
 		                          <td>{{$u->users_f_ultacces}}</td>
-		                          <td class=" last" width="11.5%">
+		                          <td class=" last" width="12%">
 		                          	
 			                          <div class="btn-group">
 			                          	<div class="btn-group">
@@ -79,7 +84,7 @@
 
 										<div class="btn-group">
 
-		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$u->id}}" class="btn btn-xs" data-placement="left" title="Agregar a base de datos de aplicación" style=" color:#790D4E"><i class="fa fa-plus-square fa-2x"></i> </button>
+		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$u->id}}" class="btn btn-xs" data-placement="left" title="Agregar a base de datos de aplicación" style=" color:#790D4E"><i class="fa fa-database fa-2x"></i> </button>
 
 		                          				
 		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="{{$u->id}}">
@@ -88,64 +93,66 @@
 								                    <div class="modal-dialog modal-lg">
 								                      <div class="modal-content">
 
-								                        <div class="modal-header">
-								                          <button type="button" class="close" data-dismiss="modal">
-								                          </button>
-								                          <h4 class="modal-title" id="myModalLabel"></h4>
-								                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Usuario: {{$u->name}}</label>
-								                        </div>
+
+
+								                      <div class="modal-header">
+	                                                      <h5 class="modal-title" id="exampleModalLabel">Asociar a base de datos de aplicación: {{$u->name}}</h5>
+	                                                      <button type="button" class="close" data-dismiss="modal">
+	                                                        <span aria-hidden="true">&times;</span>
+	                                                      </button>
+                                                    	</div>
+
 								                        <div class="modal-body">
-			                        						
-				                        						<div class="col-md-4 col-sm-4 col-xs-12">
-				                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_bd_id" id="select_bd_id{{$u->id}}">
-					                            						<option value="null">Seleccione una base de datos ...</option>
-					                            						@foreach($apps as $ap)
-					                                					<option value="{{ $ap->id }}">{{ $ap->bdapp_nombd }}</option>
-					                           							@endforeach
-					                          						</select>
-				                          						</div>
+								                        <form>
+			                        						<div class="col-md-4 col-sm-4 col-xs-12">
+			                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_bd_id" id="select_bd_id{{$u->id}}">
+				                            						<option value="null">Seleccione una base de datos ...</option>
+				                            						@foreach($apps as $ap)
+				                                					<option value="{{ $ap->id }}">{{ $ap->bdapp_nombd }}</option>
+				                           							@endforeach
+				                          						</select>
+			                          						</div>
+			                          						<div class="col-md-2 col-sm-2 col-xs-12">
+			                          								<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$u->id}});">Agregar</button>
+			                          						</div>
+			                          						<div class="col-md-3 col-sm-3 col-xs-12">
+			                          							<p></p>
+			                          						</div>
+			                          						<br>
+			                          						<br>
+			                          						<br>
+	                            							<div class="col-md-12 col-sm-12 col-xs-12">
+			                             						 <table id="datatable-buttons{{$u->id}}" class="table table-striped table-bordered">
+	                      												<thead>
+	                        												<tr>
+	                          													<th>Nombre de base de datos</th>
+	                          													<th>Aplicación</th>
+	                          													<th>Empresa</th>
+	                          													<th>RFC de empresa</th>
 
-				                          						<div class="col-md-2 col-sm-2 col-xs-12">
-				                          								<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$u->id}});">Agregar</button>
-				                          						</div>
 
-				                          						<div class="col-md-3 col-sm-3 col-xs-12">
-				                          								<p></p>
-				                          						</div>
-		                          								<br>	
-		                          								<br>
-		                            							<div class="col-md-12 col-sm-12 col-xs-12">
-				                             						 <table id="datatable-buttons{{$u->id}}" class="table table-striped table-bordered">
-		                      												<thead>
-		                        												<tr>
-		                          													<th>Nombre de base de datos</th>
-		                          													<th>Aplicación</th>
-		                          													<th>Empresa</th>
-		                          													<th>RFC de empresa</th>
+	                        												</tr>
+	                      												</thead>
 
+	                      												<tbody>
+	                      												@foreach ($u->basedatosapps as $bd)
+	                        												<tr>
+	                          												<td>{{$bd->bdapp_nombd}}</td>
+	                          												<td>{{$bd->bdapp_app}}</td>
+	                          												<td>{{$bd->empresa->empr_nom}}</td>
+	                          												<td>{{$bd->empresa->empr_rfc}}</td>
+	                          												</tr>
+	                          											@endforeach
+	                          											<div id="result_success{{$u->id}}"></div>
+	                          											</tbody>
+	                          										</table>
+			                          							</div>
 
-		                        												</tr>
-		                      												</thead>
+				                          					</form>
 
-		                      												<tbody>
-		                      												@foreach ($u->basedatosapps as $bd)
-		                        												<tr>
-		                          												<td>{{$bd->bdapp_nombd}}</td>
-		                          												<td>{{$bd->bdapp_app}}</td>
-		                          												<td>{{$bd->empresa->empr_nom}}</td>
-		                          												<td>{{$bd->empresa->empr_rfc}}</td>
-		                          												</tr>
-		                          											@endforeach
-		                          											<div id="result_success{{$u->id}}"></div>
-		                          											</tbody>
-		                          										</table>
-				                          							</div>
-
-				                          						<div id="result_failure{{$u->id}}"></div>
-
-	                          								
 								                        </div>
 								                        <div class="modal-footer">
+								                        <div id="result_failure{{$u->id}}" class="col-md-9 col-sm-9 col-xs-12"></div>
 								                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanFailureDiv({{$u->id}});">Cerrar</button>
 								                          
 								                        </div>
@@ -155,6 +162,42 @@
 								                  </div>
 
 			                          	</div>
+
+			                          	<div class="btn-group">
+                                              
+
+                                                <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#790D4E" onclick="showModal({{$u->id}})"><i class="fa fa-key fa-2x"></i> </button>
+
+
+                                              <div class="modal fade" id="passmodal{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña: {{$u->name}}</h5>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <form>
+                                                        <div class="form-group">
+                                                          <input placeholder="Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
+                                                        </div>
+                                                      </form>
+
+                                                     <div id="result_failure{{$u->id}}"></div>
+
+                                                   </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                      <button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary">Ok</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+
+
+                                         </div>
 
 			                          		{{ Form::open(['route' => ['usuarios.destroy', $u->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
@@ -288,5 +331,66 @@
 
 	    });
 	    };
+
+	    function showModal(user) {
+          var modalid = "passmodal"+user;
+          $("#"+modalid).modal('show');
+        }
+
+       function hideModal(user) {
+          var modalid = "passmodal"+user;
+          $("#"+modalid).modal('hide');
+        }
+
+
+       function changePass(user){
+
+           var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+           var passid = "password"+user;
+
+           var password = document.getElementById(passid).value;
+
+
+
+           if(password){
+              $.ajax({
+                url: 'cambcont',
+                type: 'POST',
+                data: {_token: CSRF_TOKEN,password:password,user:user},
+                dataType: 'JSON',
+                success: function (data) {
+
+                 //console.log(data);
+                  hideModal(data['user']);
+                  //$('#alertmsgcreation').trigger('click');
+
+                  document.getElementById("divpasschange").style.display = 'block';
+                  document.getElementById("alertpassmsg").innerHTML = data['msg'];
+                  setTimeout(function() {
+		              $('#alertpasschange').trigger('click');
+		          }, 4e3);
+                  
+
+               },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    //alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    $("#result_failure"+user).html('<p><strong>Ocurrió un error: '+errorThrown+'</strong></p>');
+                }
+            });
+            }else{
+              $("#result_failure"+user).html('<p><strong>La contraseña es obligatoria</strong></p>');
+              
+           }
+
+           document.getElementById("password"+user).value = "";
+
+   }
+
+
 	</script>
+
+
+
+	
 @endsection

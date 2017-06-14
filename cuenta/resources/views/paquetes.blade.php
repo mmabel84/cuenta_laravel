@@ -46,8 +46,6 @@
 		                          
 		                        </tr>
 		                      </thead>
-
-
 		                      <tbody>
 		                      	@foreach ($paqs as $p)
 		                        <tr>
@@ -57,7 +55,7 @@
 		                          <td>{{$p->paqapp_f_venta}}</td>
 		                          <td>{{$p->paqapp_f_act}}</td>
 		                          <td>{{$p->paqapp_f_fin}}</td>
-		                          <td>{{$p->paqapp_activo}}</td>
+		                          <td>{{$p->paqapp_f_caduc}}</td>
 		                         
 		                          		                          
 		                        </tr>
