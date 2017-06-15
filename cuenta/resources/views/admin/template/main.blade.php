@@ -45,7 +45,7 @@
                                   <li><a href="/"><i class="fa fa-dashboard"></i> TABLERO </a></li>
                                   <li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> EMPRESAS </a></li>
                                   <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> BD APLICACIONES </a></li>
-                                  <li><a><i class="fa fa-wrench"></i> CONFIGURACIÓN <span class="fa fa-chevron-down"></span></a>
+                                  <li><a><i class="fa fa-cogs"></i> CONFIGURACIÓN <span class="fa fa-chevron-down"></span></a>
                                       <ul class="nav child_menu">
                                         <li><a href="{{ URL::to('paqs') }}">PAQUETES DE CUENTA</a></li>
                                         <li><a href="{{ URL::to('appsasign') }}">APLICACIONES ASIGNADAS</a></li>

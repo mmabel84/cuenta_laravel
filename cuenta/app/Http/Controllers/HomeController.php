@@ -9,6 +9,9 @@ use App\BasedatosApp;
 use App\Paquete;
 use App\User;
 Use View;
+use SoapClient;
+
+//define("URL_WS_69", 'http://lista69.advans.mx/Lista69b/index/consultarLista.wdsl');
 
 class HomeController extends Controller
 {
@@ -102,7 +105,7 @@ class HomeController extends Controller
 
         $porc_cad = round($dias_transc_cad / $dias_total_cad * 100, 0);
         
-        return view('panel',['emps'=>$emps,'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'porc_cad'=>$porc_cad]);
+        return view('panel',['emps'=>$emps,'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'porc_cad'=>$porc_cad,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc]);
 
                 
     }
@@ -135,4 +138,177 @@ class HomeController extends Controller
 
         return \Response::json($response);
     }
+
+    function auditar69b(Request $request) {
+        //recibe el rfc en post
+        //$rfc = $this->input->post('rfc', TRUE);
+        $rfc = $request->rfc;
+        $data['error'] = 1;
+        $data['reporte'] = 0;
+
+            //inicializando el cliente (_*-*)_
+       
+        $cliente = new SoapClient('http://lista69.advans.mx/Lista69b/index/consultarLista?wsdl');//WEB_SERVICE_69 url del webserice definido en constans de Laravel
+
+            
+            //base64 el rfc antes de enviar
+            $rfc64 = base64_encode($rfc);
+            //preparando parametros, en este caso solo uno
+            $params = array($rfc64);
+            //llamamos el metodo declarodo en el servidor SOAP
+            $result = $cliente->__soapCall("consultarLista", $params);
+            //convertimos ajson la respuesta y luego a un array
+            $json = json_decode($result, true);
+            //verificamos que sea array
+
+
+           if(is_array($json)){
+                //verificamos que esxista el indice de error
+                if(in_array('error',$json)){
+                    //verificamos que no hay errores y que el reporte regreso algo
+                    if($json['error']==0){
+                        //preparamos el reporte para retornar
+                        $response = $this->_reporteA69($json['reporte'],$rfc);
+                        $data['reporte'] = $response['htmldef'];
+                        $data['tienerep'] = $response['tienerep'];
+                    }
+
+                }
+                //notificamos que se realizo el proceso sin errores
+                $data['error'] = 0;
+            }
+        //retornamos la respuesta del servidor SOAP _(*-*_)
+        //echo json_encode($data);
+
+            //$data =  array('reporte' => 'helloooo');
+        return \Response::json($data);
+            //return  $data;
+
+    }
+
+
+    function _reporteA69($json69,$rfc){
+        //array key probables: \(°-°)/
+        //69b
+        //69
+        //desvirtuados
+
+        //preparando el html
+        $html = '';
+        $tienerep = false;
+
+        $html .= '<dl class="dl-horizontal">';
+
+
+
+
+        /*$html .= '<div class="bootbox-body">
+            <dl class="dl-horizontal">
+                <dt>RFC:</dt>
+                    <dd>'.$rfc.'</dd>
+            ';*/
+        //verificamos que no regreasar numerico
+
+        if(!is_numeric($json69)){
+            //verificando si es un array
+            if(is_array($json69)){
+
+                    //buscando el array key 69b
+                    if(array_key_exists('69b',$json69)){
+                        $tienerep = true;
+                           $html .= '
+                            <dt>Encontrado en:</dt>
+                                <dd>Lista 69 - B definitivos</dd>
+                            <br>
+                            <ul class="list-group">';
+                           //recorremos los datos de la respuesta
+                           for ($i=0; $i < count($json69['69b']); $i++) {
+                                $html .='
+                                <li class="list-group-item list-group-item-danger">
+                                    #'.$json69['69b'][$i]['iddefinitivos_69b'].'<br>
+                                    Empresa: '.$json69['69b'][$i]['nombre_empresa_definitivos_69b'].'<br>
+                                    Fecha de oficio: '.$json69['69b'][$i]['fecha_oficio_definitivos_69b'].'<br>
+                                    Numero de oficio: '.$json69['69b'][$i]['numero_oficio_definitivos_69b'].'<br>
+                                    Oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_definitivos_69b'].'">Ver oficio.pdf</a><br>
+                                </li><br>';
+                            }
+                            $html.='</ul>';
+                    }
+                    //buscando el array key 69
+                    if(array_key_exists('69',$json69)){
+                        $tienerep = true;
+                            $html .= '
+                            <dt>Encontrado en:</dt>
+                                <dd>Lista 69 presuntos</dd>
+                            <br>
+                            <ul class="list-group">';
+                            //recorremos los datos de la respuesta
+                           for ($i=0; $i < count($json69['69']); $i++) {
+                                $html .='
+                                <li class="list-group-item list-group-item-warning">
+                                    #'.$json69['69'][$i]['idpresuncion_69'].'<br>
+                                    Empresa: '.$json69['69'][$i]['nombre_empresa_presuncion_69'].'<br>
+                                    Fecha de oficio: '.$json69['69'][$i]['fecha_oficio_presuncion_69'].'<br>
+                                    Presuncion: '.$json69['69'][$i]['tipo_presuncion'].'<br>
+                                </li><br>';
+                            }
+                            $html.='</ul>';
+
+                    }
+                    //buscando el array key desvirtuados
+                    if(array_key_exists('desvirtuados',$json69)){
+                        $tienerep = true;
+
+                            $html .= '
+                            <dt>Encontrado en:</dt>
+                                <dd>Desvirtuados</dd>
+                            <br>
+                            <ul class="list-group">';
+                            //recorremos los datos de la respuesta
+                           for ($i=0; $i < count($json69['desvirtuados']); $i++) {
+                                $html .='
+                                <li class="list-group-item list-group-item-success">
+                                    #'.$json69['desvirtuados'][$i]['iddesvirtuados'].'<br>
+                                    Empresa: '.$json69['desvirtuados'][$i]['nombre_empresa_desvirtuados'].'<br>
+                                    Desvirtuado: '.$json69['desvirtuados'][$i]['tipo_desvirtuados'].'<br>
+                                    Oficio: '.$json69['desvirtuados'][$i]['numero_fecha_oficio_desvirtuados'].'<br>
+                                </li><br>';
+                            }
+                            $html.='</ul>';
+                    }
+
+
+
+            }
+        }else{
+            //si no se encontro nada
+
+            $htmlsinreporte = '
+                              <div>
+                                <label style="color:#189847;" id="norep">No se encontraron reportes</label>
+                              </div>';
+            
+            /*$html .= '<br>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-success">
+                                <span class="badge alert-success">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </span>No se encontraron reportes del RFC proporcionado.
+                            </li>
+                        </ul>';*/
+        }
+        $html .='</dl>';
+
+        $htmldef = '';      
+        if ($tienerep == true){
+            $htmldef = $html;
+        }
+        else{
+            $htmldef = $htmlsinreporte;
+        }
+
+        return  array('htmldef' => $htmldef, 'tienerep'=> $tienerep);
+    }
+    
+    
 }

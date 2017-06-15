@@ -11,9 +11,12 @@ use App\Bitacora;
 use Illuminate\Http\Request;
 use Sinergi\BrowserDetector\Browser;
 
+
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
 
     public function registroBitacora(Request $request, $fname='', $fmessage=''){
         $user = \Auth::user();

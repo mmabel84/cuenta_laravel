@@ -20,6 +20,9 @@
                  opacity: 0.6;
                  color:grey;
               }
+      .hidden{
+            visibility:hidden;
+            }
 
     </style>
 
@@ -37,11 +40,15 @@
 
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
 
-                  <span class="count_top"><b style=" color:#053666;">Gigas asignados</b></span>
+                  <span class="count_top"><b style=" color:#053666;">Gigas contratados</b></span>
                   <div class="count"><b style=" color:#053666;">{{ $gigas }}</b></div>
                 </div>
+                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                  <span class="count_top"><b style=" color:#053666;">Aplicaciones contratadas</b></span>
+                  <div class="count"><b style=" color:#053666;">{{ $apps }}</b></div>
+                </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">Empresas asignadas</b></span>
+                  <span class="count_top"><b style=" color:#053666;">Empresas contratadas</b></span>
                   <div class="count"><b style=" color:#053666;">{{ $rfc }}</b></div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -49,15 +56,11 @@
                   <div class="count"><b style=" color:#053666;">{{ $rfccreados }}</b></div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">Aplicaciones contratadas</b></span>
-                  <div class="count"><b style=" color:#053666;">{{ $apps }}</b></div>
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                   <span class="count_top"><b style=" color:#053666;">Usuarios creados</b></span>
                   <div class="count"><b style=" color:#053666;">{{ $usrs }}</b></div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">BD generadas</b></span>
+                  <span class="count_top"><b style=" color:#053666;">BD creadas</b></span>
                   <div class="count"><b style=" color:#053666;">{{ $bdapps }}</b></div>
                 </div>
                 
@@ -117,7 +120,7 @@
                       <div class="progress" >
                         <div class="progress-bar" data-transitiongoal="{{ $porc_final }}">{{ $porc_final }}%</div>
                       </div>
-                      <label style=" color:#191970">% de tiempo consumido vs fecha de fin 25/10/2017</label>
+                      <label style=" color:#191970">% de tiempo consumido vs fecha de fin {{ $fecha_fin }}</label>
 
                    </div>
 
@@ -125,7 +128,7 @@
                         <div class="progress" >
                           <div class="progress-bar" data-transitiongoal="{{ $porc_cad }}">{{ $porc_cad }}%</div>
                         </div>
-                        <label style=" color:#191970">% de tiempo consumido vs fecha de caducidad 20/10/2017</label>
+                        <label style=" color:#191970;">% de tiempo consumido vs fecha de caducidad {{ $fecha_caduc }}</label>
 
                     </div>
 
@@ -138,17 +141,42 @@
                             <h2>Consulta de Artículo 69-B</h2>
                             <div class="clearfix"></div>
                   </div>
-                 
-                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Ingrese RFC...">
-                        <span class="input-group-btn">
-                          <button type="button" class="btn btn-primary">Ir</button>
-                        </span>
 
-                     </div>
-                      <br>
-                      <label style="color:#D10E0E;">RFC marcado!</label>
-                      <label style="color:#189847;">RFC limpio!</label>
+                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69">
+                       <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc">
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" onclick="art69cons()">Consultar</button>
+                          </span>
+
+                       </div>
+                     <br>
+
+                     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="reporteart" id="reporteart">
+                      <meta name="csrf-token" content="{{ csrf_token() }}" />
+                
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                              <!--<span aria-hidden="true">&times;</span>-->
+                            </button>
+                          </div>
+
+                          <div class="modal-body" id="modalreporte">
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideModal()">Cerrar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      
+                      
+                      </div>
                  </div>
               </div>
 
@@ -186,26 +214,14 @@
                                           
                  </div>
               </div>
-
-
-
-
-                            
-                                    
+  
                 <div class="clearfix"></div>
                 <br>
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                     </div>
-                          
-
-                
-
 
                 <div class="clearfix"></div>
-
-
-
 
 
                   <div class="col-md-4 col-sm-4 col-xs-12">
@@ -244,11 +260,6 @@
               
 
             </div>
-
-
-
-
-            
 
 
 @endsection
@@ -309,6 +320,63 @@
                 }
             });
          }
+
+
+         function art69cons(){
+
+              $("#norep").remove();
+              var rfc = document.getElementById('rfc').value;
+              var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+              if (rfc != ''){
+
+                $.ajax({
+                  url: 'artconsult',
+                  type: 'POST',
+                  data: {_token: CSRF_TOKEN,rfc:rfc},
+                  dataType: 'JSON',
+                  success: function (data) {
+                    
+                    if (data['tienerep'] == false){
+                      $('#art69').append(data['reporte']);
+                      setTimeout(HideLabel, 5000);
+                      
+                    }
+                    else{
+                      $('#modalreporte').append(data['reporte']);
+                      document.getElementById('exampleModalLabel').innerHTML = "Reporte de rfc: "+ rfc;
+                      showModal();
+                    }
+                    
+
+                  },
+                  error: function(XMLHttpRequest, textStatus, errorThrown) {
+                      alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                      
+                  }
+              });
+
+
+              }
+
+         }
+
+         function HideLabel() {
+            document.getElementById('rfc').value = '';
+            document.getElementById('norep').style.display = "none";
+            
+          }
+
+          function showModal() {
+          $("#reporteart").modal('show');
+        }
+
+        function hideModal() {
+          document.getElementById('rfc').value = '';
+          $("#modalreporte").html("");
+          $('#exampleModalLabel').innerHTML = "";
+          $("#reporteart").modal('hide');
+        }
       </script>
 
       

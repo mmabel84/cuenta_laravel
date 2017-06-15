@@ -32,6 +32,7 @@ Route::post('/usuarios/permsbyroles', 'UsrController@permsbyroles');
 Route::post('/usuarios/{usrid}/permsbyroles', 'UsrController@permsbyroles');
 
 Route::post('/appbyemp', 'HomeController@appbyemp');
+Route::post('/artconsult', 'HomeController@auditar69b')->name('art');
 
 Auth::routes();
 
