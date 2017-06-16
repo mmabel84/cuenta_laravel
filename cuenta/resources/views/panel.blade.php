@@ -35,8 +35,43 @@
 
         <div class="">
 
+        <div class="top_tiles">
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                  
+                  <div class="count" style="color: #053666;">{{ $gigas }}
+                       <div class="icon"><i class="fa fa-pie-chart" style="color: #053666;"></i></div>
+                  </div>
+                 
+                  <p style="color: #053666;"><b>GIGAS CONTRATADOS</b></p>
+                </div>
+              </div>
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                  <div class="icon"><i class="fa fa-building-o" style="color: #053666;"></i></div>
+                  <div class="count" style="color: #053666;">{{ $rfc }}</div>
+                  <p style="color: #053666;"><b>EMPRESAS CONTRATADAS</b></p>
+                </div>
+              </div>
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
 
-            <div class=" tile_count">
+                  <div class="icon"><i class="fa fa-database" style="color: #053666;"></i></div>
+                  <div class="count" style="color: #053666;">{{ $bdapps }}</div>
+                  <p style="color: #053666;"><b>BASES DE DATOS CREADAS</b></p>
+                </div>
+              </div>
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                  <div class="icon"><i class="fa fa-group" style="color: #053666;"></i></div>
+                  <div class="count" style="color: #053666;">{{ $usrs }}</div>
+                   <p style="color: #053666;"><b>USUARIOS CREADOS</b></p>
+                </div>
+              </div>
+            </div>
+
+
+           <!-- <div class=" tile_count">
 
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
 
@@ -64,13 +99,13 @@
                   <div class="count"><b style=" color:#053666;">{{ $bdapps }}</b></div>
                 </div>
                 
-              </div>
+              </div>-->
 
 
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-9 col-sm-9 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                          <h2>Acceso a aplicaciones</h2>
+                          <h2>Aplicaciones</h2>
                           <div class="clearfix"></div>
                 </div>
 
@@ -84,7 +119,7 @@
                           </select>
                 </div>
                 <input type="hidden" id="iconsapp" name="iconsapp" value="{{ $appvisible }}">
-                <div class="col-md-9 col-sm-9 col-xs-12" id="diviscons">
+                <div class="col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:84px;">
    
                 <!--    <a href="#" data-toggle="tooltip" data-placement="right" title="PLD" id="pld"><i class="fa fa-money fa-3x" style="color:#053666;"></i></a>
                     &nbsp;
@@ -105,48 +140,24 @@
                 </div>
                  <div class="col-md-2 col-sm-2 col-xs-12">
                 </div>
+                 <br>
+                 <br>
+                 <br>
               </div>
              </div>
 
-              <div class="col-md-9 col-sm-9 col-xs-12">
-
-                <div class="x_panel">
-                  <div class="x_title">
-                      <h2>Análisis de tiempo de paquete contratado</h2>
-                      <div class="clearfix"></div>
-                  </div>
-                  <br>
-                  <div class="col-md-6">
-                      <div class="progress" >
-                        <div class="progress-bar" data-transitiongoal="{{ $porc_final }}">{{ $porc_final }}%</div>
-                      </div>
-                      <label style=" color:#191970">% de tiempo consumido vs fecha de fin {{ $fecha_fin }}</label>
-
-                   </div>
-
-                    <div class="col-md-6">
-                        <div class="progress" >
-                          <div class="progress-bar" data-transitiongoal="{{ $porc_cad }}">{{ $porc_cad }}%</div>
-                        </div>
-                        <label style=" color:#191970;">% de tiempo consumido vs fecha de caducidad {{ $fecha_caduc }}</label>
-
-                    </div>
-
-                </div>
-              </div>
-
-              <div class="col-md-3 col-sm-3 col-xs-12">
+             <div class="col-md-3 col-sm-3 col-xs-12" >
                 <div class="x_panel">
                 <div class="x_title">
                             <h2>Consulta de Artículo 69-B</h2>
                             <div class="clearfix"></div>
                   </div>
 
-                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69">
-                       <div class="input-group">
+                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:84px;">
+                       <div class="input-group" >
                           <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc">
                           <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary" onclick="art69cons()">Consultar</button>
+                            <button type="button" class="btn btn-primary" onclick="art69cons()" style="background-color: #053666">Consultar</button>
                           </span>
 
                        </div>
@@ -180,7 +191,122 @@
                  </div>
               </div>
 
-              <div class="col-md-12 col-sm-12 col-xs-12">
+              <!--<div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div class="x_panel">
+                  <div class="x_title">
+                      <h2>Análisis de tiempo de paquete contratado</h2>
+                      <div class="clearfix"></div>
+                  </div>
+                  <br>
+                  <div class="col-md-6">
+                      <div class="progress" >
+                        <div class="progress-bar" data-transitiongoal="{{ $porc_final }}">{{ $porc_final }}%</div>
+                      </div>
+                      <label style=" color:#191970">% de tiempo consumido vs fecha de fin {{ $fecha_fin }}</label>
+
+                   </div>
+
+                    <div class="col-md-6">
+                        <div class="progress" >
+                          <div class="progress-bar" data-transitiongoal="{{ $porc_cad }}">{{ $porc_cad }}%</div>
+                        </div>
+                        <label style=" color:#191970;">% de tiempo consumido vs fecha de caducidad {{ $fecha_caduc }}</label>
+
+                    </div>
+
+
+                </div>
+              </div>-->
+
+             
+                
+                <div class="clearfix"></div>
+                <br>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                    </div>
+
+                <div class="clearfix"></div>
+
+                <input type="hidden" name="gigascons" id="gigascons" value="{{ $gigas_cons }}" onchange="fillpiechart(this)" />
+                <input type="hidden" name="gigastotal" id="gigastotal" value="{{ $gigas }}"/>
+                <input type="hidden" name="gigasemp" id="gigasemp" value="{{ $gigas_empresa }}"/>
+                <input type="hidden" name="empcons" id="empcons" value="{{ $empr_cons }}"/>
+
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Gigas consumidos</h2>
+                        
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+
+                        <div id="echart_pie" style="height:350px;"></div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-4 col-sm-4 col-xs-12 hidden">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Gigas consumidos </h2>
+                         <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <div id="echart_bar_horizontal" style="height:350px;"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Gigas consumidos por empresa</h2>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <div id="graph_bar" style="height:350px;"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12" >
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Tiempo consumido por paquete</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="#">Settings 1</a>
+                              </li>
+                              <li><a href="#">Settings 2</a>
+                              </li>
+                            </ul>
+                          </li>
+                          <li><a class="close-link"><i class="fa fa-close"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+
+                        <div id="echart_mini_pie" style="height:350px;"></div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                 <div class="x_title">
                             <h2>Novedades y Promociones</h2>
@@ -214,45 +340,6 @@
                                           
                  </div>
               </div>
-  
-                <div class="clearfix"></div>
-                <br>
-
-                    <div class="col-md-4 col-sm-4 col-xs-12">
-                    </div>
-
-                <div class="clearfix"></div>
-
-
-                  <div class="col-md-4 col-sm-4 col-xs-12">
-                    <div class="x_panel">
-                      <div class="x_title">
-                        <h2>Gigas consumidos totales</h2>
-                        
-                        <div class="clearfix"></div>
-                      </div>
-                      <div class="x_content">
-
-                        <div id="echart_pie" style="height:350px;"></div>
-
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="col-md-8 col-sm-8 col-xs-12">
-                    <div class="x_panel">
-                      <div class="x_title">
-                        <h2>Gigas consumidos por empresa</h2>
-                         <div class="clearfix"></div>
-                      </div>
-                      <div class="x_content">
-
-                        <div id="echart_bar_horizontal" style="height:370px;"></div>
-
-                      </div>
-                    </div>
-                  </div>
 
        
                 <div class="clearfix"></div>
@@ -272,8 +359,11 @@
     <!-- Chart.js -->
       <script src="{{ asset('vendors/echarts/dist/echarts.js') }}"></script>
       <script src="{{ asset('vendors/Chart.js/dist/Chart.js') }}"></script>
-      <script src="{{ asset('/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.js') }}"></script>
-      <script src="{{ asset('/vendors/gauge.js/dist/gauge.js') }}"></script>
+      <script src="{{ asset('vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.js') }}"></script>
+      <script src="{{ asset('vendors/gauge.js/dist/gauge.js') }}"></script>
+      <script src="{{ asset('vendors/raphael/raphael.min.js') }}"></script>
+      <script src="{{ asset('vendors/morris.js/morris.min.js') }}"></script>
+
       
       <script src="{{ asset('build/js/custom.js') }}"></script>
       <script type="text/javascript">
@@ -377,6 +467,524 @@
           $('#exampleModalLabel').innerHTML = "";
           $("#reporteart").modal('hide');
         }
+      </script>
+
+      <script type="text/javascript">
+
+      $('#gigascons').trigger('change');
+        function fillpiechart(gigascons) {
+          var gig_cons = gigascons.value;
+          var gig_disp = document.getElementById('gigastotal').value - gig_cons;
+          var gig_emp = document.getElementById('gigasemp').value;
+          var emp_cons = document.getElementById('empcons').value;
+          
+          var arraybar = [];
+
+           for (var i = 0; i < jQuery.parseJSON(gig_emp).length; i++) {
+            var dic = {'empresa': jQuery.parseJSON(emp_cons)[i], 'gigas':jQuery.parseJSON(gig_emp)[i]};
+             arraybar.push(dic);
+             //arraybar[i] = arraybar[i].replace(/"/g, "");
+             
+           }
+           //var newarraybar = '[' + arraybar.join(', ') + ']';
+
+
+            //{empresa: 'iPhone 4', gigas: 500},
+             
+            console.log(arraybar);
+
+
+
+          //alert(gig_emp);
+          
+          //alert(gig_cons);
+          var theme = {
+              color: [
+                '#26B99A', '#34495E', '#BDC3C7', '#3498DB',
+                '#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
+              ],
+
+              title: {
+                itemGap: 8,
+                textStyle: {
+                  fontWeight: 'normal',
+                  color: '#408829'
+                }
+              },
+
+              dataRange: {
+                color: ['#1f610a', '#97b58d']
+              },
+
+              toolbox: {
+                color: ['#408829', '#408829', '#408829', '#408829']
+              },
+
+              tooltip: {
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                axisPointer: {
+                  type: 'line',
+                  lineStyle: {
+                    color: '#408829',
+                    type: 'dashed'
+                  },
+                  crossStyle: {
+                    color: '#408829'
+                  },
+                  shadowStyle: {
+                    color: 'rgba(200,200,200,0.3)'
+                  }
+                }
+              },
+
+              dataZoom: {
+                dataBackgroundColor: '#eee',
+                fillerColor: 'rgba(64,136,41,0.2)',
+                handleColor: '#408829'
+              },
+              grid: {
+                borderWidth: 0
+              },
+
+              categoryAxis: {
+                axisLine: {
+                  lineStyle: {
+                    color: '#408829'
+                  }
+                },
+                splitLine: {
+                  lineStyle: {
+                    color: ['#eee']
+                  }
+                }
+              },
+
+              valueAxis: {
+                axisLine: {
+                  lineStyle: {
+                    color: '#408829'
+                  }
+                },
+                splitArea: {
+                  show: true,
+                  areaStyle: {
+                    color: ['rgba(250,250,250,0.1)', 'rgba(200,200,200,0.1)']
+                  }
+                },
+                splitLine: {
+                  lineStyle: {
+                    color: ['#eee']
+                  }
+                }
+              },
+              timeline: {
+                lineStyle: {
+                  color: '#408829'
+                },
+                controlStyle: {
+                  normal: {color: '#408829'},
+                  emphasis: {color: '#408829'}
+                }
+              },
+
+              k: {
+                itemStyle: {
+                  normal: {
+                    color: '#68a54a',
+                    color0: '#a9cba2',
+                    lineStyle: {
+                      width: 1,
+                      color: '#408829',
+                      color0: '#86b379'
+                    }
+                  }
+                }
+              },
+              map: {
+                itemStyle: {
+                  normal: {
+                    areaStyle: {
+                      color: '#ddd'
+                    },
+                    label: {
+                      textStyle: {
+                        color: '#c12e34'
+                      }
+                    }
+                  },
+                  emphasis: {
+                    areaStyle: {
+                      color: '#99d2dd'
+                    },
+                    label: {
+                      textStyle: {
+                        color: '#c12e34'
+                      }
+                    }
+                  }
+                }
+              },
+              force: {
+                itemStyle: {
+                  normal: {
+                    linkStyle: {
+                      strokeColor: '#408829'
+                    }
+                  }
+                }
+              },
+              chord: {
+                padding: 4,
+                itemStyle: {
+                  normal: {
+                    lineStyle: {
+                      width: 1,
+                      color: 'rgba(128, 128, 128, 0.5)'
+                    },
+                    chordStyle: {
+                      lineStyle: {
+                        width: 1,
+                        color: 'rgba(128, 128, 128, 0.5)'
+                      }
+                    }
+                  },
+                  emphasis: {
+                    lineStyle: {
+                      width: 1,
+                      color: 'rgba(128, 128, 128, 0.5)'
+                    },
+                    chordStyle: {
+                      lineStyle: {
+                        width: 1,
+                        color: 'rgba(128, 128, 128, 0.5)'
+                      }
+                    }
+                  }
+                }
+              },
+              
+              textStyle: {
+                fontFamily: 'Arial, Verdana, sans-serif'
+              }
+            };
+
+
+          if ($('#echart_pie').length ){  
+        
+            var echartPie = echarts.init(document.getElementById('echart_pie'), theme);
+
+            var dataStyle = {
+            normal: {
+              color: 'rgba(0,128,128,1.0)',
+              label: {
+              show: true
+              },
+              labelLine: {
+              show: false
+              }
+            }
+            };
+
+            var dataStyle1 = {
+            normal: {
+              color: 'rgba(5, 54, 102, 1)',
+              label: {
+              show: true
+              },
+              labelLine: {
+              show: false
+              }
+            }
+            };
+
+            echartPie.setOption({
+            title: {
+              text: '',
+              subtext: '',
+              sublink: 'http://e.weibo.com/1341556070/AhQXtjbqh',
+              x: 'center',
+              y: 'center',
+              itemGap: 20,
+              textStyle: {
+              color: 'rgba(30,144,255,0)',
+              fontFamily: '',
+              fontSize: 35,
+              fontWeight: 'bolder'
+              }
+            },
+            tooltip: {
+              trigger: 'item',
+              formatter: "{a} <br/>{b} : {c}"
+            },
+            /*legend: {
+              x: 'center',
+              y: 'bottom',
+              data: ['Disponibles', 'Consumidos']
+            },*/
+            toolbox: {
+              show: true,
+              feature: {
+              
+              restore: {
+                show: true,
+                title: "Restore"
+              },
+              saveAsImage: {
+                show: true,
+                title: "Save Image"
+              }
+              }
+            },
+            calculable: true,
+            series: [{
+              name: 'Gigas',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '48%'],
+              data: [{
+              value: gig_cons,
+              name: 'Consumidos',
+              itemStyle: dataStyle1,
+              }, {
+              value: gig_disp,
+              name: 'Disponibles',
+              itemStyle: dataStyle,
+              }]
+            }]
+            });
+
+            if ($('#echart_bar_horizontal').length ){ 
+
+        
+              var echartBar = echarts.init(document.getElementById('echart_bar_horizontal'), theme);
+
+              var dataStyle = {
+              normal: {
+                color: 'rgba(121, 13, 78,0.7)',
+                label: {
+                show: false
+                },
+                labelLine: {
+                show: false
+                }
+              }
+              };
+
+              
+              echartBar.setOption({
+              title: {
+                text: '',
+                subtext: ''
+              },
+              tooltip: {
+                trigger: 'axis'
+              },
+              legend: {
+                x: 'center',
+                y: 'top',
+                data: jQuery.parseJSON(emp_cons) 
+              },
+              toolbox: {
+                show: true,
+                feature: {
+                saveAsImage: {
+                  show: true,
+                  title: "Save Image"
+                }
+                }
+              },
+              calculable: true,
+              xAxis: [{
+                type: 'value',
+                boundaryGap: [0, 0.10]
+              }],
+              yAxis: [{
+                type: 'category',
+                data: jQuery.parseJSON(emp_cons)
+              }],
+              series: [{
+                name: 'Gigas consumidos',
+                type: 'bar',
+                data: jQuery.parseJSON(gig_emp),
+                itemStyle: dataStyle
+              }]
+              });
+
+              if ($('#graph_bar').length){ 
+      
+              /*data: [
+                  {device: 'iPhone 4', geekbench: 380},
+                  {device: 'iPhone 4S', geekbench: 655},
+                  {device: 'iPhone 3GS', geekbench: 275}
+                  ],*/
+
+
+              Morris.Bar({
+                element: 'graph_bar',
+                data: arraybar,
+                xkey: 'empresa',
+                ykeys: ['gigas'],
+                labels: ['Cantidad de gigas'],
+                barRatio: 0.4,
+                barColors: ['#053666', '#053666', '#053666', '#053666'],
+                xLabelAngle: 35,
+                hideHover: 'auto',
+                resize: true
+              });
+              0,128,128,1.0
+
+      } 
+      } 
+
+            
+
+            var placeHolderStyle = {
+            normal: {
+              color: 'rgba(0,0,0,0)',
+              label: {
+              show: false
+              },
+              labelLine: {
+              show: false
+              }
+            },
+            emphasis: {
+              color: 'rgba(0,0,0,0)'
+            }
+            };
+
+
+
+            if ($('#echart_mini_pie').length ){ 
+        
+        var echartMiniPie = echarts.init(document.getElementById('echart_mini_pie'), theme);
+
+        var dataStylee = {
+        normal: {
+          color: 'rgba(0,128,128,1.0)',
+          label: {
+          show: false
+          },
+          labelLine: {
+          show: false
+          }
+        }
+        };
+
+        var dataStylee1 = {
+        normal: {
+           color: 'rgba(0,128,128,0.6)',
+          label: {
+          show: false
+          },
+          labelLine: {
+          show: false
+          }
+        }
+        };
+
+        var placeHolderStylee = {
+        normal: {
+          color: 'rgba(0,0,0,0)',
+          label: {
+          show: false
+          },
+          labelLine: {
+          show: false
+          }
+        },
+        emphasis: {
+          color: 'rgba(192,192,192,192)'
+        }
+        };
+
+        echartMiniPie .setOption({
+        title: {
+          text: '',
+          subtext: '',
+          sublink: 'http://e.weibo.com/1341556070/AhQXtjbqh',
+          x: 'center',
+          y: 'center',
+          itemGap: 20,
+          textStyle: {
+          color: 'rgba(30,144,255,0.8)',
+          fontFamily: '微软雅黑',
+          fontSize: 35,
+          fontWeight: 'bolder'
+          }
+        },
+        tooltip: {
+          show: true,
+          formatter: "{a} <br/>{b} : {c}"
+        },
+        legend: {
+          orient: 'vertical',
+          x: 170,
+          y: 45,
+          itemGap: 12,
+          data: ['Semanas', 'Días'],
+        },
+        toolbox: {
+          show: true,
+          feature: {
+          mark: {
+            show: true
+          },
+          dataView: {
+            show: true,
+            title: "Vista de tabla",
+            lang: [
+            "Vista de tabla",
+            "Cerrar",
+            "Refrescar",
+            ],
+            readOnly: false
+          },
+          restore: {
+            show: true,
+            title: "Restore"
+          },
+          saveAsImage: {
+            show: true,
+            title: "Save Image"
+          }
+          }
+        },
+        series: [{
+          name: 'Semanas',
+          type: 'pie',
+          clockWise: false,
+          radius: [105, 130],
+          itemStyle: dataStylee,
+          data: [{
+          value: 5,
+          name: 'Consumido'
+          }, {
+          value: 10,
+          name: 'Disponible',
+          itemStyle: placeHolderStylee
+          }]
+        }, {
+          name: 'Días',
+          type: 'pie',
+          clockWise: false,
+          radius: [80, 105],
+          itemStyle: dataStylee1,
+          data: [{
+          value: 35,
+          name: 'Consumido'
+          }, {
+          value: 70,
+          name: 'Disponible',
+          itemStyle: placeHolderStylee
+          }]
+        }]
+        });
+
+      } 
+
+          } 
+            }
       </script>
 
       

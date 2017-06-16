@@ -38,22 +38,22 @@ class HomeController extends Controller
         $bdapps = BasedatosApp::all();
 
 
-        $appsicons = array ('pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='PLD' id='pld' class='disabled'><i class='fa fa-money fa-3x' style='color:#053666;'></i></a>
+        $appsicons = array ('pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='PLD' id='pld' class='disabled'><i class='fa fa-money fa-3x' style='color:#790D4E;'></i></a>
                     &nbsp;
                     &nbsp;",
-                    'cont'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Contabilidad' id='cont' class='disabled'><i class='fa fa-bank fa-3x' style='color:#053666;'></i></a>
+                    'cont'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Contabilidad' id='cont' class='disabled'><i class='fa fa-bank fa-3x' style='color:#790D4E;'></i></a>
                     &nbsp;
                     &nbsp;",
-                    'bov'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Bóveda' id='bov' class='disabled'><i class='fa fa-archive fa-3x' style='color:#053666;'></i></a>
+                    'bov'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Bóveda' id='bov' class='disabled'><i class='fa fa-archive fa-3x' style='color:#790D4E;'></i></a>
                     &nbsp;
                     &nbsp;",
-                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Notaría' id='not' class='disabled'><i class='fa fa-briefcase fa-3x' style='color:#053666;'></i></a>
+                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Notaría' id='not' class='disabled'><i class='fa fa-briefcase fa-3x' style='color:#790D4E;'></i></a>
                     &nbsp;
                     &nbsp;",
-                    'cc'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Control de calidad' id='cc' class='disabled'><i class='fa fa-tasks fa-3x' style='color:#053666;'></i></a>
+                    'cc'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Control de calidad' id='cc' class='disabled'><i class='fa fa-tasks fa-3x' style='color:#790D4E;'></i></a>
                     &nbsp;
                     &nbsp;",
-                    'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Nómina' id='nom' class='disabled'><i class='fa fa-table fa-3x' style='color:#053666;'></i></a>");
+                    'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Nómina' id='nom' class='disabled'><i class='fa fa-table fa-3x' style='color:#790D4E;'></i></a>");
 
         $allkeys = array_keys($appsicons);
         
@@ -104,8 +104,37 @@ class HomeController extends Controller
         $dias_transc_cad = strtotime($fecha_caduc) - $fecha_actual;
 
         $porc_cad = round($dias_transc_cad / $dias_total_cad * 100, 0);
+
+        $cant_gigas_cons = 0;
+        $dict_empr_gig = array();
         
-        return view('panel',['emps'=>$emps,'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'porc_cad'=>$porc_cad,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc]);
+
+        
+        foreach ($bdapps as $a) {
+            if ($a->bdapp_gigcons != null){
+
+                $cant_gigas_cons+=$a->bdapp_gigcons;
+
+                if (array_key_exists($a->empresa->empr_nom, $dict_empr_gig)){
+                    $dict_empr_gig[$a->empresa->empr_nom] += $a->bdapp_gigcons;
+                } else{
+                    $dict_empr_gig[$a->empresa->empr_nom] =  $a->bdapp_gigcons;
+                    
+                }
+
+            }
+            $empr_cons = array_keys($dict_empr_gig);
+            $gigas_cons_emp = array_values($dict_empr_gig);
+
+
+        }
+
+
+        
+
+
+        
+        return view('panel',['emps'=>$emps,'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'porc_cad'=>$porc_cad,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons)]);
 
                 
     }
@@ -285,7 +314,7 @@ class HomeController extends Controller
 
             $htmlsinreporte = '
                               <div>
-                                <label style="color:#189847;" id="norep">No se encontraron reportes</label>
+                                <label style="color: #3DB1A5" id="norep">No se encontraron reportes</label>
                               </div>';
             
             /*$html .= '<br>
