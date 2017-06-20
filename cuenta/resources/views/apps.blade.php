@@ -30,7 +30,8 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <a href="{{ URL::to('apps/create') }}"><i class="fa fa-edit right"></i> <b>Generar nueva base de datos de aplicación</b></a>
+		                 
+		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#053666; ">Nueva aplicación</button>
 		                  </div>
 
 		                  <br/>
@@ -46,11 +47,10 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr>
+		                        <tr style="color:#FFFFFF; background-color:#053666; ">
 		                          <th>Aplicación</th>
 		                          <th>Empresa</th>
-		                          <th>Nombre de base de datos</th>
-		                          <th>Nombre de servidor</th>
+		                          <th>RFC empresa</th>
 		                          <th>Acciones</th>
 		                          
 		                        </tr>
@@ -60,21 +60,21 @@
 		                      <tbody>
 		                      @foreach ($apps as $a)
 		                        <tr>
-		                          <td>{{$a->bdapp_app}}</td>
+		                          <td>{{$a->aplicacion->app_nom}}</td>
 		                          <td>{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
-		                          <td>{{$a->bdapp_nombd}}</td>
-		                          <td>{{$a->bdapp_nomserv}}</td>
+		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 
-		                          <td class=" last" width="12.5%">
+
+		                          <td class=" last" width="18%">
 		                          	
 		                          	
 			                          <div class="btn-group">
 			                          	<div class="btn-group">
-		                          			<button onclick="location.href = 'apps/{{$a->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#790D4E"><i class="fa fa-edit fa-2x"></i> </button>
+		                          			<button onclick="location.href = 'apps/{{$a->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-edit fa-3x"></i> </button>
 			                          	</div>
 
 										<div class="btn-group">
-		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#790D4E"><i class="fa fa-plus-square fa-2x"></i> </button>
+		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-user fa-3x"></i> </button>
 
 		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="{{$a->id}}">
 		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -86,7 +86,7 @@
 								                          <button type="button" class="close" data-dismiss="modal">
 								                          </button>
 								                          <h4 class="modal-title" id="myModalLabel"></h4>
-								                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación: {{$a->bdapp_nombd}}</label>
+								                          <label class="control-label col-md-6 col-sm-6 col-xs-12">{{$a->aplicacion->app_nom}} de  {{$a->empresa->empr_nom}}</label>
 								                        </div>
 								                        <div class="modal-body">
 			                        						
@@ -146,13 +146,13 @@
 			                          	</div>
 
 			                          	<div class="btn-group">
-		                          			<button onclick="#" class="btn btn-xs" data-placement="left" title="Ejecutar respaldo" style=" color:#790D4E"><i class="fa fa-gears fa-2x"></i> </button>
+		                          			<button onclick="#" class="btn btn-xs" data-placement="left" title="Ver bitácora" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-eye fa-3x"></i> </button>
 			                          	</div>
 
 			                          		
 			                          		{{ Form::open(['route' => ['apps.destroy', $a->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
-		                      				<button  href="{{ route('empresas.destroy', $a->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x" onclick="return confirm('Al realizar esta acción se eliminará la base de datos de aplicación correspondiente con todos sus datos, así como los backups guardados en el sistema de dicha base de datos. ¿Está seguro que quiere eliminar este registro?')"></i></button>
+		                      				<button  href="{{ route('empresas.destroy', $a->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-trash fa-3x" onclick="return confirm('Al realizar esta acción se eliminará la base de datos de aplicación correspondiente con todos sus datos, así como los backups guardados en el sistema de dicha base de datos. ¿Está seguro que quiere eliminar este registro?')"></i></button>
 											{{ Form::close() }}
 
 			                          	</div>

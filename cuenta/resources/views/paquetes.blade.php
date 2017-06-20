@@ -35,7 +35,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr>
+		                        <tr style="color:#FFFFFF; background-color:#053666; ">
 		                          <th>Aplicación</th>
 		                          <th>Cantidad de RFC</th>
 		                          <th>Cantidad de Gigas</th>

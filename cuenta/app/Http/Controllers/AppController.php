@@ -60,10 +60,12 @@ class AppController extends Controller
     	$empresa = Empresa::find($request->bdapp_empr_id);
         $app = Aplicacion::find($request->bdapp_app_id);
 
+
     	$appbd->bdapp_app_id = $request->bdapp_app_id;
         $appbd->bdapp_app = $app->app_cod;
     	$appbd->bdapp_empr_id = $request->bdapp_empr_id;
-    	$appbd->bdapp_nomserv = $request->bdapp_nomserv;
+        //llamar archivo de configuracion para seleccionar base de datos
+    	$appbd->bdapp_nomserv = 'Test';
     	$appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;
     	$appbd->save();
 
@@ -106,15 +108,19 @@ class AppController extends Controller
     public function update(Request $request, $id)
     {
         $appu = BasedatosApp::find($id);
-        $app = Aplicacion::find($request->bdapp_app_id);
-        $appu->bdapp_app_id = $request->bdapp_app_id;
-        $appu->bdapp_app = $app->app_nom;
-        $appu->bdapp_nomserv = $request->bdapp_nomserv;
+        $app = Aplicacion::where('app_cod', '=', $request->bdapp_app)->get();
+
+
+
+        $appu->bdapp_app_id =  $app[0]->id;
+        $appu->bdapp_app = $app[0]->app_cod;
+        //llamar archivo de configuracion para seleccionar base de datos
+        $appu->bdapp_nomserv = 'Test';
         $appu->bdapp_empr_id = $request->bdapp_empr_id;
-        $appu->bdapp_nombd = $request->bdapp_nombd;
+        
         
         $appu->save();
-        $fmessage = 'Se ha actualizado la base de datos de aplicación: '.$request->bdapp_nombd;
+        $fmessage = 'Se ha actualizado la aplicación: '.$app[0]->app_nom.', de la empresa: '.$appu->empresa->empr_nom;
         $this->registroBitacora($request,'update',$fmessage); 
         \Session::flash('message',$fmessage);
         return Redirect::to('apps');
@@ -139,7 +145,7 @@ class AppController extends Controller
 
             if ($exist == True)
             {
-                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación del usuario ".$usrp->name." con base de datos ".$bdp->bdapp_nombd."</label>");
+                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación con el usuario ".$usrp->name."</label>");
             }
             else
             {

@@ -27,7 +27,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <a href="{{ URL::to('usuarios/create') }}"><i class="fa fa-edit right"></i> <b>Crear nuevo usuario</b></a>
+		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#053666; ">Nuevo usuario</button>
 		                  </div>
 
 		                  <br/>
@@ -55,7 +55,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr>
+		                        <tr style="color:#FFFFFF; background-color:#053666; ">
 		                          <th>Nombre</th>
 		                          <th>Usuario</th>
 		                          <th>Correo</th>
@@ -75,16 +75,16 @@
 		                          <td>{{$u->email}}</td>
 		                          <td>{{$u->users_tel}}</td>
 		                          <td>{{$u->users_f_ultacces}}</td>
-		                          <td class=" last" width="12%">
+		                          <td class=" last" width="18%">
 		                          	
 			                          <div class="btn-group">
 			                          	<div class="btn-group">
-		                          			<button onclick="location.href = 'usuarios/{{$u->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#790D4E"><i class="fa fa-edit fa-2x"></i> </button>
+		                          			<button onclick="location.href = 'usuarios/{{$u->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-edit fa-3x"></i> </button>
 			                          	</div>
 
 										<div class="btn-group">
 
-		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$u->id}}" class="btn btn-xs" data-placement="left" title="Agregar a base de datos de aplicación" style=" color:#790D4E"><i class="fa fa-database fa-2x"></i> </button>
+		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$u->id}}" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-database fa-3x"></i> </button>
 
 		                          				
 		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="{{$u->id}}">
@@ -96,7 +96,6 @@
 								                      <div class="modal-header">
 	                                                      <h5 class="modal-title" id="exampleModalLabel">Usuario: {{$u->name}}</h5>
 	                                                      <button type="button" class="close" data-dismiss="modal">
-	                                                        <span aria-hidden="true">&times;</span>
 	                                                      </button>
                                                     	</div>
 
@@ -164,7 +163,7 @@
 			                          	<div class="btn-group">
                                               
 
-                                                <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#790D4E" onclick="showModal({{$u->id}})"><i class="fa fa-key fa-2x"></i> </button>
+                                                <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#053666; background-color:#FFFFFF; " onclick="showModal({{$u->id}})"><i class="fa fa-key fa-3x"></i> </button>
 
 
                                               <div class="modal fade" id="passmodal{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -199,7 +198,7 @@
 
 			                          		{{ Form::open(['route' => ['usuarios.destroy', $u->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
-		                      				<button  href="{{ route('usuarios.destroy', $u->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E" onclick="return confirm('El usuario también será eliminado de todas las bases de datos de aplicación a las que esté asociado. ¿Está seguro que quiere eliminar este registro?')"><i class="fa fa-trash fa-2x"></i></button>
+		                      				<button  href="{{ route('usuarios.destroy', $u->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#053666; background-color:#FFFFFF; " onclick="return confirm('El usuario también será eliminado de todas las bases de datos de aplicación a las que esté asociado. ¿Está seguro que quiere eliminar este registro?')"><i class="fa fa-trash fa-3x"></i></button>
 											{{ Form::close() }}
 
 			                          	</div>

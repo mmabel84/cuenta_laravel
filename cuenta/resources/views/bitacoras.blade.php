@@ -33,7 +33,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr>
+		                        <tr style="color:#FFFFFF; background-color:#053666; ">
 		                          <th>Fecha</th>
 		                          <th>Operación</th>
 		                          <th>IP</th>

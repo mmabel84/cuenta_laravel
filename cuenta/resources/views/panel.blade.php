@@ -12,6 +12,7 @@
     <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
 
     <style type="text/css">
       .disabled {
@@ -109,15 +110,17 @@
                           <div class="clearfix"></div>
                 </div>
 
-                <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                   
-                  <select class="select2_single form-control col-md-6 col-xs-12" name="select_empresa" id="select_empresa" onchange="onSelectEmpresa(this)">
-                            <option value="null">Seleccione una empresa ...</option>
-                            @foreach($emps as $emp)
-                            <option value="{{ $emp->id }}">{{ $emp->empr_nom }}</option>
-                            @endforeach
-                          </select>
+                  <select class="js-example-data-array form-control col-md-6 col-xs-12" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" >
+                      <option value="null">Seleccione una empresa ...</option>
+                           
+                    </select>
+
                 </div>
+                <br>
+                <br>
+                <br>
                 <input type="hidden" id="iconsapp" name="iconsapp" value="{{ $appvisible }}">
                 <div class="col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:84px;">
    
@@ -150,10 +153,11 @@
                 <div class="x_panel">
                 <div class="x_title">
                             <h2>Consulta de Artículo 69-B</h2>
+                            <p>Actualizado a 23/09/2017</p>
                             <div class="clearfix"></div>
                   </div>
 
-                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:84px;">
+                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:110px;">
                        <div class="input-group" >
                           <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc">
                           <span class="input-group-btn">
@@ -233,6 +237,63 @@
                 <input type="hidden" name="gigastotal" id="gigastotal" value="{{ $gigas }}"/>
                 <input type="hidden" name="gigasemp" id="gigasemp" value="{{ $gigas_empresa }}"/>
                 <input type="hidden" name="empcons" id="empcons" value="{{ $empr_cons }}"/>
+                <input type="hidden" name="emps" id="emps" value="{{ $emps }}"/>
+
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                  <div class="x_title">
+                              <h2>Novedades y Promociones</h2>
+                              <div class="clearfix"></div>
+                   </div>
+
+                   <div class="x_content">
+                      <article class="media event">
+                        <a class="pull-left date" >
+                          <p class="month" style="color: #053666"><b>Abril</b></p>
+                          <p class="day" style="color: #053666">23</p>
+                        </a>
+                        <div class="media-body">
+                          <a class="title" href="#" style="color: #053666">Actualización de bóveda.</a>
+                          <p>Mejoras a sistema de bóveda para relacionar CFDI...</p>
+                        </div>
+                      </article>
+                      <article class="media event" >
+                        <a class="pull-left date" >
+                          <p class="month" style="color: #053666"><b>Junio</b></p>
+                          <p class="day" style="color: #053666">30</p>
+                        </a>
+                        <div class="media-body">
+                          <a class="title" href="#" style="color: #053666">Lanzamiento de nueva suite contable.</a>
+                          <p>Nuevo producto para contabilidad y facturación electrónica...</p>
+                        </div>
+                      </article>
+                      <article class="media event" >
+                        <a class="pull-left date" >
+                          <p class="month" style="color: #053666"><b>Dic</b></p>
+                          <p class="day" style="color: #053666">30</p>
+                        </a>
+                        <div class="media-body">
+                          <a class="title" href="#" style="color: #053666">Actualización de PLD.</a>
+                          <p>Nueva actualización de PLD con mejoras...</p>
+                        </div>
+                      </article>
+                      <article class="media event" >
+                        <a class="pull-left date" >
+                          <p class="month" style="color: #053666"><b>Dic</b></p>
+                          <p class="day" style="color: #053666">25</p>
+                        </a>
+                        <div class="media-body">
+                          <a class="title" href="#" style="color: #053666">Cambios del SAT.</a>
+                          <p>Nuevas actualizaciones del SAT...</p>
+                        </div>
+                      </article>
+                      
+                    </div>
+   
+                                            
+                   </div>
+              </div>
 
 
                   <div class="col-md-4 col-sm-4 col-xs-12">
@@ -306,40 +367,7 @@
 
 
 
-                  <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                <div class="x_title">
-                            <h2>Novedades y Promociones</h2>
-                            <div class="clearfix"></div>
-                 </div>
-
-                 <div class="x_content">
-                    <article class="media event">
-                      <a class="pull-left date" >
-                        <p class="month" style="color: #053666"><b>Abril</b></p>
-                        <p class="day" style="color: #053666">23</p>
-                      </a>
-                      <div class="media-body">
-                        <a class="title" href="#" style="color: #053666">Actualización de bóveda.</a>
-                        <p>Mejoras a sistema de bóveda para relacionar CFDI...</p>
-                      </div>
-                    </article>
-                    <article class="media event" >
-                      <a class="pull-left date" >
-                        <p class="month" style="color: #053666"><b>Junio</b></p>
-                        <p class="day" style="color: #053666">30</p>
-                      </a>
-                      <div class="media-body">
-                        <a class="title" href="#" style="color: #053666">Lanzamiento de nueva suite contable.</a>
-                        <p>Nuevo producto para contabilidad y facturación electrónica...</p>
-                      </div>
-                    </article>
-                    
-                  </div>
- 
-                                          
-                 </div>
-              </div>
+                  
 
        
                 <div class="clearfix"></div>
@@ -363,9 +391,50 @@
       <script src="{{ asset('vendors/gauge.js/dist/gauge.js') }}"></script>
       <script src="{{ asset('vendors/raphael/raphael.min.js') }}"></script>
       <script src="{{ asset('vendors/morris.js/morris.min.js') }}"></script>
-
+      <script src="{{ asset('vendors/select2/dist/js/select2.min.js') }}"></script>
       
       <script src="{{ asset('build/js/custom.js') }}"></script>
+
+
+
+      <script type="text/javascript">
+          
+
+          var dataempr = [];
+          var empresas =jQuery.parseJSON(document.getElementById('emps').value);
+          
+          console.log(empresas.length);
+
+          if (empresas.length > 0) {
+            for (var i = 0; i < empresas.length; i++) {
+              var dic = {'id': empresas[i].id, 'text': empresas[i].empr_nom};
+              dataempr.push(dic);
+            }
+
+            $("#select_emp").select2({
+                  data: dataempr,
+                  allowClear: true
+                   
+               });
+
+               $("#select_emp_i").select2({
+                  data: dataempr,
+                  allowClear: true,
+                  placeholder: 'Seleccione una empresa'
+                   
+               });             
+          }
+
+           
+
+          
+
+        </script>
+
+
+
+      
+
       <script type="text/javascript">
         
   
@@ -689,7 +758,7 @@
             normal: {
               color: 'rgba(5, 54, 102, 1)',
               label: {
-              show: true
+              show: false
               },
               labelLine: {
               show: false

@@ -38,22 +38,25 @@ class HomeController extends Controller
         $bdapps = BasedatosApp::all();
 
 
-        $appsicons = array ('pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='PLD' id='pld' class='disabled'><i class='fa fa-money fa-3x' style='color:#790D4E;'></i></a>
-                    &nbsp;
-                    &nbsp;",
-                    'cont'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Contabilidad' id='cont' class='disabled'><i class='fa fa-bank fa-3x' style='color:#790D4E;'></i></a>
-                    &nbsp;
-                    &nbsp;",
-                    'bov'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Bóveda' id='bov' class='disabled'><i class='fa fa-archive fa-3x' style='color:#790D4E;'></i></a>
-                    &nbsp;
-                    &nbsp;",
-                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Notaría' id='not' class='disabled'><i class='fa fa-briefcase fa-3x' style='color:#790D4E;'></i></a>
-                    &nbsp;
-                    &nbsp;",
-                    'cc'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Control de calidad' id='cc' class='disabled'><i class='fa fa-tasks fa-3x' style='color:#790D4E;'></i></a>
-                    &nbsp;
-                    &nbsp;",
-                    'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='Nómina' id='nom' class='disabled'><i class='fa fa-table fa-3x' style='color:#790D4E;'></i></a>");
+        $appsicons = array ('pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='PLD' id='pld' class='disabled'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+            <b>PLD</b></span></i></a>
+                   ",
+                    'cont'=>"
+                    <a href='#' data-toggle='tooltip' data-placement='top' id='cont' class='disabled'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>CONTAB</b></span></i></a>
+           
+                     ",
+                    'bov'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='bov' class='disabled'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>BÓVEDA</b></span></i></a>
+                    ",
+                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>NOTARÍA</b></span></i></a>
+                   ",
+                    'cc'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='cc' class='disabled'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>CALIDAD</b></span></i></a>
+                    ",
+                    'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>NÓMINA</b></span></i></a>");
 
         $allkeys = array_keys($appsicons);
         
@@ -83,6 +86,7 @@ class HomeController extends Controller
         foreach ($paquetes as $p) {
             $cantgigas = $cantgigas + $p->paqapp_cantgig;
             $cantrfc = $cantrfc + $p->paqapp_cantrfc;
+
             if ($fecha_act > $p->paqapp_f_act){
                  $fecha_act = $p->paqapp_f_act;
             }
@@ -134,7 +138,7 @@ class HomeController extends Controller
 
 
         
-        return view('panel',['emps'=>$emps,'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'porc_cad'=>$porc_cad,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons)]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'porc_cad'=>$porc_cad,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons)]);
 
                 
     }

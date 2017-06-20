@@ -29,7 +29,7 @@
 		                  </div>
 
 		                  <div class="form-group">
-		                  <a href="{{ URL::to('permisos/create') }}"><i class="fa fa-edit right"></i> <b>Crear nuevo permiso</b></a>
+		                  <button type="button" onclick="location.href = '{{ URL::to('permisos/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#053666; ">Nuevo permiso</button>
 		                  </div>
 		                  
 		                  
@@ -46,7 +46,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr>
+		                        <tr style="color:#FFFFFF; background-color:#053666; ">
 		                          <th>Nombre</th>
 		                          <th>Código</th>
 		                          <th>Descripción</th>

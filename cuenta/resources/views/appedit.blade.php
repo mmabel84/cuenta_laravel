@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación</label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="select2_single form-control" tabindex="-1" name="bdapp_app">
+                            <select class="select2_single form-control" tabindex="-1" id= "bdapp_app" name="bdapp_app">
                               <option></option>
                               <option value="cont" {{$app->bdapp_app == 'cont' ? 'selected':''}}>Contabilidad</option>
                               <option value="bov" {{$app->bdapp_app == 'bov' ? 'selected':''}}>Bóveda</option>
@@ -69,7 +69,7 @@
 	                          </div>
 	                        </div>
 
-	                      <div class="form-group">
+	                      <!--<div class="form-group">
 	                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de servidor <span class="required">*</span>
 	                        </label>
 	                        <div class="col-md-6 col-sm-6 col-xs-12">
@@ -83,7 +83,7 @@
 	                        <div class="col-md-6 col-sm-6 col-xs-12">
 	                          <input type="text" id="bdapp_nombd" name="bdapp_nombd" required="required" class="form-control col-md-7 col-xs-12" value="{{$app->bdapp_nombd}}">
 	                        </div>
-	                      </div>
+	                      </div>-->
 
 	                       
                       <div class="ln_solid"></div>

@@ -29,7 +29,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  	<a href="{{ URL::to('empresas/create') }}"><i class="fa fa-edit right"></i> <b>Crear nueva empresa</b></a>
+		                  <button type="button" onclick="location.href = '{{ URL::to('empresas/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#053666; ">Nueva empresa</button>
 		                  </div>
 
 		                  <br/>
@@ -51,7 +51,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr>
+		                        <tr style="color:#FFFFFF; background-color:#053666; ">
 		                          <th>Nombre</th>
 		                          <th>RFC</th>
 		                          <th>Razón social</th>
@@ -75,12 +75,12 @@
 		                          		<p></p>
 		                          		{{ Form::open(['route' => ['empresas.destroy', $e->id], 'class'=>'pull-right']) }}
 			                          	{{ Form::hidden('_method', 'DELETE') }}
-	                      				<button  href="{{ route('empresas.destroy', $e->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x"></i></button>
+	                      				<button  href="{{ route('empresas.destroy', $e->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-trash fa-3x"></i></button>
 										{{ Form::close() }}
 
 										&nbsp;
 										<div class="btn-group">
-		                          			<button onclick="location.href = 'empresas/{{$e->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#790D4E"><i class="fa fa-edit fa-2x"></i> </button>
+		                          			<button onclick="location.href = 'empresas/{{$e->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-edit fa-3x"></i> </button>
 			                          	</div>
 
 		                          	</div>

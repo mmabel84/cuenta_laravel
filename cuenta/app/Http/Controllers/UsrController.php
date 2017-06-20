@@ -128,7 +128,7 @@ class UsrController extends Controller
 
             if ($exist == True)
             {
-                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación del usuario ".$usrp->name." con base de datos ".$bdp->bdapp_nombd."</label>");
+                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación con aplicación ".$bdp->aplicacion->app_nom." de ".$bdp->empresa->empr_nom."</label>");
             }
             else
             {
