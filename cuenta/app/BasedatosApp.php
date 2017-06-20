@@ -9,6 +9,11 @@ class BasedatosApp extends Model
     protected $table = "bdapp";
     protected $fillable = ['bdapp_app_id','bdapp_nombd','bdapp_nomserv','bdapp_empr_id'];
 
+    public function __construct()
+    {
+        $this->connection = \Session::get('selected_database','mysql');
+    }
+
     public function empresa(){
 
     	return $this->belongsTo('App\Empresa','bdapp_empr_id');

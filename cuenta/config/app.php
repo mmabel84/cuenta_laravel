@@ -177,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Bican\Roles\RolesServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
 
     ],

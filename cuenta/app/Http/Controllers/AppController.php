@@ -70,7 +70,7 @@ class AppController extends Controller
     	$appbd->save();
 
         //Generar base de datos con script de app en servidor especificado
-        $fmessage = 'Se ha creado la base de datos de aplicación: '.$empresa->empr_rfc."_".$app->app_cod;
+        $fmessage = 'Se ha creado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
         $this->registroBitacora($request,'create',$fmessage); 
     	\Session::flash('message',$fmessage);
     	return Redirect::to('apps');

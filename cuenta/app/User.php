@@ -8,12 +8,13 @@ use Bican\Roles\Traits\HasRoleAndPermission;
 use Bican\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 use InvalidArgumentException;
 use Illuminate\Support\Facades\DB; 
+use Laravel\Passport\HasApiTokens;
 
 
 class User extends Authenticatable implements HasRoleAndPermissionContract
 
 {
-    use Notifiable, HasRoleAndPermission;
+    use Notifiable, HasRoleAndPermission, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +22,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','users_nick','users_tel','users_f_ultacces','users_activo',
+        'name', 'email', 'password','users_nick','users_tel','users_f_ultacces','users_activo', 'users_pic'
     ];
 
     /**
@@ -32,6 +33,11 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function __construct()
+    {
+        $this->connection = \Session::get('selected_database','mysql');
+    }
 
     public function basedatosapps(){
 

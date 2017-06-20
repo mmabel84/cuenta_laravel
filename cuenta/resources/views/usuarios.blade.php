@@ -105,7 +105,7 @@
 			                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_bd_id" id="select_bd_id{{$u->id}}">
 				                            						<option value="null">Seleccione una base de datos ...</option>
 				                            						@foreach($apps as $ap)
-				                                					<option value="{{ $ap->id }}">{{ $ap->bdapp_nombd }}</option>
+				                                					<option value="{{ $ap->id }}">{{ $ap->empresa->empr_nom }} {{ $ap->aplicacion->app_nom }}</option>
 				                           							@endforeach
 				                          						</select>
 			                          						</div>
@@ -122,7 +122,6 @@
 			                             						 <table id="datatable-buttons{{$u->id}}" class="table table-striped table-bordered">
 	                      												<thead>
 	                        												<tr>
-	                          													<th>Nombre de base de datos</th>
 	                          													<th>Aplicación</th>
 	                          													<th>Empresa</th>
 	                          													<th>RFC de empresa</th>
@@ -134,8 +133,7 @@
 	                      												<tbody>
 	                      												@foreach ($u->basedatosapps as $bd)
 	                        												<tr>
-	                          												<td>{{$bd->bdapp_nombd}}</td>
-	                          												<td>{{$bd->bdapp_app}}</td>
+	                          												<td>{{$bd->aplicacion->app_nom}}</td>
 	                          												<td>{{$bd->empresa->empr_nom}}</td>
 	                          												<td>{{$bd->empresa->empr_rfc}}</td>
 	                          												</tr>

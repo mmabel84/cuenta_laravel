@@ -9,7 +9,9 @@
         "bican/roles": "2.1.*",
         "doctrine/dbal": "^2.5",
         "fzaninotto/faker": "^1.6",
+        "guzzlehttp/guzzle": "^6.2",
         "laravel/framework": "5.4.*",
+        "laravel/passport": "^2.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "~5.0",
         "sinergi/browser-detector": "^6.1"

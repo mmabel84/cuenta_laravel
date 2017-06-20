@@ -11,7 +11,7 @@ use App\User;
 Use View;
 use SoapClient;
 
-//define("URL_WS_69", 'http://lista69.advans.mx/Lista69b/index/consultarLista.wdsl');
+//define("URL_WS_69", 'http://lista69.advans.mx/Lista69b/index/consultarLista.wsdl');
 
 class HomeController extends Controller
 {
@@ -102,15 +102,29 @@ class HomeController extends Controller
         $dias_total_fin = strtotime($fecha_fin) - strtotime($fecha_act);
         $dias_transc_fin = strtotime($fecha_fin) - $fecha_actual;
 
-        $porc_fin = round($dias_transc_fin / $dias_total_fin * 100, 0);
-
+        if ($dias_total_fin > 0) {
+            $porc_fin = round($dias_transc_fin / $dias_total_fin * 100, 0);
+        }
+        else{
+            $porc_fin = 0;
+        }
+        
         $dias_total_cad = strtotime($fecha_caduc) - strtotime($fecha_act);
         $dias_transc_cad = strtotime($fecha_caduc) - $fecha_actual;
 
-        $porc_cad = round($dias_transc_cad / $dias_total_cad * 100, 0);
+        if ($dias_total_cad > 0){
+            $porc_cad = round($dias_transc_cad / $dias_total_cad * 100, 0);
+        }
+        else{
+            $porc_cad = 0;
+        }
+
+        
 
         $cant_gigas_cons = 0;
         $dict_empr_gig = array();
+        $gigas_cons_emp = array();
+        $empr_cons = array();
         
 
         

@@ -53,7 +53,7 @@ class UsrController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'users_nick' => $data['users_nick'],
+            'users_nick' => $data['users_nick']
         ]);
     } 
 
@@ -133,9 +133,9 @@ class UsrController extends Controller
             else
             {
                  $usrp->basedatosapps()->attach($idapp);
-                 $response = array ('status' => 'Success', 'result' => '<tr>
-                                 <td>' . $bdp->bdapp_nombd . '</td>' .
-                                '<td>' . $bdp->bdapp_app . '</td>' .
+                 $response = array ('status' => 'Success', 'result' => '<tr>'.
+                    
+                                '<td>' . $bdp->aplicacion->app_nom . '</td>' .
                                 '<td>' . $bdp->empresa->empr_nom . '</td>' .
                                 '<td>' . $bdp->empresa->empr_rfc . '</td>' .
                             '</tr>');
@@ -170,7 +170,7 @@ class UsrController extends Controller
 
         $user = $this->customregister($request,$alldata);
 
-        $file     = false;
+        $file = false;
         if(array_key_exists('users_pic',$alldata)){
             $file     = request()->file('users_pic');
             $path = $request->file('users_pic')->storeAs(

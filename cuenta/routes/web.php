@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,15 +41,38 @@ Auth::routes();
 
 
 
-Route::get('/redirect', function () {
-    $query = http_build_query([
-        'client_id' => '3',
-        'redirect_uri' => 'http://192.168.10.114:8000',
-        'response_type' => 'code',
-        'scope' => '',
-    ]);
 
-   return redirect('http://192.168.10.103:8000/oauth/authorize?'.$query);
+//--------------Rutas de autorización Passport--------------------------//
+
+
+
+
+
+Route::get('/getcontrolaccesstoken', function () {
+    $http = new GuzzleHttp\Client();
+    $response = $http->post('http://advans.control.mx/oauth/token', [
+    'form_params' => [
+        'grant_type' => 'password',
+        'client_id' => '5',
+        'client_secret' => 'zYJPeZrqWbW1lAHl80b4Zn0fFYi2iZN6Unlgcdu6',
+        'username' => 'chino270786@gmail.com',
+        'password' => base64_decode('RGFuaWVsMTIz'),
+        'scope' => '*',
+    ],
+]);
+    $vartemp = json_decode((string) $response->getBody(), true);
+
+
+    $responseotro = $http->get('http://advans.control.mx/api/firstservice', [
+        'headers' => [
+            'Authorization' => 'Bearer '.$vartemp['access_token'],
+        ]
+    ]);
+    
+
+    
+return json_decode((string) $responseotro->getBody(), true);
+
 });
 
 

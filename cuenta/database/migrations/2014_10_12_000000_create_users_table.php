@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('users_nick');
             $table->string('users_tel');
-            $table->string('users_pic');
+            $table->string('users_pic')->nullable();
             $table->dateTime('users_f_ultacces');
             $table->boolean('users_activo')->default(True);
             $table->rememberToken();
