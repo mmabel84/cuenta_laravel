@@ -31,7 +31,7 @@
                     <div class="clearfix"></div>
                     @if (Session::has('message'))
 	                  <div class="alert alert-danger alert-dismissible fade in" role="alert">
-	                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
 	                    </button>
 	                    <strong>{{ Session::get('message') }}</strong>
 	                  </div>
@@ -94,6 +94,26 @@
             </div>
           </div>
 
+          
+
+
+
+
+@endsection
+
+@section('app_js') 
+      @parent
+      <script>
+          $( function() {
+              $('#alertmsgcreation').click(function() {
+                  console.log('alertmsgcreation button clicked');
+              });
+              
+             setTimeout(function() {
+                  $('#alertmsgcreation').trigger('click');
+              }, 4e3);
+          });
+      </script>
 
 
 @endsection

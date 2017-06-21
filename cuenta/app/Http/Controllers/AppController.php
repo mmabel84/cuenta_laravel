@@ -52,7 +52,7 @@ class AppController extends Controller
     	
     	if ($emprexist != null)
     	{
-	    	\Session::flash('message','Ya existe una base de datos creada de la empresa: '.$emprexist." con la aplicación ".$appexist);
+	    	\Session::flash('message','Ya existe la aplicación '.$appexist. ' de '.$emprexist);
 	    	return redirect()->route('apps.create');
     	}
 

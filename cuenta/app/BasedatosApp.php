@@ -9,8 +9,9 @@ class BasedatosApp extends Model
     protected $table = "bdapp";
     protected $fillable = ['bdapp_app_id','bdapp_nombd','bdapp_nomserv','bdapp_empr_id'];
 
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
+        parent::__construct($attributes);
         $this->connection = \Session::get('selected_database','mysql');
     }
 

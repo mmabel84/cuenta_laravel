@@ -10,8 +10,9 @@ class Empresa extends Model
 
     protected $fillable = ['empr_nom','empr_rfc','empr_razsoc','empr_logo','empr_marc_agua'];
 
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
+        parent::__construct($attributes);
         $this->connection = \Session::get('selected_database','mysql');
     }
 

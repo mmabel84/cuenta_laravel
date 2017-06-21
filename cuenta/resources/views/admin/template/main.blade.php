@@ -48,7 +48,7 @@
                                       <li><a href="{{ URL::to('empresas') }}">EMPRESAS</a></li>
                                       <li><a href="{{ URL::to('usuarios') }}">USUARIOS</a></li>
                                       <li><a href="{{ URL::to('apps') }}">APLICACIONES</a></li>
-                                      <li><a href="{{ URL::to('apps') }}">RESPALDOS</a></li>
+                                      <li><a href="{{ URL::to('backups') }}">RESPALDOS</a></li>
 
                                       
                                     </ul>

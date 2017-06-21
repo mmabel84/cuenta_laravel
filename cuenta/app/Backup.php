@@ -9,8 +9,9 @@ class Backup extends Model
     protected $table = "backbd";
     protected $fillable = ['backbd_back','backbd_fecha','backbd_bdapp_id'];
 
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
+        parent::__construct($attributes);
         $this->connection = \Session::get('selected_database','mysql');
     }
 

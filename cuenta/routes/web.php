@@ -22,6 +22,7 @@ Route::resource('roles', 'RolController');
 Route::resource('permisos', 'PermController');
 Route::resource('bitacoras', 'BitController');
 Route::resource('appsasign', 'AppAsignController');
+Route::resource('backups', 'BackController');
 
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -74,5 +75,10 @@ Route::get('/getcontrolaccesstoken', function () {
 return json_decode((string) $responseotro->getBody(), true);
 
 });
+
+
+//-------------------------Ruta para descargar fichero backup almacenado-----------------
+
+Route::get('/downloadBackup/{usrid}', 'BackController@downloadBackup');
 
 

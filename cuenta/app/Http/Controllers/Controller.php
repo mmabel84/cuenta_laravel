@@ -20,9 +20,21 @@ class Controller extends BaseController
 
     public function registroBitacora(Request $request, $fname='', $fmessage=''){
         $user = \Auth::user();
+
         $browser = new Browser();
         $split_var = explode('\Controllers',get_class($this));
-        $bit = new Bitacora(['bitcta_users_id'=>$user->id,'bitc_fecha'=>date("Y-m-d H:i:s"),'bitcta_tipo_op'=>$fname,'bitcta_ip'=>$request->ip(),'bitcta_naveg'=>$browser->getName().' '.$browser->getVersion(),'bitc_modulo'=>$split_var[1],'bitcta_result'=>'TODO','bitcta_msg'=>$fmessage,'bitcta_dato'=>json_encode($request->all())]);
+        $bit = new Bitacora();
+        $bit->bitcta_users_id = $user->id;
+        $bit->bitc_fecha = date("Y-m-d H:i:s");
+        $bit->bitcta_tipo_op = $fname;
+        $bit->bitcta_ip = $request->ip();
+        $bit->bitcta_naveg = $browser->getName().' '.$browser->getVersion();
+        $bit->bitc_modulo = $split_var[1];
+        $bit->bitcta_result = 'TODO';
+        $bit->bitcta_msg = $fmessage;
+        $bit->bitcta_dato = json_encode($request->all());
+
+
         $bit->save();
     }
 }

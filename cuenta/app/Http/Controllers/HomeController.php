@@ -38,7 +38,7 @@ class HomeController extends Controller
         $bdapps = BasedatosApp::all();
 
 
-        $appsicons = array ('pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' title='PLD' id='pld' class='disabled'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+        $appsicons = array ('pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='pld' class='disabled'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
             <b>PLD</b></span></i></a>
                    ",
                     'cont'=>"

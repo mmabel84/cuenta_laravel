@@ -34,11 +34,12 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
         'password', 'remember_token',
     ];
 
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
+        parent::__construct($attributes);
         $this->connection = \Session::get('selected_database','mysql');
     }
-
+    
     public function basedatosapps(){
 
         return $this->belongsToMany('App\BasedatosApp','bdusr','bdusr_bdusr_id','bdusr_bdapp_id');
