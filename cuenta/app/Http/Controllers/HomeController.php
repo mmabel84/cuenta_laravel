@@ -97,6 +97,8 @@ class HomeController extends Controller
                 $fecha_caduc = $p->fecha_caduc;
             }
         }
+        //obtener diferencia en meses
+
         $fecha_actual = strtotime("now");
 
         $dias_total_fin = strtotime($fecha_fin) - strtotime($fecha_act);

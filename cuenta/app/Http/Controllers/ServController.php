@@ -23,13 +23,11 @@ class ServController extends Controller
             $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 	        $db = DB::select($query, [$dbname]);
 
-
 	        if(empty($db)){
 
 	        	$strfile=file_get_contents(base_path() .'/config/database.php');
 		        $dbvalue = config('database.connections');
 
-		        $dbtest = config('database.connections.'.$dbname);
                 if(!array_key_exists($dbname,$dbvalue)){
 
                 	$str_to_replace = "'".$dbname."' => [
@@ -52,7 +50,7 @@ class ServController extends Controller
                 	$strfile=str_replace("//AddDB", $str_to_replace, $strfile);
                 	file_put_contents(base_path() .'/config/database.php', $strfile);
                 }
-
+                //Pedir datos de conexión a servidor para crear base de datos
 		        DB::statement("create database ".$dbname);
 		        \Config::set('database.connections.'.$dbname, [
 		            'driver' => 'mysql',
@@ -99,7 +97,6 @@ class ServController extends Controller
 	        }
 	        else
 	        {
-
 	        	$msg = "RFC de cuenta ya generada";
         		$status = "Failure";
 	        }
@@ -115,18 +112,78 @@ class ServController extends Controller
 	         $response = array(
             'status' => $status,
             'msg' => $msg,
-            'user' => $alldata,
-            'dbvalue' => $dbvalue,
-            'exist' => $dbtest);
+            'user' => $alldata);
 
         	return \Response::json($response);
 	       
 	   }
 
-	   /*public function desactpaq(Request $request){
+	   public function addapp(Request $request){
 
-	   		return true;
-	   }*/
+	   		$alldata = $request->all();
+	        $msg = "Aplicación añadida.";
+	        $status = "Success";
+
+	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd']) && array_key_exists('account_id',$alldata) && isset($alldata['account_id'])){
+
+	        	$apps = json_decode($alldata['apps_cta']);
+	        	$dbname = $alldata['rfc_nombrebd'];
+	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+	            $db = DB::select($query, [$dbname]);
+		        
+
+		        if(!empty($db)){
+
+		        	foreach ($apps as $appc) {
+		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
+		        	}
+		        }
+
+	        }
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata,
+            'apps' => $apps,
+            'dbname' => $dbname);
+
+        	return \Response::json($response);
+	   }
+
+
+	   public function modpaq(Request $request){
+
+	   		$alldata = $request->all();
+	        $msg = "Paquete modificado.";
+	        $status = "Success";
+
+	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd']) && array_key_exists('account_id',$alldata) && isset($alldata['account_id'])){
+
+	        	$paqs = json_decode($alldata['paq_cta']);
+	        	$dbname = $alldata['rfc_nombrebd'];
+	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+	            $db = DB::select($query, [$dbname]);
+		        
+		        if(!empty($db)){
+
+		        	foreach ($paqs as $paqt) {
+		        		DB::connection($dbname)->update('update paqapp set paqapp_cantrfc = ?, paqapp_cantgig = ?, paqapp_f_venta = ?, paqapp_f_act = ?, paqapp_f_fin = ?, paqapp_f_caduc = ?, updated_at = ? where paqapp_control_id = ?', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, date('Y-m-d H:i:s'), $paqt->paqapp_control_id]);
+		        	}
+		        }
+
+	        }
+
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata,
+            'paqs' => $paqs,
+            'dbname' => $dbname);
+
+        	return \Response::json($response);
+	   }
 
        
     }

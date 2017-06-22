@@ -28,12 +28,24 @@ class ChangeBD
                     //Consumir servicio de control para verificar que la cuenta está activa
                     $cont = new Controller;
                     $acces_vars = $cont->getAccessToken();
-                    $service_response = $cont->getAppService($acces_vars['access_token'],'createbd',$arrayparams,'ctac');
+                    $arrayparams['rfc'] = $alldata['login_rfc'];
+                    $service_response = $cont->getAppService($acces_vars['access_token'],'getaccstate',$arrayparams,'control');
 
-                    \Session::put('selected_database',$alldata['login_rfc']);
-                    \Config::set('database.default', $alldata['login_rfc']);
-                    $request->session()->pull('loginrfcerr');
-                    //$request->session()->pull('login_rfc');
+                    if ($service_response['accstate'] == 'Activa'){
+
+                        \Session::put('selected_database',$alldata['login_rfc']);
+                        \Config::set('database.default', $alldata['login_rfc']);
+                        $request->session()->pull('loginrfcerr');
+                        //$request->session()->pull('login_rfc');
+                    }else{
+                        $request->session()->flash('midred', '1');
+                        $request->session()->put('loginrfcerr', 'Cuenta bloqueada');
+                        $request->session()->put('login_rfc', $alldata['login_rfc']);                  
+                        return redirect('/');
+
+                    }
+
+                    
                 }else{
                     $request->session()->flash('midred', '1');
                     $request->session()->put('loginrfcerr', 'RFC Inválido');

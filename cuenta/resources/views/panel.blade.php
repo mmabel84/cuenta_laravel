@@ -1,7 +1,7 @@
 @extends('admin.template.main')
 
 @section('app_title')
-      Panel de cuenta
+      Inicio
 @endsection
 
 
@@ -64,7 +64,7 @@
 
                   <div class="icon"><i class="fa fa-database" style="color: #053666;"></i></div>
                   <div class="count" style="color: #053666;">{{ $bdapps }}</div>
-                  <p style="color: #053666;"><b>BASES DE DATOS CREADAS</b></p>
+                  <p style="color: #053666;"><b>APLICACIONES CREADAS</b></p>
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -302,7 +302,7 @@
               </div>
 
 
-                  <div class="col-md-4 col-sm-4 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                       <div class="x_title">
                         <h2>Gigas consumidos</h2>
@@ -330,7 +330,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-4 col-sm-4 col-xs-12">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                       <div class="x_title">
                         <h2>Gigas consumidos por empresa</h2>
@@ -342,7 +342,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-4 col-sm-4 col-xs-12" >
+                  <div class="col-md-4 col-sm-4 col-xs-12 hidden" >
                     <div class="x_panel">
                       <div class="x_title">
                         <h2>Tiempo consumido por paquete</h2>
@@ -764,7 +764,7 @@
             normal: {
               color: 'rgba(5, 54, 102, 1)',
               label: {
-              show: false
+              show: true
               },
               labelLine: {
               show: false
