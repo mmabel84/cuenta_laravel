@@ -55,6 +55,7 @@
 		                          <th>Empresa</th>
 		                          <th>Aplicación</th>
 		                          <th>Fecha</th>
+		                          <th>Usuario</th>
 		                          <th>Acciones</th>
 		                         
 		                          
@@ -68,6 +69,7 @@
 		                          <td>{{$back->basedatosapp->empresa->empr_nom}}</td>
 		                          <td>{{$back->basedatosapp->aplicacion->app_nom}}</td>
 		                          <td>{{$back->backbd_fecha}}</td>
+		                          <td>{{$back->backbd_user}}</td>
 		                          
 		                          <td class=" last" width="12%">
 		                          <div>

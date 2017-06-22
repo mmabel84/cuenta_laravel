@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Http\Controllers\Controller;
 
 class ChangeBD
 {
@@ -23,6 +24,12 @@ class ChangeBD
             if(array_key_exists('login_rfc',$alldata)){
                 $dbvalue = config('database.connections');
                 if(array_key_exists($alldata['login_rfc'],$dbvalue)){
+
+                    //Consumir servicio de control para verificar que la cuenta está activa
+                    $cont = new Controller;
+                    $acces_vars = $cont->getAccessToken();
+                    $service_response = $cont->getAppService($acces_vars['access_token'],'createbd',$arrayparams,'ctac');
+
                     \Session::put('selected_database',$alldata['login_rfc']);
                     \Config::set('database.default', $alldata['login_rfc']);
                     $request->session()->pull('loginrfcerr');

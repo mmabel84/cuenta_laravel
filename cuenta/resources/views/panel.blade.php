@@ -1,8 +1,10 @@
 @extends('admin.template.main')
 
-@section('title')
+@section('app_title')
       Panel de cuenta
 @endsection
+
+
 
 @section('app_css')
     @parent
@@ -23,6 +25,9 @@
               }
       .hidden{
             visibility:hidden;
+            }
+      .contenedor_select {
+              overflow-y: auto;
             }
 
     </style>
@@ -110,9 +115,9 @@
                           <div class="clearfix"></div>
                 </div>
 
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="contenedor_select col-md-12 col-sm-12 col-xs-12">
                   
-                  <select class="js-example-data-array form-control col-md-6 col-xs-12" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" >
+                  <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" >
                       <option value="null">Seleccione una empresa ...</option>
                            
                     </select>
@@ -122,7 +127,7 @@
                 <br>
                 <br>
                 <input type="hidden" id="iconsapp" name="iconsapp" value="{{ $appvisible }}">
-                <div class="col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:84px;">
+                <div class="contenedor_select col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:84px;">
    
                 <!--    <a href="#" data-toggle="tooltip" data-placement="right" title="PLD" id="pld"><i class="fa fa-money fa-3x" style="color:#053666;"></i></a>
                     &nbsp;
@@ -153,6 +158,7 @@
                 <div class="x_panel">
                 <div class="x_title">
                             <h2>Consulta de Artículo 69-B</h2>
+                            </br>
                             <p>Actualizado a 23/09/2017</p>
                             <div class="clearfix"></div>
                   </div>

@@ -1,6 +1,6 @@
 @extends('admin.template.apptemplate')
 
-@section('app_title','Control App')
+@section('app_title','Cuenta App')
 
 @section('app_css')
     @parent

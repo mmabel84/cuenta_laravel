@@ -42,18 +42,18 @@ class HomeController extends Controller
             <b>PLD</b></span></i></a>
                    ",
                     'cont'=>"
-                    <a href='#' data-toggle='tooltip' data-placement='top' id='cont' class='disabled'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <a href='#' data-toggle='tooltip' data-placement='top' id='cont' class='disabled'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>
            
                      ",
                     'bov'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='bov' class='disabled'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>BÓVEDA</b></span></i></a>
                     ",
-                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>
                    ",
                     'cc'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='cc' class='disabled'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>CALIDAD</b></span></i></a>
+                    <b>TAREAS</b></span></i></a>
                     ",
                     'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>");

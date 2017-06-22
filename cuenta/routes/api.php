@@ -19,4 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/createbd', 'ServController@createbd')->middleware('auth:api');
 
-//Route::get('/desactpaq', 'ServController@desactpaq')->middleware('auth:api');
+Route::get('/desactpaq', 'ServController@desactpaq')->middleware('auth:api');

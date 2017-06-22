@@ -2,6 +2,24 @@
 
 return [
 
+
+
+
+    //Advans Apps
+    'advans_apps' => ['cont'=>'Contabilidad','bov'=>'Bóveda','nom'=>'Nómina','pld'=>'PLD','cc'=>'Control de Calidad','not'=>'Notaría'],
+
+    'advans_apps_url' => ['control'=>'http://advans.control.mx','cont'=>'http://advans.control.mx','bov'=>'Bóveda','nom'=>'Nómina','pld'=>'PLD','cc'=>'Control de Calidad','not'=>'Notaría'],
+
+    'advans_apps_security' => ['control'=> [
+                                    'grant_type' => 'password',
+                                    'client_id' => '2',
+                                    'client_secret' => 'dZJk8R7Hd9uKd64pVFf0OsjmbreOcEYF9bN9yn7k',
+                                    'username' => 'chino270786@gmail.com',
+                                    'password' => base64_decode('RGFuaWVsMTIz'),
+                                    'scope' => '*',
+                                    ]
+                          ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

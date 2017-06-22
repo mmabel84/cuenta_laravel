@@ -13,6 +13,7 @@
 	    	<link href="{{ asset('vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet">
 	    	<link href="{{ asset('vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css') }}" rel="stylesheet">
 	    	<link href="{{ asset('vendors/ion.rangeSlider/css/ion.rangeSlider.css') }}" rel="stylesheet">
+	    	<link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
 	    	<link href="{{ asset('vendors/normalize-css/normalize.css" rel="stylesheet') }}" rel="stylesheet">
 	    	
 
@@ -50,6 +51,7 @@
 	    	<script src="{{ asset('vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/jquery-knob/dist/jquery.knob.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/cropper/dist/cropper.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/select2/dist/js/select2.min.js') }}"></script>
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
 	    		      

@@ -19,29 +19,20 @@ class ServController extends Controller
 
         if(array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
             
-            $dbname = $alldata['rfc_nombrebd'];
+            $dbname = $alldata['rfc_nombrebd'].'_'.$alldata['account_id'];
             $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 	        $db = DB::select($query, [$dbname]);
 
-	        
-	        if(empty($db)){
-		        DB::statement("create database ".$dbname);
-		        \Config::set('database.connections.'.$dbname, [
-		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '127.0.0.1'),
-		            'port' => env('DB_PORT', '3306'),
-		            'database' => $dbname,
-		            'username' => env('DB_USERNAME', 'forge'),
-		            'password' => env('DB_PASSWORD', ''),
-		            'unix_socket' => env('DB_SOCKET', ''),
-		            'charset' => 'utf8mb4',
-		            'collation' => 'utf8mb4_unicode_ci',
-		            'prefix' => '',
-		            'strict' => false,
-		            'engine' => null,
-		        ]);
 
-		        $str_to_replace = "'".$dbname."' => [
+	        if(empty($db)){
+
+	        	$strfile=file_get_contents(base_path() .'/config/database.php');
+		        $dbvalue = config('database.connections');
+
+		        $dbtest = config('database.connections.'.$dbname);
+                if(!array_key_exists($dbname,$dbvalue)){
+
+                	$str_to_replace = "'".$dbname."' => [
 		            'driver' => 'mysql',
 		            'host' => env('DB_HOST', '127.0.0.1'),
 		            'port' => env('DB_PORT', '3306'),
@@ -58,44 +49,49 @@ class ServController extends Controller
 
 		       //AddDB
 		        ";
-		        $strfile=file_get_contents(base_path() .'/config/database.php');
-		        $strfile=str_replace("//AddDB", $str_to_replace, $strfile);
-		        file_put_contents(base_path() .'/config/database.php', $strfile);
+                	$strfile=str_replace("//AddDB", $str_to_replace, $strfile);
+                	file_put_contents(base_path() .'/config/database.php', $strfile);
+                }
+
+		        DB::statement("create database ".$dbname);
+		        \Config::set('database.connections.'.$dbname, [
+		            'driver' => 'mysql',
+		            'host' => env('DB_HOST', '127.0.0.1'),
+		            'port' => env('DB_PORT', '3306'),
+		            'database' => $dbname,
+		            'username' => env('DB_USERNAME', 'forge'),
+		            'password' => env('DB_PASSWORD', ''),
+		            'unix_socket' => env('DB_SOCKET', ''),
+		            'charset' => 'utf8mb4',
+		            'collation' => 'utf8mb4_unicode_ci',
+		            'prefix' => '',
+		            'strict' => false,
+		            'engine' => null,
+		        ]);
+
 		        \Config::set('database.default', $dbname);
 		        \Artisan::call('migrate');
 
 		        //Creando usuario para primera conexión a cuenta TODO: poner datos de usuario correctos
-		       $usr = new User;
-		        $usr->name = 'Test';
-		        $usr->email = 'test@gmail.com';
-		        $usr->users_nick = 'test';
-		        $usr->password = bcrypt('test');
-		        $usr->save();
+
+		        DB::connection($dbname)->insert('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', ['Test', 'test','test@gmail.com', bcrypt('test')]);
 
 		        // Desplegando en cuenta las aplicaciones y paquete contratados en control
 		        
-		       /* if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta'])){
+		       if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta'])){
 
-		        	foreach ($alldata['apps_cta'] => $appc) {
-		        		$app = new Aplicacion;
-		        		$app->app_nom = $appc['app_nom'];
-				    	$app->app_cod = $appc['app_cod'];
-				    	$app->save();
+		        	$apps = json_decode($alldata['apps_cta']);
+		        	
+		        	foreach ($apps as $appc) {
+		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
 		        	}
 
-		        	foreach ($alldata['paq_cta'] => $paqt) {
-		        		$paq = new Paquete;
-		        		$paq->paqapp_cantrfc = $paqt['paqapp_cantrfc'];
-				    	$paq->paqapp_cantgig = $paqt['paqapp_cantgig'];
-				    	$paq->paqapp_f_venta = $paqt['paqapp_f_venta'];
-				    	$paq->paqapp_f_act = $paqt['paqapp_f_act'];
-				    	$paq->paqapp_f_fin = $paqt['paqapp_f_fin'];
-				    	$paq->paqapp_f_caduc = $paqt['paqapp_f_caduc'];
-				    	$paq->paqapp_control_id = $paqt['paqapp_control_id'];
-				    	$paq->save();
+		        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
+
+		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_cantrfc, paqapp_cantgig, paqapp_f_venta, paqapp_f_act, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?, ?, ?, ?)', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
 		        	}
 
-		        }*/
+		        }
 
 		        \Config::set('database.default', \Session::get('selected_database','mysql'));
 
@@ -119,7 +115,9 @@ class ServController extends Controller
 	         $response = array(
             'status' => $status,
             'msg' => $msg,
-            'user' => $alldata);
+            'user' => $alldata,
+            'dbvalue' => $dbvalue,
+            'exist' => $dbtest);
 
         	return \Response::json($response);
 	       
