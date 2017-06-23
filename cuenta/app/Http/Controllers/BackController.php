@@ -64,14 +64,14 @@ class BackController extends Controller
     			$backsbd = count(Backup::where('backbd_bdapp_id', '=', $dbid)->get()) + 1;
 
     			$fmessage = 'Se ha generado el respaldo número '. $backsbd .' de aplicación '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom;
+    			//Límite de respaldos de 5
+    			if ($backsbd == 6){
+    				$fmessage = 'Ha superado el número máximo (5) de respaldos para base de datos '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom.' ,debe eliminar respaldos anteriores para generar nuevos.';
+    				\Session::flash('message',$fmessage);
+    				return Redirect::to('backups');
+    			}
 
-    			/*if ($backsbd == 5){
-    				$fmessage = 
-    			}*/
-
-    			//Artisan::call('bd:backup', ['database'=> $bd, 'destination' => $destination, 'destinationPath' => '', 'compression' => 'gzip']);
-
-
+    			\Artisan::call('db:backup', array('--destination' => 'sftp', '--database'=> 'mysql', '--destinationPath' => '/opt/bitnami/apache2/htdocs/mabel/test2', '--compression' => 'gzip')) ;
 
     			$backbd->save();
 

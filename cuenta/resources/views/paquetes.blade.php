@@ -36,7 +36,7 @@
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#053666; ">
-		                          <th>Aplicación</th>
+		                         
 		                          <th>Cantidad de RFC</th>
 		                          <th>Cantidad de Gigas</th>
 		                          <th>Fecha de venta</th>
@@ -49,7 +49,7 @@
 		                      <tbody>
 		                      	@foreach ($paqs as $p)
 		                        <tr>
-		                          <td>{{$p->paqapp_nomapp}}</td>
+		                          
 		                          <td>{{$p->paqapp_cantrfc}}</td>
 		                          <td>{{$p->paqapp_cantgig}}</td>
 		                          <td>{{$p->paqapp_f_venta}}</td>

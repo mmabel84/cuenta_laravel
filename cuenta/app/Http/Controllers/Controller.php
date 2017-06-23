@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Bitacora;
 use Illuminate\Http\Request;
 use Sinergi\BrowserDetector\Browser;
+use App\User;
 
 
 
@@ -19,7 +20,13 @@ class Controller extends BaseController
 
 
     public function registroBitacora(Request $request, $fname='', $fmessage=''){
-        $user = \Auth::user();
+        if ($fname == 'login'){
+            $user = User::where('email', '=', $request['email'])->get()[0];
+        }
+        else{
+            $user = \Auth::user();
+        }
+        
 
         $browser = new Browser();
         $split_var = explode('\Controllers',get_class($this));

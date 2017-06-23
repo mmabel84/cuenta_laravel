@@ -158,7 +158,7 @@ class ServController extends Controller
 	        $msg = "Paquete modificado.";
 	        $status = "Success";
 
-	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd']) && array_key_exists('account_id',$alldata) && isset($alldata['account_id'])){
+	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
 
 	        	$paqs = json_decode($alldata['paq_cta']);
 	        	$dbname = $alldata['rfc_nombrebd'];
@@ -168,7 +168,7 @@ class ServController extends Controller
 		        if(!empty($db)){
 
 		        	foreach ($paqs as $paqt) {
-		        		DB::connection($dbname)->update('update paqapp set paqapp_cantrfc = ?, paqapp_cantgig = ?, paqapp_f_venta = ?, paqapp_f_act = ?, paqapp_f_fin = ?, paqapp_f_caduc = ?, updated_at = ? where paqapp_control_id = ?', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, date('Y-m-d H:i:s'), $paqt->paqapp_control_id]);
+		        		DB::connection($dbname)->update('update paqapp set paqapp_cantrfc = ?, paqapp_cantgig = ?, paqapp_f_fin = ?, paqapp_f_caduc = ?, updated_at = ? where paqapp_control_id = ?', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, date('Y-m-d H:i:s'), $paqt->paqapp_control_id]);
 		        	}
 		        }
 

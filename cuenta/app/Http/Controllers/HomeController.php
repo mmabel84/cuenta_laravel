@@ -10,6 +10,7 @@ use App\Paquete;
 use App\User;
 Use View;
 use SoapClient;
+use DateTime;
 
 //define("URL_WS_69", 'http://lista69.advans.mx/Lista69b/index/consultarLista.wsdl');
 
@@ -98,11 +99,19 @@ class HomeController extends Controller
             }
         }
         //obtener diferencia en meses
+        $fecha_fin_datetime = new Datetime($fecha_fin);
+        $fecha_actual_datetime = new Datetime(date('Y-m-d H:i:s'));
+
+        $interval=$fecha_fin_datetime->diff($fecha_actual_datetime);
+        $intervalMeses=round($interval->format("%a") / 7, 0);
+        $intervalAnos = round($interval->format("%y")*12, 0);
+
 
         $fecha_actual = strtotime("now");
-
         $dias_total_fin = strtotime($fecha_fin) - strtotime($fecha_act);
-        $dias_transc_fin = strtotime($fecha_fin) - $fecha_actual;
+        $dias_transc_fin = $fecha_actual - strtotime($fecha_act);
+        $dias_hasta_fin = strtotime($fecha_fin) - $fecha_actual;
+
 
         if ($dias_total_fin > 0) {
             $porc_fin = round($dias_transc_fin / $dias_total_fin * 100, 0);
@@ -111,18 +120,7 @@ class HomeController extends Controller
             $porc_fin = 0;
         }
         
-        $dias_total_cad = strtotime($fecha_caduc) - strtotime($fecha_act);
-        $dias_transc_cad = strtotime($fecha_caduc) - $fecha_actual;
-
-        if ($dias_total_cad > 0){
-            $porc_cad = round($dias_transc_cad / $dias_total_cad * 100, 0);
-        }
-        else{
-            $porc_cad = 0;
-        }
-
         
-
         $cant_gigas_cons = 0;
         $dict_empr_gig = array();
         $gigas_cons_emp = array();
@@ -151,10 +149,7 @@ class HomeController extends Controller
 
 
         
-
-
-        
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'porc_cad'=>$porc_cad,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons)]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalmeses'=>$intervalMeses]);
 
                 
     }

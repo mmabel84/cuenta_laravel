@@ -139,7 +139,38 @@
                              @yield('content')
                         </div>
                     <!-- /page content -->
-                <footer></footer>
+              <footer>
+                <div class="footer-copyright">  
+                    <div class="container">
+                          <div class="span6">
+                            <div class="region region-footer-bottom-left">
+                                <div id="block-block-17" class="block block-block">
+                                    <div class="content">
+                                        <p>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</p>  </div>
+                                    </div>
+                                </div>
+                    
+                          </div>
+                  <div class="span6">
+                    <div class="region region-footer-bottom-right">
+                      <div id="block-block-21" class="block block-block">
+                        <div class="content">
+                          <div class="content">
+                            <nav id="sub-menu">
+                                <ul>
+                                  <li><a href="http://www.advans.mx/content/aviso-de-privacidad">Aviso de Privacidad</a></li>
+                                  <li><a href="http://www.advans.mx/content/terminos-y-condiciones">Términos y Condiciones</a></li>
+                                </ul>
+                            </nav>
+                          </div>  
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>  
+              </div>  
+            </footer>
 
 
             </div>

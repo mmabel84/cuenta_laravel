@@ -31,12 +31,16 @@ class ChangeBD
                     $arrayparams['rfc'] = $alldata['login_rfc'];
                     $service_response = $cont->getAppService($acces_vars['access_token'],'getaccstate',$arrayparams,'control');
 
+        
                     if ($service_response['accstate'] == 'Activa'){
 
                         \Session::put('selected_database',$alldata['login_rfc']);
                         \Config::set('database.default', $alldata['login_rfc']);
                         $request->session()->pull('loginrfcerr');
                         //$request->session()->pull('login_rfc');
+                        $fmessage = 'Se ha autenticado el usuario: '.$alldata['email'];
+                        $cont->registroBitacora($request,'login',$fmessage);
+                        
                     }else{
                         $request->session()->flash('midred', '1');
                         $request->session()->put('loginrfcerr', 'Cuenta bloqueada');

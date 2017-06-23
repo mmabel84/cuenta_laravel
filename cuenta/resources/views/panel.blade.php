@@ -50,6 +50,7 @@
                   </div>
                  
                   <p style="color: #053666;"><b>GIGAS CONTRATADOS</b></p>
+                  <p style="color: #053666;">{{ $gigas_cons }} gigas cosumidos</p>
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -57,21 +58,24 @@
                   <div class="icon"><i class="fa fa-building-o" style="color: #053666;"></i></div>
                   <div class="count" style="color: #053666;">{{ $rfc }}</div>
                   <p style="color: #053666;"><b>EMPRESAS CONTRATADAS</b></p>
+                  <p style="color: #053666;">{{ $rfccreados }} empresas creadas</p>
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
 
                   <div class="icon"><i class="fa fa-database" style="color: #053666;"></i></div>
-                  <div class="count" style="color: #053666;">{{ $bdapps }}</div>
-                  <p style="color: #053666;"><b>APLICACIONES CREADAS</b></p>
+                  <div class="count" style="color: #053666;">{{ $apps }}</div>
+                  <p style="color: #053666;"><b>APLICACIONES CONTRATADAS</b></p>
+                  <p style="color: #053666;">{{ $bdapps }} aplicaciones de empresas creadas</p>
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
-                  <div class="icon"><i class="fa fa-group" style="color: #053666;"></i></div>
-                  <div class="count" style="color: #053666;">{{ $usrs }}</div>
-                   <p style="color: #053666;"><b>USUARIOS CREADOS</b></p>
+                  <div class="icon"><i class="fa fa-calendar" style="color: #053666;"></i></div>
+                  <div class="count" style="color: #053666;">{{ $intervalmeses }}</div>
+                   <p style="color: #053666;"><b>SEMANAS DISPONIBLES HASTA {{ $fecha_fin }}</b></p>
+                   <p style="color: #053666;">{{ $porc_final }}% de tiempo consumido </p>
                 </div>
               </div>
             </div>
@@ -118,7 +122,7 @@
                 <div class="contenedor_select col-md-12 col-sm-12 col-xs-12">
                   
                   <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" >
-                      <option value="null">Seleccione una empresa ...</option>
+                      <!--<option value="null">Seleccione una empresa ...</option>-->
                            
                     </select>
 
@@ -219,7 +223,7 @@
 
                     <div class="col-md-6">
                         <div class="progress" >
-                          <div class="progress-bar" data-transitiongoal="{{ $porc_cad }}">{{ $porc_cad }}%</div>
+                          <div class="progress-bar" data-transitiongoal=""></div>
                         </div>
                         <label style=" color:#191970;">% de tiempo consumido vs fecha de caducidad {{ $fecha_caduc }}</label>
 
@@ -453,6 +457,8 @@
       </script>
 
       <script type="text/javascript">
+
+      $('#select_emp').trigger('change');
         
         function onSelectEmpresa(element){
 
