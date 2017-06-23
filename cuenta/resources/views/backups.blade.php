@@ -83,7 +83,7 @@
 
 										&nbsp;
 										<div class="btn-group">
-		                          			<button onclick="location.href = '/downloadBackup/{{$back->id}}';" class="btn btn-xs" data-placement="left" title="Descargar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-download fa-3x"></i> </button>
+		                          			<button onclick="downloadback(this);" id="{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Descargar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-download fa-3x"></i> </button>
 			                          	</div>
 
 		                          	</div>
@@ -156,5 +156,50 @@
               $('#alertmsgfaildelete').trigger('click');
           }, 4e3);
       });
+
+
+      	function downloadback(element){
+	    		
+	    		var bdid = element.id;
+	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+	    		
+	        $.ajax({
+	        	url:"/downloadback",
+	        	//data:"usrid="+ usrid + "& bdid=" + bdid,
+	        	type:'POST',
+	        	cache:false,
+	        	data: {_token: CSRF_TOKEN,bdid:bdid},
+    			dataType: 'JSON',
+
+	        	success:function(response){
+	        		if (response['status'] == 'Success'){
+	        			console.log(response['result']);
+	        			console.log(response['alldata']);
+	        			console.log(response['entro']);
+
+	        		}
+	        		else{
+	        			console.log(response['result']);
+	        			console.log(response['alldata']);
+	        			console.log(response['entro']);
+	        		}
+
+	        		
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        		console.log(XMLHttpRequest);
+                    alert("Error: " + errorThrown); 
+                } 
+
+
+	    });
+	    };
+
+
+
+
+
+
+
     </script>
 @endsection

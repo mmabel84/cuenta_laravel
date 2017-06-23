@@ -9,6 +9,10 @@ use App\Backup;
 use Auth;
 use View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage; 
+use BackupManager\Filesystems\SftpFilesystem;
+use BackupManager\Filesystems\FilesystemProvider;
+use BackupManager\Config\Config;
 
 class BackController extends Controller
 {
@@ -21,19 +25,51 @@ class BackController extends Controller
         return view('backups',['backs'=>$backs]);
     }
 
-    public function downloadBackup(){
-    	$download = DB::table('backbd')->get();
-    	return view('backups',compact($download));
+    public function downloadBackup(Request $request){
+    	 
+        // $fs = Storage::disk('sftp')->getDriver();
+        // $stream = $fs->readStream($dest);
+        $root = '';
+        $alldata = $request->all();
 
-    }
 
-    public function executeBackup(Request $request){
+        if (array_key_exists('bdid',$alldata) && isset($alldata['bdid'])){
+            
+            $backapp = Backup::find($alldata['bdid']);
+            if($backapp){
+                $root = $backapp->backbd_linkback;
+            }
 
-    	$alldata = $request->all();
-    	$bd = $alldata['nom_bd'];
-    	$destination = 'sftp';
-    	
-    	
+        }
+         if ($root == '')
+         {
+            
+
+            //$config = Config::get('backup-manager.sftp');
+            $config = config('backup-manager');
+            $response = array ('status' => 'Failure', 'result' => 'Fichero no encontrado', 'alldata'=>$config);
+            return \Response::json($response);
+         }
+
+        $response = array ('status' => 'Success', 'result' => 'Fichero descargado exitosamente');
+        
+        
+        $sftpprov = new FilesystemProvider(config('backup-manager'));
+        //config('app.advans_apps_url.'.$control_app);
+        $sftp = $sftpprov->get('sftp');
+        
+        $stream = $sftp->readStream($root);
+
+        return \Response::stream(function() use($stream) {
+                            fpassthru($stream);}, 200, [
+                                    "Content-Type" => $fs->getMimetype($root),
+                                    "Content-Length" => $fs->getSize($root),
+                                    "Content-disposition" => "attachment; filename=\"" . basename($root) . "\"",
+]);
+
+        //return response()->download(Storage::disk('sftp')->get($root));
+
+
     }
 
 
@@ -58,7 +94,6 @@ class BackController extends Controller
     			$backbd = new Backup;
     			$backbd->backbd_fecha = date('Y/m/d H:i:s');
     			$backbd->backbd_bdapp_id = $dbid;
-    			$backbd->backbd_linkback = '';
     			$backbd->backbd_user = Auth::user()->name;
 
     			$backsbd = count(Backup::where('backbd_bdapp_id', '=', $dbid)->get()) + 1;
@@ -70,8 +105,13 @@ class BackController extends Controller
     				\Session::flash('message',$fmessage);
     				return Redirect::to('backups');
     			}
+                $carpeta = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_nom;
+                $bdname = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_nom.'_'.date('Y-m-d H:i:s');
+                $dest = $carpeta.'/'.$bdname;
+                $backbd->backbd_linkback = $dest;
 
-    			\Artisan::call('db:backup', array('--destination' => 'sftp', '--database'=> 'mysql', '--destinationPath' => '/opt/bitnami/apache2/htdocs/mabel/test2', '--compression' => 'gzip')) ;
+    			\Artisan::call('db:backup', array('--destination' => 'sftp', '--database'=> 'mysql', '--destinationPath' => $dest, '--compression' => 'gzip')) ;
+
 
     			$backbd->save();
 

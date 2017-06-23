@@ -37,6 +37,8 @@ Route::post('/usuarios/{usrid}/permsbyroles', 'UsrController@permsbyroles');
 Route::post('/appbyemp', 'HomeController@appbyemp');
 Route::post('/artconsult', 'HomeController@auditar69b')->name('art');
 
+Route::post('/downloadback', 'BackController@downloadBackup')->name('downlback');
+
 Auth::routes();
 
 
@@ -77,8 +79,7 @@ return json_decode((string) $responseotro->getBody(), true);
 });
 
 
-//-------------------------Ruta para descargar fichero backup almacenado-----------------
 
-Route::get('/downloadBackup/{usrid}', 'BackController@downloadBackup');
+
 
 

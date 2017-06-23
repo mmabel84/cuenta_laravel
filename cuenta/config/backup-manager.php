@@ -50,7 +50,7 @@ return [
     ],
     'sftp' => [
         'type' => 'Sftp',
-        'host' => 'dev1.advans.mx',
+        'host' => 'lab1.advans.mx',
         'username' => 'bitnami',
         'password' => 'Advan$97120',
         'port' => 22,
