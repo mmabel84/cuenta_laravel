@@ -41,33 +41,40 @@ class BackController extends Controller
             }
 
         }
+        $file = null;
          if ($root == '')
          {
-            
-
-            //$config = Config::get('backup-manager.sftp');
-            $config = config('backup-manager');
-            $response = array ('status' => 'Failure', 'result' => 'Fichero no encontrado', 'alldata'=>$config);
+           
+            $response = array ('status' => 'Failure', 'result' => 'Backup sin ruta en base de datos','file'=>$file);
             return \Response::json($response);
          }
 
-        $response = array ('status' => 'Success', 'result' => 'Fichero descargado exitosamente');
-        
-        
-        $sftpprov = new FilesystemProvider(config('backup-manager'));
-        //config('app.advans_apps_url.'.$control_app);
-        $sftp = $sftpprov->get('sftp');
-        
-        $stream = $sftp->readStream($root);
+        $msg = 'Fichero no encontrado en servidor sftp';
+        $status = 'Failure';
 
-        return \Response::stream(function() use($stream) {
-                            fpassthru($stream);}, 200, [
-                                    "Content-Type" => $fs->getMimetype($root),
-                                    "Content-Length" => $fs->getSize($root),
-                                    "Content-disposition" => "attachment; filename=\"" . basename($root) . "\"",
-]);
+            //Funciona pero devuelve el contenido del archivo no legible
+        /*$content = Storage::disk('sftp')->get($root.'.gz');
+        $response = array ('status' => 'Success', 'result' => 'Fichero encontrado','file'=>utf8_encode($content));
+        return \Response::json($response);*/
 
-        //return response()->download(Storage::disk('sftp')->get($root));
+         
+        
+        /*$content = Storage::disk('sftp')->get($root.'.gz');
+        return \Response::make(utf8_encode($content), '200', array(
+                'Content-Type' => 'application/octet-stream',
+                'Content-Disposition' => 'attachment; filename="'.'test.gz'.'"'
+            ));*/
+
+
+
+        //return response()->download(Storage::disk('sftp')->get($root.'.gz'));
+        //return response()->download('/opt/bitnami/apache2/htdocs/mabel/'.$root.'.gz');
+        return response()->download('/opt/bitnami/apache2/htdocs/mabel/'.$root.'.gz')->deleteFileAfterSend(true);
+
+
+
+
+
 
 
     }
@@ -105,8 +112,8 @@ class BackController extends Controller
     				\Session::flash('message',$fmessage);
     				return Redirect::to('backups');
     			}
-                $carpeta = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_nom;
-                $bdname = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_nom.'_'.date('Y-m-d H:i:s');
+                $carpeta = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc;
+                $bdname = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc.'_'.$backsbd;
                 $dest = $carpeta.'/'.$bdname;
                 $backbd->backbd_linkback = $dest;
 

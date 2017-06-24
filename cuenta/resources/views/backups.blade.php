@@ -173,15 +173,11 @@
 
 	        	success:function(response){
 	        		if (response['status'] == 'Success'){
-	        			console.log(response['result']);
-	        			console.log(response['alldata']);
-	        			console.log(response['entro']);
+	        			console.log(response);
 
 	        		}
 	        		else{
-	        			console.log(response['result']);
-	        			console.log(response['alldata']);
-	        			console.log(response['entro']);
+	        			console.log(response);
 	        		}
 
 	        		
