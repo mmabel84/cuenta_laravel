@@ -13,6 +13,7 @@
     <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
 
 @endsection
 
@@ -74,7 +75,7 @@
 			                          	</div>
 
 										<div class="btn-group">
-		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-user fa-3x"></i> </button>
+		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>
 
 		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="{{$a->id}}">
 		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -86,35 +87,46 @@
 								                          <button type="button" class="close" data-dismiss="modal">
 								                          </button>
 								                          <h4 class="modal-title" id="myModalLabel"></h4>
-								                          <label class="control-label col-md-6 col-sm-6 col-xs-12">{{$a->aplicacion->app_nom}} de  {{$a->empresa->empr_nom}}</label>
+								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">{{$a->aplicacion->app_nom}} de  {{$a->empresa->empr_nom}}</label>
 								                        </div>
 								                        <div class="modal-body">
 			                        						
-				                        						<div class="col-md-4 col-sm-4 col-xs-12">
-				                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_usr_id" id="select_usr_id{{$a->id}}">
+			                        						<form id="modalform">
+			                        						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
+				                             						<select class="select2_single form-control col-md-12 col-sm-12 col-xs-12" name="select_usr_id" id="select_usr_id{{$a->id}}" style="width:100%;">
 					                            						<option value="null">Seleccione un usuario...</option>
 					                            						@foreach($usrs as $u)
 					                                					<option value="{{ $u->id }}">{{ $u->name }}</option>
 					                           							@endforeach
 					                          						</select>
-				                          						</div>
+			                          						</div>
+			                          						<br>	
+		                          							<br>
 
-				                          						<div class="col-md-2 col-sm-2 col-xs-12">
-				                          								<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$a->id}});">Agregar</button>
-				                          						</div>
+			                          						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
+						                                          <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="roles[]" id="roles{{$a->id}}" multiple="multiple" style="width:100%;" >
+												                  </select>
 
-				                          						<div class="col-md-3 col-sm-3 col-xs-12">
-				                          								<p></p>
-				                          						</div>
+					                                        </div>
+
+					                                        <br>	
+		                          							<br>
+
+		                          							<div class="item form-group col-md-12 col-sm-12 col-xs-12">
+				                          							<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$a->id}});">Agregar</button>
+			                          						</div>
+
+				                          						
 		                          								<br>	
 		                          								<br>
 		                            							<div class="col-md-12 col-sm-12 col-xs-12">
-				                             						 <table id="datatable-buttons{{$a->id}}" class="table table-striped table-bordered">
+				                             						<table id="datatable-buttons{{$a->id}}" class="table table-striped table-bordered">
 		                      												<thead>
 		                        												<tr>
 		                          													<th>Nombre de usuario</th>
 		                          													<th>Correo electrónico</th>
 		                          													<th>Teléfono</th>
+		                          													<th>Roles</th>
 		                        												</tr>
 		                      												</thead>
 
@@ -124,16 +136,17 @@
 		                          												<td>{{$usr->name}}</td>
 		                          												<td>{{$usr->email}}</td>
 		                          												<td>{{$usr->users_tel}}</td>
+		                          												<td></td>
 		                          												</tr>
 		                          											@endforeach
 		                          											<div id="result_success{{$a->id}}"></div>
 		                          											</tbody>
-		                          										</table>
-				                          							</div>
+		                          									</table>
+				                          						</div>
 
 				                          						<div id="result_failure{{$a->id}}"></div>
 
-	                          								
+	                          								</form>
 								                        </div>
 								                        <div class="modal-footer">
 								                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanFailureDiv({{$a->id}});">Cerrar</button>
@@ -193,12 +206,13 @@
 	    	<script src="{{ asset('vendors/jszip/dist/jszip.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/pdfmake/build/pdfmake.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+	    	<script src="{{ asset('vendors/select2/dist/js/select2.min.js') }}"></script>
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
 	   <script>
 	      $( function() {
 	          $('#alertmsgcreation').click(function() {
-	              console.log('alertmsgcreation button clicked');
+	              console.log('alertmsgcreation button clicked');3
 	          });
 	          
 	         setTimeout(function() {
@@ -223,35 +237,43 @@
 
     	function cleanFailureDiv(bdid){
 			$("#result_failure"+bdid).html('');
+			document.getElementById("select_usr_id"+bdid).value = 'null';
+			$("#roles"+bdid).val('').change();
+			//$("#roles"+bdid).html('');
+			//$("#roles"+bdid).find($('option')).attr('selected',false);
+
 			}
 
 	    	function relatedb(bdid){
 	    		
 	    		var usrid = document.getElementById("select_usr_id"+bdid).value;
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+	    		//var roles = document.getElementById("roles"+bdid).value;
+	    		var roles = $("#roles"+bdid).val();
+	    		console.log(roles);
+	    		console.log(usrid);
+	    		console.log(bdid);
 	    		
 	        $.ajax({
-	        	url:"/addbdusr/"+bdid+"/"+usrid,
+	        	url:"/addbdusr",
 	        	type:'POST',
 	        	cache:false,
-	        	data: {_token: CSRF_TOKEN},
+	        	data: {_token: CSRF_TOKEN,roles:roles,usrid:usrid,bdid:bdid},
     			dataType: 'JSON',
 
 	        	success:function(response){
 	        		if (response['status'] == 'Success'){
-	        			console.log($(".result_success"+bdid));
+	        			console.log(response['result']);
 	        			$("#datatable-buttons"+bdid).append(response['result']);
 	        			cleanFailureDiv(bdid);
 
 	        		}
 	        		else{
 	        			$("#result_failure"+bdid).html(response['result']);
-	        			console.log($(".result_failure"+bdid));
+	        			//console.log($(".result_failure"+bdid));
 	        		}
 
 	        		document.getElementById("select_usr_id"+bdid).value = 'null';
-
-	        		console.log(response);
 
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -262,6 +284,65 @@
 
 	    });
 	    };
+
+
+
+	    function getrolepermissionbd(bdid){
+	    		
+	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+	    		
+	        $.ajax({
+	        	url:"/getrolesbd/"+bdid,
+	        	type:'POST',
+	        	cache:false,
+	        	data: {_token: CSRF_TOKEN},
+    			dataType: 'JSON',
+
+	        	success:function(response){
+	        		if (response['status'] == 'Success'){
+	        			//console.log(response['roles']);
+	        			var roles = response['roles'];
+	        			
+						//$('.chosen-select', this).chosen('destroy').chosen();
+	        			var datarole = [];
+	        			if (roles.length > 0) {
+				            for (var i = 0; i < roles.length; i++) {
+				              var dic = {'id': roles[i]['slug'], 'text': roles[i]['name']};
+				              //console.log(roles[i]['slug']);
+				              datarole.push(dic);
+				            }
+				            $("#roles"+bdid).select2({
+				                  data: datarole,
+				                  allowClear: true,
+				                  placeholder: 'Seleccione los roles...'
+				                   
+				             });
+				          }
+	        		}
+	        		else{
+	        			$("#result_failure"+bdid).html(response['result']);
+	        			console.log($(".result_failure"+bdid));
+	        		}
+
+	        		
+
+
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        		console.log(XMLHttpRequest);
+                    alert("Error: " + errorThrown); 
+                } 
+
+
+	    });
+
+	        
+	    };
+
+
+	   
+
+	    
 	</script>
 
 

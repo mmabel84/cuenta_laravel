@@ -124,7 +124,7 @@
                   <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" >
                       <!--<option value="null">Seleccione una empresa ...</option>-->
                            
-                    </select>
+                  </select>
 
                 </div>
                 <br>
@@ -161,7 +161,7 @@
              <div class="col-md-3 col-sm-3 col-xs-12" >
                 <div class="x_panel">
                 <div class="x_title">
-                            <h2>Consulta de Artículo 69-B</h2>
+                            <h2>Consulta de Artículo 69 y 69-B</h2>
                             </br>
                             <p>Actualizado a 23/09/2017</p>
                             <div class="clearfix"></div>

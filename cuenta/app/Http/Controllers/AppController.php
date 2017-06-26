@@ -69,7 +69,7 @@ class AppController extends Controller
     	$appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;
     	$appbd->save();
 
-        //Generar base de datos con script de app en servidor especificado
+        //TODO Generar base de datos con script de app en servidor especificado
         $fmessage = 'Se ha creado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
         $this->registroBitacora($request,'create',$fmessage); 
     	\Session::flash('message',$fmessage);
@@ -114,7 +114,7 @@ class AppController extends Controller
 
         $appu->bdapp_app_id =  $app[0]->id;
         $appu->bdapp_app = $app[0]->app_cod;
-        //llamar archivo de configuracion para seleccionar base de datos
+        //TODO llamar archivo de configuracion para seleccionar base de datos
         $appu->bdapp_nomserv = 'Test';
         $appu->bdapp_empr_id = $request->bdapp_empr_id;
         
@@ -127,40 +127,78 @@ class AppController extends Controller
 
     }
 
-    public function relateAppUsr($idapp,$idusr)
+    public function relateAppUsr(Request $request)
     {
+        $alldata = $request->all();
 
-        if ($idusr && $idapp)
-        {
-            $usrp = User::find($idusr);
-            $bdp = BasedatosApp::find($idapp);
+        /*echo "<pre>";
+        print_r($alldata);die();
+        echo "</pre>";*/
+
+     
+        if(array_key_exists('usrid',$alldata) && isset($alldata['usrid']) && array_key_exists('bdid',$alldata) && isset($alldata['bdid'])){
+        
+            $usrp = User::find($alldata['usrid']);
+            $bdp = BasedatosApp::find($alldata['bdid']);
             $exist = False;
-            $usrrelated = $bdp->users()->get();
-
-            foreach ($usrrelated as $u) {
-                if ($u->id == $idusr){
-                    $exist = True;
+            if($bdp){
+                $usrrelated = $bdp->users()->get();
+                foreach ($usrrelated as $u) {
+                    if ($u->id == $alldata['usrid']){
+                        $exist = True;
+                    }
                 }
-            }
 
-            if ($exist == True)
-            {
-                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación con el usuario ".$usrp->name."</label>");
+                if ($exist == True)
+                {
+                    $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación con el usuario ".$usrp->name."</label>");
+                }
+                else
+                {
+                     $stringroles = '';
+                     $bdp->users()->attach($alldata['usrid']);
+                     $usrarray = array('name'=>$usrp->name,'correo'=>$usrp->email,'telef'=>$usrp->users_tel, 'user'=>$usrp->users_nick,'password'=>$usrp->password);
+                     
+                     /*if(array_key_exists('roles',$alldata) && isset($alldata['roles']) ){
+                         foreach ($alldata['roles'] as $rol) {
+                            $stringroles = $stringroles + string($rol).' ,';
+                         }
+                    }*/
+
+
+                     //TODO consumir servicio para guardar usuario con roles asociados, pasando usuario, arreglo de roles con slug de cada rol y nombre de bd
+                     //$arrayparams['usr'] = $usrarray;
+                     //$arrayparams['bd'] = $bdp->bdapp_nombd;
+                     //$arrayparams['roles'] = $alldata['roles'];
+                     //$service_response  = $cont->getAppService($acces_vars['access_token'],'rolesperms',$arrayparams,'control');
+                     $response = array ('status' => 'Success', 'result' => '<tr>
+                                     <td>' . $usrp->name . '</td>' .
+                                    '<td>' . $usrp->email . '</td>' .
+                                    '<td>' . $usrp->users_tel . '</td>' .
+                                    '<td>' . $stringroles . '</td>' .
+                                    '</tr>');
+                }
+            
+
+
             }
             else
             {
-                 $bdp->users()->attach($idusr);
-                 $response = array ('status' => 'Success', 'result' => '<tr>
-                                 <td>' . $usrp->name . '</td>' .
-                                '<td>' . $usrp->email . '</td>' .
-                                '<td>' . $usrp->users_tel . '</td>' .
-                            '</tr>');
+                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Base de datos no encontrada</label>");
+
             }
+            
+        }
+        else
+        {
+
+            $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Usuario o base de datos no encontrados</label>");
         }
        
         return \Response::json($response);
-        
-
     }
 
+    
 }
+
+

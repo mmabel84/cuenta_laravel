@@ -397,6 +397,41 @@ class UsrController extends Controller
         return \Response::json($response);
     }
 
+
+    public function getrolepermissionbd($bdid){
+
+        $bd = BasedatosApp::find($bdid);
+        
+        //TODO llamar a sericio que trae arreglo de roles
+        /*
+        $cont = new Controller;
+        $acces_vars = $cont->getAccessToken();
+        $arrayparams['rfc'] = $bd->rfc;
+        $service_response  = $cont->getAppService($acces_vars['access_token'],'rolesperms',$arrayparams,'control');
+         if ($service_response['roles']){
+            $response = array(
+            'status' => 'Success',
+            'msg' => 'Roles returned',
+            'roles' => $service_response['roles']);
+        
+            return \Response::json($response);
+
+         }*/
+         
+        $roles_array = array(
+            array('slug'=>'rol1','name'=>'Rol 1'),
+            array('slug'=>'rol2','name'=>'Rol 2'),
+            array('slug'=>'rol3','name'=>'Rol 3'),
+        );
+        
+         $response = array(
+            'status' => 'Success',
+            'msg' => 'Roles returned',
+            'roles' => $roles_array);
+
+         return \Response::json($response);
+    }
+
     
 
 }

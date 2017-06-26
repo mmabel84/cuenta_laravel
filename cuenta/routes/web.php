@@ -27,7 +27,7 @@ Route::resource('backups', 'BackController');
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('/addusrdb/{usrid}/{bdid}', 'UsrController@relateUsrApp')->name('relatedb');
-Route::post('/addbdusr/{bdid}/{usrid}', 'AppController@relateAppUsr')->name('relateusr');
+Route::post('/addbdusr', 'AppController@relateAppUsr')->name('relateusr');
 Route::post('/cambcont', 'UsrController@changepass')->name('cambiarcontrasena');
 
 Route::post('/usuarios/permsbyroles', 'UsrController@permsbyroles');
@@ -37,9 +37,14 @@ Route::post('/usuarios/{usrid}/permsbyroles', 'UsrController@permsbyroles');
 Route::post('/appbyemp', 'HomeController@appbyemp');
 Route::post('/artconsult', 'HomeController@auditar69b')->name('art');
 
-Route::post('/downloadback', 'BackController@downloadBackup')->name('downlback');
+Route::get('/downloadback/{bdid}', 'BackController@downloadBackup')->name('downlback');
+
+//Ruta para consumir servicio web que expone roles de BD de aplicación
+Route::post('/getrolesbd/{bdid}', 'UsrController@getrolepermissionbd')->name('getrolesbd');
+
 
 Auth::routes();
+
 
 
 

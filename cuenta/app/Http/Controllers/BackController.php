@@ -25,51 +25,53 @@ class BackController extends Controller
         return view('backups',['backs'=>$backs]);
     }
 
-    public function downloadBackup(Request $request){
+    public function downloadBackup($bdid){
     	 
         // $fs = Storage::disk('sftp')->getDriver();
         // $stream = $fs->readStream($dest);
         $root = '';
-        $alldata = $request->all();
 
-
-        if (array_key_exists('bdid',$alldata) && isset($alldata['bdid'])){
+        if ($bdid){
             
-            $backapp = Backup::find($alldata['bdid']);
+            $backapp = Backup::find($bdid);
             if($backapp){
                 $root = $backapp->backbd_linkback;
             }
-
         }
+
+        $msg = 'Respaldo sin ruta en base de datos';
+        $status = 'Failure';
         $file = null;
+
          if ($root == '')
          {
-           
-            $response = array ('status' => 'Failure', 'result' => 'Backup sin ruta en base de datos','file'=>$file);
-            return \Response::json($response);
+            \Session::flash('failmessage',$msg);
+            //$response = array ('status' => $status, 'result' => $msg);
+            return Redirect::to('backups');
          }
 
-        $msg = 'Fichero no encontrado en servidor sftp';
+        $msg = 'Respaldo no encontrado en servidor sftp';
         $status = 'Failure';
 
             //Funciona pero devuelve el contenido del archivo no legible
-        /*$content = Storage::disk('sftp')->get($root.'.gz');
-        $response = array ('status' => 'Success', 'result' => 'Fichero encontrado','file'=>utf8_encode($content));
-        return \Response::json($response);*/
+        $content = Storage::disk('sftp')->get($root.'.gz');
+        if ($content)
+        {
+            Storage::disk('local')->put($root.'.gz', $content);
+            $msg = 'Respaldo descargado exitosamente';
+            $status = 'Success';
+            //\Session::flash('message',$msg);
+            return response()->download(storage_path('app').DIRECTORY_SEPARATOR.$root.'.gz')->deleteFileAfterSend(true);
+            
+        }
 
+        \Session::flash('failmessage',$msg);
+        return Redirect::to('backups');
          
         
-        /*$content = Storage::disk('sftp')->get($root.'.gz');
-        return \Response::make(utf8_encode($content), '200', array(
-                'Content-Type' => 'application/octet-stream',
-                'Content-Disposition' => 'attachment; filename="'.'test.gz'.'"'
-            ));*/
-
-
-
-        //return response()->download(Storage::disk('sftp')->get($root.'.gz'));
-        //return response()->download('/opt/bitnami/apache2/htdocs/mabel/'.$root.'.gz');
-        return response()->download('/opt/bitnami/apache2/htdocs/mabel/'.$root.'.gz')->deleteFileAfterSend(true);
+        
+        
+        //->deleteFileAfterSend(true)
 
 
 
@@ -114,7 +116,7 @@ class BackController extends Controller
     			}
                 $carpeta = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc;
                 $bdname = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc.'_'.$backsbd;
-                $dest = $carpeta.'/'.$bdname;
+                $dest = $carpeta.DIRECTORY_SEPARATOR.$bdname;
                 $backbd->backbd_linkback = $dest;
 
     			\Artisan::call('db:backup', array('--destination' => 'sftp', '--database'=> 'mysql', '--destinationPath' => $dest, '--compression' => 'gzip')) ;
@@ -137,17 +139,18 @@ class BackController extends Controller
 
      public function destroy($id, Request $request)
     {
-        
-        $appd = BasedatosApp::find($id);
-        $appd->users()->detach();
-        $appd-> backups()->delete();
+                
+        $backbd = Backup::find($id);
+        $root = $backbd->backbd_linkback;
+        Storage::disk('sftp')->delete($root.'.gz');
 
-        $appd->delete();
-        $fmessage = 'Se ha eliminado la base de datos de aplicación: '.$appd->bdapp_nombd;
+        $backbd->delete();
+        $fmessage = 'Se ha eliminado el respaldo';
+        //$fmessage = 'Se ha eliminado el respaldo de aplicación: '.$backbd->aplicacion->app_nom.' de '.$backbd->empresa->empr_nom;
         $this->registroBitacora($request,'delete',$fmessage); 
         \Session::flash('message',$fmessage);
 
-        return Redirect::to('apps');
+        return Redirect::to('backups');
 
 
     }
