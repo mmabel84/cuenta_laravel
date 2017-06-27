@@ -126,17 +126,21 @@
 		                          													<th>Nombre de usuario</th>
 		                          													<th>Correo electrónico</th>
 		                          													<th>Teléfono</th>
-		                          													<th>Roles</th>
+		                          													<th>Acciones</th>
 		                        												</tr>
 		                      												</thead>
 
 		                      												<tbody>
 		                      												@foreach ($a->users as $usr)
-		                        												<tr>
+		                        												<tr id="row{{ $usr->id }}">
 		                          												<td>{{$usr->name}}</td>
 		                          												<td>{{$usr->email}}</td>
 		                          												<td>{{$usr->users_tel}}</td>
-		                          												<td></td>
+		                          												<td>
+		                          													<div class="btn-group{{ $usr->id }}">
+													                          			<button id="desvusrbtn{{ $usr->id }}" onclick="unrelatedb({{ $usr->id }}, {{ $a->id }});" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button>
+														                          	</div>
+		                          												</td>
 		                          												</tr>
 		                          											@endforeach
 		                          											<div id="result_success{{$a->id}}"></div>
@@ -159,7 +163,56 @@
 			                          	</div>
 
 			                          	<div class="btn-group">
-		                          			<button onclick="#" class="btn btn-xs" data-placement="left" title="Ver bitácora" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-eye fa-3x"></i> </button>
+		                          			<button class="btn btn-xs" data-placement="left" title="Ver bitácora" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-eye fa-3x" onclick="showModalBit({{ $a->id }})"></i> </button>
+
+
+		                          			<div class="modal fade{{$a->id}} bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="bit{{$a->id}}">
+		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
+		                          			    
+								                    <div class="modal-dialog modal-lg">
+								                      <div class="modal-content">
+
+								                        <div class="modal-header">
+								                          <button type="button" class="close" data-dismiss="modal">
+								                          </button>
+								                          <h4 class="modal-title" id="myModalLabel"></h4>
+								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">Bitácora de {{$a->aplicacion->app_nom}} de  {{$a->empresa->empr_nom}}</label>
+								                        </div>
+								                        <div class="modal-body">
+			                        						
+			                        						<form id="modalform">
+			                        						
+		                            							<div class="col-md-12 col-sm-12 col-xs-12">
+				                             						<table id="datatable-buttons-bit{{$a->id}}" class="table table-striped table-bordered">
+		                      												<thead>
+		                        												<tr id="header{{$a->id}}">
+		                          													<th>Fecha</th>
+		                          													<th>Operación</th>
+		                          													<th>IP</th>
+		                          													<th>Mensaje</th>
+															                        <th>Módulo</th>
+		                        												</tr>
+		                      												</thead>
+
+		                      												<tbody id="datatable-body-bit{{$a->id}}">
+		                      												
+		                          											</tbody>
+		                          									</table>
+				                          						</div>
+
+
+	                          								</form>
+								                        </div>
+								                        <div class="modal-footer">
+								                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanBitTable({{$a->id}});">Cerrar</button>
+								                          
+								                        </div>
+
+								                      </div>
+								                    </div>
+								                  </div>
+
+
 			                          	</div>
 
 			                          		
@@ -235,6 +288,78 @@
 
     <script>
 
+    	function cleanBitTable(bdid){
+			var table = document.getElementById("datatable-buttons-bit"+bdid);
+   			var rowCount = table.rows.length;
+
+			while(table.rows.length > 1) {
+
+			  table.deleteRow(1);
+			}
+
+			/*var tableRef = document.getElementById("datatable-buttons-bit"+bdid).getElementsByTagName('tbody')[0];
+			tableRef.innerHTML="";*/
+
+		}
+
+	    function showModalBit(bdid) {
+	          var modalid = "bit"+bdid;
+	          $("#"+modalid).modal('show');
+	          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+	           $.ajax({
+	        	url:"/getbitbd",
+	        	type:'POST',
+	        	cache:false,
+	        	data: {_token: CSRF_TOKEN,bdid:bdid},
+    			dataType: 'JSON',
+
+	        	success:function(response){
+	        		if (response['status'] == 'Success'){
+	        			var bit = response['result'];
+	        			var table = document.getElementById("datatable-buttons-bit"+bdid);
+	        			console.log(bit[0]);
+
+	        			if (bit.length > 0) {
+				            for (var i = 0; i < bit.length; i++) {
+
+				              var row = table.insertRow(i+1);
+				              
+				              var cell0 = row.insertCell(0);
+				              cell0.innerHTML = bit[i].bitc_fecha;
+
+				              var cell1 = row.insertCell(1);
+				              cell1.innerHTML = bit[i].bitcta_tipo_op;
+
+				              var cell2 = row.insertCell(2);
+				              cell2.innerHTML = bit[i].bitcta_ip;
+
+				              var cell4 = row.insertCell(3);
+				              cell4.innerHTML = bit[i].bitcta_msg;
+
+				              var cell5 = row.insertCell(4);
+				              cell5.innerHTML = bit[i].bitc_modulo;
+
+				              
+				            }
+				            
+				          }
+	        			
+
+	        		}
+
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        		console.log(XMLHttpRequest);
+                    alert("Error: " + errorThrown); 
+                } 
+
+
+	    });
+
+	          
+	        }
+
     	function cleanFailureDiv(bdid){
 			$("#result_failure"+bdid).html('');
 			document.getElementById("select_usr_id"+bdid).value = 'null';
@@ -250,9 +375,9 @@
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 	    		//var roles = document.getElementById("roles"+bdid).value;
 	    		var roles = $("#roles"+bdid).val();
-	    		console.log(roles);
-	    		console.log(usrid);
-	    		console.log(bdid);
+	    		//console.log(roles);
+	    		//console.log(usrid);
+	    		//console.log(bdid);
 	    		
 	        $.ajax({
 	        	url:"/addbdusr",
@@ -263,8 +388,49 @@
 
 	        	success:function(response){
 	        		if (response['status'] == 'Success'){
-	        			console.log(response['result']);
 	        			$("#datatable-buttons"+bdid).append(response['result']);
+
+	        			
+
+	        		}
+	        		else{
+	        			$("#result_failure"+bdid).html(response['result']);
+	        			//console.log($(".result_failure"+bdid));
+	        		}
+
+	        		cleanFailureDiv(bdid);
+
+	        		document.getElementById("select_usr_id"+bdid).value = 'null';
+
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        		console.log(XMLHttpRequest);
+                    alert("Error: " + errorThrown); 
+                } 
+
+
+	    });
+	    };
+
+
+
+
+	    function unrelatedb(usrid, bdid){
+	    		
+	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+	    		document.getElementById("row"+usrid).outerHTML="";
+	    			    		
+	        $.ajax({
+	        	url:"/unrbdusr",
+	        	type:'POST',
+	        	cache:false,
+	        	data: {_token: CSRF_TOKEN,usrid:usrid,bdid:bdid},
+    			dataType: 'JSON',
+
+	        	success:function(response){
+	        		if (response['status'] == 'Success'){
+	        			console.log(response);
+	        			//$("#datatable-buttons"+bdid).append(response['result']);
 	        			cleanFailureDiv(bdid);
 
 	        		}
@@ -284,6 +450,7 @@
 
 	    });
 	    };
+
 
 
 

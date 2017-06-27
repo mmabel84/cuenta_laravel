@@ -13,6 +13,7 @@
     <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
     
 @endsection
 
@@ -84,10 +85,10 @@
 
 										<div class="btn-group">
 
-		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$u->id}}" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-database fa-3x"></i> </button>
+		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#053666; background-color:#FFFFFF; " onclick="showModalBD({{$u->id}})"><i class="fa fa-database fa-3x"></i> </button>
 
 		                          				
-		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="{{$u->id}}">
+		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalUsrBd{{$u->id}}">
 		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
 		                          			    
 								                    <div class="modal-dialog modal-lg">
@@ -101,14 +102,24 @@
 
 								                        <div class="modal-body">
 								                        <form>
-			                        						<div class="col-md-4 col-sm-4 col-xs-12">
-			                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_bd_id" id="select_bd_id{{$u->id}}">
+			                        						<div class="col-md-12 col-sm-12 col-xs-12">
+			                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_bd_id" id="select_bd_id{{$u->id}}" style="width:100%;" onclick="fillroles(this, {{ $u->id }});">
 				                            						<option value="null">Seleccione una base de datos ...</option>
 				                            						@foreach($apps as $ap)
 				                                					<option value="{{ $ap->id }}">{{ $ap->empresa->empr_nom }} {{ $ap->aplicacion->app_nom }}</option>
 				                           							@endforeach
 				                          						</select>
 			                          						</div>
+			                          						<br>	
+		                          							<br>
+
+			                          						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
+						                                          <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="roles[]" id="roles{{$u->id}}" multiple="multiple" style="width:100%;" >
+												                  </select>
+
+					                                        </div>
+					                                        <br>	
+		                          							<br>
 			                          						<div class="col-md-2 col-sm-2 col-xs-12">
 			                          								<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$u->id}});">Agregar</button>
 			                          						</div>
@@ -125,6 +136,7 @@
 	                          													<th>Aplicación</th>
 	                          													<th>Empresa</th>
 	                          													<th>RFC de empresa</th>
+	                          													<th>Acciones</th>
 
 
 	                        												</tr>
@@ -132,10 +144,15 @@
 
 	                      												<tbody>
 	                      												@foreach ($u->basedatosapps as $bd)
-	                        												<tr>
+	                        												<tr id="row{{ $bd->id }}">
 	                          												<td>{{$bd->aplicacion->app_nom}}</td>
 	                          												<td>{{$bd->empresa->empr_nom}}</td>
 	                          												<td>{{$bd->empresa->empr_rfc}}</td>
+	                          												<td>
+		                          													<div class="btn-group{{ $bd->id }}">
+													                          			<button id="desvusrbtn{{ $bd->id }}" onclick="unrelatedb({{ $bd->id }}, {{ $u->id }});" class="btn btn-xs" data-placement="left" title="Desasociar base de datos" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button>
+														                          	</div>
+		                          												</td>
 	                          												</tr>
 	                          											@endforeach
 	                          											<div id="result_success{{$u->id}}"></div>
@@ -236,6 +253,7 @@
 	    	<script src="{{ asset('vendors/jszip/dist/jszip.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/pdfmake/build/pdfmake.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+	    	<script src="{{ asset('vendors/select2/dist/js/select2.min.js') }}"></script>
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
    <script>
@@ -263,27 +281,23 @@
     </script>
 
 	<script>
-	   		
-	   		/*function addPerson(nombd,app,emp,rfc) {
-	  			const row = createRow({
-	    		nombd: nombd,
-	    		app: app,
-	    		emp: emp,
-	    		rfc: rfc,
-	  			$('table tbody').append(row);
+
+		
+	function cleanRoles(usrid){
+			$("#roles"+usrid).select2({
+				                  allowClear: true,
+				                  placeholder: 'Sin roles...'
+				             });
+			$("#roles"+usrid).empty();
+
 			}
 
-	function createRow(data) {
-	  return (
-	    `<tr>` +
-	      `<td>${$('tbody tr').length + 1}</td>` +
-	      `<td>${data.name}</td>` +
-	      `<td>${data.lastname}</td>` +
-	    `</tr>`
-	 );
-	}*/		function cleanFailureDiv(usrid){
+
+		function cleanFailureDiv(usrid){
 
 			$("#result_failure"+usrid).html('');
+			document.getElementById("select_bd_id"+usrid).value = 'null';
+			cleanRoles(usrid);
 
 			}
 
@@ -292,13 +306,13 @@
 	    		
 	    		var bdid = document.getElementById("select_bd_id"+usrid).value;
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+	    		var roles = $("#roles"+usrid).val();
 	    		
 	        $.ajax({
-	        	url:"/addusrdb/"+usrid+"/"+bdid,
-	        	//data:"usrid="+ usrid + "& bdid=" + bdid,
+	        	url:"/addusrdb",
 	        	type:'POST',
 	        	cache:false,
-	        	data: {_token: CSRF_TOKEN},
+	        	data: {_token: CSRF_TOKEN,roles:roles,usrid:usrid,bdid:bdid},
     			dataType: 'JSON',
 
 	        	success:function(response){
@@ -311,6 +325,7 @@
 	        		else{
 	        			$("#result_failure"+usrid).html(response['result']);
 	        			console.log($(".result_failure"+usrid));
+	        			cleanRoles(usrid);
 	        		}
 
 	        		document.getElementById("select_bd_id"+usrid).value = 'null';
@@ -327,14 +342,119 @@
 	    });
 	    };
 
+
+	    function unrelatedb(bdid, usrid){
+	    		
+	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+	    		document.getElementById("row"+bdid).outerHTML="";
+	    			    		
+	        $.ajax({
+	        	url:"/unrbdusr",
+	        	type:'POST',
+	        	cache:false,
+	        	data: {_token: CSRF_TOKEN,usrid:usrid,bdid:bdid},
+    			dataType: 'JSON',
+
+	        	success:function(response){
+	        		if (response['status'] == 'Success'){
+	        			console.log(response);
+	        			cleanFailureDiv(usrid);
+
+	        		}
+	        		else{
+	        			$("#result_failure"+usrid).html(response['result']);
+	        		}
+
+	        		document.getElementById("select_bd_id"+usrid).value = 'null';
+
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        		console.log(XMLHttpRequest);
+                    alert("Error: " + errorThrown); 
+                } 
+
+
+	    });
+	    };
+
+
+	    function fillroles(element, usrid){
+	    		
+	    		$("#roles"+usrid).empty();
+
+	    		var bdid = element.value;
+	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+	    		if (element.value == 'null'){
+	    			cleanRoles(usrid);
+	    		}
+	    		else
+	    		{
+	    			$.ajax({
+		        	url:"/getrolesbd/"+bdid,
+		        	type:'POST',
+		        	cache:false,
+		        	data: {_token: CSRF_TOKEN},
+	    			dataType: 'JSON',
+
+		        	success:function(response){
+		        		if (response['status'] == 'Success'){
+		        			//console.log(response['roles']);
+		        			var roles = response['roles'];
+		        			
+							//$('.chosen-select', this).chosen('destroy').chosen();
+		        			var datarole = [];
+		        			if (roles.length > 0) {
+					            for (var i = 0; i < roles.length; i++) {
+					              var dic = {'id': roles[i]['slug'], 'text': roles[i]['name']};
+					              //console.log(roles[i]['slug']);
+					              datarole.push(dic);
+					            }
+					            $("#roles"+usrid).select2({
+					                  data: datarole,
+					                  allowClear: true,
+					                  placeholder: 'Seleccione los roles...'
+					                   
+					             });
+					          }
+		        		}
+		        		else{
+		        			$("#result_failure"+bdid).html(response['result']);
+		        			console.log($(".result_failure"+bdid));
+		        		}
+
+			        },
+			        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+			        		console.log(XMLHttpRequest);
+		                    alert("Error: " + errorThrown); 
+	                } 
+
+
+		    		});
+
+	    		}
+	    		
+	        
+	    };
+
 	    function showModal(user) {
           var modalid = "passmodal"+user;
+
           $("#"+modalid).modal('show');
+          
+        }
+
+        function showModalBD(user) {
+          var modalid = "modalUsrBd"+user;
+
+          $("#"+modalid).modal('show');
+          cleanRoles(user);
         }
 
        function hideModal(user) {
           var modalid = "passmodal"+user;
           $("#"+modalid).modal('hide');
+          cleanRoles(user);
         }
 
 

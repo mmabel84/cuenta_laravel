@@ -26,8 +26,12 @@ Route::resource('backups', 'BackController');
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::post('/addusrdb/{usrid}/{bdid}', 'UsrController@relateUsrApp')->name('relatedb');
+Route::post('/addusrdb', 'UsrController@relateUsrApp')->name('relatedb');
 Route::post('/addbdusr', 'AppController@relateAppUsr')->name('relateusr');
+Route::post('/unrbdusr', 'AppController@unrelateAppUsr')->name('unrelateusr');
+
+Route::post('/getbitbd', 'AppController@getBitBD')->name('getbitbd');
+
 Route::post('/cambcont', 'UsrController@changepass')->name('cambiarcontrasena');
 
 Route::post('/usuarios/permsbyroles', 'UsrController@permsbyroles');
@@ -61,10 +65,10 @@ Route::get('/getcontrolaccesstoken', function () {
     $response = $http->post('http://advans.control.mx/oauth/token', [
     'form_params' => [
         'grant_type' => 'password',
-        'client_id' => '5',
-        'client_secret' => 'zYJPeZrqWbW1lAHl80b4Zn0fFYi2iZN6Unlgcdu6',
-        'username' => 'chino270786@gmail.com',
-        'password' => base64_decode('RGFuaWVsMTIz'),
+        'client_id' => '1',
+        'client_secret' => '98q5xAE0Pna6IWKLpNdn3gvQtXsP0ZsDqvn1ho9a',
+        'username' => 'control.admin@advans.mx',
+        'password' => 'Admin123*',
         'scope' => '*',
     ],
 ]);

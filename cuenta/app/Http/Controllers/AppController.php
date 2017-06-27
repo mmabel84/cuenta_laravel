@@ -9,6 +9,7 @@ use App\Aplicacion;
 use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Redirect;
+use App\Bitacora;
 
 class AppController extends Controller
 {
@@ -159,25 +160,27 @@ class AppController extends Controller
                      $bdp->users()->attach($alldata['usrid']);
                      $usrarray = array('name'=>$usrp->name,'correo'=>$usrp->email,'telef'=>$usrp->users_tel, 'user'=>$usrp->users_nick,'password'=>$usrp->password);
                      
-                     /*if(array_key_exists('roles',$alldata) && isset($alldata['roles']) ){
-                         foreach ($alldata['roles'] as $rol) {
-                            $stringroles = $stringroles + string($rol).' ,';
-                         }
-                    }*/
-
-
+                     
                      //TODO consumir servicio para guardar usuario con roles asociados, pasando usuario, arreglo de roles con slug de cada rol y nombre de bd
                      //$arrayparams['usr'] = $usrarray;
                      //$arrayparams['bd'] = $bdp->bdapp_nombd;
                      //$arrayparams['roles'] = $alldata['roles'];
                      //$service_response  = $cont->getAppService($acces_vars['access_token'],'rolesperms',$arrayparams,'control');
-                     $response = array ('status' => 'Success', 'result' => '<tr>
+                    $btn = '<div 
+                class="btn-group'.$usrp->id.'">
+                    <button id="desvusrbtn'.$usrp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button></div>';
+                     $response = array ('status' => 'Success', 'roles'=> $alldata['roles'], 'result' => '<tr id="row'.$usrp->id.'">
                                      <td>' . $usrp->name . '</td>' .
                                     '<td>' . $usrp->email . '</td>' .
                                     '<td>' . $usrp->users_tel . '</td>' .
-                                    '<td>' . $stringroles . '</td>' .
+
+                                    '<td>' . $btn . '</td>' .
+
                                     '</tr>');
                 }
+
+
+                
             
 
 
@@ -196,6 +199,42 @@ class AppController extends Controller
         }
        
         return \Response::json($response);
+    }
+
+
+    public function unrelateAppUsr(Request $request)
+    {
+        $alldata = $request->all();
+        if(array_key_exists('usrid',$alldata) && isset($alldata['usrid']) && array_key_exists('bdid',$alldata) && isset($alldata['bdid'])){
+            $usrp = User::find($alldata['usrid']);
+            $bdp = BasedatosApp::find($alldata['bdid']);
+            if ($bdp){
+                $bdp->users()->detach($alldata['usrid']);
+            }
+        }
+
+        $response = array ('status' => 'Success', 'result' => "Usuario eliminado de base de datos de aplicación");
+        return \Response::json($response);
+        
+
+    }
+
+
+     public function getBitBD(Request $request)
+    {
+        //TODO llamar a servicio que devuelve bitácora de aplicación, pasando nombre de base de datos específica
+
+        /*$bitacoras = Bitacora::all();
+
+        $count = ($bitacoras->count()) - 10;
+
+        $bitacoras = $bitacoras->skip($count)->get();*/
+
+        $bitacoras = Bitacora::latest()->take(10)->get();
+
+        $response = array ('status' => 'Success', 'result' => $bitacoras);
+        return \Response::json($response);
+
     }
 
     

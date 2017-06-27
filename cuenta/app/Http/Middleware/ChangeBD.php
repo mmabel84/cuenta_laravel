@@ -29,7 +29,15 @@ class ChangeBD
                     $cont = new Controller;
                     $acces_vars = $cont->getAccessToken();
                     $arrayparams['rfc'] = $alldata['login_rfc'];
-                    $service_response = $cont->getAppService($acces_vars['access_token'],'getaccstate',$arrayparams,'control');
+                    try
+                    {
+                        $service_response = $cont->getAppService($acces_vars['access_token'],'getaccstate',$arrayparams,'control');
+                    } 
+                    catch (Exception $e) 
+                    {
+                         $request->session()->put('loginrfcerr', 'Credenciales de conexión inválidas');
+                    }
+                    
 
         
                     if ($service_response['accstate'] == 'Activa'){

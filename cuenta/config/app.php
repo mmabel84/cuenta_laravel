@@ -12,10 +12,10 @@ return [
 
     'advans_apps_security' => ['control'=> [
                                     'grant_type' => 'password',
-                                    'client_id' => '2',
-                                    'client_secret' => 'dZJk8R7Hd9uKd64pVFf0OsjmbreOcEYF9bN9yn7k',
-                                    'username' => 'chino270786@gmail.com',
-                                    'password' => base64_decode('RGFuaWVsMTIz'),
+                                    'client_id' => '1',
+                                    'client_secret' => '98q5xAE0Pna6IWKLpNdn3gvQtXsP0ZsDqvn1ho9a',
+                                    'username' => 'api.rest@gmail.com',
+                                    'password' => 'api.rest',
                                     'scope' => '*',
                                     ]
                           ],

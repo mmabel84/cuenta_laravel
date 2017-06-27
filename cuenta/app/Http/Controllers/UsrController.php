@@ -107,13 +107,14 @@ class UsrController extends Controller
         ]);
     }
 
-    public function relateUsrApp($idusr,$idapp)
+    public function relateUsrApp(Request $request)
     {
+        $alldata = $request->all();
 
-        if ($idusr && $idapp)
+        if(array_key_exists('usrid',$alldata) && isset($alldata['usrid']) && array_key_exists('bdid',$alldata) && isset($alldata['bdid']))
         {
-            $usrp = User::find($idusr);
-            $bdp = BasedatosApp::find($idapp);
+            $usrp = User::find($alldata['usrid']);
+            $bdp = BasedatosApp::find($alldata['bdid']);
             $exist = False;
             /*echo "<pre>";
             print_r();die();
@@ -121,7 +122,7 @@ class UsrController extends Controller
             $bdsrelated = $usrp->basedatosapps()->get();
 
             foreach ($bdsrelated as $bd) {
-                if ($bd->id == $idapp){
+                if ($bd->id == $alldata['bdid']){
                     $exist = True;
                 }
             }
@@ -132,12 +133,16 @@ class UsrController extends Controller
             }
             else
             {
-                 $usrp->basedatosapps()->attach($idapp);
-                 $response = array ('status' => 'Success', 'result' => '<tr>'.
+                 $usrp->basedatosapps()->attach($alldata['bdid']);
+                 $btn = '<div 
+                class="btn-group'.$bdp->id.'">
+                    <button id="desvusrbtn'.$bdp->id.'" onclick="unrelatedb('.$bdp->id.', '.$usrp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button></div>';
+                 $response = array ('status' => 'Success', 'result' => '<tr id="row'.$bdp->id.'">'.
                     
                                 '<td>' . $bdp->aplicacion->app_nom . '</td>' .
                                 '<td>' . $bdp->empresa->empr_nom . '</td>' .
                                 '<td>' . $bdp->empresa->empr_rfc . '</td>' .
+                                '<td>' . $btn . '</td>' .
                             '</tr>');
             }
         }
