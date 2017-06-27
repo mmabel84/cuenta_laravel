@@ -46,8 +46,8 @@ class ChangeBD
                         \Config::set('database.default', $alldata['login_rfc']);
                         $request->session()->pull('loginrfcerr');
                         //$request->session()->pull('login_rfc');
-                        $fmessage = 'Se ha autenticado el usuario: '.$alldata['email'];
-                        $cont->registroBitacora($request,'login',$fmessage);
+                        //$fmessage = 'Se ha autenticado el usuario: '.$alldata['email'];
+                        //$cont->registroBitacora($request,'login',$fmessage);
                         
                     }else{
                         $request->session()->flash('midred', '1');

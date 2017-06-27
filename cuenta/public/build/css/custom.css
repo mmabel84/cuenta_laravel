@@ -144,7 +144,7 @@ html , body{
     padding: 0 0 4px 0
 }
 .left_col {
-    background: #2A3F54
+    background: #053666
 }
 .nav-sm .container.body .col-md-3.left_col {
     min-height: 100%;
@@ -304,7 +304,7 @@ html , body{
     margin-top: 5px;
     font-size: 10px;
     min-width: inherit;
-    color: #C4CFDA
+    color: #053666
 }
 .active a span.fa {
     text-align: right !important;
@@ -322,8 +322,8 @@ html , body{
 }
 .nav_menu {
     float: left;
-    background: #EDEDED;
-    border-bottom: 1px solid #D9DEE4;
+    background: #053666;
+    border-bottom: 1px solid #053666;
     margin-bottom: 10px;
     width: 100%;
     position: relative
@@ -340,7 +340,8 @@ html , body{
     position: absolute;
     display: -ms-flexbox;
     display: flex;
-    z-index: 1
+    z-index: 1;
+    background: #053666
 }
 .nav-md .container.body .col-md-3.left_col.menu_fixed {
     height: 100%;
@@ -358,7 +359,7 @@ body .container.body .right_col {
 .nav_title {
     width: 230px;
     float: left;
-    background: #2A3F54;
+    background: #053666;
     border-radius: 0;
     height: 57px
 }
@@ -411,7 +412,7 @@ body .container.body .right_col {
     max-height: 400px !important
 }
 .blue {
-    color: #3498DB
+    color: #053666
 }
 .purple {
     color: #9B59B6
@@ -495,11 +496,11 @@ body .container.body .right_col {
 .top_nav .nav .open>a,
 .top_nav .nav .open>a:focus,
 .top_nav .nav .open>a:hover {
-    background: #D9DEE4
+    background: #053666
 }
 body {
-    color: #73879C;
-    background: #2A3F54;
+    color: #053666;
+    background: #053666;
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -740,7 +741,7 @@ a:focus {
     margin-bottom: 6px
 }
 .nav.side-menu>li>a:hover {
-    color: #F2F5F7 !important
+    color: #053666 !important
 }
 .nav.side-menu>li>a:hover,
 .nav>li>a:focus {
@@ -4257,5 +4258,10 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
 
 .dataTables_wrapper > .row{
   overflow:auto !important; /*prevent datatables overflowing its container*/
+}
+
+.rowheader{
+    color:#FFFFFF;
+    background-color:#053666;
 }
 

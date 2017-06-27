@@ -1,7 +1,7 @@
  @extends('admin.template.mainform')
 
 
-@section('title')
+@section('app_title')
       Aplicaciones
 @endsection 
 

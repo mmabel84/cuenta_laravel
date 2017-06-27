@@ -1,7 +1,7 @@
   @extends('admin.template.main')
 
 
-@section('title')
+@section('app_title')
       Usuarios
 @endsection 
 
@@ -28,7 +28,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#053666; ">Nuevo usuario</button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#254d74; "><b>Nuevo usuario</b></button>
 		                  </div>
 
 		                  <br/>
@@ -56,7 +56,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#053666; ">
+		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
 		                          <th>Nombre</th>
 		                          <th>Usuario</th>
 		                          <th>Correo</th>
@@ -238,7 +238,7 @@
 @section('app_js') 
     @parent
    			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>

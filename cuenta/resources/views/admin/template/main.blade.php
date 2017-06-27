@@ -21,8 +21,8 @@
             <div class="main_container">
                 
                 @section('app_left_menu')
-                    <div class="col-md-3 left_col">
-                        <div class="left_col scroll-view">
+                    <div class="col-md-3 left_col" >
+                        <div class="left_col scroll-view" >
                           <div class="navbar nav_title" style="border: 0;">
                             <a href="index.html" class="site_title"><img height="60px" src="{{asset('logo_advans.png')}}"><span>{{ config('app.name') }}</span></a>
                           </div>
@@ -139,38 +139,26 @@
                              @yield('content')
                         </div>
                     <!-- /page content -->
-              <footer>
-                <div class="footer-copyright">  
-                    <div class="container">
-                          <div class="span6">
-                            <div class="region region-footer-bottom-left">
-                                <div id="block-block-17" class="block block-block">
-                                    <div class="content">
-                                        <p>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</p>  </div>
-                                    </div>
-                                </div>
+              @section('app_footer')
+              <footer >
+                    <div class="container" >
+                                    <div class="pull-right">
+                                        <b>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</b>  </div>
                     
-                          </div>
                   <div class="span6">
-                    <div class="region region-footer-bottom-right">
-                      <div id="block-block-21" class="block block-block">
-                        <div class="content">
                           <div class="content">
                             <nav id="sub-menu">
                                 <ul>
-                                  <li><a href="http://www.advans.mx/content/aviso-de-privacidad">Aviso de Privacidad</a></li>
-                                  <li><a href="http://www.advans.mx/content/terminos-y-condiciones">Términos y Condiciones</a></li>
+                                  <li><a href="http://www.advans.mx/content/aviso-de-privacidad"><b>Aviso de Privacidad</b></a></li>
+                                  <li><a href="http://www.advans.mx/content/terminos-y-condiciones"><b>Términos y Condiciones</b></a></li>
                                 </ul>
                             </nav>
                           </div>  
-                        </div>
-                      </div>
-                    </div>
                     
                   </div>
                 </div>  
-              </div>  
             </footer>
+            @show
 
 
             </div>

@@ -1,9 +1,9 @@
  @extends('admin.template.main')
 
 
-@section('title')
+@section('app_title')
       Empresas
-@endsection 
+@endsection
 
 @section('app_css')
     @parent
@@ -29,7 +29,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('empresas/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#053666; ">Nueva empresa</button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('empresas/create') }}';" class="btn btn-round btn-primary" style="color:#000033; background-color:#ccebff; "><b>Nueva empresa</b></button>
 		                  </div>
 
 		                  <br/>
@@ -51,7 +51,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#053666; ">
+		                        <tr style="color:#000033; background-color:#ccebff; ">
 		                          <th>Nombre</th>
 		                          <th>RFC</th>
 		                          <th>Razón social</th>
@@ -114,7 +114,7 @@
 @section('app_js') 
     @parent
    			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>

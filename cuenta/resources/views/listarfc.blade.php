@@ -1,7 +1,7 @@
     @extends('admin.template.maintable')
 
 
-@section('title')
+@section('app_title')
       Lista de RFCs
 @endsection 
 

@@ -1,8 +1,8 @@
    @extends('admin.template.main')
 
 
-@section('title')
-      Backups
+@section('app_title')
+      Respaldos
 @endsection 
 
 @section('app_css')
@@ -29,7 +29,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('backups/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#053666; ">Nuevo respaldo</button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('backups/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#005c99; "><b>Nuevo respaldo</b></button>
 		                  </div>
 
 		                  <br/>
@@ -51,7 +51,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#053666; ">
+		                        <tr style="color:#FFFFFF; background-color:#005c99 ">
 		                          <th>Empresa</th>
 		                          <th>Aplicación</th>
 		                          <th>Fecha</th>
@@ -119,7 +119,7 @@
 @section('app_js') 
     @parent
    			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>

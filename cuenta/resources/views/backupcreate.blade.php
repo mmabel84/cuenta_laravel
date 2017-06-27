@@ -1,7 +1,7 @@
  @extends('admin.template.main')
 
 
-@section('title')
+@section('app_title')
       Backups
 @endsection 
 

@@ -1,7 +1,7 @@
  @extends('admin.template.main')
 
 
-@section('title')
+@section('app_title')
       Bitácora
 @endsection 
 
@@ -33,7 +33,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#053666; ">
+		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
 		                          <th>Fecha</th>
 		                          <th>Operación</th>
 		                          <th>IP</th>
@@ -83,7 +83,7 @@
 @section('app_js') 
     @parent
    			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>

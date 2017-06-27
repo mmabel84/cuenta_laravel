@@ -161,7 +161,7 @@
              <div class="col-md-3 col-sm-3 col-xs-12" >
                 <div class="x_panel">
                 <div class="x_title">
-                            <h2>Consulta de Artículo 69 y 69-B</h2>
+                            <h2>Consulta de Artículos 69 y 69-B</h2>
                             </br>
                             <p>Actualizado a 23/09/2017</p>
                             <div class="clearfix"></div>
@@ -564,15 +564,16 @@
            for (var i = 0; i < jQuery.parseJSON(gig_emp).length; i++) {
             var dic = {'empresa': jQuery.parseJSON(emp_cons)[i], 'gigas':jQuery.parseJSON(gig_emp)[i]};
              arraybar.push(dic);
-             //arraybar[i] = arraybar[i].replace(/"/g, "");
              
            }
-           //var newarraybar = '[' + arraybar.join(', ') + ']';
 
+           if (arraybar.length == 0){
+            var dic = {'empresa': '', 'gigas':0};
+             arraybar.push(dic);
 
-            //{empresa: 'iPhone 4', gigas: 500},
-             
+           }
             console.log(arraybar);
+
 
 
 
@@ -891,7 +892,9 @@
               }]
               });
 
-              if ($('#graph_bar').length){ 
+      } 
+
+      //if ($('#graph_bar').length){ 
       
               /*data: [
                   {device: 'iPhone 4', geekbench: 380},
@@ -913,9 +916,7 @@
                 resize: true
               });
               0,128,128,1.0
-
-      } 
-      } 
+      //} 
 
             
 
