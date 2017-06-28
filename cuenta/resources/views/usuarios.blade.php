@@ -103,8 +103,8 @@
 								                        <div class="modal-body">
 								                        <form>
 			                        						<div class="col-md-12 col-sm-12 col-xs-12">
-			                             						<select class="select2_single form-control col-md-6 col-xs-12" name="select_bd_id" id="select_bd_id{{$u->id}}" style="width:100%;" onclick="fillroles(this, {{ $u->id }});">
-				                            						<option value="null">Seleccione una base de datos ...</option>
+			                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_bd_id" id="select_bd_id{{$u->id}}" style="width:100%;" onclick="fillroles(this, {{ $u->id }});">
+				                            						<option value="null">Seleccione una aplicación ...</option>
 				                            						@foreach($apps as $ap)
 				                                					<option value="{{ $ap->id }}">{{ $ap->empresa->empr_nom }} {{ $ap->aplicacion->app_nom }}</option>
 				                           							@endforeach
@@ -150,7 +150,7 @@
 	                          												<td>{{$bd->empresa->empr_rfc}}</td>
 	                          												<td>
 		                          													<div class="btn-group{{ $bd->id }}">
-													                          			<button id="desvusrbtn{{ $bd->id }}" onclick="unrelatedb({{ $bd->id }}, {{ $u->id }});" class="btn btn-xs" data-placement="left" title="Desasociar base de datos" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button>
+													                          			<button id="desvusrbtn{{ $bd->id }}" onclick="unrelatedb({{ $bd->id }}, {{ $u->id }});" class="btn btn-xs" data-placement="left" title="Desasociar de base de datos" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button>
 														                          	</div>
 		                          												</td>
 	                          												</tr>
@@ -379,6 +379,8 @@
 
 
 	    function fillroles(element, usrid){
+
+	    		alert('entre a fill roles');
 	    		
 	    		$("#roles"+usrid).empty();
 
@@ -449,6 +451,14 @@
 
           $("#"+modalid).modal('show');
           cleanRoles(user);
+
+          $("#select_bd_id"+user).select2({
+                  allowClear: true,
+                  placeholder: 'Seleccione una aplicación...'
+                   
+               });
+
+
         }
 
        function hideModal(user) {

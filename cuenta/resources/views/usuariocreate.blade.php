@@ -1,6 +1,10 @@
 
 @extends('admin.template.main')
 
+@section('app_title')
+      Usuarios
+@endsection 
+
 @section('app_css')
     @parent
     <!-- Switchery -->

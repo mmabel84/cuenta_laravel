@@ -46,7 +46,7 @@
                 <div class="tile-stats">
                   
                   <div class="count" style="color: #053666;">{{ $gigas }}
-                       <div class="icon"><i class="fa fa-pie-chart" style="color: #053666;"></i></div>
+                       <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-pie-chart" style="color: #053666; font-size: 50px;"></i></div>
                   </div>
                  
                   <p style="color: #053666;"><b>GIGAS CONTRATADOS</b></p>
@@ -55,7 +55,7 @@
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
-                  <div class="icon"><i class="fa fa-building-o" style="color: #053666;"></i></div>
+                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-building-o" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $rfc }}</div>
                   <p style="color: #053666;"><b>EMPRESAS CONTRATADAS</b></p>
                   <p style="color: #053666;">{{ $rfccreados }} empresas creadas</p>
@@ -64,7 +64,7 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
 
-                  <div class="icon"><i class="fa fa-database" style="color: #053666;"></i></div>
+                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-database" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $apps }}</div>
                   <p style="color: #053666;"><b>APLICACIONES CONTRATADAS</b></p>
                   <p style="color: #053666;">{{ $bdapps }} aplicaciones de empresas creadas</p>
@@ -72,7 +72,7 @@
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
-                  <div class="icon"><i class="fa fa-calendar" style="color: #053666;"></i></div>
+                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-calendar" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $intervalmeses }}</div>
                    <p style="color: #053666;"><b>SEMANAS DISPONIBLES HASTA {{ $fecha_fin }}</b></p>
                    <p style="color: #053666;">{{ $porc_final }}% de tiempo consumido </p>

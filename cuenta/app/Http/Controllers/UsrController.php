@@ -97,7 +97,7 @@ class UsrController extends Controller
 
     }
 
-    protected function validator(array $data)
+    /*protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
@@ -105,7 +105,7 @@ class UsrController extends Controller
             'users_nick' => 'required|string|users_nick|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
-    }
+    }*/
 
     public function relateUsrApp(Request $request)
     {
@@ -221,12 +221,6 @@ class UsrController extends Controller
         \Session::flash('message',$fmessage);
         $this->registroBitacora($request,'create',$fmessage);
         return redirect()->route('usuarios.index'); 
-
-
-
-
-
-
 
     }
 

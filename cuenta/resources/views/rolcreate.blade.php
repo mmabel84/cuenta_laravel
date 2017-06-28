@@ -69,9 +69,9 @@
                     <td>
 
                         <div class="item form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del rol *" required="required" type="text">
-                              <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                              <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -81,9 +81,9 @@
                         </div>
 
                           <div class="item form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="slug" class="form-control has-feedback-left" name="slug" placeholder="Código *" required="required" type="text" data-validate-words="1" value="" autocomplete="off">
-                              <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                              <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('slug'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('slug') }}</strong>
@@ -93,9 +93,9 @@
                           </div>
 
                           <div class="item form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="description" class="form-control has-feedback-left" value="" name="description" placeholder="Descripción *" required="required" data-validate-words="1" autocomplete="off">
-                              <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                              <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('description'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>
@@ -105,9 +105,9 @@
                           </div>
                           
                           <div class="item form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="level" class="form-control has-feedback-left" name="level" placeholder="Nivel *">
-                              <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                              <span class="fa fa-sitemap form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('level'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('level') }}</strong>

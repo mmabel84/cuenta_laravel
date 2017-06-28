@@ -70,9 +70,7 @@
 		                          	
 		                          	
 			                          <div class="btn-group">
-			                          	<div class="btn-group">
-		                          			<button onclick="location.href = 'apps/{{$a->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-edit fa-3x"></i> </button>
-			                          	</div>
+			                          	
 
 										<div class="btn-group">
 		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>

@@ -17,11 +17,11 @@ var validator = (function($){
     message = {
         invalid         : 'invalid input',
         checked         : 'must be checked',
-        empty           : 'Este campo es requerido',
+        empty           : 'Campo requerido',
         min             : 'input is too short',
         max             : 'input is too long',
-        number_min      : 'too low',
-        number_max      : 'too high',
+        number_min      : 'Muy Bajo',
+        number_max      : 'Muy Alto',
         url             : 'invalid URL',
         number          : 'Campo numérico',
         email           : 'email address is invalid',
@@ -429,6 +429,7 @@ var validator = (function($){
     /* vaildates all the REQUIRED fields prior to submiting the form
     */
     function checkAll( $form ){
+        console.log($form);
         $form = $($form);
 
         if( $form.length == 0 ){

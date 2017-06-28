@@ -2,7 +2,7 @@
 
 
 @section('app_title')
-      Backups
+      Respaldos
 @endsection 
 
 
@@ -61,11 +61,10 @@
                     <form id="form2" data-parsley-validate class="form-horizontal form-label-left" method="POST" action="{{route('backups.store')}}">
                     {{ csrf_field() }}
 
+                    <input type="hidden" id="apps" name="apps" value="{{ $bdapp }}" onchange="filldata();">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación</label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div class="col-md-9 col-sm-9 col-xs-12">
                             <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id">
-                               <option value="null">Seleccione una aplicación ...</option>
                                 @foreach($bdapp as $bd)
                                     <option value="{{ $bd->id }}">{{ $bd->empresa->empr_nom }} {{ $bd->aplicacion->app_nom }}</option>
                                 @endforeach
@@ -142,6 +141,28 @@
               }, 4e3);
           });
       </script>
+
+
+      <script type="text/javascript">
+          
+          $('#apps').trigger('change');
+
+          function filldata() {
+          
+          var dataapps = [];
+          var apps =jQuery.parseJSON(document.getElementById('apps').value);
+          console.log(apps);
+
+                      
+            $("#bdapp_app_id").select2({
+                  allowClear: true,
+                  placeholder: 'Seleccione una aplicación...'
+                   
+               });
+
+
+        }
+        </script>
 
 
 	    		      

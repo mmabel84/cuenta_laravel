@@ -72,7 +72,35 @@ class ServController extends Controller
 
 		        //Creando usuario para primera conexión a cuenta TODO: poner datos de usuario correctos
 
-		        DB::connection($dbname)->insert('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', ['Test', 'test','test@gmail.com', bcrypt('test')]);
+		        $email = 'test@gmail.com';
+		        $pass = bcrypt('test');
+		        $nick = 'test';
+		        $name = 'test';
+		        if(array_key_exists('client_rfc',$alldata) && isset($alldata['client_rfc'])){
+		        	
+		        	$pass = bcrypt($alldata['client_rfc']);
+
+		        }
+
+		        if(array_key_exists('client_email',$alldata) && isset($alldata['client_email'])){
+		        	
+		        	$email = $alldata['client_email'];
+		        	
+		        }
+
+		        if(array_key_exists('client_nick',$alldata) && isset($alldata['client_nick'])){
+		        	
+		            $nick = $alldata['client_nick'];
+
+		        }
+
+		        if(array_key_exists('client_name',$alldata) && isset($alldata['client_name'])){
+		        	
+		        	$name = $alldata['client_name'];
+
+		        }
+
+		        DB::connection($dbname)->insert('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', [$name, $nick,$email, $pass]);
 
 		        // Desplegando en cuenta las aplicaciones y paquete contratados en control
 		        

@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class EmprController extends Controller
 {
@@ -60,7 +61,17 @@ class EmprController extends Controller
     public function store(Request $request)
     {
     	
-    	$empresaf = new Empresa;
+    	$input = $request->all();
+        $rules = ['empr_rfc' => 'required|rfc'];
+        $messages = ['rfc' => 'RFC inválido'];
+
+        $validator = Validator::make($input, $rules, $messages)->validate();
+        
+        /*$this->validate($request, [
+            'empr_rfc' => 'required|rfc',
+        ]);*/
+
+        $empresaf = new Empresa;
     	$empresaf->empr_rfc = $request->empr_rfc;
     	$empresaf->empr_nom = $request->empr_nom;
     	$empresaf->empr_razsoc = $request->empr_razsoc;
@@ -96,6 +107,42 @@ class EmprController extends Controller
 
 
     }
+
+
+
+    function valid_rfc_fisica($str) {
+        if (in_array($str, array('XAXX010101000', 'XEXX010101000'))) {
+            return true;
+        }
+        $result = preg_match('/^[A-ZÑ&]{4}([0-9]{2})([0-1][0-9])([0-3][0-9])[A-Z0-9][A-Z0-9][0-9A]$/u', $str, $matches);
+        if (!$result) {
+            return false;
+        }
+        if ((int) $matches[1] <= 12) {
+            $matches[1] = 2000 + (int) $matches[1];
+        } else {
+            $matches[1] = 1900 + (int) $matches[1];
+        }
+        return strtotime($matches[1] . '-' . $matches[2] . '-' . $matches[3]) ? true : false;
+    }
+    
+    function valid_rfc_moral($str) {
+        $result = preg_match('/^[A-ZÑ&]{3}([0-9]{2})([0-1][0-9])([0-3][0-9])[A-Z0-9][A-Z0-9][0-9A]$/u', $str, $matches);
+        if (!$result) {
+            return false;
+        }
+        if ((int) $matches[1] <= 12) {
+            $matches[1] = 2000 + (int) $matches[1];
+        } else {
+            $matches[1] = 1900 + (int) $matches[1];
+        }
+        return strtotime($matches[1] . '-' . $matches[2] . '-' . $matches[3]) ? true : false;
+    }
+    
+    function valid_rfc($str) {
+        return $this->valid_rfc_fisica($str) || $this->valid_rfc_moral($str);
+    }
+
 
         
 }
