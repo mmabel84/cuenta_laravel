@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Empresa;
 use App\BasedatosApp;
 use App\User;
+use App\Paquete;
 use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Redirect;
@@ -29,6 +30,20 @@ class EmprController extends Controller
 
     public function create()
     {       
+
+        $totalempscreadas = Empresa::all();
+        $totalpaquetesact = Paquete::where('paqapp_activo', '=', true)->get();
+        $totalempcont = 0;
+
+        foreach ($totalpaquetesact as $paq) {
+            $totalempcont+=$paq->paqapp_cantrfc;
+        }
+
+
+        if (count($totalempscreadas) >= $totalempcont){
+            \Session::flash('failmessage','Se alcanzó el número máximo de empresas contratadas. Para crear una nueva empresa consulte con distribuidor para incrementar paquete asignado o elimine empresas existentes.');
+            return Redirect::to('empresas');
+        }
 
        return View::make('empresacreate');
     }
@@ -61,7 +76,8 @@ class EmprController extends Controller
     public function store(Request $request)
     {
     	
-    	$input = $request->all();
+    	
+        $input = $request->all();
         $rules = ['empr_rfc' => 'required|rfc'];
         $messages = ['rfc' => 'RFC inválido'];
 

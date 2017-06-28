@@ -103,7 +103,7 @@
 								                        <div class="modal-body">
 								                        <form>
 			                        						<div class="col-md-12 col-sm-12 col-xs-12">
-			                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_bd_id" id="select_bd_id{{$u->id}}" style="width:100%;" onclick="fillroles(this, {{ $u->id }});">
+			                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_bd_id" id="select_bd_id{{$u->id}}" data-usr="{{$u->id}}" style="width:100%;" onclick="fillroles(this, {{ $u->id }});">
 				                            						<option value="null">Seleccione una aplicación ...</option>
 				                            						@foreach($apps as $ap)
 				                                					<option value="{{ $ap->id }}">{{ $ap->empresa->empr_nom }} {{ $ap->aplicacion->app_nom }}</option>
@@ -282,21 +282,39 @@
 
 	<script>
 
+	
+		$("select[name='select_bd_id']").select2()
+        .on("change", function(e) {
+          // mostly used event, fired to the original element when the value changes
+          
+          var usr1 = this.getAttribute('data-usr');
+          fillroles(this, usr1);
+        });
 		
-	function cleanRoles(usrid){
-			$("#roles"+usrid).select2({
-				                  allowClear: true,
-				                  placeholder: 'Sin roles...'
-				             });
-			$("#roles"+usrid).empty();
 
-			}
+		
+		
+		function cleanRoles(usrid){
+				$("#roles"+usrid).select2({
+					                  allowClear: true,
+					                  placeholder: 'Sin roles...'
+					             });
+				$("#roles"+usrid).empty();
+				document.getElementById("select_bd_id"+usrid).value = 'null';
+				$("#select_bd_id"+usrid).select2({
+                  allowClear: true,
+                  placeholder: 'Seleccione una aplicación...'
+                   
+               });
+				
+
+				}
 
 
 		function cleanFailureDiv(usrid){
 
 			$("#result_failure"+usrid).html('');
-			document.getElementById("select_bd_id"+usrid).value = 'null';
+			
 			cleanRoles(usrid);
 
 			}
@@ -328,7 +346,7 @@
 	        			cleanRoles(usrid);
 	        		}
 
-	        		document.getElementById("select_bd_id"+usrid).value = 'null';
+	        		//document.getElementById("select_bd_id"+usrid).value = 'null';
 
 	        		console.log(response);
 
@@ -380,8 +398,6 @@
 
 	    function fillroles(element, usrid){
 
-	    		alert('entre a fill roles');
-	    		
 	    		$("#roles"+usrid).empty();
 
 	    		var bdid = element.value;
@@ -452,11 +468,7 @@
           $("#"+modalid).modal('show');
           cleanRoles(user);
 
-          $("#select_bd_id"+user).select2({
-                  allowClear: true,
-                  placeholder: 'Seleccione una aplicación...'
-                   
-               });
+          
 
 
         }

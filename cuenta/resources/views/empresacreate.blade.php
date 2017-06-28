@@ -80,20 +80,18 @@
                             </div>
                         </div>
 
-                          <div class="item form-group">
+                          <div class="item form-group {{ $errors->has('empr_rfc') ? 'bad' : '' }}">
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="empr_rfc" class="form-control has-feedback-left" name="empr_rfc" placeholder="RFC de empresa *" required="required" type="text" data-validate-words="1" value="{{ old('empr_rfc') }}" autocomplete="off">
                               <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
                               
                              
                             </div>
-                             <div class="col-md-3 col-sm-3 col-xs-12">
-                             @if ($errors->has('empr_rfc'))
-                                    <span style="float: left; color: red">
-                                        {{ $errors->first('empr_rfc') }}
-                                    </span>
-                                @endif
-                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <span style="float: left; color: red;" id="span_empr_rfc" {{$errors->has('empr_rfc') ? '' : 'hidden'}}>
+                                {{ $errors->first('empr_rfc') }}
+                            </span>
+                        </div>
                           </div>
 
                            
@@ -238,6 +236,12 @@
             layoutTemplates: {main2: '{preview} {remove} {browse}'},
             browseLabel: 'Foto Usuario',
             allowedFileExtensions: ["jpg", "png", "gif"]
+        });
+
+
+
+         $("#empr_rfc").on('change', function(){
+            document.getElementById("span_empr_rfc").setAttribute('hidden','1');
         });
 
 
