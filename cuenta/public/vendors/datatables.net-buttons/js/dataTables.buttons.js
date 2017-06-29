@@ -153,7 +153,7 @@ $.extend( Buttons.prototype, {
 		}
 
 		this._expandButton( buttons, config, false, idx );
-		this._draw();
+		//this._draw();
 
 		return this;
 	},

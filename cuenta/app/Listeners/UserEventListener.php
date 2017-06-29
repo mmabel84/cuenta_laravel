@@ -3,6 +3,7 @@
 namespace App\Listeners;
 use Illuminate\Support\Facades\Log;
 use App\Bitacora;
+use App\User;
 
 class UserEventListener
 {
@@ -23,7 +24,11 @@ class UserEventListener
         $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
         $binnacle->bitc_modulo = '\Login';
         $binnacle->bitcta_result = 'TODO';
-        $binnacle->bitcta_msg = 'Se ha accedido a la aplicación';
+        $usr = User::find($event->user->id);
+
+        $binnacle->bitcta_msg = 'Acceso de usuario '.$usr->name;
+        $usr->users_f_ultacces = date('Y-m-d H:i:s');
+        $usr->save();
         $binnacle->bitcta_dato = json_encode($_REQUEST);
         $binnacle->save();
     }

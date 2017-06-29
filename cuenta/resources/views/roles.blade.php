@@ -65,7 +65,7 @@
 		                          <td>{{$r->description}}</td>
 		                          <td>{{$r->level}}</td>
 		                         
-		                          <td class=" last" width="12.5%">
+		                          <td class=" last" width="12%">
 		                          	
 		                          	<div class="btn-group">
 			                          	<div class="btn-group">
@@ -99,11 +99,11 @@
    			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>

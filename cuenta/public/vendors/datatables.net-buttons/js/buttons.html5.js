@@ -830,11 +830,12 @@ var excelStrings = {
 //
 // Copy to clipboard
 //
+
 DataTable.ext.buttons.copyHtml5 = {
 	className: 'buttons-copy buttons-html5',
 
 	text: function ( dt ) {
-		return dt.i18n( 'buttons.copy', 'Copy' );
+		return dt.i18n( 'buttons.copy', 'Copiar' );
 	},
 
 	action: function ( e, dt, button, config ) {
@@ -930,6 +931,7 @@ DataTable.ext.buttons.copyHtml5 = {
 //
 // CSV export
 //
+
 DataTable.ext.buttons.csvHtml5 = {
 	className: 'buttons-csv buttons-html5',
 
@@ -938,7 +940,7 @@ DataTable.ext.buttons.csvHtml5 = {
 	},
 
 	text: function ( dt ) {
-		return dt.i18n( 'buttons.csv', 'CSV' );
+		return dt.i18n( 'buttons.csv', 'Exportar a CSV' );
 	},
 
 	action: function ( e, dt, button, config ) {
@@ -987,6 +989,7 @@ DataTable.ext.buttons.csvHtml5 = {
 
 	footer: false
 };
+
 
 //
 // Excel (xlsx) export

@@ -1068,7 +1068,7 @@ DataTable.ext.buttons.copyFlash = $.extend( {}, flashButton, {
 	className: 'buttons-copy buttons-flash',
 
 	text: function ( dt ) {
-		return dt.i18n( 'buttons.copy', 'Copy' );
+		return dt.i18n( 'buttons.copy', 'Copiar' );
 	},
 
 	action: function ( e, dt, button, config ) {
@@ -1106,7 +1106,7 @@ DataTable.ext.buttons.csvFlash = $.extend( {}, flashButton, {
 	className: 'buttons-csv buttons-flash',
 
 	text: function ( dt ) {
-		return dt.i18n( 'buttons.csv', 'CSV' );
+		return dt.i18n( 'buttons.csv', 'Exportar a CSV' );
 	},
 
 	action: function ( e, dt, button, config ) {

@@ -58,7 +58,15 @@ class EmprController extends Controller
 
     public function update(Request $request, $id)
     {
-    	$empresau = Empresa::find($id);
+    	$input = $request->all();
+        $rules = ['empr_rfc' => 'required|rfc'];
+        $messages = ['rfc' => 'RFC inválido'];
+
+        $validator = Validator::make($input, $rules, $messages)->validate();
+
+
+
+        $empresau = Empresa::find($id);
 		$empresau->empr_nom = $request->empr_nom;
         $empresau->empr_rfc = $request->empr_rfc;
         $empresau->empr_razsoc = $request->empr_razsoc;

@@ -66,7 +66,7 @@
 		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 
 
-		                          <td class=" last" width="18%">
+		                          <td class=" last" width="12%">
 		                          	
 		                          	
 			                          <div class="btn-group">
@@ -75,7 +75,7 @@
 										<div class="btn-group">
 		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>
 
-		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="{{$a->id}}">
+		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalusr{{$a->id}}">
 		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
 		                          			    
 								                    <div class="modal-dialog modal-lg">
@@ -91,7 +91,7 @@
 			                        						
 			                        						<form id="modalform">
 			                        						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
-				                             						<select class="select2_single form-control col-md-12 col-sm-12 col-xs-12" name="select_usr_id" id="select_usr_id{{$a->id}}" style="width:100%;">
+				                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_usr_id" id="select_usr_id{{$a->id}}" style="width:100%;">
 					                            						<option value="null">Seleccione un usuario...</option>
 					                            						@foreach($usrs as $u)
 					                                					<option value="{{ $u->id }}">{{ $u->name }}</option>
@@ -244,11 +244,11 @@
 			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
@@ -360,7 +360,16 @@
 
     	function cleanFailureDiv(bdid){
 			$("#result_failure"+bdid).html('');
+
+			}
+
+			function cleanusersandroles(bdid){
 			document.getElementById("select_usr_id"+bdid).value = 'null';
+			$("#select_usr_id"+bdid).select2({
+                  allowClear: true,
+                  placeholder: 'Seleccione un usuario...'
+                   
+               });
 			$("#roles"+bdid).val('').change();
 			//$("#roles"+bdid).html('');
 			//$("#roles"+bdid).find($('option')).attr('selected',false);
@@ -368,14 +377,11 @@
 			}
 
 	    	function relatedb(bdid){
-	    		
+
+	    		cleanFailureDiv(bdid);
 	    		var usrid = document.getElementById("select_usr_id"+bdid).value;
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	    		//var roles = document.getElementById("roles"+bdid).value;
 	    		var roles = $("#roles"+bdid).val();
-	    		//console.log(roles);
-	    		//console.log(usrid);
-	    		//console.log(bdid);
 	    		
 	        $.ajax({
 	        	url:"/addbdusr",
@@ -388,17 +394,14 @@
 	        		if (response['status'] == 'Success'){
 	        			$("#datatable-buttons"+bdid).append(response['result']);
 
-	        			
-
 	        		}
 	        		else{
 	        			$("#result_failure"+bdid).html(response['result']);
 	        			//console.log($(".result_failure"+bdid));
 	        		}
+	        		cleanusersandroles(bdid);
+	        		
 
-	        		cleanFailureDiv(bdid);
-
-	        		document.getElementById("select_usr_id"+bdid).value = 'null';
 
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -430,6 +433,7 @@
 	        			console.log(response);
 	        			//$("#datatable-buttons"+bdid).append(response['result']);
 	        			cleanFailureDiv(bdid);
+	        			cleanusersandroles(bdid);
 
 	        		}
 	        		else{
@@ -449,12 +453,11 @@
 	    });
 	    };
 
-
-
-
+	   
 	    function getrolepermissionbd(bdid){
-	    		
-	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+	        cleanusersandroles(bdid);
+	    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 	    		
 	        $.ajax({
 	        	url:"/getrolesbd/"+bdid,

@@ -33,28 +33,30 @@
            	 		{{ Form::open(['route' => ['empresas.update', $empresa], 'class'=>'form-horizontal form-label-left']) }}
 
                       {{ Form::hidden('_method', 'PUT') }}
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de empresa <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="empr_nom" name="empr_nom" required="required" class="form-control col-md-7 col-xs-12" value="{{$empresa->empr_nom}}">
+                      <div class="item form-group">
+                       
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="empr_nom" name="empr_nom" required="required" class="form-control has-feedback-left" value="{{$empresa->empr_nom}}" placeholder="Nombre de empresa *">
+                          <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
                         </div>
                       </div>
                       
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">RFC <span class="required">*</span> 
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="empr_rfc" name="empr_rfc" class="form-control" data-inputmask="'mask' : '*************'" value="{{$empresa->empr_rfc}}">
-                          <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                      <div class="item form-group {{ $errors->has('empr_rfc') ? 'bad' : '' }}">
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="empr_rfc" name="empr_rfc" class="form-control has-feedback-left" data-inputmask="'mask' : '*************'" value="{{$empresa->empr_rfc}}" placeholder="RFC de empresa *" readonly>
+                          <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <span style="float: left; color: red;" id="span_empr_rfc" {{$errors->has('empr_rfc') ? '' : 'hidden'}}>
+                                {{ $errors->first('empr_rfc') }}
+                            </span>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="message">Razón social (20 caracteres min, 100 max)</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="empr_razsoc" type="text" required="required" class="form-control" name="empr_razsoc" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                                data-parsley-validation-threshold="10" value="{{$empresa->empr_razsoc}}"></input>
-                              </div>
+                      <div class="item form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                              <input id="empr_razsoc" type="text" required="required" class="form-control has-feedback-left" name="empr_razsoc" placeholder="Razón social de empresa " value="{{$empresa->empr_razsoc}}">
+                              <span class="fa fa-building-o form-control-feedback left" aria-hidden="true"></span>
+                            </div>
                       </div>
                       
                       
