@@ -13,7 +13,7 @@ return [
     'advans_apps_security' => ['control'=> [
                                     'grant_type' => 'password',
                                     'client_id' => '1',
-                                    'client_secret' => 'T5eSPX1r7CHtjxgN4dcBbnsAZw5jQANm46IPY3lB',
+                                    'client_secret' => 'VYZCgS1wlth4Ard30wuafMDfTsh6yjHqrLA5WEJR',
                                     'username' => 'cta.api@gmail.com',
                                     'password' => 'cta.api',
                                     'scope' => '*',
