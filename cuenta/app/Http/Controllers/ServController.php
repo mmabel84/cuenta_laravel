@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Aplicacion;
 use App\Paquete;
 use App\User;
+use Illuminate\Support\Facades\Log;
 
 
 class ServController extends Controller
@@ -112,6 +113,7 @@ class ServController extends Controller
 		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
 		        	}
 
+		        	Log::info($alldata['paq_cta']);
 		        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
 
 		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_cantrfc, paqapp_cantgig, paqapp_f_venta, paqapp_f_act, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?, ?, ?, ?)', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
