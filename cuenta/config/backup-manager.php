@@ -55,32 +55,29 @@ return [
         'password' => 'Advan$97120',
         'port' => 22,
         'timeout' => 10,
-        'privateKey' => 'PuTTY-User-Key-File-2: ssh-rsa
-                        Encryption: aes256-cbc
-                        Comment: imported-openssh-key
-                        Public-Lines: 6
-                        AAAAB3NzaC1yc2EAAAADAQABAAABAQDR1Um5pokbBbhYUS1x0e99eP6mPSf9V8QN
-                        83UUyGtFew4bxRgjCIqiNX8cmMsjHHw8YiR6xN4d90pNFzx4IvrIFhVcoSYLeLkZ
-                        mgRf0oFcVvYm5PjogDpj42QWihX+XQc4N1NaGx/dup8RsLw5Q0f4gEk383Jetg8Z
-                        yh3JY85MRZoJOkDm/YRMx3yoIdw+ihbPKXDp1+qVPi23t5vPTXEkyZhvqE6RXBpP
-                        GLXex3uN+v/p3qO7rL+pdiHbdeTHd8Kvar8u5edXrMTgv55Nk7GxVsCGMWpbwgQv
-                        HB4Eisdtx4GyV1M0V4QLdZdgDLxsuBXnZGe3nj6lRN3CYbiPQxJx
-                        Private-Lines: 14
-                        4EqOGqunViJTuIIPYCwYgXNFBefVEBxfgaIsKCYocIIB5ZI4K00WPYo7ASoKMFpp
-                        xqZjRvv0rd7YxX6hIRwGp5d9o7nPvYdJPsGYz+VmmjJsuLGNvQv0GfPRZE5BRaFP
-                        lTsBnJ/C26roPo0cz11XQuQEIs8buMj3fk+1c5plPOXMVAjSZK0xXpWHEPG/dkXe
-                        YZF4VF0o+bIHOv//EOyl7ZUW7+TYaTxFVaNtfsEr0odB1vp83n68WlNQ2kCaktjZ
-                        SsETbVek3ialVhJ56wDSdzEZZgBP6Uc5PfAhIue8b8f7y4t8z67gEv7LLht7gdNY
-                        PwYwUhNep5DmxQiE3RwqYgTH2sOqRKTBQJah6U7gkL+SdgVbQp5C/k8koWOyaBLZ
-                        lWWGcOaYftPQhfJSW3rZdvx+0XPk8GjWXYMpVhi4U+EjOteV1+6dVXZJgQlp+F2K
-                        xKgYD2ARkl4T6RwC7G+sIXafQhDuNYpnMA9WAfFuncCPUWb6DH2iCM4tkCklxIad
-                        NHYv3z9d6A9I6/vHkuWxQMqxL+yJD4fcYrZe69VtlfwFZj0RaZhKZFIg34MploJi
-                        abUF0VFVU+rJEdyigt4yhRUMSHnmgJ08lUK5sZv7NW+xLseeySg3P5ag0mqtYUZ+
-                        +jpDYxPr96UtINPVtv+8Oc/T5jQBA3zuE0zXCGFcZJ5ElZjhkAtMNSm4DvqHiYOU
-                        qdaynjKZJXEf/Sc6psEU+SuCAzCxlBiPXw8bfxYLbd7nUDbtHsxn+AysxMvwv2bH
-                        y1o7BzqOosjTOd937Hc3UxwQWMaVCPWemLRXuC7h9bivN3gOQtupfBWXnsqii5u2
-                        V7qfQeeX9A9ZZOUg3nhpXIt38eE873rUAjPQz3+vgIubISkFR/3DVAcGopPYOAkO
-                        Private-MAC: 720ea9f92b8fcd4ffdc696ea41ed46ed3ac907f4
+        'privateKey' => '-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAyfJEMChPRnegdtzREe6uRJBBVnckbXuzlbosR5pQqOi6FmnBU/bV7lO0QmLf
+QhJQpSAKaDVY2P8nblqMXOFKKMBBsDj3RRx36AH7bBhEq9Z1r/WAqeZiiUSHNW/Rrau+4gfI28TZ
+Dd/Ihut3hFddGLFT4KcJH5TP2b3bhiBSCxaQ/i7NyvRNDS8RyPsXtBtXlpijso/b8cwA3zGIP0SG
+IvVfsblGW4ThdFP2pzZhv3V/Z3wGB/7scvjbNq21xkyT5vEuKrVLZRdm/k4xQ5ZUx0QPi6HzwB3+
+xkrIgCSqFV0WqNEnYML4WMgfTlJSXLaqEKSy3vVQ6UEmV1QNGa9ykwIDAQABAoIBAQDBik7xfGBl
+n5aI9B3musIHcd08mdiumMRG9fMj+G/fQZO+kUI4TzM+Qrhae1mOf/EMIAX5U09AQGEw8NTe2wdw
+wLjzw9SvRpZgIy4rraJ6sYF+zqGtst+ywJt4ih8A+71n8J/+h8yh8FvFenvDuNq/JIvHnS4wNzVw
+b/WouOcIObeOzPVphAznTM8kDzOgAwUKIH2iT50gqnqk8nJQE0oLvBEhe9uT5W4J9IlIhNZ0uHK3
+dryKK5ZKxPHgXxMilTSeX6X5xg0l+Lj2por3Sq118W9hqRaM8gJqojvk1HBjGq30JDcw+jYcSaiX
+ygLEd5WnCiq64I3hQ3mKc296WVgpAoGBAOQQ6HHw+iXbJqGZDlEwShUkLk7SqVkL3am544l0zz4f
++ILiqmiW3pBm26WJkbwHCByV2AM1PUp40F1f9SPR75ztGWbWPVspl9oyoa5EGR1U526ZtKOoQIsx
+PuP1gpxGgXopzE7AvEnjvIsv1bQ27RKfHoO9xMdlMhnQvaIsWRCfAoGBAOKuXbd0SXN8Wmjv0pfu
+YLu6MFuORLCvY71qSb0xJ6PUBn2AQXKDYQX7aFWgpgqYbJK5BEEIiFlOss6TcflwCxvQsB14p16P
+vQjQYzefvqvxtk/2KwU2KqzVQkEXcbBkNXvJyBLs3c7585KD9OfxZzl8BCD3RLF302IksJnqE9WN
+AoGAMJc1nwkTkrs1aNqeRUf/kK+LujmB4Tn4+S9kviWH/hl7rg8y9WOneaagh41e4muxG74FLvHJ
+5DMHWc2XAhG5dnrBnbppiiG7e76r2eAiZbBwOo0/AltXnRBZ8OGe+ULAVVHQeLrxouCFjDYd1u6Y
+5g3Gx5TH9x+lZACoVoQSWcsCgYADS9fPCCDdTgyehAZC8VN0x2NWoX38N8Cyi24hEyrpZfbmMkxB
+Vwm9JYfB3wErHEZP5+LY8z/QVKWi/V/l6awvrlwxQYTlih+MlkMrFuaV54DoLsM3Yy9BriQ1gBrG
+Ht7sOuXu6ITdMqNJGSQhj1AZ9OS2egIEtqJbRf9Pbaj2LQKBgQCRuvE+VSHGdbQzJozgSUkxwJAJ
+UE/qvuCyGKmQ1hykY6QwDscFcL9hBYXkHsoC3J4kpFV8DTej2WDd8hkWFSlScqr5JBGCQxiFBZVV
+70N2PbH3746mVOkST8w98waasXFeiU3Yw7K6bwOM/sW/B2tupeREsqYp+n84BOERlhVwXg==
+-----END RSA PRIVATE KEY-----
                         ',
         'root' => '/opt/bitnami/apache2/htdocs/mabel/',
     ],
