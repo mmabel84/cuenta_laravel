@@ -89,8 +89,7 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="button">Cancelar</button>
-						  <button class="btn btn-primary" type="reset">Limpiar</button>
+                          <button class="btn btn-primary" type="button" onclick="location.href = '{{ URL::to('apps') }}';">Cancelar</button>
                           <button type="submit" class="btn btn-success">Actualizar</button>
                         </div>
                       </div>

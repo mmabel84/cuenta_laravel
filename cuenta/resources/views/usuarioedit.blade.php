@@ -191,6 +191,7 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <button class="btn btn-primary" type="button" onclick="location.href = '{{ URL::to('usuarios') }}';">Cancelar</button>
                             <button id="send" type="submit" class="btn btn-success">Guardar</button>
                         </div>
                       </div>

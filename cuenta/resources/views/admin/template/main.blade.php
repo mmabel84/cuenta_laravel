@@ -136,14 +136,15 @@
                 
                     <!-- page content -->
                         <div class="right_col" role="main">
+                          <div class="">
                              @yield('content')
+                          </div>
                         </div>
                     <!-- /page content -->
               @section('app_footer')
-              <footer >
-                    <div class="container" >
-                                    <div class="pull-right">
-                                        <b>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</b>  </div>
+              <footer>
+                  <div class="pull-right">
+                      <b>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</b>  </div>
                     
                   <div class="span6">
                           <div class="content">
@@ -156,8 +157,10 @@
                           </div>  
                     
                   </div>
-                </div>  
+                  <div class="clearfix"></div>
             </footer>
+
+            
             @show
 
 

@@ -39,7 +39,7 @@ class HomeController extends Controller
         $bdapps = BasedatosApp::all();
 
 
-        $appsicons = array ('pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='pld' class='disabled'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+        $appsicons = array ('pld'=>"<a href='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabled'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
             <b>PLD</b></span></i></a>
                    ",
                     'cont'=>"
@@ -47,13 +47,13 @@ class HomeController extends Controller
                     <b>CONTAB</b></span></i></a>
            
                      ",
-                    'bov'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='bov' class='disabled'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'bov'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabled'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>BÓVEDA</b></span></i></a>
                     ",
                     'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>
                    ",
-                    'cc'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='cc' class='disabled'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cc'=>"<a href='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>TAREAS</b></span></i></a>
                     ",
                     'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>

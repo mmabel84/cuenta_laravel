@@ -60,7 +60,6 @@
 		                        </tr>
 		                      </thead>
 
-
 		                      <tbody>
 		                      	@foreach ($empresas as $e)
 		                        <tr>
@@ -84,8 +83,6 @@
 			                          	</div>
 
 		                          	</div>
-		                          	   	
-
 
 		                          </div>
 		 

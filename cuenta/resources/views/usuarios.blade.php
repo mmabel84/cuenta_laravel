@@ -54,7 +54,7 @@
 
 		                  <div class="x_content">
 		                    
-		                    <table id="datatable-buttons" class="table table-striped table-bordered">
+		                    <table id="datatable-buttons" class="table table-striped table-bordered" width="100%">
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
 		                          <th>Nombre</th>
@@ -62,7 +62,7 @@
 		                          <th>Correo</th>
 		                          <th>Teléfono</th>
 		                          <th>Fecha de último acceso</th>
-		                          <th>Acciones</th>
+		                          <th width="16%">Acciones</th>
 		                          
 		                        </tr>
 		                      </thead>
@@ -76,7 +76,7 @@
 		                          <td>{{$u->email}}</td>
 		                          <td>{{$u->users_tel}}</td>
 		                          <td>{{$u->users_f_ultacces}}</td>
-		                          <td width="18%">
+		                          <td >
 		                          	
 			                          <div class="btn-group">
 			                          	<div class="btn-group">
@@ -85,7 +85,7 @@
 
 										<div class="btn-group">
 
-		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#053666; background-color:#FFFFFF; " onclick="showModalBD({{$u->id}})"><i class="fa fa-database fa-3x"></i> </button>
+		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#053666; background-color:#FFFFFF; " onclick="showModalBD({{$u->id}})"><i class="fa fa-plus-square-o fa-3x"></i> </button>
 
 		                          				
 		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalUsrBd{{$u->id}}">
@@ -137,8 +137,6 @@
 	                          													<th>Empresa</th>
 	                          													<th>RFC de empresa</th>
 	                          													<th>Acciones</th>
-
-
 	                        												</tr>
 	                      												</thead>
 
@@ -257,6 +255,7 @@
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
    <script>
+   //Funciones para desaparecer mensajes de acciones
       $( function() {
           $('#alertmsgcreation').click(function() {
               console.log('alertmsgcreation button clicked');
@@ -281,11 +280,8 @@
     </script>
 
 	<script>
-
-	
 		$("select[name='select_bd_id']").select2()
         .on("change", function(e) {
-          // mostly used event, fired to the original element when the value changes
           
           var usr1 = this.getAttribute('data-usr');
           fillroles(this, usr1);
@@ -294,23 +290,25 @@
 
 		
 		
+		//Función para limpiar el selet2 de roles y el select2 de las bases de datos del modal de bd
 		function cleanRoles(usrid){
-				$("#roles"+usrid).select2({
-					                  allowClear: true,
-					                  placeholder: 'Sin roles...'
-					             });
-				$("#roles"+usrid).empty();
-				document.getElementById("select_bd_id"+usrid).value = 'null';
-				$("#select_bd_id"+usrid).select2({
-                  allowClear: true,
-                  placeholder: 'Seleccione una aplicación...'
-                   
-               });
+			$("#roles"+usrid).select2({
+				                  allowClear: true,
+				                  placeholder: 'Sin roles...'
+				             });
+			$("#roles"+usrid).empty();
+			document.getElementById("select_bd_id"+usrid).value = 'null';
+			$("#select_bd_id"+usrid).select2({
+              allowClear: true,
+              placeholder: 'Seleccione una aplicación...'
+               
+           });
 				
 
-				}
+		}
 
 
+		//Función para limpiar el div que se muestra cuando hay error asociando usuario a base de datos
 		function cleanFailureDiv(usrid){
 
 			$("#result_failure"+usrid).html('');
@@ -320,11 +318,12 @@
 			}
 
 	
-	    	function relatedb(usrid){
-	    		
-	    		var bdid = document.getElementById("select_bd_id"+usrid).value;
-	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	    		var roles = $("#roles"+usrid).val();
+		//Función para relacionar usuario con base de datos seleccionada
+	    function relatedb(usrid){
+
+    		var bdid = document.getElementById("select_bd_id"+usrid).value;
+    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    		var roles = $("#roles"+usrid).val();
 	    		
 	        $.ajax({
 	        	url:"/addusrdb",
@@ -357,14 +356,15 @@
                 } 
 
 
-	    });
+	    	});
 	    };
 
 
+	    //Función para eliminar relación entre usuario y base de datos
 	    function unrelatedb(bdid, usrid){
 	    		
-	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	    		document.getElementById("row"+bdid).outerHTML="";
+    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    		document.getElementById("row"+bdid).outerHTML="";
 	    			    		
 	        $.ajax({
 	        	url:"/unrbdusr",
@@ -392,69 +392,71 @@
                 } 
 
 
-	    });
+	    	});
 	    };
 
 
+	    //Función que llena el select2 de roles cuando se selecciona base de datos, con roles de dicha base de datos seleccionada
 	    function fillroles(element, usrid){
 
-	    		$("#roles"+usrid).empty();
+    		$("#roles"+usrid).empty();
 
-	    		var bdid = element.value;
-	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    		var bdid = element.value;
+    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-	    		if (element.value == 'null'){
-	    			cleanRoles(usrid);
-	    		}
-	    		else
-	    		{
-	    			$.ajax({
-		        	url:"/getrolesbd/"+bdid,
-		        	type:'POST',
-		        	cache:false,
-		        	data: {_token: CSRF_TOKEN},
-	    			dataType: 'JSON',
+    		if (element.value == 'null'){
+    			cleanRoles(usrid);
+    		}
+    		else
+    		{
+    			$.ajax({
+	        	url:"/getrolesbd/"+bdid,
+	        	type:'POST',
+	        	cache:false,
+	        	data: {_token: CSRF_TOKEN},
+    			dataType: 'JSON',
 
-		        	success:function(response){
-		        		if (response['status'] == 'Success'){
-		        			//console.log(response['roles']);
-		        			var roles = response['roles'];
-		        			
-							//$('.chosen-select', this).chosen('destroy').chosen();
-		        			var datarole = [];
-		        			if (roles.length > 0) {
-					            for (var i = 0; i < roles.length; i++) {
-					              var dic = {'id': roles[i]['slug'], 'text': roles[i]['name']};
-					              //console.log(roles[i]['slug']);
-					              datarole.push(dic);
-					            }
-					            $("#roles"+usrid).select2({
-					                  data: datarole,
-					                  allowClear: true,
-					                  placeholder: 'Seleccione los roles...'
-					                   
-					             });
-					          }
-		        		}
-		        		else{
-		        			$("#result_failure"+bdid).html(response['result']);
-		        			console.log($(".result_failure"+bdid));
-		        		}
+	        	success:function(response){
+	        		if (response['status'] == 'Success'){
+	        			//console.log(response['roles']);
+	        			var roles = response['roles'];
+	        			
+						//$('.chosen-select', this).chosen('destroy').chosen();
+	        			var datarole = [];
+	        			if (roles.length > 0) {
+				            for (var i = 0; i < roles.length; i++) {
+				              var dic = {'id': roles[i]['slug'], 'text': roles[i]['name']};
+				              //console.log(roles[i]['slug']);
+				              datarole.push(dic);
+				            }
+				            $("#roles"+usrid).select2({
+				                  data: datarole,
+				                  allowClear: true,
+				                  placeholder: 'Seleccione los roles...'
+				                   
+				             });
+				          }
+	        		}
+	        		else{
+	        			$("#result_failure"+bdid).html(response['result']);
+	        			console.log($(".result_failure"+bdid));
+	        		}
 
-			        },
-			        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-			        		console.log(XMLHttpRequest);
-		                    alert("Error: " + errorThrown); 
-	                } 
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		        		console.log(XMLHttpRequest);
+	                    alert("Error: " + errorThrown); 
+                } 
 
 
-		    		});
+	    		});
 
-	    		}
-	    		
+    		}
+    		
 	        
 	    };
 
+	    //Función para mostrar modal de cambio de contraseña
 	    function showModal(user) {
           var modalid = "passmodal"+user;
 
@@ -462,17 +464,17 @@
           
         }
 
+
+        //Función para mostrar modal para asociar base de datos a usuario
         function showModalBD(user) {
           var modalid = "modalUsrBd"+user;
 
           $("#"+modalid).modal('show');
           cleanRoles(user);
 
-          
-
-
         }
 
+        //Función para ocultar modals
        function hideModal(user) {
           var modalid = "passmodal"+user;
           $("#"+modalid).modal('hide');
@@ -480,6 +482,7 @@
         }
 
 
+       //Función para cambiar contraseña
        function changePass(user){
 
            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -524,10 +527,6 @@
 
    }
 
-
 	</script>
 
-
-
-	
 @endsection

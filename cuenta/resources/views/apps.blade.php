@@ -46,7 +46,7 @@
 
 		                  <div class="x_content">
 		                    
-		                    <table id="datatable-buttons" class="table table-striped table-bordered">
+		                    <table id="datatable-buttons" class="table table-striped table-bordered" width="100%">
 		                      <thead>
 		                        <tr style="color:#000033; background-color:#e6e6e6; ">
 		                          <th>Aplicación</th>
