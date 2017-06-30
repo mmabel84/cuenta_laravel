@@ -94,7 +94,7 @@ class BackController extends Controller
         // If the private key has a passphrase we set that first
         $Key->setPassword('Advan$97120');
         // Next load the private key using file_gets_contents to retrieve the key
-        $Key->loadKey(file_get_contents('/home/centos/dev-boveda.ppk'));
+        $Key->loadKey(Storage::disk('local')->get('dev-boveda.ppk'));
 
         if (!$sftp->login('bitnami', $Key)) {
             throw new Exception('Login failed');
