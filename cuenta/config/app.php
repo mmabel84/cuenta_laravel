@@ -14,8 +14,8 @@ return [
                                     'grant_type' => 'password',
                                     'client_id' => '1',
                                     'client_secret' => 'VYZCgS1wlth4Ard30wuafMDfTsh6yjHqrLA5WEJR',
-                                    'username' => 'cta.api@gmail.com',
-                                    'password' => 'cta.api',
+                                    'username' => 'api.cuenta@gmail.com',
+                                    'password' => 'api.cuenta',
                                     'scope' => '*',
                                     ]
                           ],
