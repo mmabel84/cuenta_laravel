@@ -26,7 +26,7 @@ class ChangeBD
                 if(array_key_exists($alldata['login_rfc'],$dbvalue)){
 
                     //Consumir servicio de control para verificar que la cuenta está activa
-                    /*$cont = new Controller;
+                    $cont = new Controller;
                     $acces_vars = $cont->getAccessToken();
                     $arrayparams['rfc'] = $alldata['login_rfc'];
                     try
@@ -40,8 +40,7 @@ class ChangeBD
                     
 
         
-                    if ($service_response['accstate'] == 'Activa'){*/
-                    if (true){
+                    if ($service_response['accstate'] == 'Activa'){
 
                         \Session::put('selected_database',$alldata['login_rfc']);
                         \Config::set('database.default', $alldata['login_rfc']);
