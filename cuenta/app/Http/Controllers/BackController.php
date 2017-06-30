@@ -14,6 +14,9 @@ use BackupManager\Filesystems\SftpFilesystem;
 use BackupManager\Filesystems\FilesystemProvider;
 use BackupManager\Config\Config;
 
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SFTP;
+
 class BackController extends Controller
 {
 
@@ -85,6 +88,17 @@ class BackController extends Controller
     public function create()
     {       
     	$bdapp = BasedatosApp::all();
+        $sftp = new SFTP('www.example.com');
+
+        $Key = new RSA();
+        // If the private key has a passphrase we set that first
+        $Key->setPassword('Advan$97120');
+        // Next load the private key using file_gets_contents to retrieve the key
+        $Key->loadKey(file_get_contents('/home/centos/dev-boveda.ppk'));
+
+        if (!$sftp->login('bitnami', $Key)) {
+            throw new Exception('Login failed');
+        }
         return view('backupcreate',['bdapp'=>$bdapp]);
     }
 
