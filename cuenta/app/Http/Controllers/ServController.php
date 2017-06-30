@@ -33,7 +33,7 @@ class ServController extends Controller
 
                 	$str_to_replace = "'".$dbname."' => [
 		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '172.31.2.220'),
+		            'host' => env('DB_HOST', '127.0.0.1'),
 		            'port' => env('DB_PORT', '3306'),
 		            'database' => '".$dbname."',
 		            'username' => env('DB_USERNAME', 'forge'),
@@ -55,7 +55,7 @@ class ServController extends Controller
 		        DB::statement("create database ".$dbname);
 		        \Config::set('database.connections.'.$dbname, [
 		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '172.31.2.220'),
+		            'host' => env('DB_HOST', '127.0.0.1'),
 		            'port' => env('DB_PORT', '3306'),
 		            'database' => $dbname,
 		            'username' => env('DB_USERNAME', 'forge'),
