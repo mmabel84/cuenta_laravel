@@ -423,6 +423,7 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
         'App\\Bitacora' => __DIR__ . '/../..' . '/app/Bitacora.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Empresa' => __DIR__ . '/../..' . '/app/Empresa.php',
+        'App\\Events\\Event' => __DIR__ . '/../..' . '/app/Events/Event.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AppAsignController' => __DIR__ . '/../..' . '/app/Http/Controllers/AppAsignController.php',
         'App\\Http\\Controllers\\AppController' => __DIR__ . '/../..' . '/app/Http/Controllers/AppController.php',
@@ -447,6 +448,8 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Listeners\\EventListener' => __DIR__ . '/../..' . '/app/Listeners/EventListener.php',
+        'App\\Listeners\\UserEventListener' => __DIR__ . '/../..' . '/app/Listeners/UserEventListener.php',
         'App\\Paquete' => __DIR__ . '/../..' . '/app/Paquete.php',
         'App\\Proveedor' => __DIR__ . '/../..' . '/app/Proveedor.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -454,6 +457,7 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Providers\\SftpServiceProvider' => __DIR__ . '/../..' . '/app/Providers/SftpServiceProvider.php',
         'App\\Rfc' => __DIR__ . '/../..' . '/app/Rfc.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'BackupManager\\Compressors\\Compressor' => __DIR__ . '/..' . '/backup-manager/backup-manager/src/Compressors/Compressor.php',
@@ -4164,6 +4168,7 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
         'phpseclib\\System\\SSH\\Agent\\Identity' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/System/SSH/Agent/Identity.php',
         'sed_paquete' => __DIR__ . '/../..' . '/database/seeds/sed_paquete.php',
         'sed_roles' => __DIR__ . '/../..' . '/database/seeds/sed_roles.php',
+        'sed_user' => __DIR__ . '/../..' . '/database/seeds/sed_user.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
