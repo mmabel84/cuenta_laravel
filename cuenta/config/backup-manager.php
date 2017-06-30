@@ -55,7 +55,7 @@ return [
         'password' => 'Advan$97120',
         'port' => 22,
         'timeout' => 10,
-        'privateKey' => '/home/centos/lab1.pem',
+        'privateKey' => '/home/centos/dev-boveda.ppk',
         'root' => '/opt/bitnami/apache2/htdocs/mabel/',
     ],
 ];
