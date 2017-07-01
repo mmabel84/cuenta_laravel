@@ -88,7 +88,7 @@ class BackController extends Controller
     public function create()
     {       
     	$bdapp = BasedatosApp::all();
-        $sftp = new SFTP('13.58.170.3');
+        /*$sftp = new SFTP('13.58.170.3');
 
         $Key = new RSA();
         // If the private key has a passphrase we set that first
@@ -98,7 +98,7 @@ class BackController extends Controller
 
         if (!$sftp->login('bitnami', $Key)) {
             throw new Exception('Login failed');
-        }
+        }*/
         return view('backupcreate',['bdapp'=>$bdapp]);
     }
 
