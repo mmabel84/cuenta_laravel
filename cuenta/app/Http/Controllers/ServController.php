@@ -8,10 +8,14 @@ use App\Aplicacion;
 use App\Paquete;
 use App\User;
 use Illuminate\Support\Facades\Log;
+use App\Bitacora;
 
 
 class ServController extends Controller
 {
+
+	use ThrottlesLogins;
+
     public function createbd(Request $request)
     {
         $alldata = $request->all();
@@ -20,7 +24,8 @@ class ServController extends Controller
 
         if(array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
             
-            $dbname = $alldata['rfc_nombrebd'].'_'.$alldata['account_id'];
+            //$dbname = $alldata['rfc_nombrebd'].'_'.$alldata['account_id'];
+            $dbname = $alldata['rfc_nombrebd'].'_cta';
             $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 	        $db = DB::select($query, [$dbname]);
 
@@ -154,7 +159,7 @@ class ServController extends Controller
 	        $msg = "Aplicación añadida.";
 	        $status = "Success";
 
-	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd']) && array_key_exists('account_id',$alldata) && isset($alldata['account_id'])){
+	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
 
 	        	$apps = json_decode($alldata['apps_cta']);
 	        	$dbname = $alldata['rfc_nombrebd'];
@@ -213,6 +218,71 @@ class ServController extends Controller
             'dbname' => $dbname);
 
         	return \Response::json($response);
+	   }
+
+	   //Método para desbloquear desde control usuario bloqueado por 5 intentos fallidos de login
+	   public function unblockUser(Request $request)
+	   {
+
+	   		$alldata = $request->all();
+	   		if(array_key_exists('user_id',$alldata) && isset($alldata['user_id']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
+	   			\Config::set('database.default', $alldata['dbname']);
+	   			$usr = User::find($alldata['user_id']);
+	   			$binnacle = new Bitacora();
+	   			$binnacle->bitc_fecha = date("Y-m-d H:i:s");
+		        $binnacle->bitcta_tipo_op = 'access';
+		        $binnacle->bitcta_ip = $binnacle->getrealip();
+		        $browser_arr = $binnacle->getBrowser();
+		        $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
+		        $binnacle->bitc_modulo = '\Login';
+			    $binnacle->bitcta_result = 'TODO';
+			    $binnacle->bitcta_dato = json_encode($_REQUEST);
+		        
+
+	   			if ($usr){
+	   				$binnacle->bitcta_users_id = $alldata['user_id'];
+			        $binnacle->bitcta_msg = 'Desbloqueo desde control de usuario '.$usr->name;
+			        $this->clearLoginAttempts($request, $usr->email);
+			        $usr->users_blocked = false;
+        			$usr->save();
+
+	   			}else{
+	   				//$binnacle->bitcta_users_id = $alldata['user_id'];
+	   				$binnacle->bitcta_msg = 'Intento de desbloqueo desde control de usuario no existente en base de datos'.$alldata['dbname'];
+
+	   			}
+
+	   			$binnacle->save();
+		        \Config::set('database.default', \Session::get('selected_database','mysql'));
+		   		
+		   		
+
+	   		}
+
+
+	   }
+
+	   protected function clearLoginAttempts(Request $request, $email = '')
+	    {
+	        if ($email != ''){
+	        	$this->limiter()->clear($email);
+	        }
+	        else{
+	        	$this->limiter()->clear($this->throttleKey($request));
+	        }
+	        
+	    }
+
+	   public function returnUsers($dbname){
+
+	   	$users = [];
+	   	if ($dbname){
+
+	   		$users = DB::connection($dbname)->select('select name, email, users_blocked from users;')->get();
+	   	}
+
+	   	return \Response::json($users);
+
 	   }
 
        

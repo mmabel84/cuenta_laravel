@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -26,6 +27,9 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+    protected $lockoutTime = 1;
+    protected $maxLoginAttempts = 3;
+
 
     /**
      * Create a new controller instance.
@@ -36,4 +40,40 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function setLoginAttempts()
+    {
+        if (method_exists($this, 'maxLoginAttempts')) {
+            
+            return $this->maxLoginAttempts();
+        }
+ 
+        return property_exists($this, 'maxLoginAttempts') ? $this->maxLoginAttempts : 5;
+    }
+
+    protected function setLockoutTime()
+    {
+        if (method_exists($this, 'lockoutTime')) {
+            
+            return $this->lockoutTime();
+        }
+ 
+        return property_exists($this, 'lockoutTime') ? $this->lockoutTime : 1; 
+    }
+    
+
+
+
+   
+
+
+     protected function throttleKey(Request $request)
+    {
+
+        return Str::lower($request->input($this->username()));
+    }
+
+
+
+
 }
