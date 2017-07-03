@@ -14,7 +14,7 @@ return [
                                     'grant_type' => 'password',
                                     'client_id' => '1',
 
-                                    'client_secret' => 'VYZCgS1wlth4Ard30wuafMDfTsh6yjHqrLA5WEJR',
+                                    'client_secret' => '5Cmjd7kvzD5NM8vfRl7JiwqkodRc4k92NCfy2Rjs',
                                     'username' => 'api.cuenta@gmail.com',
                                     'password' => 'api.cuenta',
                                     'scope' => '*',
