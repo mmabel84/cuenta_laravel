@@ -10,6 +10,7 @@ return array(
     'AddBackbdTable' => $baseDir . '/database/migrations/2017_05_31_155650_add_backbd_table.php',
     'AddBdappTable' => $baseDir . '/database/migrations/2017_05_31_152119_add_bdapp_table.php',
     'AddBitctaTable' => $baseDir . '/database/migrations/2017_05_31_164403_add_bitcta_table.php',
+    'AddBlockedUser' => $baseDir . '/database/migrations/2017_07_03_125319_add_blocked_user.php',
     'AddEmpresaTable' => $baseDir . '/database/migrations/2017_05_31_150120_add_empresa_table.php',
     'AddLinkBackup' => $baseDir . '/database/migrations/2017_06_22_152251_add_link_backup.php',
     'AddPaqappTable' => $baseDir . '/database/migrations/2017_05_31_151349_add_paqapp_table.php',

@@ -409,6 +409,7 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
         'AddBackbdTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_155650_add_backbd_table.php',
         'AddBdappTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_152119_add_bdapp_table.php',
         'AddBitctaTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_164403_add_bitcta_table.php',
+        'AddBlockedUser' => __DIR__ . '/../..' . '/database/migrations/2017_07_03_125319_add_blocked_user.php',
         'AddEmpresaTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_150120_add_empresa_table.php',
         'AddLinkBackup' => __DIR__ . '/../..' . '/database/migrations/2017_06_22_152251_add_link_backup.php',
         'AddPaqappTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_151349_add_paqapp_table.php',
