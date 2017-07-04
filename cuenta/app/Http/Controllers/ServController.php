@@ -9,10 +9,14 @@ use App\Paquete;
 use App\User;
 use Illuminate\Support\Facades\Log;
 use App\Bitacora;
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 
 class ServController extends Controller
 {
+
+	use AuthenticatesUsers;
 
 
     public function createbd(Request $request)
@@ -109,7 +113,16 @@ class ServController extends Controller
 
 		        DB::connection($dbname)->insert('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', ['Usuario Advans', 'advans','advans@advans.mx', bcrypt('advans')]);
 
-		        DB::connection($dbname)->insert('insert into empr (empr_nom, empr_rfc) values (?, ?)', [$name, $alldata['client_rfc']]);
+		        
+		        if (array_key_exists('client_f_fin',$alldata) && isset($alldata['client_f_fin']) && array_key_exists('client_f_inicio',$alldata) && isset($alldata['client_f_inicio']))
+		        {
+		        	DB::connection($dbname)->insert('insert into empr (empr_nom, empr_rfc, empr_principal, empr_f_iniciovig, empr_f_finvig) values (?, ?, ?, ?, ?)', [$name, $alldata['client_rfc'], true, $alldata['client_f_inicio'], $alldata['client_f_fin']]);
+		        }
+		        else 
+		        {
+		        	DB::connection($dbname)->insert('insert into empr (empr_nom, empr_rfc, empr_principal) values (?, ?, ?)', [$name, $alldata['client_rfc'], true]);
+		        }
+		        
 
 		        // Desplegando en cuenta las aplicaciones y paquete contratados en control
 		        
@@ -191,6 +204,8 @@ class ServController extends Controller
 	   		$alldata = $request->all();
 	        $msg = "Aplicación añadida.";
 	        $status = "Success";
+	        $apps = [];
+	        $dbname = '';
 
 	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
 
@@ -254,30 +269,38 @@ class ServController extends Controller
 	   }
 
 	   //Método para desbloquear desde control usuario bloqueado por 5 intentos fallidos de login
-	   public function unlockUser(Request $request)
+	   public function unlockUserControl(Request $request)
 	   {
 
 	   		$alldata = $request->all();
 	   		if(array_key_exists('user_id',$alldata) && isset($alldata['user_id']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
-	   			\Config::set('database.default', $alldata['dbname']);
+
+	   			$dbname = $alldata['dbname'].'_cta';
+	   			\Config::set('database.default', $dbname);
 	   			$usr = User::find($alldata['user_id']);
 	   			$binnacle = new Bitacora();
 	   			$binnacle->bitc_fecha = date("Y-m-d H:i:s");
-		        $binnacle->bitcta_tipo_op = 'access';
-		        $binnacle->bitcta_ip = $binnacle->getrealip();
-		        $browser_arr = $binnacle->getBrowser();
-		        $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
+		        $binnacle->bitcta_tipo_op = 'control access';
+		        $binnacle->bitcta_ip = '';
+		        $browser_arr = '';
+		        $binnacle->bitcta_naveg = $browser_arr;
 		        $binnacle->bitc_modulo = '\Login';
 			    $binnacle->bitcta_result = 'TODO';
 			    $binnacle->bitcta_dato = json_encode($_REQUEST);
 		        
 
 	   			if ($usr){
+	   				
 	   				$binnacle->bitcta_users_id = $alldata['user_id'];
 			        $binnacle->bitcta_msg = 'Desbloqueo desde control de usuario '.$usr->name;
-			        //$this->clearLoginAttempts($request, $usr->email);
-			        $usr->users_blocked = false;
-        			$usr->save();
+
+			        //$usr->users_blocked = false;
+			        //$usr->save();
+			        DB::connection($dbname)->update('update users set users_blocked = false where id = ?', [$usr->id]);
+			        $this->clearLoginAttempts($request, $usr->email);
+			        
+			        //Log::info(\Cache::all());
+			        
 
 	   			}else{
 	   				//llamar usuario admin de bd y ponerlo como usuario
@@ -297,19 +320,41 @@ class ServController extends Controller
 
 	   }
 
+	   protected function clearLoginAttempts(Request $request, $email = '')
+	    {
+	        if ($email != ''){
+	            $this->limiter()->clear($email);
+	        }
+	        else{
+	            $this->limiter()->clear($this->throttleKey($request));
+	        }
+	        
+	    }
 	   
+	   public function returnUsersControl(Request $request){
 
-	   public function returnUsers($dbname){
-
+	   	$alldata = $request->all();
 	   	$users = [];
-	   	if ($dbname){
+	   	if (array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
+	   		$dbname = $alldata['dbname'].'_cta';
 
-	   		$users = DB::connection($dbname)->select('select id, name, email, users_blocked from users;')->get();
+	   		$users = DB::connection($dbname)->select('select id, name, email, users_blocked from users;');
 	   	}
 
 	   	return \Response::json($users);
 
 	   }
+
+
+	   public function getBitControl(Request $request)
+	    {
+
+	        $bitacoras = DB::connection($dbname)->select('select bitc_fecha, bitc_modulo, bitcta_ip, bitcta_tipo_op, bitcta_msg from bitcta order by bitc_fecha DESC limit 10;');
+
+	        $response = array ('status' => 'Success', 'result' => $bitacoras);
+	        return \Response::json($response);
+
+	    }
 
        
     }

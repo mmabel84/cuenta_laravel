@@ -115,7 +115,7 @@
               </div>-->
 
 
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-9 col-sm-9 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
                           <h2>Acceso a aplicaciones contratadas</h2>
@@ -134,7 +134,7 @@
                 <br>
                 <br>
                 <input type="hidden" id="iconsapp" name="iconsapp" value="{{ $appvisible }}">
-                <div class="contenedor_select col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:84px;">
+                <div class="contenedor_select col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:80px;">
    
                 <!--    <a href="#" data-toggle="tooltip" data-placement="right" title="PLD" id="pld"><i class="fa fa-money fa-3x" style="color:#053666;"></i></a>
                     &nbsp;
@@ -160,27 +160,55 @@
               </div>
              </div>
 
-             <div class="col-md-6 col-sm-6 col-xs-12" >
-               <div class="x_panel">
+
+             <div class="col-md-3 col-sm-3 col-xs-12" >
+                <div class="x_panel  contenedor_select">
                 <div class="x_title">
-                          <h2>Otras aplicaciones disponibles</h2>
-                          <div class="clearfix"></div>
-                </div>
+                            <h2>Validar RFC en Art. 69 y 69-B</h2>
+                            </br>
+                            <p>Actualizado a 23/09/2017</p>
+                            <div class="clearfix"></div>
+                  </div>
 
-                <div class="contenedor_select col-md-12 col-sm-12 col-xs-12">
-                  
-                  
-                </div>
-                
+                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:100px;">
+                           <div class="input-group" >
+                              <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc">
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="art69cons()" style="background-color: #053666">Consultar</button>
+                              </span>
+
+                           </div>
+                         <br>
+
+                         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="reporteart" id="reporteart">
+                          <meta name="csrf-token" content="{{ csrf_token() }}" />
+                    
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                  <!--<span aria-hidden="true">&times;</span>-->
+                                </button>
+                              </div>
+
+                              <div class="modal-body" id="modalreporte">
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideModal()">Cerrar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      
+                      
+                      </div>
+                 </div>
+
+                   
               </div>
-             </div>
-
-             
-
-
-
-
-             
 
               <!--<div class="col-md-12 col-sm-12 col-xs-12">
 
@@ -210,6 +238,45 @@
                 </div>
               </div>-->
 
+
+              <div class="col-md-9 col-sm-9 col-xs-12" >
+               <div class="x_panel">
+                <div class="x_title">
+                          <h2>Otras aplicaciones disponibles</h2>
+                          <div class="clearfix"></div>
+                </div>
+
+                <div class="contenedor_select col-md-12 col-sm-12 col-xs-12">
+                </div>
+               
+                <input type="hidden" id="iconsappdisp" name="iconsappdisp" value="{{ $appdispvisible }}">
+                <div class="contenedor_select col-md-12 col-sm-12 col-xs-12" id="divappdisp" style="height:84px;">
+                  
+                  
+                </div>
+                
+              </div>
+             </div>
+
+             <input type="hidden" id="diasvig" name="diasvig" value="{{ $dias_vigencia }}">
+             <input type="hidden" id="finvig" name="finvig" value="{{ $fecha_fin_cert }}">
+             <input type="hidden" id="htmlcert" name="htmlcert" value="{{ $htmlcert }}">
+             <div class="col-md-3 col-sm-3 col-xs-12" >
+              <div class="x_panel">
+                      <div class="x_title">
+                          <h2>Vigencia de certificados</h2>
+                          </br>
+                          <div class="clearfix"></div>
+                      </div>
+
+                       <div class="contenedor_select col-md-12 col-sm-12 col-xs-12" id="certif" style="height:84px;">
+                          <!--<p>Sin certificado registrado</p>-->
+                        
+                      </div>
+                 </div>
+              </div>
+
+
              
                 
                 <div class="clearfix"></div>
@@ -227,15 +294,29 @@
                 <input type="hidden" name="emps" id="emps" value="{{ $emps }}"/>
 
 
-                <div class="col-md-9 col-sm-9 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                   <div class="x_panel">
                   <div class="x_title">
                               <h2>Novedades</h2>
                               <div class="clearfix"></div>
                    </div>
 
-                   <div class="x_content">
+                   <div class="x_content contenedor_select">
+
+                   @foreach ($noticias as $n)
                       <article class="media event">
+                        <a class="pull-left date" style="width: 80px" >
+                          <p class="month" style="color: #053666"><b>{{ trans('meses.'.DateTime::createFromFormat("Y-m-d", $n->pdate)->format("F")) }}</b></p>
+                          <p class="day" style="color: #053666">{{ DateTime::createFromFormat("Y-m-d", $n->pdate)->format("d") }}</p>
+                        </a>
+                        <div class="media-body">
+                          <a class="title" href="{{ $n->nlink }}" style="color: #053666" target='_blank'>{{ $n->tittle }}</a>
+                          <p>{{ $n->description }}</p>
+                        </div>
+                      </article>
+                   @endforeach
+
+                     <!-- <article class="media event">
                         <a class="pull-left date" >
                           <p class="month" style="color: #053666"><b>Abril</b></p>
                           <p class="day" style="color: #053666">23</p>
@@ -264,7 +345,7 @@
                           <a class="title" href="#" style="color: #053666">Actualización de PLD.</a>
                           <p>Nueva actualización de PLD con mejoras...</p>
                         </div>
-                      </article>
+                      </article>-->
                       
                       
                     </div>
@@ -273,52 +354,10 @@
                    </div>
               </div>
 
-              <div class="col-md-3 col-sm-3 col-xs-12" >
-                <div class="x_panel">
-                <div class="x_title">
-                            <h2>Consulta de Artículos 69 y 69-B</h2>
-                            </br>
-                            <p>Actualizado a 23/09/2017</p>
-                            <div class="clearfix"></div>
-                  </div>
 
-                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:110px;">
-                       <div class="input-group" >
-                          <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc">
-                          <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary" onclick="art69cons()" style="background-color: #053666">Consultar</button>
-                          </span>
+              
 
-                       </div>
-                     <br>
-
-                     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="reporteart" id="reporteart">
-                      <meta name="csrf-token" content="{{ csrf_token() }}" />
-                
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"></h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                              <!--<span aria-hidden="true">&times;</span>-->
-                            </button>
-                          </div>
-
-                          <div class="modal-body" id="modalreporte">
-
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideModal()">Cerrar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                      
-                      
-                      </div>
-                 </div>
-              </div>
+              
 
 
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -449,10 +488,9 @@
                    
                });             
           }
-
-           
-
-          
+          //Asignando valor a div de vigencia de certificado
+          var htmlcontent = document.getElementById('htmlcert').value;
+          $('#certif').append(htmlcontent);
 
         </script>
 
@@ -467,6 +505,7 @@
 
         //document.getElementById('diviscons').html(document.getElementById('iconsapp').value);
         $("#diviscons").html(document.getElementById('iconsapp').value);
+        $("#divappdisp").html(document.getElementById('iconsappdisp').value);
 
         
       </script>

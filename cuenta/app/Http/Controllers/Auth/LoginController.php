@@ -29,7 +29,7 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
-    protected $lockoutTime = 1;
+    protected $lockoutTime = 2;
     protected $maxLoginAttempts = 3;
 
 

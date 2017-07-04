@@ -61,6 +61,26 @@ class AppServiceProvider extends ServiceProvider
             
             return $strtotimeresultm || $strtotimeresultf ? true : false;
         });
+
+
+
+
+        Validator::extend('passwordsat', function ($attribute, $value, $parameters, $validator) {
+            
+            $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $value, $matchesm);
+            
+            if (!$resultm) 
+            {
+                return false;
+            }
+
+            if (count($matchesm)  == 0)
+            {
+                return false;
+            }
+            
+            return true;
+        });
         
     }
 

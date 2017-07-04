@@ -90,7 +90,7 @@
 
                         <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del Usuario *" required="required" type="text">
+                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del Usuario *" required="required" type="text" value="{{ old('name') }}">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('name'))
                                     <span class="help-block">
@@ -102,7 +102,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="users_nick" class="form-control has-feedback-left" name="users_nick" placeholder="Usuario *" required="required" type="text" data-validate-words="1" value="" autocomplete="off">
+                              <input id="users_nick" class="form-control has-feedback-left" name="users_nick" placeholder="Usuario *" required="required" type="text" data-validate-words="1" value="{{ old('users_nick') }}" autocomplete="off">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('users_nick'))
                                     <span class="help-block">
@@ -116,11 +116,11 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="password" class="form-control has-feedback-left" value="" name="password" placeholder="Contraseña *" required="required" type="password" data-validate-words="1" autocomplete="off">
                               <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
-                              @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
+                              
+
+                                <span style="float: left; color: red;" id="span_pass_error" {{$errors->has('password') ? '' : 'hidden'}}>
+                                {{ $errors->first('password') }}
+                            </span>
                             </div>
                           </div>
 
@@ -133,7 +133,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="email" class="form-control has-feedback-left" name="email" placeholder="Correo *" required="required" type="email">
+                              <input id="email" class="form-control has-feedback-left" name="email" placeholder="Correo *" required="required" type="email" value="{{ old('email') }}">
                               <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('email'))
                                     <span class="help-block">
@@ -145,7 +145,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="users_tel" class="form-control has-feedback-left" name="users_tel" placeholder="Teléfono *" type="tel">
+                              <input id="users_tel" class="form-control has-feedback-left" name="users_tel" placeholder="Teléfono *" type="tel" value="{{ old('users_tel') }}">
                               <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                             </div>
                           </div>

@@ -31,8 +31,8 @@
                           <div class="profile clearfix">
                             
                             <div class="profile_info">
-                              <span><b>BIENVENIDO</b></span>
-                              <h2><strong>{{ Auth::user()->name }}</strong></h2>
+                              <!--<span><b>BIENVENIDO</b></span>
+                              <h2><strong>{{ Auth::user()->name }}</strong></h2>-->
                             </div>
                           </div>
                           <!-- /menu profile quick info -->
@@ -99,7 +99,8 @@
                               <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ Auth::user()->users_pic ? asset('storage/'.Auth::user()->users_pic) : asset('default_avatar_male.jpg')}}" alt="">{{ Auth::user()->name }}
+                                    <span><b>BIENVENIDO </b></span>
+                                    <img src=" {{ Auth::user()->users_pic ? asset('storage/'.Auth::user()->users_pic) : asset('default_avatar_male.jpg')}}" alt="">{{ Auth::user()->name }}
                                     <span class=" fa fa-angle-down"></span>
                                   </a>
                                   <ul class="dropdown-menu dropdown-usermenu pull-right">

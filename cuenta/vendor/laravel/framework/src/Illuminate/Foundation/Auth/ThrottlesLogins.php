@@ -67,6 +67,7 @@ trait ThrottlesLogins
      */
     protected function clearLoginAttempts(Request $request)
     {
+        Log::info($request);
         $this->limiter()->clear($this->throttleKey($request));
     }
 

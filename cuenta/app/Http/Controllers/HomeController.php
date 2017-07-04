@@ -40,40 +40,41 @@ class HomeController extends Controller
 
 
         $appsicons = array (
-                    'bov'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabled'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'bov'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabled' target='_blank'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                             <b>BÓVEDA</b></span></i></a>",
-                    'cont'=>"<a href='#' data-toggle='tooltip' data-placement='top' id='cont' class='disabled'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cont'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
-                     'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                     'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabled'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'pld'=>"<a href='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>PLD</b></span></i></a>",
                     
-                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cc'=>"<a href='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>TAREAS</b></span></i></a>
                     ");
 
         $appdisp = array (
-                    'bov'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabled'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'bov'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='bovd' title='Aplicación para almacenar facturas y documentos de interés' target='_blank'><i class='fa fa-archive fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                             <b>BÓVEDA</b></span></i></a>",
-                    'cont'=>"<a href='#' data-toggle='tooltip' data-placement='top' id='cont' class='disabled'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cont'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='contd' title='Aplicación para la contabilidad interna de la empresa' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
-                     'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                     'nom'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='nomd' title='Aplicación para el cálculo de la nómina' target='_blank'><i class='fa fa-table fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabled'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'pld'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='pldd' title='Aplicación para la prevención de lavado de dinero' target='_blank'><i class='fa fa-money fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>PLD</b></span></i></a>",
                     
-                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='notd' title='Aplicación para el manejo de notarías' target='_blank'><i class='fa fa-bank fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cc'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='ccd' title='Aplicación para el seguimiento de tareas' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>TAREAS</b></span></i></a>
                     ");
 
         
 
         $allkeys = array_keys($appsicons);
+        $appdispvisible = '';
         
         $appvisible = '';
         $asignadas = '';
@@ -83,6 +84,10 @@ class HomeController extends Controller
              if (count($app)>0){
                 $appvisible = $appvisible.$appsicons[$key];
              }
+             else{
+                $appdispvisible = $appdispvisible.$appdisp[$key];
+             }
+
         }
 
         $paquetes = Paquete::where('paqapp_activo', '=', true)->get();
@@ -161,9 +166,74 @@ class HomeController extends Controller
 
         }
 
+        //Calculando vigencia de certificado
+        $main_empr = Empresa::where('empr_principal', '=', true)->get();
+        $dias_vigencia = false;
+        $fecha_fin_cert = new DateTime("2017-08-02 21:00:00");
+        //$fecha_fin_cert = strtotime('2017-06-16 21:00:00');
+
+        if(count($main_empr) > 0 ){
+            //$fecha_fin_cert = new DateTime($main_empr[0]->empr_f_finvig);
+            $fecha_actual = new Datetime(date('Y-m-d H:i:s'));
+            $dias_vigencia = $fecha_actual->diff($fecha_fin_cert)->format("%r%a");
+            $horas_vigencia = date_diff($fecha_actual,$fecha_fin_cert)->format('%h:%i:%s');
+
+            
+        }
+        $htmlcert = '';
+
+        if ($fecha_fin_cert != false){
+            $msgvenc = 'Vence en: '.$dias_vigencia.' días';
+            $title = 'Fecha de fin: '.$fecha_fin_cert->format('Y-m-d H:i:s');
+            $class = "success";
+            if ($dias_vigencia < 30)
+                    $class = "warning";
+             if ($dias_vigencia < 7)
+                    $class = "danger";
+            if ($dias_vigencia == 1)
+                    $msgvenc = 'Vence mañana';
+            if ($dias_vigencia == 0) {
+                    $msgvenc = 'Vence hoy';
+                    list($h, $m, $s) = explode(":", $horas_vigencia);
+                    $title = implode(' ', array("Vence en", ($h > 0 ? intval($h) . ' hora' . ($h > 1 ? 's' : '') : '' ), ($m > 0 ? intval($m) . ' minuto' . ($m > 1 ? 's' : '') : ''), intval($s) . " segundo" . ($s > 1 ? 's' : '')));
+                }
+            if ($dias_vigencia == -1)
+                    $msgvenc = 'Venció ayer';
+            if ($dias_vigencia < -1)
+                    $msgvenc = 'Venció hace: ' . abs($dias_vigencia) . " días";
+
+            $htmlcert .='<span class="badge progress-bar-' . $class . ' badge" title="' . $title . '">' . $msgvenc . '</span>'
+                        . '<br></br>'
+                        . '<p class="list-group-item-text">' . $title . '</p>';
+
+
+        }
+        else
+        {
+            $htmlcert .='<p> Sin certificado registrado </p>';
+        }
+        
+
+        //recuperando noticias de servicio web de control
+
+        $arrayparams = [];
+        $noticias = [];
+        $acces_vars = $this->getAccessToken();
+        try
+        {
+            $service_response = $this->getAppService($acces_vars['access_token'],'getnews',$arrayparams,'control');
+        } 
+        catch (Exception $e) 
+        {
+             $request->session()->put('newserror', 'Sin comunicación a servicio de control para noticias');
+        }
+
+        if (count($service_response['news']) > 0){
+            $noticias = json_decode($service_response['news']) ;
+        }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalmeses'=>$intervalMeses]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalmeses'=>$intervalMeses, 'dias_vigencia'=>$dias_vigencia, 'fecha_fin_cert'=>$fecha_fin_cert->format('Y-m-d H:i:s'), 'htmlcert'=>$htmlcert, 'noticias'=>$noticias]);
 
                 
     }
@@ -343,7 +413,7 @@ class HomeController extends Controller
 
             $htmlsinreporte = '
                               <div>
-                                <label style="color: #3DB1A5" id="norep">No se encontraron reportes</label>
+                                <label style="color: #3DB1A5" id="norep">No se encontró incidencia</label>
                               </div>';
             
             /*$html .= '<br>

@@ -24,3 +24,9 @@ Route::get('/addapp', 'ServController@addapp')->middleware('auth:api');
 Route::get('/modpaq', 'ServController@modpaq')->middleware('auth:api');
 
 Route::get('/addpaq', 'ServController@addpaq')->middleware('auth:api');
+
+Route::get('/getusr', 'ServController@returnUsersControl')->middleware('auth:api');
+
+Route::get('/unlockusr', 'ServController@unlockUserControl')->middleware('auth:api');
+
+Route::get('/getbit', 'ServController@getBitControl')->middleware('auth:api');
