@@ -14,7 +14,6 @@ use App\Bitacora;
 class ServController extends Controller
 {
 
-	use ThrottlesLogins;
 
     public function createbd(Request $request)
     {
@@ -108,10 +107,15 @@ class ServController extends Controller
 
 		        DB::connection($dbname)->insert('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', [$name, $nick,$email, $pass]);
 
+		        DB::connection($dbname)->insert('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', ['Usuario Advans', 'advans','advans@advans.mx', bcrypt('advans')]);
+
+		        DB::connection($dbname)->insert('insert into empr (empr_nom, empr_rfc) values (?, ?)', [$name, $alldata['client_rfc']]);
+
 		        // Desplegando en cuenta las aplicaciones y paquete contratados en control
 		        
 		       if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta'])){
 
+		        	
 		        	$apps = json_decode($alldata['apps_cta']);
 		        	
 		        	foreach ($apps as $appc) {
@@ -153,6 +157,35 @@ class ServController extends Controller
 	       
 	   }
 
+	    public function addpaq(Request $request){
+	    	$alldata = $request->all();
+	        $msg = "Paquete agregado satisfactoriamente.";
+	        $status = "Success";
+
+	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
+
+	        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
+
+		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_cantrfc, paqapp_cantgig, paqapp_f_venta, paqapp_f_act, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?, ?, ?, ?)', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
+		        	}
+
+		        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta'])){
+		        	Log::info(json_decode($alldata['apps_cta']));
+			        foreach (json_decode($alldata['apps_cta']) as $appc) {
+			        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
+			        	}
+			        }
+
+	        }
+
+
+	    }
+
+
+
+
+
 	   public function addapp(Request $request){
 
 	   		$alldata = $request->all();
@@ -162,7 +195,7 @@ class ServController extends Controller
 	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
 
 	        	$apps = json_decode($alldata['apps_cta']);
-	        	$dbname = $alldata['rfc_nombrebd'];
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
 	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 	            $db = DB::select($query, [$dbname]);
 		        
@@ -196,7 +229,7 @@ class ServController extends Controller
 	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
 
 	        	$paqs = json_decode($alldata['paq_cta']);
-	        	$dbname = $alldata['rfc_nombrebd'];
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
 	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 	            $db = DB::select($query, [$dbname]);
 		        
@@ -221,7 +254,7 @@ class ServController extends Controller
 	   }
 
 	   //Método para desbloquear desde control usuario bloqueado por 5 intentos fallidos de login
-	   public function unblockUser(Request $request)
+	   public function unlockUser(Request $request)
 	   {
 
 	   		$alldata = $request->all();
@@ -242,12 +275,14 @@ class ServController extends Controller
 	   			if ($usr){
 	   				$binnacle->bitcta_users_id = $alldata['user_id'];
 			        $binnacle->bitcta_msg = 'Desbloqueo desde control de usuario '.$usr->name;
-			        $this->clearLoginAttempts($request, $usr->email);
+			        //$this->clearLoginAttempts($request, $usr->email);
 			        $usr->users_blocked = false;
         			$usr->save();
 
 	   			}else{
-	   				//$binnacle->bitcta_users_id = $alldata['user_id'];
+	   				//llamar usuario admin de bd y ponerlo como usuario
+	   				$usradmin = User::where('users_nick', '=', 'advans')->get();
+	   				$binnacle->bitcta_users_id = $usradmin[0]->id;
 	   				$binnacle->bitcta_msg = 'Intento de desbloqueo desde control de usuario no existente en base de datos'.$alldata['dbname'];
 
 	   			}
@@ -262,23 +297,14 @@ class ServController extends Controller
 
 	   }
 
-	   protected function clearLoginAttempts(Request $request, $email = '')
-	    {
-	        if ($email != ''){
-	        	$this->limiter()->clear($email);
-	        }
-	        else{
-	        	$this->limiter()->clear($this->throttleKey($request));
-	        }
-	        
-	    }
+	   
 
 	   public function returnUsers($dbname){
 
 	   	$users = [];
 	   	if ($dbname){
 
-	   		$users = DB::connection($dbname)->select('select name, email, users_blocked from users;')->get();
+	   		$users = DB::connection($dbname)->select('select id, name, email, users_blocked from users;')->get();
 	   	}
 
 	   	return \Response::json($users);

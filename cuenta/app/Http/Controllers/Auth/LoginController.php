@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use App\User;
 
 class LoginController extends Controller
@@ -60,18 +62,33 @@ class LoginController extends Controller
  
         return property_exists($this, 'lockoutTime') ? $this->lockoutTime : 1; 
     }
+
+    protected function hasTooManyLoginAttempts(Request $request)
+    {
+        return $this->limiter()->tooManyAttempts(
+            $this->throttleKey($request), $this->setLoginAttempts(), $this->setLockoutTime()
+        );
+    }
     
-
-
-
-   
-
 
      protected function throttleKey(Request $request)
     {
 
         return Str::lower($request->input($this->username()));
     }
+
+    protected function clearLoginAttempts(Request $request, $email = '')
+    {
+        if ($email != ''){
+            $this->limiter()->clear($email);
+        }
+        else{
+            $this->limiter()->clear($this->throttleKey($request));
+        }
+        
+    }
+
+
 
 
 

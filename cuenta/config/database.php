@@ -92,56 +92,13 @@ return [
             'strict' => false,
             'engine' => null,
         ],
-		'efwe45efge4_1' => [
-		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '127.0.0.1'),
-		            'port' => env('DB_PORT', '3306'),
-		            'database' => 'efwe45efge4_1',
-		            'username' => env('DB_USERNAME', 'forge'),
-		            'password' => env('DB_PASSWORD', ''),
-		            'unix_socket' => env('DB_SOCKET', ''),
-		            'charset' => 'utf8mb4',
-		            'collation' => 'utf8mb4_unicode_ci',
-		            'prefix' => '',
-		            'strict' => false,
-		            'engine' => null,
-		        ],
+		
 
-		       'sdfs34563rfg_1' => [
+		       'LOMD8607273Y8_cta' => [
 		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '127.0.0.1'),
+		            'host' => env('DB_HOST', '172.31.2.220'),
 		            'port' => env('DB_PORT', '3306'),
-		            'database' => 'sdfs34563rfg_1',
-		            'username' => env('DB_USERNAME', 'forge'),
-		            'password' => env('DB_PASSWORD', ''),
-		            'unix_socket' => env('DB_SOCKET', ''),
-		            'charset' => 'utf8mb4',
-		            'collation' => 'utf8mb4_unicode_ci',
-		            'prefix' => '',
-		            'strict' => false,
-		            'engine' => null,
-		        ],
-
-		       'SAD110722MQA_1' => [
-		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '127.0.0.1'),
-		            'port' => env('DB_PORT', '3306'),
-		            'database' => 'SAD110722MQA_1',
-		            'username' => env('DB_USERNAME', 'forge'),
-		            'password' => env('DB_PASSWORD', ''),
-		            'unix_socket' => env('DB_SOCKET', ''),
-		            'charset' => 'utf8mb4',
-		            'collation' => 'utf8mb4_unicode_ci',
-		            'prefix' => '',
-		            'strict' => false,
-		            'engine' => null,
-		        ],
-
-		       'LOMD8607273Y8_1' => [
-		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '127.0.0.1'),
-		            'port' => env('DB_PORT', '3306'),
-		            'database' => 'LOMD8607273Y8_1',
+		            'database' => 'LOMD8607273Y8_cta',
 		            'username' => env('DB_USERNAME', 'forge'),
 		            'password' => env('DB_PASSWORD', ''),
 		            'unix_socket' => env('DB_SOCKET', ''),
@@ -153,6 +110,7 @@ return [
 		        ],
 
 		       //AddDB
+		        
 		        
 		        
 		        

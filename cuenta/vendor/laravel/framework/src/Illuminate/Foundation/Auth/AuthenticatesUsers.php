@@ -124,7 +124,7 @@ trait AuthenticatesUsers
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        $errors = [$this->username() => trans('Usuario o contraseña inválidos')];
+        $errors = [$this->username() => trans('auth.failed')];
 
         if ($request->expectsJson()) {
             return response()->json($errors, 422);

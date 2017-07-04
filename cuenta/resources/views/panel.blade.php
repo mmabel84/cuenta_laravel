@@ -42,25 +42,7 @@
         <div class="">
 
         <div class="top_tiles">
-              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                  
-                  <div class="count" style="color: #053666;">{{ $gigas }}
-                       <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-pie-chart" style="color: #053666; font-size: 50px;"></i></div>
-                  </div>
-                 
-                  <p style="color: #053666;"><b>GIGAS CONTRATADOS</b></p>
-                  <p style="color: #053666;">{{ $gigas_cons }} gigas cosumidos</p>
-                </div>
-              </div>
-              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-building-o" style="color: #053666; font-size: 50px;"></i></div>
-                  <div class="count" style="color: #053666;">{{ $rfc }}</div>
-                  <p style="color: #053666;"><b>EMPRESAS CONTRATADAS</b></p>
-                  <p style="color: #053666;">{{ $rfccreados }} empresas creadas</p>
-                </div>
-              </div>
+              
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
 
@@ -76,6 +58,27 @@
                   <div class="count" style="color: #053666;">{{ $intervalmeses }}</div>
                    <p style="color: #053666;"><b>SEMANAS DISPONIBLES HASTA {{ $fecha_fin }}</b></p>
                    <p style="color: #053666;">{{ $porc_final }}% de tiempo consumido </p>
+                </div>
+              </div>
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-building-o" style="color: #053666; font-size: 50px;"></i></div>
+                  <div class="count" style="color: #053666;">{{ $rfc }}</div>
+                  <p style="color: #053666;"><b>EMPRESAS CONTRATADAS</b></p>
+                  <p style="color: #053666;">{{ $rfccreados }} empresas creadas</p>
+                </div>
+              </div>
+              
+              
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                  
+                  <div class="count" style="color: #053666;">{{ $gigas }}
+                       <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-pie-chart" style="color: #053666; font-size: 50px;"></i></div>
+                  </div>
+                 
+                  <p style="color: #053666;"><b>GIGAS CONTRATADOS</b></p>
+                  <p style="color: #053666;">{{ $gigas_cons }} gigas cosumidos</p>
                 </div>
               </div>
             </div>
@@ -112,10 +115,10 @@
               </div>-->
 
 
-            <div class="col-md-9 col-sm-9 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                          <h2>Aplicaciones</h2>
+                          <h2>Acceso a aplicaciones contratadas</h2>
                           <div class="clearfix"></div>
                 </div>
 
@@ -150,60 +153,34 @@
                     &nbsp;
                     <a href="#" data-toggle="tooltip" data-placement="right" title="Nómina" id="nom"><i class="fa fa-table fa-3x" style=" color:#053666;"></i></a>-->
                 </div>
-                 <div class="col-md-2 col-sm-2 col-xs-12">
-                </div>
+                
                  <br>
                  <br>
                  <br>
               </div>
              </div>
 
-             <div class="col-md-3 col-sm-3 col-xs-12" >
-                <div class="x_panel">
+             <div class="col-md-6 col-sm-6 col-xs-12" >
+               <div class="x_panel">
                 <div class="x_title">
-                            <h2>Consulta de Artículos 69 y 69-B</h2>
-                            </br>
-                            <p>Actualizado a 23/09/2017</p>
-                            <div class="clearfix"></div>
-                  </div>
+                          <h2>Otras aplicaciones disponibles</h2>
+                          <div class="clearfix"></div>
+                </div>
 
-                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:110px;">
-                       <div class="input-group" >
-                          <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc">
-                          <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary" onclick="art69cons()" style="background-color: #053666">Consultar</button>
-                          </span>
-
-                       </div>
-                     <br>
-
-                     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="reporteart" id="reporteart">
-                      <meta name="csrf-token" content="{{ csrf_token() }}" />
+                <div class="contenedor_select col-md-12 col-sm-12 col-xs-12">
+                  
+                  
+                </div>
                 
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"></h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                              <!--<span aria-hidden="true">&times;</span>-->
-                            </button>
-                          </div>
-
-                          <div class="modal-body" id="modalreporte">
-
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideModal()">Cerrar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                      
-                      
-                      </div>
-                 </div>
               </div>
+             </div>
+
+             
+
+
+
+
+             
 
               <!--<div class="col-md-12 col-sm-12 col-xs-12">
 
@@ -250,10 +227,10 @@
                 <input type="hidden" name="emps" id="emps" value="{{ $emps }}"/>
 
 
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-9 col-sm-9 col-xs-12">
                   <div class="x_panel">
                   <div class="x_title">
-                              <h2>Novedades y Promociones</h2>
+                              <h2>Novedades</h2>
                               <div class="clearfix"></div>
                    </div>
 
@@ -288,21 +265,59 @@
                           <p>Nueva actualización de PLD con mejoras...</p>
                         </div>
                       </article>
-                      <article class="media event" >
-                        <a class="pull-left date" >
-                          <p class="month" style="color: #053666"><b>Dic</b></p>
-                          <p class="day" style="color: #053666">25</p>
-                        </a>
-                        <div class="media-body">
-                          <a class="title" href="#" style="color: #053666">Cambios del SAT.</a>
-                          <p>Nuevas actualizaciones del SAT...</p>
-                        </div>
-                      </article>
+                      
                       
                     </div>
    
                                             
                    </div>
+              </div>
+
+              <div class="col-md-3 col-sm-3 col-xs-12" >
+                <div class="x_panel">
+                <div class="x_title">
+                            <h2>Consulta de Artículos 69 y 69-B</h2>
+                            </br>
+                            <p>Actualizado a 23/09/2017</p>
+                            <div class="clearfix"></div>
+                  </div>
+
+                       <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:110px;">
+                       <div class="input-group" >
+                          <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc">
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" onclick="art69cons()" style="background-color: #053666">Consultar</button>
+                          </span>
+
+                       </div>
+                     <br>
+
+                     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="reporteart" id="reporteart">
+                      <meta name="csrf-token" content="{{ csrf_token() }}" />
+                
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                              <!--<span aria-hidden="true">&times;</span>-->
+                            </button>
+                          </div>
+
+                          <div class="modal-body" id="modalreporte">
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideModal()">Cerrar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      
+                      
+                      </div>
+                 </div>
               </div>
 
 

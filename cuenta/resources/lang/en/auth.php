@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Credenciales fallidas.',
+    'failed' => 'Credenciales inválidas.',
     'throttle' => 'Demasiados intentos fallidos. Intente nuevamente en :seconds segundos.',
 
 ];

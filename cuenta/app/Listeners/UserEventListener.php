@@ -36,9 +36,11 @@ class UserEventListener
 
 
     public function onUserLoginFailed($event) {
-        Log::info('Showing user profile for user: ');
+        //Log::info($event->credentials);
+        $email = $event->credentials['email'];
+        $usr = User::where('email', '=', $email)->get();
         $binnacle = new Bitacora();
-        $binnacle->bitcta_users_id = $event->user->id;
+        $binnacle->bitcta_users_id = $usr[0]->id;
         $binnacle->bitc_fecha = date("Y-m-d H:i:s");
         $binnacle->bitcta_tipo_op = 'access failed';
         $binnacle->bitcta_ip = $binnacle->getrealip();
@@ -81,9 +83,11 @@ class UserEventListener
 
 
     public function onUserLockout($event) {
-        Log::info('Showing user profile for user: ');
+        //Log::info($event->request);
+        $email = $event->request['email'];
+        $usr = User::where('email', '=', $email)->get();
         $binnacle = new Bitacora();
-        $binnacle->bitcta_users_id = $event->user->id;
+        $binnacle->bitcta_users_id = $usr[0]->id;
         $binnacle->bitc_fecha = date("Y-m-d H:i:s");
         $binnacle->bitcta_tipo_op = 'lockout';
         $binnacle->bitcta_ip = $binnacle->getrealip();
@@ -91,7 +95,7 @@ class UserEventListener
         $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
         $binnacle->bitc_modulo = '\Login';
         $binnacle->bitcta_result = 'TODO';
-        $usr = User::find($event->user->id);
+        $usr = User::find($usr[0]->id);
         $usr->users_blocked = true;
         $usr->save();
 

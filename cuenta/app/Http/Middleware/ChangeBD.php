@@ -23,7 +23,8 @@ class ChangeBD
         if(!$midred){
             if(array_key_exists('login_rfc',$alldata)){
                 $dbvalue = config('database.connections');
-                if(array_key_exists($alldata['login_rfc'],$dbvalue)){
+                $dbname = $alldata['login_rfc'].'_cta';
+                if(array_key_exists($dbname,$dbvalue)){
 
                     //Consumir servicio de control para verificar que la cuenta está activa
                     $cont = new Controller;
@@ -35,24 +36,19 @@ class ChangeBD
                     } 
                     catch (Exception $e) 
                     {
-                         $request->session()->put('loginrfcerr', 'Credenciales de conexión inválidas');
+                         $request->session()->put('loginrfcerr', 'Sin comunicación a servicio de control');
                     }
                     
-
-        
                     if ($service_response['accstate'] == 'Activa'){
 
-                        \Session::put('selected_database',$alldata['login_rfc']);
-                        \Config::set('database.default', $alldata['login_rfc']);
+                        \Session::put('selected_database',$dbname);
+                        \Config::set('database.default', $dbname);
                         $request->session()->pull('loginrfcerr');
-                        //$request->session()->pull('login_rfc');
-                        //$fmessage = 'Se ha autenticado el usuario: '.$alldata['email'];
-                        //$cont->registroBitacora($request,'login',$fmessage);
                         
                     }else{
                         $request->session()->flash('midred', '1');
                         $request->session()->put('loginrfcerr', 'Cuenta bloqueada');
-                        $request->session()->put('login_rfc', $alldata['login_rfc']);                  
+                        $request->session()->put('login_rfc', $dbname);                  
                         return redirect('/');
 
                     }
@@ -61,7 +57,7 @@ class ChangeBD
                 }else{
                     $request->session()->flash('midred', '1');
                     $request->session()->put('loginrfcerr', 'RFC Inválido');
-                    $request->session()->put('login_rfc', $alldata['login_rfc']);                  
+                    $request->session()->put('login_rfc', $dbname);                  
                    return redirect('/');
                 }
              }
