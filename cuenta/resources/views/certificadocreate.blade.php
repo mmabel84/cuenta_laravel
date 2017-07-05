@@ -62,7 +62,7 @@
               <div class="x_content">
 
                 <!--<form class="form-horizontal form-label-left input_mask">-->
-                <form id="emprcreateform" class="form-horizontal form-label-left" novalidate action="{{ route('empresas.store') }}" method='POST' enctype="multipart/form-data">
+                <form id="emprcreateform" class="form-horizontal form-label-left" novalidate action="{{ route('certificados.store') }}" method='POST' enctype="multipart/form-data">
 
                       {{ csrf_field() }}
 
