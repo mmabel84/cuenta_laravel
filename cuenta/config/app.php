@@ -13,7 +13,7 @@ return [
     'advans_apps_security' => ['control'=> [
                                     'grant_type' => 'password',
                                     'client_id' => '1',
-                                    'client_secret' => 'VYZCgS1wlth4Ard30wuafMDfTsh6yjHqrLA5WEJR',
+                                    'client_secret' => 'iRMngQa8PkOeoXz3eUqTwplJRizzvasmq7EB3pFR',
                                     'username' => 'api.cuenta@gmail.com',
                                     'password' => 'api.cuenta',
                                     'scope' => '*',
