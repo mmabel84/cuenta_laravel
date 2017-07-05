@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Certificado;
 use Illuminate\Support\Facades\Validator;
 use View;
+use Illuminate\Support\Facades\Redirect;
 
 class CertController extends Controller
 {
