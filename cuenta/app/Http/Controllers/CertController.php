@@ -37,15 +37,17 @@ class CertController extends Controller
     	
     	
         $alldata = $request->all();
-        $rules = ['cert_rfc' => 'required|rfc'];
-        $messages = ['rfc' => 'RFC inválido'];
-
-        $validator = Validator::make($input, $rules, $messages)->validate();
+        
 
         $certf = new Certificado;
         $certf->cert_rfc = $request->cert_rfc;
 
         if(array_key_exists('cert_file',$alldata) && isset($alldata['cert_file'])){
+
+        	$rules = ['cert_rfc' => 'required|rfc'];
+        	$messages = ['rfc' => 'RFC inválido'];
+
+        	$validator = Validator::make($alldata, $rules, $messages)->validate();
 
         	$cert = request()->file('cert_file');
 	        $path = $request->file('cert_file')->storeAs('public', $alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
