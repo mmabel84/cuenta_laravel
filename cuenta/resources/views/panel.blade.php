@@ -20,7 +20,13 @@
       .disabled {
                  pointer-events: none;
                  cursor: default;
-                 opacity: 0.6;
+                 opacity: 0.8;
+                 color:grey;
+              }
+      .disabledblocked {
+                 pointer-events: none;
+                 cursor: default;
+                 opacity: 0.3;
                  color:grey;
               }
       .hidden{
@@ -535,7 +541,10 @@
                 success: function (data) {
                     console.log(data['appcodes']);
                     data['appcodes'].forEach(function(entry){
-                      $("#"+entry).removeClass('disabled');    
+                      $("#"+entry).removeClass('disabled');
+                      var link = document.getElementById(entry);  
+
+                      //link.setAttribute("href", "xyz.php");  
                       }
                     );
                 },

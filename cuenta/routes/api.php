@@ -21,6 +21,8 @@ Route::get('/createbd', 'ServController@createbd')->middleware('auth:api');
 
 Route::get('/addapp', 'ServController@addapp')->middleware('auth:api');
 
+Route::get('/desactapp', 'ServController@desactapp')->middleware('auth:api');
+
 Route::get('/modpaq', 'ServController@modpaq')->middleware('auth:api');
 
 Route::get('/addpaq', 'ServController@addpaq')->middleware('auth:api');

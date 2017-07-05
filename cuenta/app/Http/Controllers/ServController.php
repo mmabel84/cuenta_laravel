@@ -27,7 +27,6 @@ class ServController extends Controller
 
         if(array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
             
-            //$dbname = $alldata['rfc_nombrebd'].'_'.$alldata['account_id'];
             $dbname = $alldata['rfc_nombrebd'].'_cta';
             $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 	        $db = DB::select($query, [$dbname]);
@@ -41,7 +40,7 @@ class ServController extends Controller
 
                 	$str_to_replace = "'".$dbname."' => [
 		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '172.31.2.220'),
+		            'host' => env('DB_HOST', '127.0.0.1'),
 		            'port' => env('DB_PORT', '3306'),
 		            'database' => '".$dbname."',
 		            'username' => env('DB_USERNAME', 'forge'),
@@ -63,7 +62,7 @@ class ServController extends Controller
 		        DB::statement("create database ".$dbname);
 		        \Config::set('database.connections.'.$dbname, [
 		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '172.31.2.220'),
+		            'host' => env('DB_HOST', '127.0.0.1'),
 		            'port' => env('DB_PORT', '3306'),
 		            'database' => $dbname,
 		            'username' => env('DB_USERNAME', 'forge'),
@@ -196,9 +195,7 @@ class ServController extends Controller
 	    }
 
 
-
-
-
+	    
 	   public function addapp(Request $request){
 
 	   		$alldata = $request->all();
@@ -218,7 +215,57 @@ class ServController extends Controller
 		        if(!empty($db)){
 
 		        	foreach ($apps as $appc) {
-		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
+		        		$appexist = DB::connection($dbname)->select('select id from app where app_cod = ?', [$appc->app_cod]);
+
+		        		if (count($appexist) == 0){
+		        			DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
+		        		}
+		        		else{
+		        			DB::connection($dbname)->update('update app set app_activa = true, updated_at = ?  where app_cod = ?', [date('Y-m-d H:i:s'), $appc->app_cod]);
+
+		        		}
+
+		        		
+		        	}
+		        }
+
+	        }
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata,
+            'apps' => $apps,
+            'dbname' => $dbname);
+
+        	return \Response::json($response);
+	   }
+
+
+
+
+
+	   public function desactapp(Request $request){
+
+	   		$alldata = $request->all();
+	        $msg = "Aplicación desactivada.";
+	        $status = "Success";
+	        $apps = [];
+	        $dbname = '';
+
+	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
+
+	        	$apps = json_decode($alldata['apps_cta']);
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
+	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+	            $db = DB::select($query, [$dbname]);
+		        
+
+		        if(!empty($db)){
+
+		        	foreach ($apps as $appc) {
+		        		
+		        		DB::connection($dbname)->update('update app set app_activa = false, updated_at = ?  where app_cod = ?', [date('Y-m-d H:i:s'), $appc->app_cod]);
 		        	}
 		        }
 
@@ -276,42 +323,40 @@ class ServController extends Controller
 	   		if(array_key_exists('user_id',$alldata) && isset($alldata['user_id']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
 
 	   			$dbname = $alldata['dbname'].'_cta';
-	   			\Config::set('database.default', $dbname);
-	   			$usr = User::find($alldata['user_id']);
-	   			$binnacle = new Bitacora();
-	   			$binnacle->bitc_fecha = date("Y-m-d H:i:s");
-		        $binnacle->bitcta_tipo_op = 'control access';
-		        $binnacle->bitcta_ip = '';
-		        $browser_arr = '';
-		        $binnacle->bitcta_naveg = $browser_arr;
-		        $binnacle->bitc_modulo = '\Login';
-			    $binnacle->bitcta_result = 'TODO';
-			    $binnacle->bitcta_dato = json_encode($_REQUEST);
+	   			$usr = DB::connection($dbname)->table('users')->where('id', '=', $alldata['user_id'])->get();
+	   			//$usr = User::find($alldata['user_id']);
+	   			$bitc_fecha = date("Y-m-d H:i:s");
+		        $bitcta_tipo_op = 'control access';
+		        $bitc_modulo = '\Login';
+			    $bitcta_dato = json_encode($_REQUEST);
 		        
 
-	   			if ($usr){
+	   			if (count($usr) > 0){
 	   				
-	   				$binnacle->bitcta_users_id = $alldata['user_id'];
-			        $binnacle->bitcta_msg = 'Desbloqueo desde control de usuario '.$usr->name;
+	   				$bitcta_users_id = $alldata['user_id'];
+			        $bitcta_msg = 'Desbloqueo desde control de usuario '.$usr[0]->name;
+			        DB::connection($dbname)->update('update users set users_blocked = false where id = ?', [$usr[0]->id]);
+			        //$this->clearLoginAttempts($request, $usr->email);
+        			//Log::info(DB::connection($dbname)->table('cache')->where('cache.key', 'like', '"%'.$usr->email.'%"')->get());
 
-			        //$usr->users_blocked = false;
-			        //$usr->save();
-			        DB::connection($dbname)->update('update users set users_blocked = false where id = ?', [$usr->id]);
-			        $this->clearLoginAttempts($request, $usr->email);
-			        
-			        //Log::info(\Cache::all());
+			        $key = '%' . $usr[0]->email . '%';
+
+			        Log::info($usr[0]->email);
+
+			        Log::info(DB::connection($dbname)->table('cache')->where('cache.key', 'like', $key)->get());
+			        DB::connection($dbname)->table('cache')->where('cache.key', 'like', $key)->delete();
+
 			        
 
 	   			}else{
 	   				//llamar usuario admin de bd y ponerlo como usuario
 	   				$usradmin = User::where('users_nick', '=', 'advans')->get();
-	   				$binnacle->bitcta_users_id = $usradmin[0]->id;
-	   				$binnacle->bitcta_msg = 'Intento de desbloqueo desde control de usuario no existente en base de datos'.$alldata['dbname'];
+	   				$bitcta_users_id = $usradmin[0]->id;
+	   				$bitcta_msg = 'Intento de desbloqueo desde control de usuario no existente en base de datos'.$alldata['dbname'];
 
 	   			}
 
-	   			$binnacle->save();
-		        \Config::set('database.default', \Session::get('selected_database','mysql'));
+	   			DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, bitcta_users_id, created_at) values (?, ?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, $bitcta_users_id, date('Y-m-d H:i:s')]);
 		   		
 		   		
 
@@ -346,13 +391,16 @@ class ServController extends Controller
 	   }
 
 
-	   public function getBitControl(Request $request)
-	    {
+	   public function getBitControl(Request $request){
+	   	
+	    	$alldata = $request->all();
+	   		$bitacoras = [];
 
-	        $bitacoras = DB::connection($dbname)->select('select bitc_fecha, bitc_modulo, bitcta_ip, bitcta_tipo_op, bitcta_msg from bitcta order by bitc_fecha DESC limit 10;');
-
-	        $response = array ('status' => 'Success', 'result' => $bitacoras);
-	        return \Response::json($response);
+	   		if (array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
+	   			$dbname = $alldata['dbname'].'_cta';
+	   			$bitacoras = DB::connection($dbname)->select('select bitc_fecha, bitc_modulo, bitcta_ip, bitcta_tipo_op, bitcta_msg from bitcta order by bitc_fecha DESC limit 10;');
+	   		}
+	        return \Response::json($bitacoras);
 
 	    }
 

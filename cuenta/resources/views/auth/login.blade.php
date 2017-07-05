@@ -17,7 +17,7 @@
                             <label for="login_rfc" class="col-md-4 control-label">RFC</label>
 
                            <div class="col-md-6">
-                                <input id="login_rfc" name="login_rfc" type="text" class="form-control" value="{{ old('login_rfc') }}" name="login_rfc" required autofocus>
+                                <input id="login_rfc" name="login_rfc" type="text" class="form-control" value="{{ old('login_rfc') }}" required autofocus>
                                 <!--value="{{ Session::get('login_rfc') }}"-->
 
                                @if (Session::has('loginrfcerr'))

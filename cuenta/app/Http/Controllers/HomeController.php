@@ -11,6 +11,7 @@ use App\User;
 Use View;
 use SoapClient;
 use DateTime;
+use Illuminate\Support\Facades\Log;
 
 //define("URL_WS_69", 'http://lista69.advans.mx/Lista69b/index/consultarLista.wsdl');
 
@@ -35,8 +36,10 @@ class HomeController extends Controller
     {
         $emps = Empresa::all();
         $apps = Aplicacion::all();
+        //$apps = Aplicacion::where('app_activa', '=', 'true')->pluck('app_cod')->toArray();
         $usrs = User::all();
         $bdapps = BasedatosApp::all();
+
 
 
         $appsicons = array (
@@ -52,6 +55,22 @@ class HomeController extends Controller
                     'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
                     'cc'=>"<a href='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>TAREAS</b></span></i></a>
+                    ");
+
+        $appsiconsblocked = array (
+                    'bov'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabledblocked' target='_blank'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                            <b>BÓVEDA</b></span></i></a>",
+                    'cont'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabledblocked' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>CONTAB</b></span></i></a>",
+                     'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabledblocked' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>NÓMINA</b></span></i></a>",
+                    'pld'=>"<a href='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabledblocked' target='_blank'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>PLD</b></span></i></a>",
+                    
+                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabledblocked' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>NOTARÍA</b></span></i></a>",
+                    'cc'=>"<a href='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabledblocked' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>TAREAS</b></span></i></a>
                     ");
 
@@ -81,14 +100,22 @@ class HomeController extends Controller
 
         foreach ($allkeys as $key) {
              $app = Aplicacion::where('app_cod', '=', $key)->get();
-             if (count($app)>0){
-                $appvisible = $appvisible.$appsicons[$key];
+             
+            if (count($app)>0){
+                if ($app[0]->app_activa == true){
+                    $appvisible = $appvisible.$appsicons[$key];
+                }
+                else{
+                    $appvisible = $appvisible.$appsiconsblocked[$key];
+                }
+
              }
              else{
                 $appdispvisible = $appdispvisible.$appdisp[$key];
              }
-
         }
+
+        
 
         $paquetes = Paquete::where('paqapp_activo', '=', true)->get();
         $cantgigas = 0;

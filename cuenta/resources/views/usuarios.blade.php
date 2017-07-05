@@ -54,7 +54,7 @@
 
 		                  <div class="x_content">
 		                    
-		                    <table id="datatable-buttons" class="table table-striped table-bordered" width="100%">
+		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
 		                          <th>Nombre</th>
@@ -130,7 +130,7 @@
 			                          						<br>
 			                          						<br>
 	                            							<div class="col-md-12 col-sm-12 col-xs-12">
-			                             						 <table id="datatable-buttons{{$u->id}}" class="table table-striped table-bordered">
+			                             						 <table id="datatable-buttons{{$u->id}}" class="table table-striped table-bordered  dt-responsive nowrap" cellspacing="0" >
 	                      												<thead>
 	                        												<tr>
 	                          													<th>Aplicación</th>
@@ -238,11 +238,11 @@
    			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>

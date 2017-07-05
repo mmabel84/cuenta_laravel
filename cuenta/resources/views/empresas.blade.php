@@ -49,7 +49,7 @@
 			                  @endif
 		                  <div class="x_content">
 		                    
-		                    <table id="datatable-buttons" class="table table-striped table-bordered">
+		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
 		                        <tr style="color:#000033; background-color:#ccebff; ">
 		                          <th>Nombre</th>
