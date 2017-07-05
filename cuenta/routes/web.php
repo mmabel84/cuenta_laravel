@@ -23,6 +23,7 @@ Route::resource('permisos', 'PermController');
 Route::resource('bitacoras', 'BitController');
 Route::resource('appsasign', 'AppAsignController');
 Route::resource('backups', 'BackController');
+Route::resource('certificados', 'CertController');
 
 Route::get('/', 'HomeController@index')->name('home');
 

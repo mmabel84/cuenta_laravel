@@ -49,6 +49,7 @@
                                       <li><a href="{{ URL::to('usuarios') }}">USUARIOS</a></li>
                                       <li><a href="{{ URL::to('apps') }}">APLICACIONES</a></li>
                                       <li><a href="{{ URL::to('backups') }}">RESPALDOS</a></li>
+                                      <li><a href="{{ URL::to('certificados') }}">CERTIFICADOS</a></li>
 
                                       
                                     </ul>
