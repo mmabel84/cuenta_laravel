@@ -187,7 +187,6 @@
 		                          													<th>Fecha</th>
 		                          													<th>Operación</th>
 		                          													<th>IP</th>
-		                          													<th>Mensaje</th>
 															                        <th>Módulo</th>
 		                        												</tr>
 		                      												</thead>
@@ -331,11 +330,8 @@
 
 				              var cell2 = row.insertCell(2);
 				              cell2.innerHTML = bit[i].bitcta_ip;
-
-				              var cell4 = row.insertCell(3);
-				              cell4.innerHTML = bit[i].bitcta_msg;
-
-				              var cell5 = row.insertCell(4);
+				             
+				              var cell5 = row.insertCell(3);
 				              cell5.innerHTML = bit[i].bitc_modulo;
 
 				              
