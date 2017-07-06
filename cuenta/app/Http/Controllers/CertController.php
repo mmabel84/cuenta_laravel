@@ -22,6 +22,21 @@ class CertController extends Controller
 
         $certificados = Certificado::all();
 
+
+        foreach ($certificados as $cert ) {
+        	
+        		if ($cert->cert_f_fin >= date('Y-m-d H:i:s'))
+	        	{
+	        		$cert->cert_estado = 'Vigente';
+	        	}
+	        	else
+	        	{
+	        		
+	        		$cert->cert_estado = 'Vencido';
+	        	}
+        	}
+     	
+
         return view('certificados')->with('certs',$certificados);
     }
 
@@ -54,44 +69,30 @@ class CertController extends Controller
         	$cert = request()->file('cert_file');
 
 	        $path = $request->file('cert_file')->storeAs('public', $alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
-	        //$path = $alldata['cert_rfc'].'_'.$cert->getClientOriginalName();
 
 	        $certf->cert_filename = $cert->getClientOriginalName();
 	        $certf->cert_file_storage = $path;
 
-	        //Storage::disk('local')->put($path, $cert);
 
-	        //$parseCert = file_get_contents(storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
 
-	        //$parseCert = Storage::disk('local')->get($path);
-	        $parseCert = openssl_x509_parse(Storage::disk('local')->get($path));
+	        //$parseCert = openssl_x509_parse(Storage::disk('local')->get($path));
 	        
-	        //$parseCert = openssl_x509_parse(file_get_contents(storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$alldata['cert_rfc'].'.'.$cert->getClientOriginalName()));
+	        $filecontent = file_get_contents(storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
+	        $parseCert = openssl_x509_parse($filecontent);
 
-	        if ($parseCert == FALSE) {
-	            // Convert .cer to .pem, cURL uses .pem 
-	            
-	           $certificateCApemContent = '-----BEGIN CERTIFICATE-----' . PHP_EOL
-	                    . chunk_split(base64_encode($cert), 64, PHP_EOL)
-	                    . '-----END CERTIFICATE-----' . PHP_EOL;
-	            $certificateCApem = $certificateCApemContent  . '.pem';
+            if ($parseCert == FALSE) {
+                /* Convert .cer to .pem, cURL uses .pem */
+                $certificateCApemContent = '-----BEGIN CERTIFICATE-----' . PHP_EOL
+                        . chunk_split(base64_encode($filecontent), 64, PHP_EOL)
+                        . '-----END CERTIFICATE-----' . PHP_EOL;
+                //$certificateCApem = $certificateCAcer . '.pem';
+                $parseCert = openssl_x509_parse($certificateCApemContent);
+            }
 
-	           
-	           
-	           $parseCert = openssl_x509_parse($certificateCApemContent);
-	           
-	        }
+	        $certf->cert_f_inicio = date("Y-m-d H:i:s", $parseCert['validFrom_time_t']);
+    		$certf->cert_f_fin = date("Y-m-d H:i:s", $parseCert['validTo_time_t']);
 
-	        echo "<pre>";
-	            print_r($parseCert);die();
-	            echo "</pre>";
-
-	            //echo phpinfo();die();
-
-
-	        /*$certf->cert_f_inicio = $parseCert['validFrom_time_t'];
-    		$certf->cert_f_fin = $parseCert['validTo_time_t'];*/
-
+            //print_r($parseCert);die();
         }
 
     	$certf->save();
