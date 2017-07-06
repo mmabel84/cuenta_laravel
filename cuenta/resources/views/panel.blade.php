@@ -35,6 +35,13 @@
       .contenedor_select {
               overflow-y: auto;
             }
+      .iconpld {
+            display: inline-block;
+            background: url("{{asset('MejoraPLD.png')}}") no-repeat top left;
+            }
+      .icon-accessibility{ 
+            background-position: 0 0; width: 32px; height: 32px; 
+          } 
 
     </style>
 
