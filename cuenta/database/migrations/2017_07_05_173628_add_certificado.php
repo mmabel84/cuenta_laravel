@@ -18,6 +18,8 @@ class AddCertificado extends Migration
             $table->string('cert_rfc');
             $table->dateTime('cert_f_fin')->nullable();
             $table->dateTime('cert_f_inicio')->nullable();
+            $table->string('cert_filename')->nullable();
+            $table->string('cert_file_storage')->nullable();
             $table->timestamps();
 
         });

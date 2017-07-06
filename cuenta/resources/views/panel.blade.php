@@ -20,7 +20,7 @@
       .disabled {
                  pointer-events: none;
                  cursor: default;
-                 opacity: 0.8;
+                 opacity: 0.7;
                  color:grey;
               }
       .disabledblocked {
@@ -39,9 +39,16 @@
             display: inline-block;
             background: url("{{asset('MejoraPLD.png')}}") no-repeat top left;
             }
+      .iconfact {
+            display: inline-block;
+            background: url("{{asset('logo_advans_edited.jpg')}}") no-repeat top left;
+            }
       .icon-accessibility{ 
-            background-position: 0 0; width: 84px; height: 84px; 
+            background-position: 0 0; width: 100px; height: 60px; 
           } 
+      .icon-accessibilityfact{ 
+        background-position: 0 0; width: 100px; height: 60px; 
+      } 
 
     </style>
 
@@ -484,7 +491,7 @@
 
           if (empresas.length > 0) {
             for (var i = 0; i < empresas.length; i++) {
-              var dic = {'id': empresas[i].id, 'text': empresas[i].empr_nom};
+              var dic = {'id': empresas[i].empr_rfc, 'text': empresas[i].empr_nom};
               dataempr.push(dic);
             }
 
@@ -529,12 +536,14 @@
         
         function onSelectEmpresa(element){
 
+
           $("#pld").addClass('disabled'); 
           $("#cont").addClass('disabled'); 
           $("#nom").addClass('disabled'); 
           $("#bov").addClass('disabled'); 
           $("#not").addClass('disabled'); 
           $("#cc").addClass('disabled'); 
+          $("#fact").addClass('disabled'); 
              
              var selected = element.value;
 
@@ -550,8 +559,10 @@
                     data['appcodes'].forEach(function(entry){
                       $("#"+entry).removeClass('disabled');
                       var link = document.getElementById(entry);  
-
-                      //link.setAttribute("href", "xyz.php");  
+                      var href = $("#"+entry).data('dir');
+                      var newhref = href + element.value + '/usuarios/login';
+                      link.setAttribute("href", '');  
+                      link.setAttribute("href", newhref);  
                       }
                     );
                 },

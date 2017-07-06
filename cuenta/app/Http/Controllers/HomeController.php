@@ -43,22 +43,26 @@ class HomeController extends Controller
 
 
         $appsicons = array (
-                    'bov'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabled' target='_blank'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' title='Aplicación para facturación electrónica' target='_blank' class='disabled' ><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
+                    </i></a>",
+                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabled' target='_blank'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                             <b>BÓVEDA</b></span></i></a>",
-                    'cont'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cont'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
-                     'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                     'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>PLD</b></span></i></a>",
                     
-                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cc'=>"<a href='' data-dir='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>TAREAS</b></span></i></a>
                     ");
 
         $appsiconsblocked = array (
+                    'fact'=>"<a href='https://app.advans.mx/login/usuarios/login' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
+                    </i></a>",
                     'bov'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabledblocked' target='_blank'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                             <b>BÓVEDA</b></span></i></a>",
                     'cont'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabledblocked' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
@@ -75,13 +79,15 @@ class HomeController extends Controller
                     ");
 
         $appdisp = array (
-                    'bov'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='bovd' title='Aplicación para almacenar facturas y documentos de interés' target='_blank'><i class='fa fa-archive fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'fact'=>"<a href='http://www.advans.mx/content/factura-electronica-advans' data-toggle='tooltip' data-placement='right' id='fact' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'></i></a>",
+
+                    'bov'=>"<a href='http://www.advans.mx/content/validacion-cfdi-advans' data-toggle='tooltip' data-placement='right' id='bovd' title='Aplicación para almacenar facturas y documentos de interés' target='_blank'><i class='fa fa-archive fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                             <b>BÓVEDA</b></span></i></a>",
                     'cont'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='contd' title='Aplicación para la contabilidad interna de la empresa' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
                      'nom'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='nomd' title='Aplicación para el cálculo de la nómina' target='_blank'><i class='fa fa-table fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='http://mejorapld.mx/software/' data-toggle='tooltip' data-placement='right' id='pldd' title='Aplicación para la prevención de lavado de dinero' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    'pld'=>"<a href='http://mejorapld.mx/software/' data-toggle='tooltip' data-placement='right' id='pldd' title='Mejpra PLD para la prevención de lavado de dinero' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
                     'not'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='notd' title='Aplicación para el manejo de notarías' target='_blank'><i class='fa fa-bank fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
@@ -272,16 +278,22 @@ class HomeController extends Controller
        
         
         if(array_key_exists('selected',$alldata) && isset($alldata['selected'])){
-            $empid = $alldata['selected'];
-            $emp = Empresa::find($empid);
-            $bdapps = BasedatosApp::where('bdapp_empr_id', '=', $empid)->get();
+            $emprfc = $alldata['selected'];
+            $emp = Empresa::where('empr_rfc', '=', $emprfc)->get();
+            $bdapps = [];
 
+            if (count($emp) > 0){
+                $bdapps = BasedatosApp::where('bdapp_empr_id', '=', $emp[0]->id)->get();
+
+            }
             if(count($bdapps)){
                 foreach ($bdapps as $bdapp) {
                     $code = $bdapp->bdapp_app;
                     array_push($return_array, $code);
                 }
             }
+
+            
 
         }
 

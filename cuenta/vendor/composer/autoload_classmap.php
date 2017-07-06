@@ -25,6 +25,7 @@ return array(
     'App\\Backup' => $baseDir . '/app/Backup.php',
     'App\\BasedatosApp' => $baseDir . '/app/BasedatosApp.php',
     'App\\Bitacora' => $baseDir . '/app/Bitacora.php',
+    'App\\Certificado' => $baseDir . '/app/Certificado.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Empresa' => $baseDir . '/app/Empresa.php',
     'App\\Events\\Event' => $baseDir . '/app/Events/Event.php',

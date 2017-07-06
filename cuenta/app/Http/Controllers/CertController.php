@@ -8,6 +8,7 @@ use App\Certificado;
 use Illuminate\Support\Facades\Validator;
 use View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage; 
 
 class CertController extends Controller
 {
@@ -51,12 +52,24 @@ class CertController extends Controller
         	//$validator = Validator::make($alldata, $rules, $messages)->validate();
 
         	$cert = request()->file('cert_file');
-	        $path = $request->file('cert_file')->storeAs('public', $alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
 
-	        $parseCert = openssl_x509_parse(file_get_contents(storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$alldata['cert_rfc'].'.'.$cert->getClientOriginalName()));
+	        $path = $request->file('cert_file')->storeAs('public', $alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
+	        //$path = $alldata['cert_rfc'].'_'.$cert->getClientOriginalName();
+
+	        $certf->cert_filename = $cert->getClientOriginalName();
+	        $certf->cert_file_storage = $path;
+
+	        //Storage::disk('local')->put($path, $cert);
+
+	        //$parseCert = file_get_contents(storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
+
+	        //$parseCert = Storage::disk('local')->get($path);
+	        $parseCert = openssl_x509_parse(Storage::disk('local')->get($path));
+	        
+	        //$parseCert = openssl_x509_parse(file_get_contents(storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$alldata['cert_rfc'].'.'.$cert->getClientOriginalName()));
 
 	        if ($parseCert == FALSE) {
-	            /* Convert .cer to .pem, cURL uses .pem */
+	            // Convert .cer to .pem, cURL uses .pem 
 	            
 	           $certificateCApemContent = '-----BEGIN CERTIFICATE-----' . PHP_EOL
 	                    . chunk_split(base64_encode($cert), 64, PHP_EOL)
@@ -66,13 +79,18 @@ class CertController extends Controller
 	           
 	           
 	           $parseCert = openssl_x509_parse($certificateCApemContent);
-
-	           /*echo "<pre>";
-	            print_r($parseCert);die();
-	            echo "</pre>";*/
+	           
 	        }
-	        $certf->cert_f_inicio = $parseCert['validFrom_time_t'];
-    		$certf->cert_f_fin = $parseCert['validTo_time_t'];
+
+	        echo "<pre>";
+	            print_r($parseCert);die();
+	            echo "</pre>";
+
+	            //echo phpinfo();die();
+
+
+	        /*$certf->cert_f_inicio = $parseCert['validFrom_time_t'];
+    		$certf->cert_f_fin = $parseCert['validTo_time_t'];*/
 
         }
 
@@ -92,6 +110,7 @@ class CertController extends Controller
     	
     	$certf = Certificado::find($id);
         $fmessage = 'Se ha eliminado el certificado: '.$certf->cert_rfc;
+        Storage::disk('local')->delete($certf->cert_file_storage);
         $certf->delete();
         $this->registroBitacora($request,'delete',$fmessage); 
         \Session::flash('message',$fmessage);

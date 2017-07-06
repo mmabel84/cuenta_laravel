@@ -424,6 +424,7 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
         'App\\Backup' => __DIR__ . '/../..' . '/app/Backup.php',
         'App\\BasedatosApp' => __DIR__ . '/../..' . '/app/BasedatosApp.php',
         'App\\Bitacora' => __DIR__ . '/../..' . '/app/Bitacora.php',
+        'App\\Certificado' => __DIR__ . '/../..' . '/app/Certificado.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Empresa' => __DIR__ . '/../..' . '/app/Empresa.php',
         'App\\Events\\Event' => __DIR__ . '/../..' . '/app/Events/Event.php',
