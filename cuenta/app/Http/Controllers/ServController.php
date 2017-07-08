@@ -84,9 +84,9 @@ class ServController extends Controller
 		        $pass = bcrypt('test');
 		        $nick = 'test';
 		        $name = 'test';
-		        if(array_key_exists('client_rfc',$alldata) && isset($alldata['client_rfc'])){
+		        if(array_key_exists('password',$alldata) && isset($alldata['password'])){
 		        	
-		        	$pass = bcrypt($alldata['client_rfc']);
+		        	$pass = bcrypt($alldata['password']);
 
 		        }
 
@@ -266,6 +266,44 @@ class ServController extends Controller
 		        	foreach ($apps as $appc) {
 		        		
 		        		DB::connection($dbname)->update('update app set app_activa = false, updated_at = ?  where app_cod = ?', [date('Y-m-d H:i:s'), $appc->app_cod]);
+		        	}
+		        }
+
+	        }
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata,
+            'apps' => $apps,
+            'dbname' => $dbname);
+
+        	return \Response::json($response);
+	   }
+
+
+	   public function delapp(Request $request){
+
+	   		$alldata = $request->all();
+	        $msg = "Aplicación eliminada.";
+	        $status = "Success";
+	        $apps = [];
+	        $dbname = '';
+
+	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
+
+	        	$apps = json_decode($alldata['apps_cta']);
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
+	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+	            $db = DB::select($query, [$dbname]);
+		        
+
+		        if(!empty($db)){
+
+		        	foreach ($apps as $appc) {
+
+		        		DB::connection($dbname)->table('app')->where('app_cod', '=', $appc->app_cod)->delete();
+
 		        	}
 		        }
 

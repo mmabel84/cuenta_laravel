@@ -20,7 +20,7 @@
       .disabled {
                  pointer-events: none;
                  cursor: default;
-                 opacity: 0.7;
+                 opacity: 0.6;
                  color:grey;
               }
       .disabledblocked {
@@ -39,6 +39,10 @@
             display: inline-block;
             background: url("{{asset('MejoraPLD.png')}}") no-repeat top left;
             }
+      .iconbov {
+            display: inline-block;
+            background: url("{{asset('boveda.png')}}") no-repeat top left;
+            }
       .iconfact {
             display: inline-block;
             background: url("{{asset('logo_advans_edited.jpg')}}") no-repeat top left;
@@ -49,6 +53,10 @@
       .icon-accessibilityfact{ 
         background-position: 0 0; width: 100px; height: 60px; 
       } 
+
+      .icon-accessibilitybov{ 
+            background-position: 0 0; width: 100px; height: 70px; 
+          } 
 
     </style>
 
@@ -69,7 +77,7 @@
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-database" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $apps }}</div>
                   <p style="color: #053666;"><b>APLICACIONES CONTRATADAS</b></p>
-                  <p style="color: #053666;">{{ $bdapps }} aplicaciones de empresas creadas</p>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $bdapps }} aplicaciones de empresas creadas</p></a>
                 </div>
               </div>
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -85,7 +93,7 @@
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-building-o" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $rfc }}</div>
                   <p style="color: #053666;"><b>EMPRESAS CONTRATADAS</b></p>
-                  <p style="color: #053666;">{{ $rfccreados }} empresas creadas</p>
+                  <a href="{{ URL::to('empresas') }}"><p style="color: #053666;">{{ $rfccreados }} empresas creadas</p></a>
                 </div>
               </div>
               
@@ -192,7 +200,7 @@
 
                        <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:100px;">
                            <div class="input-group" >
-                              <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc">
+                              <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc" style="text-transform: uppercase;">
                               <span class="input-group-btn">
                                 <button type="button" class="btn btn-primary" onclick="art69cons()" style="background-color: #053666">Consultar</button>
                               </span>
@@ -325,7 +333,7 @@
 
                    @foreach ($noticias as $n)
                       <article class="media event">
-                        <a class="pull-left date" style="width: 80px" >
+                        <a class="pull-left date" style="width: 80px; " >
                           <p class="month" style="color: #053666"><b>{{ trans('meses.'.DateTime::createFromFormat("Y-m-d", $n->pdate)->format("F")) }}</b></p>
                           <p class="day" style="color: #053666">{{ DateTime::createFromFormat("Y-m-d", $n->pdate)->format("d") }}</p>
                         </a>

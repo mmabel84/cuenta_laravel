@@ -67,7 +67,7 @@
 		                          <td>{{$e->empr_rfc}}</td>
 		                          <td>{{$e->empr_razsoc}}</td>
 		                          
-		                          <td class=" last" width="12%">
+		                          <td width="12%">
 		                          <div>
 		                          	
 		                          	<div class="btn-group">

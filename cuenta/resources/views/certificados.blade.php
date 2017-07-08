@@ -53,7 +53,8 @@
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#005c99 ">
 		                          <th>RFC</th>
-		                          <th>Nombre de fichero</th>
+		                          <th>Nombre de certificado</th>
+		                          <th>Número de serie</th>
 		                          <th>Fecha de vencimiento</th>
 		                          <th>Estado</th>
 		                          <th>Acciones</th>
@@ -68,6 +69,7 @@
 		                        <tr>
 		                          <td>{{ $cert->cert_rfc }}</td>
 		                          <td>{{ $cert->cert_filename }}</td>
+		                          <td>{{ $cert->cert_serial }}</td>
 		                          <td>{{ $cert->cert_f_fin }}</td>
 		                          <td>{{ $cert->cert_estado }}</td>
 		                          

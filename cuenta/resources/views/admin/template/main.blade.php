@@ -24,7 +24,7 @@
                     <div class="col-md-3 left_col" >
                         <div class="left_col scroll-view" >
                           <div class="navbar nav_title" style="border: 0;">
-                            <a href="index.html" class="site_title"><img height="60px" src="{{asset('logo_advans_head.png')}}"><span>{{ config('app.name') }}</span></a>
+                            <a href="/" class="site_title"><img height="60px" src="{{asset('logo_advans_head.png')}}"><span>{{ config('app.name') }}</span></a>
                           </div>
                           <div class="clearfix"></div>
                           <!-- menu profile quick info -->
@@ -105,7 +105,7 @@
                                     <span class=" fa fa-angle-down"></span>
                                   </a>
                                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="javascript:;"> Profile</a></li>
+                                    <!--<li><a href="javascript:;"> Profile</a></li>-->
                                     @if (Auth::guest())
                                         <li><a href="{{ route('login') }}">Login</a></li>
                                         <li><a href="{{ route('register') }}">Register</a></li>
@@ -115,7 +115,7 @@
                                                     <a href="{{ route('logout') }}"
                                                         onclick="event.preventDefault();
                                                                  document.getElementById('logout-form').submit();">
-                                                        Logout
+                                                        Salir
                                                     </a>
 
                                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

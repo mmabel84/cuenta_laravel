@@ -96,7 +96,7 @@ class EmprController extends Controller
         ]);*/
 
         $empresaf = new Empresa;
-    	$empresaf->empr_rfc = $request->empr_rfc;
+    	$empresaf->empr_rfc = strtoupper($request->empr_rfc);
     	$empresaf->empr_nom = $request->empr_nom;
     	$empresaf->empr_razsoc = $request->empr_razsoc;
     	$empresaf->save();

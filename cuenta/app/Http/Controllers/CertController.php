@@ -54,10 +54,11 @@ class CertController extends Controller
     	
     	
         $alldata = $request->all();
-        
+
+
 
         $certf = new Certificado;
-        $certf->cert_rfc = $request->cert_rfc;
+        //$certf->cert_rfc = strtoupper($alldata['cert_rfc']);
 
         if(array_key_exists('cert_file',$alldata) && isset($alldata['cert_file'])){
 
@@ -68,16 +69,8 @@ class CertController extends Controller
 
         	$cert = request()->file('cert_file');
 
-	        $path = $request->file('cert_file')->storeAs('public', $alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
-
 	        $certf->cert_filename = $cert->getClientOriginalName();
-	        $certf->cert_file_storage = $path;
-
-
-
-	        //$parseCert = openssl_x509_parse(Storage::disk('local')->get($path));
-	        
-	        $filecontent = file_get_contents(storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$alldata['cert_rfc'].'.'.$cert->getClientOriginalName());
+	        $filecontent = file_get_contents($cert);
 	        $parseCert = openssl_x509_parse($filecontent);
 
             if ($parseCert == FALSE) {
@@ -92,12 +85,21 @@ class CertController extends Controller
 	        $certf->cert_f_inicio = date("Y-m-d H:i:s", $parseCert['validFrom_time_t']);
     		$certf->cert_f_fin = date("Y-m-d H:i:s", $parseCert['validTo_time_t']);
 
+           
+            $rfccert = explode("/", $parseCert['subject']['x500UniqueIdentifier'], 2);
+            $certf->cert_rfc = strtoupper($rfccert[0]);
+            
+
             //print_r($parseCert);die();
         }
 
-    	$certf->save();
-
-        $fmessage = 'Se ha cargado el certificado de rfc: '.$request->cert_rfc;
+    	
+        $path = $request->file('cert_file')->storeAs('public', strtoupper($rfccert[0]).'.'.$cert->getClientOriginalName());
+        $certf->cert_file_storage = $path;
+        $certf->cert_serial = $parseCert['subject']['serialNumber'];
+        $certf->save();
+        
+        $fmessage = 'Se ha cargado el certificado de rfc: '.strtoupper($rfccert[0]);
         $this->registroBitacora($request,'create',$fmessage); 
     	\Session::flash('message',$fmessage);
     	return Redirect::to('certificados');

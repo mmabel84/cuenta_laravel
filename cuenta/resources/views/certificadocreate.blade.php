@@ -72,9 +72,9 @@
                     
                     <td>
 
-                          <div class="item form-group {{ $errors->has('cert_rfc') ? 'bad' : '' }}">
+                          <!--<div class="item form-group {{ $errors->has('cert_rfc') ? 'bad' : '' }}">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="cert_rfc" class="form-control has-feedback-left" name="cert_rfc" placeholder="RFC de empresa *" required="required" type="text" data-validate-words="1" value="{{ old('cert_rfc') }}" autocomplete="off" data-inputmask="'mask' : '*************'" >
+                              <input id="cert_rfc" class="form-control has-feedback-left" name="cert_rfc" placeholder="RFC de empresa *" required="required" type="text" data-validate-words="1" value="{{ old('cert_rfc') }}" autocomplete="off" data-inputmask="'mask' : '*************'" style="text-transform: uppercase;" >
                               <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
                               
                              
@@ -84,7 +84,7 @@
                                 {{ $errors->first('cert_rfc') }}
                             </span>
                         </div>
-                          </div>
+                          </div>-->
 
 							<div class="item form-group">                        
                                 <div class="col-md-9 col-sm-9 col-xs-12">

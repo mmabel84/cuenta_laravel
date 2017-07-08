@@ -20,6 +20,7 @@ class AddCertificado extends Migration
             $table->dateTime('cert_f_inicio')->nullable();
             $table->string('cert_filename')->nullable();
             $table->string('cert_file_storage')->nullable();
+            $table->string('cert_serial')->nullable();
             $table->timestamps();
 
         });

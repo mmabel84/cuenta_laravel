@@ -8,6 +8,7 @@ use App\Aplicacion;
 use App\BasedatosApp;
 use App\Paquete;
 use App\User;
+use App\Certificado;
 Use View;
 use SoapClient;
 use DateTime;
@@ -43,16 +44,16 @@ class HomeController extends Controller
 
 
         $appsicons = array (
-                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' ><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
+                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso a aplicación de facturación electrónica'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
-                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabled' target='_blank'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                            <b>BÓVEDA</b></span></i></a>",
+                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    </i></a>",
                     'cont'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
                      'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>PLD</b></span></i></a>",
+                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login/' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    </i></a>",
                     
                     'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
@@ -63,14 +64,14 @@ class HomeController extends Controller
         $appsiconsblocked = array (
                     'fact'=>"<a href='https://app.advans.mx/login/usuarios/login' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
-                    'bov'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' class='disabledblocked' target='_blank'><i class='fa fa-archive fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                            <b>BÓVEDA</b></span></i></a>",
+                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    </i></a>",
                     'cont'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabledblocked' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
                      'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabledblocked' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='http://pld-beta.advans.mx/app/usuarios/login' data-toggle='tooltip' data-placement='right' id='pld' class='disabledblocked' target='_blank'><i class='fa fa-money fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>PLD</b></span></i></a>",
+                    'pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='pld' class='disabledblocked' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    </i></a>",
                     
                     'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabledblocked' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
@@ -81,8 +82,8 @@ class HomeController extends Controller
         $appdisp = array (
                     'fact'=>"<a href='http://www.advans.mx/content/factura-electronica-advans' data-toggle='tooltip' data-placement='right' id='fact' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'></i></a>",
 
-                    'bov'=>"<a href='http://www.advans.mx/content/validacion-cfdi-advans' data-toggle='tooltip' data-placement='right' id='bovd' title='Aplicación para almacenar facturas y documentos de interés' target='_blank'><i class='fa fa-archive fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                            <b>BÓVEDA</b></span></i></a>",
+                    'bov'=>"<a href='http://www.advans.mx/content/validacion-cfdi-advans' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    </i></a>",
                     'cont'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='contd' title='Aplicación para la contabilidad interna de la empresa' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
                      'nom'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='nomd' title='Aplicación para el cálculo de la nómina' target='_blank'><i class='fa fa-table fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
@@ -199,25 +200,20 @@ class HomeController extends Controller
 
         }
 
-        //Calculando vigencia de certificado
-        $main_empr = Empresa::where('empr_principal', '=', true)->get();
-        $dias_vigencia = false;
-        $fecha_fin_cert = new DateTime("2017-08-02 21:00:00");
-        //$fecha_fin_cert = strtotime('2017-06-16 21:00:00');
+        //Calculando vigencia de certificados
+        $certificados = Certificado::all();
+        $certificados = $certificados->sortByDesc('cert_f_fin');
 
-        if(count($main_empr) > 0 ){
-            //$fecha_fin_cert = new DateTime($main_empr[0]->empr_f_finvig);
-            $fecha_actual = new Datetime(date('Y-m-d H:i:s'));
+        $main_empr = Empresa::where('empr_principal', '=', true)->get();
+        $fecha_actual = new Datetime(date('Y-m-d H:i:s')); 
+        $htmlcert = '';
+        foreach ($certificados as $certf) {
+            $fecha_fin_cert = new DateTime($certf->cert_f_fin);
             $dias_vigencia = $fecha_actual->diff($fecha_fin_cert)->format("%r%a");
             $horas_vigencia = date_diff($fecha_actual,$fecha_fin_cert)->format('%h:%i:%s');
 
-            
-        }
-        $htmlcert = '';
-
-        if ($fecha_fin_cert != false){
-            $msgvenc = 'Vence en: '.$dias_vigencia.' días';
-            $title = 'Fecha de fin: '.$fecha_fin_cert->format('Y-m-d H:i:s');
+            $msgvenc = 'Vence en '.$dias_vigencia.' días';
+            $title = $fecha_fin_cert->format('Y-m-d H:i:s');
             $class = "success";
             if ($dias_vigencia < 30)
                     $class = "warning";
@@ -233,19 +229,12 @@ class HomeController extends Controller
             if ($dias_vigencia == -1)
                     $msgvenc = 'Venció ayer';
             if ($dias_vigencia < -1)
-                    $msgvenc = 'Venció hace: ' . abs($dias_vigencia) . " días";
+                    $msgvenc = 'Venció hace ' . abs($dias_vigencia) . " días";
 
-            $htmlcert .='<span class="badge progress-bar-' . $class . ' badge" title="' . $title . '">' . $msgvenc . '</span>'
-                        . '<br></br>'
-                        . '<p class="list-group-item-text">' . $title . '</p>';
-
+            $htmlcert .='<span style="font-size:11px" class="badge progress-bar-' . $class . ' badge" title="' .$msgvenc .', '. $title . '" >'. $certf->cert_rfc . $certf->cert_serial.'</span>'
+                        .'<br></br>';
 
         }
-        else
-        {
-            $htmlcert .='<p> Sin certificado registrado </p>';
-        }
-        
 
         //recuperando noticias de servicio web de control
 
