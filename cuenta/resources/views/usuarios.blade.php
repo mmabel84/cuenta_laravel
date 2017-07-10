@@ -195,7 +195,7 @@
                                                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} col-md-12 col-sm-12 col-xs-12">
 	                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
 		                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-		                                                          <input placeholder="Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
+		                                                          <input placeholder="Nueva Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
 		                                                           @if ($errors->has('password'))
 									                                    <span class="help-block">
 									                                        <strong>{{ $errors->first('password') }}</strong>

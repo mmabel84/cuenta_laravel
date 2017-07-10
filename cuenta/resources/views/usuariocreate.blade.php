@@ -78,7 +78,7 @@
                         <div class="row">
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <div class="kv-avatar center-block text-center" style="width:200px">
-                                    <input id="avatar-2" value="{{asset('default_avatar_male.jpg')}}" name="users_pic" type="file" class="file-loading">
+                                    <input id="avatar-2" value="{{asset('default_avatar_male.jpg')}}" name="users_pic" type="file" class="file-loading" >
 
 
                                 </div>

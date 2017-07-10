@@ -32,7 +32,7 @@
 		                  
 		                  <div class="form-group">
 		                 
-		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-round btn-primary" style="color:#000033; background-color:#e6e6e6; "><b>Nueva aplicación</b></button>
+		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#445566; "><b>Nueva aplicación</b></button>
 		                  </div>
 
 		                  <br/>
@@ -48,7 +48,7 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#000033; background-color:#e6e6e6; ">
+		                        <tr style="color:#FFFFFF; background-color:#445566; ">
 		                          <th>Aplicación</th>
 		                          <th>Empresa</th>
 		                          <th>RFC empresa</th>
