@@ -80,9 +80,7 @@
                           </div>
                           <!-- /sidebar menu -->
                           <!-- /menu footer buttons -->
-                          <div class="sidebar-footer hidden-small">
-                            
-                          </div>
+                          
                           <!-- /menu footer buttons -->
                         </div>
                       </div>
