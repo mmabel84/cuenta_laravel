@@ -259,7 +259,7 @@ class HomeController extends Controller
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalmeses'=>$intervalMeses, 'dias_vigencia'=>$dias_vigencia, 'fecha_fin_cert'=>$fecha_fin_cert->format('Y-m-d H:i:s'), 'htmlcert'=>$htmlcert, 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias)]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalmeses'=>$intervalMeses, 'fecha_fin_cert'=>$fecha_fin_cert->format('Y-m-d H:i:s'), 'htmlcert'=>$htmlcert, 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias)]);
 
                 
     }
