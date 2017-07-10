@@ -15,7 +15,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top" style="background-color: #053666">
+        <nav class="navbar navbar-default navbar-static-top">
             <div class="container" >
                 <div class="navbar-header" >
 
@@ -28,7 +28,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                            <a href="/" class="site_title"><img height="60px" src="{{asset('logo_advans_head.png')}}"><span style="color: white; font-size: 20px;"><b>{{ config('app.name') }}</b></span></a>
+                            <a href="/" class="site_title"><img height="60px" src="{{asset('advans_main.png')}}"></a>
 
                 </div>
 
