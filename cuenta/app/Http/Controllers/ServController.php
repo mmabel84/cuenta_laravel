@@ -243,10 +243,6 @@ class ServController extends Controller
         	return \Response::json($response);
 	   }
 
-
-
-
-
 	   public function desactapp(Request $request){
 
 	   		$alldata = $request->all();
@@ -316,7 +312,7 @@ class ServController extends Controller
 		        			else
 		        			{
 		        				$fmessage = 'Intento de eliminación de aplicación '.$app[0]->app_nom. ' fallido, existen base de datos dependientes';
-		        				$msg = "Aplicación no eliminada.";
+		        				$msg = "Aplicación no eliminada pues tiene bases de datos dependientes.";
 		        				$status = "Failed";
 		        				$this->registroBitacora($request,'delete application failed',$fmessage); 
 		        			}
