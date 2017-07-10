@@ -82,12 +82,12 @@
 		                          	
 			                          <div class="btn-group">
 			                          	<div class="btn-group">
-		                          			<button onclick="location.href = 'usuarios/{{$u->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-edit fa-3x"></i> </button>
+		                          			<button onclick="location.href = 'usuarios/{{$u->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#062c51; background-color:#FFFFFF; "><i class="fa fa-edit fa-3x"></i> </button>
 			                          	</div>
 
 										<div class="btn-group">
 
-		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#053666; background-color:#FFFFFF; " onclick="showModalBD({{$u->id}})"><i class="fa fa-plus-square-o fa-3x"></i> </button>
+		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModalBD({{$u->id}})"><i class="fa fa-plus-square-o fa-3x"></i> </button>
 
 		                          				
 		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalUsrBd{{$u->id}}">
@@ -150,7 +150,7 @@
 	                          												<td>{{$bd->empresa->empr_rfc}}</td>
 	                          												<td>
 		                          													<div class="btn-group{{ $bd->id }}">
-													                          			<button id="desvusrbtn{{ $bd->id }}" onclick="unrelatedb({{ $bd->id }}, {{ $u->id }});" class="btn btn-xs" data-placement="left" title="Desasociar de base de datos" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button>
+													                          			<button id="desvusrbtn{{ $bd->id }}" onclick="unrelatedb({{ $bd->id }}, {{ $u->id }});" class="btn btn-xs" data-placement="left" title="Desasociar de base de datos" style=" color:#062c51; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button>
 														                          	</div>
 		                          												</td>
 	                          												</tr>
@@ -178,7 +178,7 @@
 			                          	<div class="btn-group">
                                               
 
-                                                <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#053666; background-color:#FFFFFF; " onclick="showModal({{$u->id}})"><i class="fa fa-key fa-3x"></i> </button>
+                                                <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModal({{$u->id}})"><i class="fa fa-key fa-3x"></i> </button>
 
 
                                               <div class="modal fade" id="passmodal{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
@@ -232,7 +232,7 @@
 
 			                          		{{ Form::open(['route' => ['usuarios.destroy', $u->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
-		                      				<button  href="{{ route('usuarios.destroy', $u->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#053666; background-color:#FFFFFF; " onclick="return confirm('El usuario también será eliminado de todas las bases de datos de aplicación a las que esté asociado. ¿Está seguro que quiere eliminar este registro?')"><i class="fa fa-trash fa-3x"></i></button>
+		                      				<button  href="{{ route('usuarios.destroy', $u->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#062c51; background-color:#FFFFFF; " onclick="return confirm('El usuario también será eliminado de todas las bases de datos de aplicación a las que esté asociado. ¿Está seguro que quiere eliminar este registro?')"><i class="fa fa-trash fa-3x"></i></button>
 											{{ Form::close() }}
 
 			                          	</div>
