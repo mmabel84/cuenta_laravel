@@ -123,7 +123,7 @@
 					                                        <br>	
 		                          							<br>
 			                          						<div class="col-md-2 col-sm-2 col-xs-12">
-			                          								<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$u->id}});">Agregar</button>
+			                          								<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$u->id}});" style=" background-color:#062c51; ">Agregar</button>
 			                          						</div>
 			                          						<div class="col-md-3 col-sm-3 col-xs-12">
 			                          							<p></p>
@@ -217,7 +217,7 @@
 
                                                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
                                                      	<button type="button" onclick="cleanmodalPass({{$u->id}});" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                      	<button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary">Guardar</button>
+                                                      	<button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
                                                      </div>
                                                       
                                                       
