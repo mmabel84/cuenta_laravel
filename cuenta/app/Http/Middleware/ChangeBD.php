@@ -34,7 +34,7 @@ class ChangeBD
                     {
                         $service_response = $cont->getAppService($acces_vars['access_token'],'getaccstate',$arrayparams,'control');
                     } 
-                    catch (Exception $e) 
+                    catch (\GuzzleHttp\Exception\ServerException $e) 
                     {
                          $request->session()->put('loginrfcerr', 'Sin comunicación a servicio de control');
                     }

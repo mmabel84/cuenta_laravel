@@ -87,6 +87,7 @@ class ServController extends Controller
 		        if(array_key_exists('password',$alldata) && isset($alldata['password'])){
 		        	
 		        	$pass = bcrypt($alldata['password']);
+		        	Log::info($alldata['password']);
 
 		        }
 
