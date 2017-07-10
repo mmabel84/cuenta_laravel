@@ -310,7 +310,7 @@ class ServController extends Controller
 		        			$fmessage = 'Aplicación '.$app[0]->app_nom. ' eliminada desde control';
 		        			if (count($bdapp) == 0)
 		        			{
-		        				$app[0]->delete();
+		        				DB::connection($dbname)->table('app')->where('id', '=', $app[0]->id)->delete();
 		        				$this->registroBitacora($request,'delete application',$fmessage); 
 		        			}
 		        			else
