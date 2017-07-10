@@ -18,7 +18,7 @@
 @section('app_body')
     <body class="nav-md">
         <div class="container body">
-            <div class="main_container">
+            <div class="main_container" style="background-color: #072542">
                 
                 @section('app_left_menu')
                     <div class="col-md-3 left_col" style="background-color: #072542">
