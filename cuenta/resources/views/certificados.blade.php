@@ -29,7 +29,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('certificados/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#005c99; "><b>Nuevo certificado</b></button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('certificados/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#5f7284; "><b>Nuevo certificado</b></button>
 		                  </div>
 
 		                  <br/>
@@ -51,7 +51,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#005c99 ">
+		                        <tr style="color:#FFFFFF; background-color:#5f7284 ">
 		                          <th>RFC</th>
 		                          <th>Nombre de certificado</th>
 		                          <th>Número de serie</th>
