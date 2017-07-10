@@ -240,22 +240,27 @@ class HomeController extends Controller
 
         $arrayparams = [];
         $noticias = [];
+        $service_response = [];
         $acces_vars = $this->getAccessToken();
+        
         try
         {
-            $service_response = $this->getAppService($acces_vars['access_token'],'getnews',$arrayparams,'control');
-        } 
-        catch (Exception $e) 
-        {
-             $request->session()->put('newserror', 'Sin comunicación a servicio de control para noticias');
-        }
 
-        if (count($service_response['news']) > 0){
-            $noticias = json_decode($service_response['news']) ;
+            $service_response = $this->getAppService($acces_vars['access_token'],'getnews',$arrayparams,'control');
+            if (count($service_response['news']) > 0){
+                $noticias = json_decode($service_response['news']);
+        }
+        } 
+        catch (\GuzzleHttp\Exception\ServerException $e) 
+        {
+             \Session::put('newserror', 'Sin comunicación a servicio de control para noticias');
+
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalmeses'=>$intervalMeses, 'dias_vigencia'=>$dias_vigencia, 'fecha_fin_cert'=>$fecha_fin_cert->format('Y-m-d H:i:s'), 'htmlcert'=>$htmlcert, 'noticias'=>$noticias]);
+
+        
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalmeses'=>$intervalMeses, 'dias_vigencia'=>$dias_vigencia, 'fecha_fin_cert'=>$fecha_fin_cert->format('Y-m-d H:i:s'), 'htmlcert'=>$htmlcert, 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias)]);
 
                 
     }

@@ -322,13 +322,14 @@
                 <input type="hidden" name="emps" id="emps" value="{{ $emps }}"/>
 
 
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12" id="divnews">
                   <div class="x_panel">
                   <div class="x_title">
                               <h2>Novedades</h2>
                               <div class="clearfix"></div>
                    </div>
 
+                   <input type="hidden" name="news" id="news" value="{{ $noticiasstr }}"/>
                    <div class="x_content contenedor_select">
 
                    @foreach ($noticias as $n)
@@ -495,7 +496,7 @@
           var dataempr = [];
           var empresas =jQuery.parseJSON(document.getElementById('emps').value);
           
-          console.log(empresas.length);
+          //console.log(empresas.length);
 
           if (empresas.length > 0) {
             for (var i = 0; i < empresas.length; i++) {
@@ -519,6 +520,17 @@
           //Asignando valor a div de vigencia de certificado
           var htmlcontent = document.getElementById('htmlcert').value;
           $('#certif').append(htmlcontent);
+
+
+          //Verificando si existen noticias
+          var news =jQuery.parseJSON(document.getElementById('news').value);
+          console.log(news.length);
+
+
+          if (news.length == 0){
+
+            $("#divnews").hide();
+          }
 
         </script>
 
@@ -563,7 +575,7 @@
                 data: {_token: CSRF_TOKEN,selected:selected},
                 dataType: 'JSON',
                 success: function (data) {
-                    console.log(data['appcodes']);
+                    //console.log(data['appcodes']);
                     data['appcodes'].forEach(function(entry){
                       $("#"+entry).removeClass('disabled');
                       var link = document.getElementById(entry);  
@@ -661,7 +673,7 @@
              arraybar.push(dic);
 
            }
-            console.log(arraybar);
+            //console.log(arraybar);
 
 
 

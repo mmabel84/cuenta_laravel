@@ -29,8 +29,10 @@
                        <div class="form-group{{ Session::get('loginrfcerr') ? ' has-error' : '' }}">
 
                            <div class="col-md-8 col-md-offset-2 input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
-                                <input id="login_rfc" name="login_rfc" type="text" class="rfc form-control" value="{{ old('login_rfc') }}" required placeholder="RFC" >
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+                                    <input id="login_rfc" name="login_rfc" type="text" class="rfc form-control" value="{{ old('login_rfc') }}" required placeholder="RFC" />
+                                </div>
 
                                @if (Session::has('loginrfcerr'))
                                     <span class="help-block">
@@ -44,9 +46,11 @@
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 
                             <div class="col-md-8 col-md-offset-2 input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required placeholder="Correo electrónico">
+                            
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required placeholder="Correo electrónico">
+                                </div>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -59,9 +63,10 @@
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
 
                             <div class="col-md-8 col-md-offset-2 input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-
-                                <input id="password" type="password" class="form-control" name="password" required placeholder="Contraseña">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                                    <input id="password" type="password" class="form-control" name="password" required placeholder="Contraseña">
+                                </div>
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">

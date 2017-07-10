@@ -49,7 +49,7 @@ class ChangeBD
                         $request->session()->flash('midred', '1');
                         $request->session()->put('loginrfcerr', 'Cuenta bloqueada');
                         $request->session()->put('login_rfc', $dbname);                  
-                        return redirect('/');
+                        return redirect()->back();
 
                     }
 
@@ -58,7 +58,7 @@ class ChangeBD
                     $request->session()->flash('midred', '1');
                     $request->session()->put('loginrfcerr', 'RFC Inválido');
                     $request->session()->put('login_rfc', $dbname);                  
-                   return redirect('/');
+                    return redirect()->back();
                 }
              }
          }

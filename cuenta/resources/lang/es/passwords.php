@@ -15,7 +15,7 @@ return [
 
     'password' => 'La contraseña debe ser al menos de 8 caracteres y coincidir con la confirmación.',
     'reset' => 'La contraseña ha sido reseteada!',
-    'sent' => 'Se envió a su correo el acceso a su reseteo de contraseña!',
+    'sent' => 'Se envió a su correo el acceso para resetear contraseña!',
     'token' => 'El token para resetear la contraseña es inválido.',
     'user' => "No se encuentra un usuario con la dirección de correo especificada.",
 

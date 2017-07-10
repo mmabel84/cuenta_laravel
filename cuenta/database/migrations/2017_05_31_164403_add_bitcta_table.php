@@ -23,9 +23,9 @@ class AddBitctaTable extends Migration
             $table->text('bitcta_msg')->nullable();
             $table->text('bitcta_result')->nullable();
             $table->text('bitcta_dato')->nullable();
-            $table->integer('bitcta_users_id')->unsigned();
+            $table->integer('bitcta_users_id')->unsigned()->nullable();
 
-            $table->foreign('bitcta_users_id')->references('id')->on('users');
+            $table->foreign('bitcta_users_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

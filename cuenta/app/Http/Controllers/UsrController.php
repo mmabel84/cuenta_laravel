@@ -270,6 +270,11 @@ class UsrController extends Controller
         if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
             $user->users_tel = $alldata['users_tel'];
         }
+
+        if(array_key_exists('name',$alldata) && isset($alldata['name'])){
+            $user->name = $alldata['name'];
+        }
+
         if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
             $user->users_nick = $alldata['users_nick'];
         }
@@ -324,6 +329,7 @@ class UsrController extends Controller
             $user->detachAllPermissions();
             $user->detachAllRoles();
             $user->basedatosapps()->detach();
+            //TODO Eliminar usuario de base de datos de aplicaciones
             $fmessage = 'Se ha eliminado el usuario: '.$user->name;
             $messagetype = 'message';
             $this->registroBitacora($request,'delete',$fmessage); 
@@ -369,12 +375,20 @@ class UsrController extends Controller
     public function changepass(Request $request)
     {
         $alldata = $request->all();
+        //$this->customvalidator($alldata)->validate();
+
+        $rules = ['password' => 'min:8|passwordsat'];
+        //$messages = ['passwordsat' => 'Contraseña inválida'];
+
+        $validator = Validator::make($alldata, $rules)->validate();
+
         $return_array = array();
-        $user = false;
+        $user_id = false;
         $fmessage = '';
 
        if(array_key_exists('user',$alldata) && isset($alldata['user'])){
             $user = User::find($alldata['user']);
+            $user_id = $alldata['user'];
         }
 
        if($user!=false){
@@ -384,14 +398,16 @@ class UsrController extends Controller
                 $this->registroBitacora($request,'password change',$fmessage);
                 //\Session::flash('message', $fmessage); 
             }
+
+            $user->save();
         }
 
-       $user->save();
+       
 
        $response = array(
             'status' => 'success',
             'msg' => $fmessage,
-            'user' => $alldata['user'],
+            'user' => $user_id,
         );
         return \Response::json($response);
     }

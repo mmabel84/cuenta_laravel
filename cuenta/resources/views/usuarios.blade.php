@@ -32,11 +32,13 @@
 		                  </div>
 
 		                  <br/>
-		                  	<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;">
-			                    <button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-			                    </button>
-			                    <strong id="alertpassmsg"></strong>
-			                 </div>
+		                  	<div id="cont_pass_change_div">
+			                  	<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;">
+				                    <button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+				                    </button>
+				                    <strong id="alertpassmsg"></strong>
+				                 </div>
+			                </div>
 		                  @if (Session::has('message'))
 			                  <div class="alert alert-success alert-dismissible fade in" role="alert">
 			                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -179,28 +181,47 @@
                                                 <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#053666; background-color:#FFFFFF; " onclick="showModal({{$u->id}})"><i class="fa fa-key fa-3x"></i> </button>
 
 
-                                              <div class="modal fade" id="passmodal{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
+                                              <div class="modal fade" id="passmodal{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                                                <div class="modal-dialog" role="document" style=" width:60%">
                                                   <div class="modal-content">
                                                     <div class="modal-header">
                                                       <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña: {{$u->name}}</h5>
                                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
+                                                        <!--<span aria-hidden="true">&times;</span>-->
                                                       </button>
                                                     </div>
                                                     <div class="modal-body">
                                                       <form>
-                                                        <div class="form-group">
-                                                          <input placeholder="Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
+                                                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} col-md-12 col-sm-12 col-xs-12">
+	                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
+		                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+		                                                          <input placeholder="Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
+		                                                           @if ($errors->has('password'))
+									                                    <span class="help-block">
+									                                        <strong>{{ $errors->first('password') }}</strong>
+									                                    </span>
+									                                @endif
+	                                                        </div>
+	                                                        
                                                         </div>
                                                       </form>
 
-                                                     <div id="result_failure{{$u->id}}"></div>
+                                                     
 
                                                    </div>
                                                     <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                      <button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary">Ok</button>
+                                                    <div  class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                     <div id="result_failure_pass{{$u->id}}" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+                                                     	
+                                                     </div>
+
+                                                     <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                                     	<button type="button" onclick="cleanmodalPass({{$u->id}});" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                      	<button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary">Guardar</button>
+                                                     </div>
+                                                      
+                                                      
+                                                    </div>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -481,6 +502,14 @@
           cleanRoles(user);
         }
 
+        //Función para limpiar modal de contraseña
+        function cleanmodalPass(usrid){
+
+			$("#result_failure_pass"+usrid).html('');
+			
+
+			}
+
 
        //Función para cambiar contraseña
        function changePass(user){
@@ -503,23 +532,38 @@
 
                  //console.log(data);
                   hideModal(data['user']);
+                  cleanmodalPass(user);
                   //$('#alertmsgcreation').trigger('click');
 
+                  var content = '<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;"><button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong id="alertpassmsg"></strong></div>';
+                  
+
+                  console.log(document.getElementById("divpasschange"));
+                  console.log(document.getElementById("alertpasschange"));
+                  
                   document.getElementById("divpasschange").style.display = 'block';
+
                   document.getElementById("alertpassmsg").innerHTML = data['msg'];
                   setTimeout(function() {
 		              $('#alertpasschange').trigger('click');
+		              document.getElementById("cont_pass_change_div").innerHTML = content;
+
+
 		          }, 4e3);
                   
 
                },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     //alert("Status: " + textStatus); alert("Error: " + errorThrown);
-                    $("#result_failure"+user).html('<p><strong>Ocurrió un error: '+errorThrown+'</strong></p>');
+                    console.log(XMLHttpRequest);
+                    $("#result_failure_pass"+user).html('<p>La contraseña es inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+                    //$("#result_failure_pass"+user).html('<p><strong>Ocurrió un error: '+errorThrown+'</strong></p>');
+                    //hideModal(data['user']);
+
                 }
             });
             }else{
-              $("#result_failure"+user).html('<p><strong>La contraseña es obligatoria</strong></p>');
+              $("#result_failure_pass"+user).html('<p>La contraseña es obligatoria</p>');
               
            }
 
