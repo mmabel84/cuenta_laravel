@@ -33,7 +33,7 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
+		                        <tr style="color:#FFFFFF; background-color:#5c154d; ">
 		                          <th>Fecha</th>
 		                          <th>Operación</th>
 		                          <th>IP</th>
