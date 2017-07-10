@@ -80,9 +80,9 @@ class HomeController extends Controller
                     ");
 
         $appdisp = array (
-                    'fact'=>"<a href='http://www.advans.mx/content/factura-electronica-advans' data-toggle='tooltip' data-placement='right' id='fact' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'></i></a>",
+                    'fact'=>"<a href='http://www.advans.mx/content/factura-electronica-advans' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'></i></a>",
 
-                    'bov'=>"<a href='http://www.advans.mx/content/validacion-cfdi-advans' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    'bov'=>"<a href='http://www.advans.mx/content/validacion-cfdi-advans' data-toggle='tooltip' data-placement='right' id='bovd' target='_blank' title='Aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
                     'cont'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='contd' title='Aplicación para la contabilidad interna de la empresa' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
