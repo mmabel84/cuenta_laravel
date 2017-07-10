@@ -21,9 +21,9 @@
             <div class="main_container">
                 
                 @section('app_left_menu')
-                    <div class="col-md-3 left_col" style="background-color: #012a51">
-                        <div class="left_col scroll-view" style="background-color: #012a51">
-                          <div class="navbar nav_title" style="border: 0; background-color: #012a51;">
+                    <div class="col-md-3 left_col" style="background-color: #00203f">
+                        <div class="left_col scroll-view" style="background-color: #00203f">
+                          <div class="navbar nav_title" style="border: 0; background-color: #00203f;">
                             <a href="/" class="site_title"><img height="60px" src="{{asset('logo_advans_head.png')}}"><span>{{ config('app.name') }}</span></a>
                           </div>
                           <div class="clearfix"></div>
