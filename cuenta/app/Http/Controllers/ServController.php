@@ -303,18 +303,22 @@ class ServController extends Controller
 		        		$app = DB::connection($dbname)->table('app')->where('app_cod', '=', $appc->app_cod)->get();
 		        		if (count($app) > 0){
 		        			$bdapp = DB::connection($dbname)->table('bdapp')->where('bdapp_app_id', '=', $app[0]->id)->get();
-		        			$fmessage = 'Aplicación '.$app[0]->app_nom. ' eliminada desde control';
+		        			$bitcta_msg = 'Aplicación '.$app[0]->app_nom. ' eliminada desde control';
+		        			$bitc_fecha = date("Y-m-d H:i:s");
+					        $bitcta_tipo_op = 'delete application';
+					        $bitc_modulo = '\Services';
+						    $bitcta_dato = json_encode($_REQUEST);
 		        			if (count($bdapp) == 0)
 		        			{
 		        				DB::connection($dbname)->table('app')->where('id', '=', $app[0]->id)->delete();
-		        				//$this->registroBitacora($request,'delete application',$fmessage); 
+		        				DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, created_at) values (?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, date('Y-m-d H:i:s')]);
 		        			}
 		        			else
 		        			{
-		        				$fmessage = 'Intento de eliminación de aplicación '.$app[0]->app_nom. ' fallido, existen base de datos dependientes';
+		        				$bitcta_msg = 'Intento de eliminación de aplicación '.$app[0]->app_nom. ' fallido, existen base de datos dependientes';
 		        				$msg = "Aplicación no eliminada pues tiene bases de datos dependientes.";
 		        				$status = "failure";
-		        				//$this->registroBitacora($request,'delete application failed',$fmessage); 
+		        				DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, created_at) values (?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, date('Y-m-d H:i:s')]);
 		        			}
 		        		}
 
