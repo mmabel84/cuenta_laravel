@@ -16,7 +16,7 @@
 @endsection
 
 @section('app_body')
-    <body class="nav-md">
+    <body class="nav-md" style="background-color: #072542">
         <div class="container body">
             <div class="main_container" style="background-color: #072542">
                 
