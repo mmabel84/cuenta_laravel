@@ -284,7 +284,7 @@ class ServController extends Controller
 
 	   		$alldata = $request->all();
 	        $msg = "Aplicación eliminada.";
-	        $status = "Success";
+	        $status = "success";
 	        $apps = [];
 	        $dbname = '';
 
@@ -307,14 +307,14 @@ class ServController extends Controller
 		        			if (count($bdapp) == 0)
 		        			{
 		        				DB::connection($dbname)->table('app')->where('id', '=', $app[0]->id)->delete();
-		        				$this->registroBitacora($request,'delete application',$fmessage); 
+		        				//$this->registroBitacora($request,'delete application',$fmessage); 
 		        			}
 		        			else
 		        			{
 		        				$fmessage = 'Intento de eliminación de aplicación '.$app[0]->app_nom. ' fallido, existen base de datos dependientes';
 		        				$msg = "Aplicación no eliminada pues tiene bases de datos dependientes.";
-		        				$status = "Failed";
-		        				$this->registroBitacora($request,'delete application failed',$fmessage); 
+		        				$status = "failure";
+		        				//$this->registroBitacora($request,'delete application failed',$fmessage); 
 		        			}
 		        		}
 
