@@ -28,7 +28,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                            <a href="/" class="site_title"><img height="60px" src="{{asset('advans_main.png')}}"></a>
+                            <a href="/" class="site_title"><img src="{{asset('advans_main.png')}}"></a>
 
                 </div>
 
