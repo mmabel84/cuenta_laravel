@@ -9,6 +9,7 @@ use App\Paquete;
 use App\User;
 use Illuminate\Support\Facades\Log;
 use App\Bitacora;
+use App\BasedatosApp;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -303,7 +304,23 @@ class ServController extends Controller
 
 		        	foreach ($apps as $appc) {
 
-		        		DB::connection($dbname)->table('app')->where('app_cod', '=', $appc->app_cod)->delete();
+		        		$app = DB::connection($dbname)->table('app')->where('app_cod', '=', $appc->app_cod)->get();
+		        		if (count($app) > 0){
+		        			$bdapp = DB::connection($dbname)->table('bdapp')->where('bdapp_app_id', '=', $app[0]->id)->get();
+		        			$fmessage = 'Aplicación '.$app[0]->app_nom. ' eliminada desde control';
+		        			if (count($bdapp) == 0)
+		        			{
+		        				$app[0]->delete();
+		        				$this->registroBitacora($request,'delete application',$fmessage); 
+		        			}
+		        			else
+		        			{
+		        				$fmessage = 'Intento de eliminación de aplicación '.$app[0]->app_nom. ' fallido, existen base de datos dependientes';
+		        				$msg = "Aplicación no eliminada.";
+		        				$status = "Failed";
+		        				$this->registroBitacora($request,'delete application failed',$fmessage); 
+		        			}
+		        		}
 
 		        	}
 		        }
