@@ -286,8 +286,8 @@
               </div>
              </div>
 
-             <input type="hidden" id="diasvig" name="diasvig" value="{{ $dias_vigencia }}">
-             <input type="hidden" id="finvig" name="finvig" value="{{ $fecha_fin_cert }}">
+             <!--<input type="hidden" id="diasvig" name="diasvig" value="{{ $dias_vigencia }}">
+             <input type="hidden" id="finvig" name="finvig" value="{{ $fecha_fin_cert }}">-->
              <input type="hidden" id="htmlcert" name="htmlcert" value="{{ $htmlcert }}">
              <div class="col-md-3 col-sm-3 col-xs-12" >
               <div class="x_panel">
