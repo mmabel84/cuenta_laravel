@@ -28,7 +28,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#254d74; "><b>Nuevo usuario</b></button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#072542; "><b>Nuevo usuario</b></button>
 		                  </div>
 
 		                  <br/>
@@ -58,7 +58,7 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
+		                        <tr style="color:#FFFFFF; background-color:#072542; ">
 		                          <th>Nombre</th>
 		                          <th>Usuario</th>
 		                          <th>Correo</th>
