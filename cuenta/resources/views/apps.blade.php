@@ -32,7 +32,7 @@
 		                  
 		                  <div class="form-group">
 		                 
-		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#094784; "><b>Nueva aplicación</b></button>
+		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#094784; "><b>Nueva aplicación</b></button>
 		                  </div>
 
 		                  <br/>

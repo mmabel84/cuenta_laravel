@@ -48,6 +48,7 @@ Route::get('/downloadback/{bdid}', 'BackController@downloadBackup')->name('downl
 Route::post('/getrolesbd/{bdid}', 'UsrController@getrolepermissionbd')->name('getrolesbd');
 
 
+
 Auth::routes();
 
 

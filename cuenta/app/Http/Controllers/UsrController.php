@@ -419,10 +419,11 @@ class UsrController extends Controller
         
         //TODO llamar a sericio que trae arreglo de roles
         /*
-        $cont = new Controller;
-        $acces_vars = $cont->getAccessToken();
-        $arrayparams['rfc'] = $bd->rfc;
-        $service_response  = $cont->getAppService($acces_vars['access_token'],'rolesperms',$arrayparams,'control');
+         //$app_cod = $bd->bdapp_app;
+         //$arrayparams['bd'] = $bd->bdapp_nombd;
+
+         //$acces_vars = $this->getAccessToken($app_cod);
+        //$service_response = $this->getAppService($acces_vars['access_token'],'gerroles',$arrayparams,$app_cod);
          if ($service_response['roles']){
             $response = array(
             'status' => 'Success',

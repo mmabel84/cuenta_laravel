@@ -17,7 +17,15 @@ return [
                                     'username' => 'api.cuenta@gmail.com',
                                     'password' => 'api.cuenta',
                                     'scope' => '*',
-                                    ]
+                                    ],
+                                'bov'=>[
+                                    'grant_type' => 'password',
+                                    'client_id' => '1',
+                                    'client_secret' => 'h3xAjSpYvTh4yZicPFRxsAf68ntg44rFX8Gos6Bl',
+                                    'username' => 'api.cuenta@gmail.com',
+                                    'password' => 'api.cuenta',
+                                    'scope' => '*',
+                                ]
                           ],
 
     /*

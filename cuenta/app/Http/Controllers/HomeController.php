@@ -253,7 +253,6 @@ class HomeController extends Controller
         } 
         catch (\GuzzleHttp\Exception\ServerException $e) 
         {
-             print_r('error de conexion'); die();
              \Session::put('newserror', 'Sin comunicación a servicio de control para noticias');
 
         }

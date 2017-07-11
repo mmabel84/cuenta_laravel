@@ -28,7 +28,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#062c51; "><b>Nuevo usuario</b></button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#062c51; "><b>Nuevo usuario</b></button>
 		                  </div>
 
 		                  <br/>

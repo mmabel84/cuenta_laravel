@@ -29,7 +29,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('certificados/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#5f7284; "><b>Nuevo certificado</b></button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('certificados/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#5f7284; "><b>Nuevo certificado</b></button>
 		                  </div>
 
 		                  <br/>

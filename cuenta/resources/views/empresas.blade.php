@@ -29,7 +29,7 @@
 		                  </div>
 		                  
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('empresas/create') }}';" class="btn btn-round btn-primary" style="color:#FFFFFF; background-color:#285582; "><b>Nueva empresa</b></button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('empresas/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#285582; "><b>Nueva empresa</b></button>
 		                  </div>
 
 		                  <br/>

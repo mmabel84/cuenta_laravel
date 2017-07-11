@@ -37,7 +37,9 @@ class AppController extends Controller
 
     public function store(Request $request)
     {
-    	$bdapps = BasedatosApp::all();
+    	
+        
+        $bdapps = BasedatosApp::all();
     	$emprexist = null;
         $appexist = null;
 
@@ -70,8 +72,36 @@ class AppController extends Controller
     	$appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;
     	$appbd->save();
 
-        //TODO Generar base de datos con script de app en servidor especificado
-        $fmessage = 'Se ha creado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
+        //Llamar a servicio web que genera base de datos en aplicación
+
+        
+        //$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
+        //$password = $this->rand_chars($caracteres,8);
+        //$resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+
+        //while(!$resultm || count($matchesm) == 0){
+        //    $password = $this->rand_chars($caracteres,8);
+        //    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+        //}
+
+        //$arrayparams['nombrebd'] = $empresa->empr_rfc.'_'.$app->app_cod;
+        //$user = \Auth::user();
+        //$user_email = $user->email;
+        //$arrayparams['email'] = $user_email;
+        //$arrayparams['name'] = $user->name;
+        //$arrayparams['password'] = $password;
+
+
+        //if ($user_email){
+            //TODO Descomentar cuando se desbloquee el puerto 587 para enviar correo al cliente
+            //Mail::to($cliente_correo)->send(new ClientCreate(['user'=>$user_email,'password'=>$password]));
+        //}
+
+        //$acces_vars = $this->getAccessToken($app->app_cod);
+        //$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
+        
+
+        $fmessage = 'Se ha generado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
         $this->registroBitacora($request,'create',$fmessage); 
     	\Session::flash('message',$fmessage);
     	return Redirect::to('apps');
@@ -158,14 +188,19 @@ class AppController extends Controller
                 {
                      $stringroles = '';
                      $bdp->users()->attach($alldata['usrid']);
-                     $usrarray = array('name'=>$usrp->name,'correo'=>$usrp->email,'telef'=>$usrp->users_tel, 'user'=>$usrp->users_nick,'password'=>$usrp->password);
+                     $usrarray = array('name'=>$usrp->name,'correo'=>$usrp->email,'telef'=>$usrp->users_tel, 'user'=>$usrp->users_nick,'password'=>$usrp->password,'id_cuenta'=>$usrp->id);
+                     
                      
                      
                      //TODO consumir servicio para guardar usuario con roles asociados, pasando usuario, arreglo de roles con slug de cada rol y nombre de bd
+                     //$app_cod = $bdp->aplicacion->app_cod;
                      //$arrayparams['usr'] = $usrarray;
                      //$arrayparams['bd'] = $bdp->bdapp_nombd;
                      //$arrayparams['roles'] = $alldata['roles'];
-                     //$service_response  = $cont->getAppService($acces_vars['access_token'],'rolesperms',$arrayparams,'control');
+
+                     //$acces_vars = $this->getAccessToken($app_cod);
+                    //$service_response = $this->getAppService($acces_vars['access_token'],'relateusr',$arrayparams,$app_cod);
+
                     $btn = '<div 
                 class="btn-group'.$usrp->id.'">
                     <button id="desvusrbtn'.$usrp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button></div>';
@@ -178,11 +213,6 @@ class AppController extends Controller
 
                                     '</tr>');
                 }
-
-
-                
-            
-
 
             }
             else
@@ -210,6 +240,14 @@ class AppController extends Controller
             $bdp = BasedatosApp::find($alldata['bdid']);
             if ($bdp){
                 $bdp->users()->detach($alldata['usrid']);
+
+                //TODO consumir servicio para eliminar usuario
+                //$app_cod = $bdp->aplicacion->app_cod;
+                //$arrayparams['id_cuenta'] = $usrp->id;
+                //$arrayparams['bd'] = $bdp->bdapp_nombd;
+
+                //$acces_vars = $this->getAccessToken($app_cod);
+                //$service_response = $this->getAppService($acces_vars['access_token'],'unrelateusr',$arrayparams,$app_cod);
             }
         }
 
@@ -222,14 +260,13 @@ class AppController extends Controller
 
      public function getBitBD(Request $request)
     {
+        $alldata = $request->all();
         //TODO llamar a servicio que devuelve bitácora de aplicación, pasando nombre de base de datos específica
+        //$bdp = BasedatosApp::find($alldata['bdid']);
+        //$arrayparams['bd'] = $bdp->bdapp_nombd;
 
-        /*$bitacoras = Bitacora::all();
-
-        $count = ($bitacoras->count()) - 10;
-
-        $bitacoras = $bitacoras->skip($count)->get();*/
-
+        //$acces_vars = $this->getAccessToken($bdp->bdapp_app);
+        //$service_response = $this->getAppService($acces_vars['access_token'],'getbitc',$arrayparams,$bdp->bdapp_app);
         $bitacoras = Bitacora::latest()->take(10)->get();
 
         $response = array ('status' => 'Success', 'result' => $bitacoras);
