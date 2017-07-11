@@ -9,6 +9,7 @@ use Bican\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 use InvalidArgumentException;
 use Illuminate\Support\Facades\DB; 
 use Laravel\Passport\HasApiTokens;
+use App\Notifications\MyResetPassword;
 
 
 class User extends Authenticatable implements HasRoleAndPermissionContract
@@ -151,4 +152,9 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
 
         return $perms;
     } 
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MyResetPassword($token));
+    }
 }
