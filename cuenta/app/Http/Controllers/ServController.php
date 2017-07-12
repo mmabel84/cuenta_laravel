@@ -171,7 +171,7 @@ class ServController extends Controller
 	       
 	   }
 
-	    public function addpaq(Request $request){
+	    /*public function addpaq(Request $request){
 	    	$alldata = $request->all();
 	        $msg = "Paquete agregado satisfactoriamente.";
 	        $status = "Success";
@@ -194,7 +194,7 @@ class ServController extends Controller
 	        }
 
 
-	    }
+	    }*/
 
 
 	    
@@ -337,7 +337,7 @@ class ServController extends Controller
         	return \Response::json($response);
 	   }
 
-
+	   //Método para modificar actual línea de tiempo
 	   public function modpaq(Request $request){
 
 	   		$alldata = $request->all();
@@ -355,6 +355,45 @@ class ServController extends Controller
 
 		        	foreach ($paqs as $paqt) {
 		        		DB::connection($dbname)->update('update paqapp set paqapp_cantrfc = ?, paqapp_cantgig = ?, paqapp_f_fin = ?, paqapp_f_caduc = ?, updated_at = ? where paqapp_control_id = ?', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, date('Y-m-d H:i:s'), $paqt->paqapp_control_id]);
+		        	}
+		        }
+
+	        }
+
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata,
+            'paqs' => $paqs,
+            'dbname' => $dbname);
+
+        	return \Response::json($response);
+	   }
+
+
+
+	   //Método para agregar nueva línea de tiempo
+	   public function addpaq(Request $request){
+
+	   		$alldata = $request->all();
+	        $msg = "Línea de tiempo añadida.";
+	        $status = "Success";
+
+
+
+	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
+
+	        	$paqs = json_decode($alldata['paq_cta']);
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
+	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+	            $db = DB::select($query, [$dbname]);
+		        
+		        if(!empty($db)){
+		        	DB::connection($dbname)->update('update paqapp set paqapp_activo = false');
+
+		        	foreach ($paqs as $paqt) {
+		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_f_venta, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?)', [$paqt->paqapp_f_venta, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
 		        	}
 		        }
 

@@ -37,7 +37,6 @@ class HomeController extends Controller
     {
         $emps = Empresa::all();
         $apps = Aplicacion::all();
-        //$apps = Aplicacion::where('app_activa', '=', 'true')->pluck('app_cod')->toArray();
         $usrs = User::all();
         $bdapps = BasedatosApp::all();
 
@@ -46,13 +45,13 @@ class HomeController extends Controller
         $appsicons = array (
                     'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso a aplicación de facturación electrónica'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
-                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
                     'cont'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
                      'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login/' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
                     'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
@@ -123,10 +122,11 @@ class HomeController extends Controller
         }
 
         
-
+        //Calculando semanas disponibles y porcentaje consumido
         $paquetes = Paquete::where('paqapp_activo', '=', true)->get();
+        $appsact = Aplicacion::where('app_activa', '=', true)->get();
         $cantgigas = 0;
-        $cantrfc = 0;
+        $cantinstcont = 0;
         $fecha_act = '';
         $fecha_fin = '';
         $fecha_caduc = '';
@@ -137,9 +137,19 @@ class HomeController extends Controller
             $fecha_caduc = $paquetes[0]->paqapp_f_caduc;
         }
        
+       $cant_app_coninst = 0;
+       foreach ($apps as $app) {
+           $cantgigas = $cantgigas + $app->app_megs;
+            $cantinstcont = $cantinstcont + $app->app_insts;
+            $cant_inst = BasedatosApp::where('bdapp_app_id', '=', $app->id)->get();
+            if (count($cant_inst) > 0)
+            {
+                $cant_app_coninst += 1;
+            }
+       }
+
+
         foreach ($paquetes as $p) {
-            $cantgigas = $cantgigas + $p->paqapp_cantgig;
-            $cantrfc = $cantrfc + $p->paqapp_cantrfc;
 
             if ($fecha_act > $p->paqapp_f_act){
                  $fecha_act = $p->paqapp_f_act;
@@ -151,13 +161,25 @@ class HomeController extends Controller
                 $fecha_caduc = $p->fecha_caduc;
             }
         }
+
+
         //obtener diferencia en meses
         $fecha_fin_datetime = new Datetime($fecha_fin);
         $fecha_actual_datetime = new Datetime(date('Y-m-d H:i:s'));
 
         $interval=$fecha_fin_datetime->diff($fecha_actual_datetime);
-        $intervalMeses=round($interval->format("%a") / 7, 0);
+        $intervalsemanas=round($interval->format("%a") / 7, 0);
         $intervalAnos = round($interval->format("%y")*12, 0);
+
+        if ($intervalsemanas > 0)
+        {
+            $medida_tiempo = 'SEMANAS';
+        }
+        else
+        {
+            $medida_tiempo = 'DÍAS';
+        }
+
 
 
         $fecha_actual = strtotime("now");
@@ -169,7 +191,8 @@ class HomeController extends Controller
         if ($dias_total_fin > 0) {
             $porc_fin = round($dias_transc_fin / $dias_total_fin * 100, 0);
         }
-        else{
+        else
+        {
             $porc_fin = 0;
         }
         
@@ -203,6 +226,7 @@ class HomeController extends Controller
         //Calculando vigencia de certificados
         $certificados = Certificado::all();
         $certificados = $certificados->sortByDesc('cert_f_fin');
+        $cert_vencidos = Certificado::where('cert_f_fin', '<', date('Y-m-d H:i:s'))->get();
 
         $main_empr = Empresa::where('empr_principal', '=', true)->get();
         $fecha_actual = new Datetime(date('Y-m-d H:i:s')); 
@@ -210,29 +234,35 @@ class HomeController extends Controller
         foreach ($certificados as $certf) {
             $fecha_fin_cert = new DateTime($certf->cert_f_fin);
             $dias_vigencia = $fecha_actual->diff($fecha_fin_cert)->format("%r%a");
-            $horas_vigencia = date_diff($fecha_actual,$fecha_fin_cert)->format('%h:%i:%s');
 
-            $msgvenc = 'Vence en '.$dias_vigencia.' días';
-            $title = $fecha_fin_cert->format('Y-m-d H:i:s');
-            $class = "success";
-            if ($dias_vigencia < 30)
-                    $class = "warning";
-             if ($dias_vigencia < 7)
-                    $class = "danger";
-            if ($dias_vigencia == 1)
-                    $msgvenc = 'Vence mañana';
-            if ($dias_vigencia == 0) {
-                    $msgvenc = 'Vence hoy';
-                    list($h, $m, $s) = explode(":", $horas_vigencia);
-                    $title = implode(' ', array("Vence en", ($h > 0 ? intval($h) . ' hora' . ($h > 1 ? 's' : '') : '' ), ($m > 0 ? intval($m) . ' minuto' . ($m > 1 ? 's' : '') : ''), intval($s) . " segundo" . ($s > 1 ? 's' : '')));
-                }
-            if ($dias_vigencia == -1)
-                    $msgvenc = 'Venció ayer';
-            if ($dias_vigencia < -1)
-                    $msgvenc = 'Venció hace ' . abs($dias_vigencia) . " días";
+            if ($dias_vigencia >= 0 /*&& $dias_vigencia <= 45*/)
+            {
+                $horas_vigencia = date_diff($fecha_actual,$fecha_fin_cert)->format('%h:%i:%s');
 
-            $htmlcert .='<span style="font-size:11px" class="badge progress-bar-' . $class . ' badge" title="' .$msgvenc .', '. $title . '" >'. $certf->cert_rfc . $certf->cert_serial.'</span>'
-                        .'<br></br>';
+                $msgvenc = 'Vence en '.$dias_vigencia.' días';
+                $title = $fecha_fin_cert->format('Y-m-d H:i:s');
+                $class = "success";
+                if ($dias_vigencia >= 15 && $dias_vigencia < 30)
+                        $class = "warning";
+                 if ($dias_vigencia < 15)
+                        $class = "danger";
+                if ($dias_vigencia == 1)
+                        $msgvenc = 'Vence mañana';
+                if ($dias_vigencia == 0) {
+                        $msgvenc = 'Vence hoy';
+                        list($h, $m, $s) = explode(":", $horas_vigencia);
+                        $title = implode(' ', array("Vence en", ($h > 0 ? intval($h) . ' hora' . ($h > 1 ? 's' : '') : '' ), ($m > 0 ? intval($m) . ' minuto' . ($m > 1 ? 's' : '') : ''), intval($s) . " segundo" . ($s > 1 ? 's' : '')));
+                    }
+                /*if ($dias_vigencia == -1)
+                        $msgvenc = 'Venció ayer';
+                if ($dias_vigencia < -1)
+                        $msgvenc = 'Venció hace ' . abs($dias_vigencia) . " días";*/
+
+                $htmlcert .='<span style="font-size:11px" class="badge progress-bar-' . $class . ' badge" title="' .$msgvenc .', '. $title . '" >'. $certf->cert_rfc .'/'. $certf->cert_tipo.'</span>'
+                            .'<br></br>';
+
+            }
+            
 
         }
 
@@ -258,7 +288,7 @@ class HomeController extends Controller
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'rfc'=>$cantrfc,'gigas'=>$cantgigas,'rfccreados'=>count($emps),'apps'=>count($apps),'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalmeses'=>$intervalMeses, 'htmlcert'=>$htmlcert, 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias)]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'instcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalsemanas'=>$intervalsemanas, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias)]);
 
                 
     }

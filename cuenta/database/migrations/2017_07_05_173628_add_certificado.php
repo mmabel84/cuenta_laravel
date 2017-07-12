@@ -21,6 +21,8 @@ class AddCertificado extends Migration
             $table->string('cert_filename')->nullable();
             $table->string('cert_file_storage')->nullable();
             $table->string('cert_serial')->nullable();
+            $table->string('cert_raz_soc')->nullable();
+            $table->string('cert_tipo')->nullable();
             $table->timestamps();
 
         });

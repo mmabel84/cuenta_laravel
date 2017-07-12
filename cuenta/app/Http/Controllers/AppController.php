@@ -62,49 +62,62 @@ class AppController extends Controller
     	$appbd = new BasedatosApp;
     	$empresa = Empresa::find($request->bdapp_empr_id);
         $app = Aplicacion::find($request->bdapp_app_id);
+        $dbs = BasedatosApp::where('bdapp_app', '=', $app->app_cod)->get();
+        $fmessage = 'No se puede generar la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom.' pues ha alcanzado el límite máximo de instancias contratadas para la aplicación '.$app->app_nom;
+        $instlimit = $app->app_insts;
+        if ($instlimit == null || count($dbs) <  $instlimit)
+        {
+            $appbd->bdapp_app_id = $request->bdapp_app_id;
+            $appbd->bdapp_app = $app->app_cod;
+            $appbd->bdapp_empr_id = $request->bdapp_empr_id;
+            //llamar archivo de configuracion para seleccionar base de datos
+            $appbd->bdapp_nomserv = 'Test';
+            $appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;
+            $appbd->save();
+
+            //Llamar a servicio web que genera base de datos en aplicación
+
+            //$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
+            //$password = $this->rand_chars($caracteres,8);
+            //$resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+
+            //while(!$resultm || count($matchesm) == 0){
+            //    $password = $this->rand_chars($caracteres,8);
+            //    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+            //}
+
+            //$arrayparams['nombrebd'] = $empresa->empr_rfc.'_'.$app->app_cod;
+            //$user = \Auth::user();
+            //$user_email = $user->email;
+            //$arrayparams['email'] = $user_email;
+            //$arrayparams['name'] = $user->name;
+            //$arrayparams['password'] = $password;
 
 
-    	$appbd->bdapp_app_id = $request->bdapp_app_id;
-        $appbd->bdapp_app = $app->app_cod;
-    	$appbd->bdapp_empr_id = $request->bdapp_empr_id;
-        //llamar archivo de configuracion para seleccionar base de datos
-    	$appbd->bdapp_nomserv = 'Test';
-    	$appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;
-    	$appbd->save();
+            //if ($user_email){
+                //TODO Descomentar cuando se desbloquee el puerto 587 para enviar correo al cliente
+                //Mail::to($cliente_correo)->send(new ClientCreate(['user'=>$user_email,'password'=>$password]));
+            //}
 
-        //Llamar a servicio web que genera base de datos en aplicación
+            //$acces_vars = $this->getAccessToken($app->app_cod);
+            //$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
+            
+
+            $fmessage = 'Se ha generado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
+            $this->registroBitacora($request,'create',$fmessage); 
+            \Session::flash('message',$fmessage);
+            return Redirect::to('apps');
+
+        }
+
+        \Session::flash('failmessage',$fmessage);
+        return Redirect::to('apps');
+        
+
+
+    	
 
         
-        //$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
-        //$password = $this->rand_chars($caracteres,8);
-        //$resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
-
-        //while(!$resultm || count($matchesm) == 0){
-        //    $password = $this->rand_chars($caracteres,8);
-        //    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
-        //}
-
-        //$arrayparams['nombrebd'] = $empresa->empr_rfc.'_'.$app->app_cod;
-        //$user = \Auth::user();
-        //$user_email = $user->email;
-        //$arrayparams['email'] = $user_email;
-        //$arrayparams['name'] = $user->name;
-        //$arrayparams['password'] = $password;
-
-
-        //if ($user_email){
-            //TODO Descomentar cuando se desbloquee el puerto 587 para enviar correo al cliente
-            //Mail::to($cliente_correo)->send(new ClientCreate(['user'=>$user_email,'password'=>$password]));
-        //}
-
-        //$acces_vars = $this->getAccessToken($app->app_cod);
-        //$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
-        
-
-        $fmessage = 'Se ha generado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
-        $this->registroBitacora($request,'create',$fmessage); 
-    	\Session::flash('message',$fmessage);
-    	return Redirect::to('apps');
 
 
     }

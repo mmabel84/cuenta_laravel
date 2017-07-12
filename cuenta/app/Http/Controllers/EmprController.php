@@ -40,10 +40,10 @@ class EmprController extends Controller
         }
 
 
-        if (count($totalempscreadas) >= $totalempcont){
+        /*if (count($totalempscreadas) >= $totalempcont){
             \Session::flash('failmessage','Se alcanzó el número máximo de empresas contratadas. Para crear una nueva empresa consulte con distribuidor para incrementar paquete asignado o elimine empresas existentes.');
             return Redirect::to('empresas');
-        }
+        }*/
 
        return View::make('empresacreate');
     }

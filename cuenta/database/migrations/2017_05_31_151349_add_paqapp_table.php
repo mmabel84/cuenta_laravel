@@ -16,12 +16,12 @@ class AddPaqappTable extends Migration
         Schema::create('paqapp', function (Blueprint $table) {
             $table->increments('id');
             $table->string('paqapp_nomapp');
-            $table->integer('paqapp_cantrfc');
-            $table->float('paqapp_cantgig');
+            $table->integer('paqapp_cantrfc')->nullable();
+            $table->float('paqapp_cantgig')->nullable();
             $table->date('paqapp_f_venta');
-            $table->date('paqapp_f_act');
+            $table->date('paqapp_f_act')->nullable();
             $table->date('paqapp_f_fin');
-            $table->date('paqapp_f_caduc');
+            $table->date('paqapp_f_caduc')->nullable();
             $table->boolean('paqapp_activo')->default(True);
             $table->timestamps();
         });

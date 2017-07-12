@@ -53,8 +53,9 @@
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#5f7284 ">
 		                          <th>RFC</th>
-		                          <th>Nombre de certificado</th>
+		                          <th>Razón social</th>
 		                          <th>Número de serie</th>
+		                          <th>Tipo</th>
 		                          <th>Fecha de vencimiento</th>
 		                          <th>Estado</th>
 		                          <th>Acciones</th>
@@ -68,12 +69,13 @@
 		                      	@foreach ($certs as $cert)
 		                        <tr>
 		                          <td>{{ $cert->cert_rfc }}</td>
-		                          <td>{{ $cert->cert_filename }}</td>
+		                          <td>{{ $cert->cert_raz_soc }}</td>
 		                          <td>{{ $cert->cert_serial }}</td>
+		                          <td>{{ $cert->cert_tipo }}</td>
 		                          <td>{{ $cert->cert_f_fin }}</td>
 		                          <td>{{ $cert->cert_estado }}</td>
 		                          
-		                          <td class=" last" width="12%">
+		                          <td class=" last" width="5%">
 		                          <div>
 		                          	
 		                          	<div class="btn-group">

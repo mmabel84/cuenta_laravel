@@ -74,30 +74,37 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
 
-                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-database" style="color: #053666; font-size: 50px;"></i></div>
+                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-suitcase" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $apps }}</div>
                   <p style="color: #053666;"><b>APLICACIONES CONTRATADAS</b></p>
-                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $bdapps }} aplicaciones de empresas creadas</p></a>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $appsact }} aplicaciones activas</p></a>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cant_app_coninst }} aplicaciones con instancias creadas</p></a>
                 </div>
               </div>
+
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-database" style="color: #053666; font-size: 50px;"></i></div>
+                  <div class="count" style="color: #053666;">{{ $insts }}</div>
+                  <p style="color: #053666;"><b>INSTANCIAS CONTRATADAS</b></p>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $instcreadas }} instancias creadas</p></a>
+                  <a href="{{ URL::to('empresas') }}"><p style="color: #053666;">{{ $rfccreados }} empresas creadas</p></a>
+
+                </div>
+              </div>
+
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-calendar" style="color: #053666; font-size: 50px;"></i></div>
-                  <div class="count" style="color: #053666;">{{ $intervalmeses }}</div>
-                   <p style="color: #053666;"><b>SEMANAS DISPONIBLES HASTA {{ $fecha_fin }}</b></p>
+                  <div class="count" style="color: #053666;">{{ $intervalsemanas }}</div>
+                   <p style="color: #053666;"><b>{{ $medida_tiempo }} PARA PAGO EN {{ $fecha_fin }}</b></p>
+                   <p style="color: #053666;">Fecha de corte: {{ $fecha_caduc }}</p>
                    <p style="color: #053666;">{{ $porc_final }}% de tiempo consumido </p>
+
                 </div>
               </div>
-              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                  <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-building-o" style="color: #053666; font-size: 50px;"></i></div>
-                  <div class="count" style="color: #053666;">{{ $rfc }}</div>
-                  <p style="color: #053666;"><b>EMPRESAS CONTRATADAS</b></p>
-                  <a href="{{ URL::to('empresas') }}"><p style="color: #053666;">{{ $rfccreados }} empresas creadas</p></a>
-                </div>
-              </div>
-              
-              
+
+                            
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   
@@ -105,43 +112,15 @@
                        <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-pie-chart" style="color: #053666; font-size: 50px;"></i></div>
                   </div>
                  
-                  <p style="color: #053666;"><b>GIGAS CONTRATADOS</b></p>
-                  <p style="color: #053666;">{{ $gigas_cons }} gigas cosumidos</p>
+                  <p style="color: #053666;"><b>MEGAS CONTRATADOS</b></p>
+                  <p style="color: #053666;">{{ $gigas - $gigas_cons }} megas disponibles</p>
+                  <p style="color: #053666;">{{ $gigas_cons }} megas consumidos</p>
                 </div>
               </div>
             </div>
 
 
-           <!-- <div class=" tile_count">
-
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-
-                  <span class="count_top"><b style=" color:#053666;">Gigas contratados</b></span>
-                  <div class="count"><b style=" color:#053666;">{{ $gigas }}</b></div>
-                </div>
-                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">Aplicaciones contratadas</b></span>
-                  <div class="count"><b style=" color:#053666;">{{ $apps }}</b></div>
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">Empresas contratadas</b></span>
-                  <div class="count"><b style=" color:#053666;">{{ $rfc }}</b></div>
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">Empresas creadas</b></span>
-                  <div class="count"><b style=" color:#053666;">{{ $rfccreados }}</b></div>
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">Usuarios creados</b></span>
-                  <div class="count"><b style=" color:#053666;">{{ $usrs }}</b></div>
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><b style=" color:#053666;">BD creadas</b></span>
-                  <div class="count"><b style=" color:#053666;">{{ $bdapps }}</b></div>
-                </div>
-                
-              </div>-->
-
+          
 
             <div class="col-md-9 col-sm-9 col-xs-12">
               <div class="x_panel">
@@ -268,7 +247,7 @@
 
 
               <div class="col-md-9 col-sm-9 col-xs-12" >
-               <div class="x_panel">
+               <div class="x_panel contenedor_select">
                 <div class="x_title">
                           <h2>Otras aplicaciones disponibles</h2>
                           <div class="clearfix"></div>
@@ -278,7 +257,7 @@
                 </div>
                
                 <input type="hidden" id="iconsappdisp" name="iconsappdisp" value="{{ $appdispvisible }}">
-                <div class="contenedor_select col-md-12 col-sm-12 col-xs-12" id="divappdisp" style="height:84px;">
+                <div class="contenedor_select col-md-12 col-sm-12 col-xs-12" id="divappdisp" style="height:104px;">
                   
                   
                 </div>
@@ -289,30 +268,33 @@
              
              <input type="hidden" id="htmlcert" name="htmlcert" value="{{ $htmlcert }}">
              <div class="col-md-3 col-sm-3 col-xs-12" >
-              <div class="x_panel">
+              <div class="x_panel contenedor_select">
                       <div class="x_title">
-                          <h2>Vigencia de certificados</h2>
-                          </br>
+                          <h2>Certificados por vencer</h2>
+                          
                           <div class="clearfix"></div>
+
+                          
                       </div>
 
                        <div class="contenedor_select col-md-12 col-sm-12 col-xs-12" id="certif" style="height:84px;">
-                          <!--<p>Sin certificado registrado</p>-->
                         
                       </div>
+                      <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifreg" style="height:20px; text-align: left; color: #053666">
+                          <a href="{{ URL::to('certificados') }}">{{ $cant_cert }} registrado/s</a>
+                      </div>
+                      <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifvenc" style="height:20px; text-align: right; color: #053666">
+                          <a href="{{ URL::to('certificados') }}">{{ $cant_cert_vencidos }} vencido/s</a> 
+                      </div>
+
                  </div>
               </div>
 
-
-             
-                
                 <div class="clearfix"></div>
-                <br>
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                     </div>
 
-                <div class="clearfix"></div>
 
                 <input type="hidden" name="gigascons" id="gigascons" value="{{ $gigas_cons }}" onchange="fillpiechart(this)" />
                 <input type="hidden" name="gigastotal" id="gigastotal" value="{{ $gigas }}"/>
@@ -579,7 +561,7 @@
                       $("#"+entry).removeClass('disabled');
                       var link = document.getElementById(entry);  
                       var href = $("#"+entry).data('dir');
-                      var newhref = href + element.value + '/usuarios/login';
+                      var newhref = href + element.value ;
                       link.setAttribute("href", '');  
                       link.setAttribute("href", newhref);  
                       }

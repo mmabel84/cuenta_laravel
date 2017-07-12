@@ -43,6 +43,13 @@
 			                    <strong>{{ Session::get('message') }}</strong>
 			                  </div>
 			                  @endif
+			               @if (Session::has('failmessage'))
+			                  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+			                    <button id="alertmsgfaildelete" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+			                    </button>
+			                    <strong>{{ Session::get('failmessage') }}</strong>
+			                  </div>
+			                  @endif
 
 		                  <div class="x_content">
 		                    

@@ -10,7 +10,7 @@ class Art69Controller extends Controller
         //recibe el rfc en post
         //$rfc = $this->input->post('rfc', TRUE);
         printf('entre');
-        $rfc = $request->rfc;
+        $rfc = strtoupper($request->rfc);
         $data['error'] = 1;
         $data['reporte'] = 0;
 

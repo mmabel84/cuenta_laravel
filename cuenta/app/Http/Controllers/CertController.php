@@ -89,14 +89,30 @@ class CertController extends Controller
             $rfccert = explode("/", $parseCert['subject']['x500UniqueIdentifier'], 2);
             $certf->cert_rfc = strtoupper($rfccert[0]);
             
+            $certf->cert_raz_soc = $parseCert['subject']['O'];
 
-            print_r($parseCert);die();
+            preg_match_all('/(.)(.){0,1}/',$parseCert['serialNumberHex'],$myarr);
+            $evenStr = implode($myarr[2],'');
+            $certf->cert_serial = $evenStr;
+
+            //print_r($parseCert);
+            //die();
+
+            $tipo = 'CSD';
+
+            if (!array_key_exists('OU',$parseCert['subject']))
+            {
+                $tipo = 'eFirma';
+            }
+
+            $certf->cert_tipo = $tipo;
+
+            
         }
 
     	
         $path = $request->file('cert_file')->storeAs('public', strtoupper($rfccert[0]).'.'.$cert->getClientOriginalName());
         $certf->cert_file_storage = $path;
-        $certf->cert_serial = $parseCert['subject']['serialNumber'];
         $certf->save();
         
         $fmessage = 'Se ha cargado el certificado de rfc: '.strtoupper($rfccert[0]);
