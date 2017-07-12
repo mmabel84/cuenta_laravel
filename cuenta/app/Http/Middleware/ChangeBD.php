@@ -23,7 +23,8 @@ class ChangeBD
         if(!$midred){
             if(array_key_exists('login_rfc',$alldata)){
                 $dbvalue = config('database.connections');
-                $dbname = $alldata['login_rfc'].'_cta';
+                $rfc = strtoupper($alldata['login_rfc']);
+                $dbname = $rfc.'_cta';
                 if(array_key_exists($dbname,$dbvalue)){
 
                     //Consumir servicio de control para verificar que la cuenta está activa

@@ -90,7 +90,7 @@ class CertController extends Controller
             $certf->cert_rfc = strtoupper($rfccert[0]);
             
 
-            //print_r($parseCert);die();
+            print_r($parseCert);die();
         }
 
     	
@@ -100,7 +100,7 @@ class CertController extends Controller
         $certf->save();
         
         $fmessage = 'Se ha cargado el certificado de rfc: '.strtoupper($rfccert[0]);
-        $this->registroBitacora($request,'create',$fmessage); 
+        $this->registroBitacora($request,'create',$fmessage);
     	\Session::flash('message',$fmessage);
     	return Redirect::to('certificados');
 

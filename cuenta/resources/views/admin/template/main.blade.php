@@ -150,8 +150,8 @@
                           <div class="content">
                             <nav id="sub-menu">
                                 <ul>
-                                  <li><a href="http://www.advans.mx/content/aviso-de-privacidad"><b>Aviso de Privacidad</b></a></li>
-                                  <li><a href="http://www.advans.mx/content/terminos-y-condiciones"><b>Términos y Condiciones</b></a></li>
+                                  <li><a href="http://www.advans.mx/content/aviso-de-privacidad" target='_blank'><b>Aviso de Privacidad</b></a></li>
+                                  <li><a href="http://www.advans.mx/content/terminos-y-condiciones" target='_blank'><b>Términos y Condiciones</b></a></li>
                                 </ul>
                             </nav>
                           </div>  
