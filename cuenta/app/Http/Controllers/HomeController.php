@@ -41,6 +41,7 @@ class HomeController extends Controller
         $usrs = User::all();
         $bdapps = BasedatosApp::all();
 
+        //Cálculo de instancias creadas y consumidas por aplicación
         $appnames = [];
         $instcont = [];
         $instcreadas = [];
@@ -69,7 +70,7 @@ class HomeController extends Controller
         echo "</pre>";
         die();*/
 
-
+        //diccionario con aplicaciones contratadas activas
 
         $appsicons = array (
                     'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso a aplicación de facturación electrónica'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
@@ -89,6 +90,7 @@ class HomeController extends Controller
                     <b>TAREAS</b></span></i></a>
                     ");
 
+        //diccionario de aplicaciones contratadas desactivadas
         $appsiconsblocked = array (
                     'fact'=>"<a href='https://app.advans.mx/login/usuarios/login' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
@@ -107,6 +109,7 @@ class HomeController extends Controller
                     <b>TAREAS</b></span></i></a>
                     ");
 
+        //diccionario de aplicaciones no contratadas
         $appdisp = array (
                     'fact'=>"<a href='http://www.advans.mx/content/factura-electronica-advans' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'></i></a>",
 
@@ -192,7 +195,6 @@ class HomeController extends Controller
         }
 
 
-        //obtener diferencia en meses
         $fecha_fin_datetime = new Datetime($fecha_fin);
         $fecha_actual_datetime = new Datetime(date('Y-m-d H:i:s'));
 
@@ -208,8 +210,6 @@ class HomeController extends Controller
         {
             $medida_tiempo = 'DÍAS';
         }
-
-
 
         $fecha_actual = strtotime("now");
         $dias_total_fin = strtotime($fecha_fin) - strtotime($fecha_act);

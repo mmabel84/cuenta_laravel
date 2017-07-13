@@ -57,7 +57,7 @@ class ChangeBD
                     
                 }else{
                     $request->session()->flash('midred', '1');
-                    $request->session()->put('loginrfcerr', 'RFC Inválido');
+                    $request->session()->put('loginrfcerr', 'RFC no registrado');
                     $request->session()->put('login_rfc', $dbname);                  
                     return redirect()->back();
                 }
