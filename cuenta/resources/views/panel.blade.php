@@ -87,7 +87,7 @@
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-database" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $insts }}</div>
                   <p style="color: #053666;"><b>INSTANCIAS CONTRATADAS</b></p>
-                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $instcreadas }} instancias creadas</p></a>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas }} instancias creadas</p></a>
                   <a href="{{ URL::to('empresas') }}"><p style="color: #053666;">{{ $rfccreados }} empresas creadas</p></a>
 
                 </div>
@@ -284,7 +284,7 @@
                           <a href="{{ URL::to('certificados') }}">{{ $cant_cert }} registrado/s</a>
                       </div>
                       <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifvenc" style="height:20px; text-align: right; color: #053666">
-                          <a href="{{ URL::to('certificados') }}">{{ $cant_cert_vencidos }} vencido/s</a> 
+                          <a href="{{ URL::to('certvencidos') }}">{{ $cant_cert_vencidos }} vencido/s</a>
                       </div>
 
                  </div>
@@ -301,6 +301,10 @@
                 <input type="hidden" name="gigasemp" id="gigasemp" value="{{ $gigas_empresa }}"/>
                 <input type="hidden" name="empcons" id="empcons" value="{{ $empr_cons }}"/>
                 <input type="hidden" name="emps" id="emps" value="{{ $emps }}"/>
+                <input type="hidden" name="appnames" id="appnames" value="{{ $appnames }}"/>
+                <input type="hidden" name="instcont" id="instcont" value="{{ $instcont }}"/>
+                <input type="hidden" name="instcreadas" id="instcreadas" value="{{ $instcreadas }}"/>
+                <input type="hidden" name="megcons" id="megcons" value="{{ $megcons }}"/>
 
 
                 <div class="col-md-12 col-sm-12 col-xs-12" id="divnews">
@@ -370,7 +374,7 @@
               
 
 
-                  <div class="col-md-6 col-sm-6 col-xs-12">
+                 <!-- <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="x_panel">
                       <div class="x_title">
                         <h2>Gigas consumidos</h2>
@@ -434,6 +438,35 @@
                       <div class="x_content">
 
                         <div id="echart_mini_pie" style="height:350px;"></div>
+
+                      </div>
+                    </div>
+                  </div>-->
+
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Análisis de instancias</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="#">Settings 1</a>
+                              </li>
+                              <li><a href="#">Settings 2</a>
+                              </li>
+                            </ul>
+                          </li>
+                          <li><a class="close-link"><i class="fa fa-close"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+
+                        <div id="mainb" style="height:350px;"></div>
 
                       </div>
                     </div>
@@ -634,17 +667,27 @@
 
       <script type="text/javascript">
 
+
+
+
+
       $('#gigascons').trigger('change');
         function fillpiechart(gigascons) {
           var gig_cons = gigascons.value;
           var gig_disp = document.getElementById('gigastotal').value - gig_cons;
           var gig_emp = document.getElementById('gigasemp').value;
           var emp_cons = document.getElementById('empcons').value;
+          var appnames = document.getElementById('appnames').value;
+          var instcont = document.getElementById('instcont').value;
+          var instcreadas = document.getElementById('instcreadas').value;
+          var megcons = document.getElementById('megcons').value;
           
           var arraybar = [];
+          var arraymainb = [];
 
-           for (var i = 0; i < jQuery.parseJSON(gig_emp).length; i++) {
+           for (var i = 0; i < jQuery.parseJSON(emp_cons).length; i++) {
             var dic = {'empresa': jQuery.parseJSON(emp_cons)[i], 'gigas':jQuery.parseJSON(gig_emp)[i]};
+
              arraybar.push(dic);
              
            }
@@ -654,15 +697,9 @@
              arraybar.push(dic);
 
            }
-            //console.log(arraybar);
 
 
-
-
-          //alert(gig_emp);
-          
-          //alert(gig_cons);
-          var theme = {
+                      var theme = {
               color: [
                 '#26B99A', '#34495E', '#BDC3C7', '#3498DB',
                 '#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
@@ -833,6 +870,68 @@
             };
 
 
+
+                  //MAINB
+      if ($('#mainb').length ){
+        
+          var echartBar = echarts.init(document.getElementById('mainb'), theme);
+
+          echartBar.setOption({
+          title: {
+            text: '',
+            subtext: ''
+          },
+          tooltip: {
+            trigger: 'axis'
+          },
+          legend: {
+            data: ['Instancias contratadas', 'Instancias creadas', 'Megas consumidos']
+          },
+          toolbox: {
+            show: false
+          },
+          calculable: false,
+          xAxis: [{
+            type: 'category',
+            data: jQuery.parseJSON(appnames)
+          }],
+          yAxis: [{
+            type: 'value',
+            boundaryGap: [0, 1]
+          }],
+          series: [{
+            name: 'Instancias contratadas',
+            type: 'bar',
+            data: jQuery.parseJSON(instcont),
+            markPoint: {
+            data: [{
+              type: 'max',
+              name: 'max'
+            }, {
+              type: 'min',
+              name: 'min'
+            }]
+            }
+          }, {
+            name: 'Instancias creadas',
+            type: 'bar',
+            data: jQuery.parseJSON(instcreadas),
+            markPoint: {
+            data: [{
+              type: 'max',
+              name: 'max'
+            }, {
+              type: 'min',
+              name: 'min'
+            }]
+            }
+          }]
+          });
+
+      }
+
+
+
           if ($('#echart_pie').length ){  
         
             var echartPie = echarts.init(document.getElementById('echart_pie'), theme);
@@ -975,6 +1074,10 @@
               });
 
       } 
+
+
+
+
 
       //if ($('#graph_bar').length){ 
       

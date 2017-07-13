@@ -19,9 +19,8 @@ class CertController extends Controller
 
     public function index()
     {       
-
         $certificados = Certificado::all();
-
+        $certif_vencidos = [];
 
         foreach ($certificados as $cert ) {
         	
@@ -33,11 +32,29 @@ class CertController extends Controller
 	        	{
 	        		
 	        		$cert->cert_estado = 'Vencido';
+                    array_push($certif_vencidos, $cert);
 	        	}
         	}
-     	
 
+     	
         return view('certificados')->with('certs',$certificados);
+    }
+
+    public function indexvencidos()
+    {       
+        $certificados = Certificado::all();
+        $certif_vencidos = [];
+
+        foreach ($certificados as $cert ) {
+            
+                if ($cert->cert_f_fin < date('Y-m-d H:i:s'))
+                {
+                     array_push($certif_vencidos, $cert);
+                     $cert->cert_estado = 'Vencido';
+                }
+            }
+
+        return view('certificados')->with('certs',$certif_vencidos);
     }
 
 
