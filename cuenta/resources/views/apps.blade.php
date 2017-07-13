@@ -369,7 +369,6 @@
 			function cleanusersandroles(bdid){
 			document.getElementById("select_usr_id"+bdid).value = 'null';
 			$("#select_usr_id"+bdid).select2({
-                  allowClear: true,
                   placeholder: 'Seleccione un usuario...'
                    
                });

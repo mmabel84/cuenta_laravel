@@ -19,6 +19,12 @@ class ServController extends Controller
 
 	use AuthenticatesUsers;
 
+	public function __construct()
+    {
+        //This allow only to api users
+        $this->middleware('role.api');
+    }
+
 
     public function createbd(Request $request)
     {
@@ -78,6 +84,7 @@ class ServController extends Controller
 
 		        \Config::set('database.default', $dbname);
 		        \Artisan::call('migrate');
+		        \Artisan::call('db:seed');
 
 		        //Creando usuario para primera conexión a cuenta TODO: poner datos de usuario correctos
 

@@ -13,11 +13,13 @@ class sed_user extends Seeder
     public function run()
     {
         $adminUser = User::create([
-            'name' => 'Admin',
-            'users_nick' => 'admin',
-            'email' => 'cuenta.admin@advans.mx', 
+            'name' => 'Mabel Medina',
+            'users_nick' => 'mmabel',
+            'email' => 'mmabel@advans.mx', 
             'password' => bcrypt('Admin123*'),
         ]);
+
+
 
         
     }
