@@ -22,7 +22,7 @@ class AppAsignController extends Controller
         return view('appsasign')->with('apps',$aplicaciones);
     }
 
-    public function create()
+    /*public function create()
     {       
 
        return View::make('appsasigncreate');
@@ -50,5 +50,5 @@ class AppAsignController extends Controller
  	   	return Redirect::to('appsasign');
 
 
-    }
+    }*/
 }

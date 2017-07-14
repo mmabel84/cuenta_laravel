@@ -28,9 +28,11 @@
 		                    <div class="clearfix"></div>
 		                  </div>
 		                  
+		                  @permission('crear.respaldo')
 		                  <div class="form-group">
 		                  <button type="button" onclick="location.href = '{{ URL::to('backups/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#486d91; "><b>Nuevo respaldo</b></button>
 		                  </div>
+		                  @endpermission
 
 		                  <br/>
 		                  @if (Session::has('message'))
@@ -76,10 +78,12 @@
 		                          	
 		                          	<div class="btn-group">
 		                          		<p></p>
+		                          		@permission('eliminar.respaldo')
 		                          		{{ Form::open(['route' => ['backups.destroy', $back->id], 'class'=>'pull-right']) }}
 			                          	{{ Form::hidden('_method', 'DELETE') }}
 	                      				<button  href="{{ route('backups.destroy', $back->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar respaldo" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-trash fa-3x"></i></button>
 										{{ Form::close() }}
+										@endpermission
 
 										&nbsp;
 										<div class="btn-group">

@@ -15,16 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(sed_roles::class);
-        $this->call(sed_user::class);
-
-        $apiRole = Role::where('slug','=','rol.api')->first();
-        $apiUsr = User::where('email','=','mmabel@advans.mx')->first();
-
-        if ($apiRole && $apiUsr)
-        {
-            $apiUsr->attachRole($apiRole);
-        }
-
         
     }
 }

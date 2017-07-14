@@ -43,26 +43,38 @@
                               <ul class="nav side-menu">
                                 
                                   <li><a href="/"><i class="fa fa-dashboard"></i> INICIO </a></li>
+                                   
+                                  @role('gestor.mantenimiento')
                                    <li><a><i class="fa fa-cogs"></i> MANTENIMIENTO <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                       <li><a href="{{ URL::to('empresas') }}">EMPRESAS</a></li>
+
                                       <li><a href="{{ URL::to('usuarios') }}">USUARIOS</a></li>
+
+                                    @role('gestor.aplicacion')
                                       <li><a href="{{ URL::to('apps') }}">APLICACIONES</a></li>
                                       <li><a href="{{ URL::to('backups') }}">RESPALDOS</a></li>
+                                    @endrole
+
                                       <li><a href="{{ URL::to('certificados') }}">CERTIFICADOS</a></li>
 
                                       
                                     </ul>
                                   </li>
+                                  @endrole
 
                                   <!--<li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> EMPRESAS </a></li>
                                   <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> APLICACIONES </a></li>-->
 
                                   <li><a><i class="fa fa-wrench"></i> CONFIGURACIÓN <span class="fa fa-chevron-down"></span></a>
                                       <ul class="nav child_menu">
-                                        <li><a href="{{ URL::to('paqs') }}">PAQUETES DE CUENTA</a></li>
-                                        <li><a href="{{ URL::to('roles') }}">ROLES</a></li>
-                                        <li><a href="{{ URL::to('permisos') }}">PERMISOS</a></li>
+                                        <li><a href="{{ URL::to('paqs') }}">LÍNEA DE TIEMPO CONTRATADA</a></li>
+                                        <li><a href="{{ URL::to('appsasign') }}">APLICACIONES CONTRATADAS</a></li>
+
+                                        @role('gestor.seguridad')
+                                          <li><a href="{{ URL::to('roles') }}">ROLES</a></li>
+                                          <li><a href="{{ URL::to('permisos') }}">PERMISOS</a></li>
+                                        
                                         <!--<li><a href="{{ URL::to('appsasign') }}">APLICACIONES ASIGNADAS</a></li>-->
                                       </ul>
 
@@ -70,7 +82,7 @@
                                   </li>
                                   
                                   <li><a href="{{ URL::to('bitacoras') }}"><i class="fa fa-eye"></i> BITÁCORA </a></li>
-
+                                  @endrole
                                
                               </ul>
                           </div>

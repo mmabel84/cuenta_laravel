@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 use App\User;
 
 class sed_user extends Seeder
@@ -13,14 +14,11 @@ class sed_user extends Seeder
     public function run()
     {
         $adminUser = User::create([
-            'name' => 'Mabel Medina',
-            'users_nick' => 'mmabel',
-            'email' => 'mmabel@advans.mx', 
-            'password' => bcrypt('Admin123*'),
+            'name' => 'Usuario API',
+            'users_nick' => 'api',
+            'email' => 'usuario.api@advans.mx', 
+            'password' => bcrypt('Usuarioapi123*'),
         ]);
 
-
-
-        
     }
 }

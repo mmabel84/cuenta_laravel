@@ -10,6 +10,7 @@ use InvalidArgumentException;
 use Illuminate\Support\Facades\DB; 
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\MyResetPassword;
+use Illuminate\Database\Eloquent\Model;
 
 
 class User extends Authenticatable implements HasRoleAndPermissionContract

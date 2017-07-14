@@ -28,9 +28,11 @@
 		                    <div class="clearfix"></div>
 		                  </div>
 		                  
+		                  @permission('crear.empresa')
 		                  <div class="form-group">
 		                  <button type="button" onclick="location.href = '{{ URL::to('empresas/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#285582; "><b>Nueva empresa</b></button>
 		                  </div>
+		                  @endpermission
 
 		                  <br/>
 		                  @if (Session::has('message'))
@@ -72,15 +74,19 @@
 		                          	
 		                          	<div class="btn-group">
 		                          		<p></p>
+		                          		@permission('eliminar.empresa')
 		                          		{{ Form::open(['route' => ['empresas.destroy', $e->id], 'class'=>'pull-right']) }}
 			                          	{{ Form::hidden('_method', 'DELETE') }}
 	                      				<button  href="{{ route('empresas.destroy', $e->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-trash fa-3x"></i></button>
 										{{ Form::close() }}
+										@endpermission
 
 										&nbsp;
+										@permission('editar.empresa')
 										<div class="btn-group">
 		                          			<button onclick="location.href = 'empresas/{{$e->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-edit fa-3x"></i> </button>
 			                          	</div>
+			                          	@endpermission
 
 		                          	</div>
 

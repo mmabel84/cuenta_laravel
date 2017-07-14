@@ -40,6 +40,7 @@ class HomeController extends Controller
         $apps = Aplicacion::all();
         $usrs = User::all();
         $bdapps = BasedatosApp::all();
+        $appsact = Aplicacion::where('app_activa', '=', true)->get();
 
         //Cálculo de instancias creadas y consumidas por aplicación
         $appnames = [];
@@ -129,7 +130,7 @@ class HomeController extends Controller
                     ");
 
         
-
+        //Ubicando aplicaciones según secciones de panel donde deben mostrarse
         $allkeys = array_keys($appsicons);
         $appdispvisible = '';
         
@@ -153,23 +154,10 @@ class HomeController extends Controller
              }
         }
 
-        
-        //Calculando semanas disponibles y porcentaje consumido
-        $paquetes = Paquete::where('paqapp_activo', '=', true)->get();
-        $appsact = Aplicacion::where('app_activa', '=', true)->get();
+        //Calculando cantidad de aplicaciones con instancias creadas
         $cantgigas = 0;
+        $cant_app_coninst = 0;
         $cantinstcont = 0;
-        $fecha_act = '';
-        $fecha_fin = '';
-        $fecha_caduc = '';
-
-        if (count($paquetes) > 0){
-            $fecha_act = $paquetes[0]->paqapp_f_act;
-            $fecha_fin = $paquetes[0]->paqapp_f_fin;
-            $fecha_caduc = $paquetes[0]->paqapp_f_caduc;
-        }
-       
-       $cant_app_coninst = 0;
        foreach ($apps as $app) {
            $cantgigas = $cantgigas + $app->app_megs;
             $cantinstcont = $cantinstcont + $app->app_insts;
@@ -180,11 +168,39 @@ class HomeController extends Controller
             }
        }
 
+       //Calculando porcentaje de tiempo consumido
+        $fecha_venta = '';
+        $fecha_fin = '';
+        $fecha_caduc = '';
 
+        $paquetes = Paquete::where('paqapp_activo', '=', true)->get();
+
+        if (count($paquetes) > 0){
+            $fecha_venta = $paquetes[0]->paqapp_f_venta;
+            $fecha_fin = $paquetes[0]->paqapp_f_fin;
+            $fecha_caduc = $paquetes[0]->paqapp_f_caduc;
+        }
+
+        $fecha_actual = strtotime("now");
+        $dias_total_fin = strtotime($fecha_fin) - strtotime($fecha_venta);
+        $dias_transc_fin = $fecha_actual - strtotime($fecha_venta);
+        $dias_hasta_fin = strtotime($fecha_fin) - $fecha_actual;
+
+
+        if ($dias_total_fin > 0) {
+            $porc_fin = round($dias_transc_fin / $dias_total_fin * 100, 0);
+        }
+        else
+        {
+            $porc_fin = 100;
+        }
+        
+        //Calculando semanas disponibles o de atraso
+       
         foreach ($paquetes as $p) {
 
-            if ($fecha_act > $p->paqapp_f_act){
-                 $fecha_act = $p->paqapp_f_act;
+            if ($fecha_venta > $p->paqapp_f_venta){
+                 $fecha_venta = $p->paqapp_f_venta;
             }
             if ($fecha_fin < $p->paqapp_f_fin){
                 $fecha_fin = $p->paqapp_f_fin;
@@ -194,44 +210,43 @@ class HomeController extends Controller
             }
         }
 
-
+        $medida_tiempo = '';
         $fecha_fin_datetime = new Datetime($fecha_fin);
         $fecha_actual_datetime = new Datetime(date('Y-m-d H:i:s'));
-
         $interval=$fecha_fin_datetime->diff($fecha_actual_datetime);
         $intervalsemanas=round($interval->format("%a") / 7, 0);
+        $intervaldias=round($interval->format("%d"));
         $intervalAnos = round($interval->format("%y")*12, 0);
+        $intervalshow = $intervalsemanas;
 
-        if ($intervalsemanas > 0)
+
+
+        if ($dias_hasta_fin >= 0)
         {
-            $medida_tiempo = 'SEMANAS';
+            if ($intervalsemanas > 0)
+            {
+                $medida_tiempo = 'SEMANA/S DISPONIBLES PARA PAGO';
+            }
+            else
+            {
+                $medida_tiempo = 'DÍA/S DISPONIBLES PARA PAGO';
+                $intervalshow = $intervaldias;
+            }
+            
         }
         else
         {
-            $medida_tiempo = 'DÍAS';
-        }
-
-        $fecha_actual = strtotime("now");
-        $dias_total_fin = strtotime($fecha_fin) - strtotime($fecha_act);
-        $dias_transc_fin = $fecha_actual - strtotime($fecha_act);
-        $dias_hasta_fin = strtotime($fecha_fin) - $fecha_actual;
-
-
-        if ($dias_total_fin > 0) {
-            $porc_fin = round($dias_transc_fin / $dias_total_fin * 100, 0);
-        }
-        else
-        {
-            $porc_fin = 0;
+            $medida_tiempo = 'DÍA/S DE ATRASO PARA PAGO';
+            $intervalshow = $intervaldias;
         }
         
-        
+
+
+        //Calculando gigas consumidos por empresa
         $cant_gigas_cons = 0;
         $dict_empr_gig = array();
         $gigas_cons_emp = array();
         $empr_cons = array();
-        
-
         
         foreach ($bdapps as $a) {
             if ($a->bdapp_gigcons != null){
@@ -317,7 +332,7 @@ class HomeController extends Controller
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalsemanas'=>$intervalsemanas, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons)]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons)]);
 
         
 

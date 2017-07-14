@@ -27,9 +27,11 @@
 		                    <div class="clearfix"></div>
 		                  </div>
 		                  
+		                  @permission('crear.usuario')
 		                  <div class="form-group">
 		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#062c51; "><b>Nuevo usuario</b></button>
 		                  </div>
+		                  @endpermission
 
 		                  <br/>
 		                  	<div id="cont_pass_change_div">
@@ -81,13 +83,16 @@
 		                          <td >
 		                          	
 			                          <div class="btn-group">
+			                          @permission('editar.usuario')
 			                          	<div class="btn-group">
 		                          			<button onclick="location.href = 'usuarios/{{$u->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#062c51; background-color:#FFFFFF; "><i class="fa fa-edit fa-3x"></i> </button>
 			                          	</div>
+			                          @endpermission
 
 										<div class="btn-group">
-
+											@permission('asociar.usuario')
 		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModalBD({{$u->id}})"><i class="fa fa-plus-square-o fa-3x"></i> </button>
+		                          			@endpermission
 
 		                          				
 		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalUsrBd{{$u->id}}">
@@ -229,11 +234,12 @@
 
 
                                          </div>
-
+                                         	@permission('eliminar.usuario')
 			                          		{{ Form::open(['route' => ['usuarios.destroy', $u->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
 		                      				<button  href="{{ route('usuarios.destroy', $u->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#062c51; background-color:#FFFFFF; " onclick="return confirm('El usuario también será eliminado de todas las bases de datos de aplicación a las que esté asociado. ¿Está seguro que quiere eliminar este registro?')"><i class="fa fa-trash fa-3x"></i></button>
 											{{ Form::close() }}
+											@endpermission
 
 			                          	</div>
 

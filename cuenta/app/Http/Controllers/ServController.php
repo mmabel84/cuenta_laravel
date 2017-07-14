@@ -86,8 +86,7 @@ class ServController extends Controller
 		        \Artisan::call('migrate');
 		        \Artisan::call('db:seed');
 
-		        //Creando usuario para primera conexión a cuenta TODO: poner datos de usuario correctos
-
+		        //Recuperando datos de primer usuario a crear
 		        $email = 'test@gmail.com';
 		        $pass = bcrypt('test');
 		        $nick = 'test';
@@ -117,11 +116,50 @@ class ServController extends Controller
 
 		        }
 
-		        DB::connection($dbname)->insert('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', [$name, $nick,$email, $pass]);
+		        //Insertando primer usuario de base de datos de cuenta, enviado por control
+		        $firstusr_id = DB::connection($dbname)->insertGetId('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', [$name, $nick,$email, $pass]);
 
-		        DB::connection($dbname)->insert('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', ['Usuario Advans', 'advans','advans@advans.mx', bcrypt('advans')]);
+		        //Insertando usuario avanzado de advans en base de datos de cuenta
+		        $advansusr_id = DB::connection($dbname)->insertGetId('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', ['Usuario Advans', 'advans','advans@advans.mx', bcrypt('advans')]);
+
+		        //Asignando primeros roles a usuarios creados
+		        $mantrol_id_array = DB::connection($dbname)->select('select id from roles where slug = ?',['gestor.mantenimiento']);
+		        $approl_id_array = DB::connection($dbname)->select('select id from roles where slug = ?',['gestor.aplicacion']);
+		        $segurol_id_array = DB::connection($dbname)->select('select id from roles where slug = ?',['gestor.seguridad']);
 
 		        
+		        if (count($mantrol_id_array) > 0 && count($approl_id_array) > 0 && count($segurol_id_array) > 0)
+		        {
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$mantrol_id_array[0], $firstusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$mantrol_id_array[0], $advansusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$approl_id_array[0], $firstusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$approl_id_array[0], $advansusr_id]);
+
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$segurol_id_array[0], $firstusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$segurol_id_array[0], $advansusr_id]);
+
+		        	//Asignando permisos
+			        $manrperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$mantrol_id_array[0]]);
+			        $appperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$approl_id_array[0]]);
+			        $segurperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$segurol_id_array[0]]);
+
+			        foreach ($manrperm_id_array as $permm) {
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$permm, $advansusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$permm, $firstusr_id]);
+			        }
+			        foreach ($appperm_id_array as $perma) {
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perma, $advansusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perma, $firstusr_id]);
+			        }
+			        foreach ($segurperm_id_array as $perms) {
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perms, $advansusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perms, $firstusr_id]);
+			        }
+
+		        }
+
+		        
+		       	//Insertando primera empresa en base de datos de cuenta		        
 		        if (array_key_exists('client_f_fin',$alldata) && isset($alldata['client_f_fin']) && array_key_exists('client_f_inicio',$alldata) && isset($alldata['client_f_inicio']))
 		        {
 		        	DB::connection($dbname)->insert('insert into empr (empr_nom, empr_rfc, empr_principal, empr_f_iniciovig, empr_f_finvig) values (?, ?, ?, ?, ?)', [$name, $alldata['client_rfc'], true, $alldata['client_f_inicio'], $alldata['client_f_fin']]);
@@ -131,9 +169,7 @@ class ServController extends Controller
 		        	DB::connection($dbname)->insert('insert into empr (empr_nom, empr_rfc, empr_principal) values (?, ?, ?)', [$name, $alldata['client_rfc'], true]);
 		        }
 		        
-
-		        // Desplegando en cuenta las aplicaciones y paquete contratados en control
-		        
+		        // Desplegando en cuenta las aplicaciones en caso de venir
 		       if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta'])){
 
 		        	
@@ -143,16 +179,17 @@ class ServController extends Controller
 		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
 		        	}
 
+		        }
+
+		        // Desplegando en cuenta la línea de tiempo en caso de venir
+		        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta'])){
 		        	Log::info($alldata['paq_cta']);
 		        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
-
-		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_cantrfc, paqapp_cantgig, paqapp_f_venta, paqapp_f_act, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?, ?, ?, ?)', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
+		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_f_venta, paqapp_f_act, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?, ?)', [$paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
 		        	}
-
 		        }
 
 		        \Config::set('database.default', \Session::get('selected_database','mysql'));
-
 
 	        }
 	        else
@@ -178,33 +215,8 @@ class ServController extends Controller
 	       
 	   }
 
-	    /*public function addpaq(Request $request){
-	    	$alldata = $request->all();
-	        $msg = "Paquete agregado satisfactoriamente.";
-	        $status = "Success";
-
-	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
-	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
-
-	        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
-
-		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_cantrfc, paqapp_cantgig, paqapp_f_venta, paqapp_f_act, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?, ?, ?, ?)', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
-		        	}
-
-		        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta'])){
-		        	Log::info(json_decode($alldata['apps_cta']));
-			        foreach (json_decode($alldata['apps_cta']) as $appc) {
-			        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
-			        	}
-			        }
-
-	        }
-
-
-	    }*/
-
-
-	    
+	   
+	    //Agregar nueva aplicación
 	   public function addapp(Request $request){
 
 	   		$alldata = $request->all();
@@ -250,6 +262,7 @@ class ServController extends Controller
         	return \Response::json($response);
 	   }
 
+	   //Desactivar aplicación existente
 	   public function desactapp(Request $request){
 
 	   		$alldata = $request->all();
@@ -286,7 +299,7 @@ class ServController extends Controller
         	return \Response::json($response);
 	   }
 
-
+	   //Eliminar aplicación existente
 	   public function delapp(Request $request){
 
 	   		$alldata = $request->all();
@@ -361,12 +374,11 @@ class ServController extends Controller
 		        if(!empty($db)){
 
 		        	foreach ($paqs as $paqt) {
-		        		DB::connection($dbname)->update('update paqapp set paqapp_cantrfc = ?, paqapp_cantgig = ?, paqapp_f_fin = ?, paqapp_f_caduc = ?, updated_at = ? where paqapp_control_id = ?', [$paqt->paqapp_cantrfc, $paqt->paqapp_cantgig, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, date('Y-m-d H:i:s'), $paqt->paqapp_control_id]);
+		        		DB::connection($dbname)->update('update paqapp set paqapp_f_fin = ?, paqapp_f_caduc = ?, updated_at = ? where paqapp_control_id = ?', [$paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, date('Y-m-d H:i:s'), $paqt->paqapp_control_id]);
 		        	}
 		        }
 
 	        }
-
 
 	   		$response = array(
             'status' => $status,
@@ -377,7 +389,6 @@ class ServController extends Controller
 
         	return \Response::json($response);
 	   }
-
 
 
 	   //Método para agregar nueva línea de tiempo
@@ -406,7 +417,6 @@ class ServController extends Controller
 
 	        }
 
-
 	   		$response = array(
             'status' => $status,
             'msg' => $msg,
@@ -417,7 +427,7 @@ class ServController extends Controller
         	return \Response::json($response);
 	   }
 
-	   //Método para desbloquear desde control usuario bloqueado por 5 intentos fallidos de login
+	   //Método para desbloquear desde control usuario bloqueado por 3 intentos fallidos de login
 	   public function unlockUserControl(Request $request)
 	   {
 
@@ -448,8 +458,6 @@ class ServController extends Controller
 			        Log::info(DB::connection($dbname)->table('cache')->where('cache.key', 'like', $key)->get());
 			        DB::connection($dbname)->table('cache')->where('cache.key', 'like', $key)->delete();
 
-			        
-
 	   			}else{
 	   				//llamar usuario admin de bd y ponerlo como usuario
 	   				$usradmin = User::where('users_nick', '=', 'advans')->get();
@@ -459,14 +467,12 @@ class ServController extends Controller
 	   			}
 
 	   			DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, bitcta_users_id, created_at) values (?, ?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, $bitcta_users_id, date('Y-m-d H:i:s')]);
-		   		
-		   		
-
 	   		}
 
 
 	   }
 
+	   //Limpia intentos de login para desbloquear usuario
 	   protected function clearLoginAttempts(Request $request, $email = '')
 	    {
 	        if ($email != ''){
@@ -478,6 +484,7 @@ class ServController extends Controller
 	        
 	    }
 	   
+	   //Retorna listado de usuarios con estado para control
 	   public function returnUsersControl(Request $request){
 
 	   	$alldata = $request->all();
@@ -492,7 +499,7 @@ class ServController extends Controller
 
 	   }
 
-
+	   //Retorna bitácora para control
 	   public function getBitControl(Request $request){
 	   	
 	    	$alldata = $request->all();

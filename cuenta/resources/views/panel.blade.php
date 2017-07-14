@@ -77,7 +77,7 @@
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-suitcase" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $apps }}</div>
                   <p style="color: #053666;"><b>APLICACIONES CONTRATADAS</b></p>
-                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $appsact }} aplicaciones activas</p></a>
+                  <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $appsact }} aplicaciones activas</p></a>
                   <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cant_app_coninst }} aplicaciones con instancias creadas</p></a>
                 </div>
               </div>
@@ -96,9 +96,9 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-calendar" style="color: #053666; font-size: 50px;"></i></div>
-                  <div class="count" style="color: #053666;">{{ $intervalsemanas }}</div>
-                   <p style="color: #053666;"><b>{{ $medida_tiempo }} PARA PAGO EN {{ $fecha_fin }}</b></p>
-                   <p style="color: #053666;">Fecha de corte: {{ $fecha_caduc }}</p>
+                  <div class="count" style="color: #053666;">{{ $intervalshow }}</div>
+                   <p style="color: #053666;"><b>{{ $medida_tiempo }} </b></p>
+                   <p style="color: #053666;">F. Pago: {{ $fecha_fin }} | F. Corte: {{ $fecha_caduc }}</p>
                    <p style="color: #053666;">{{ $porc_final }}% de tiempo consumido </p>
 
                 </div>
@@ -280,12 +280,14 @@
                        <div class="contenedor_select col-md-12 col-sm-12 col-xs-12" id="certif" style="height:84px;">
                         
                       </div>
+                      @role('gestor.mantenimiento')
                       <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifreg" style="height:20px; text-align: left; color: #053666">
                           <a href="{{ URL::to('certificados') }}">{{ $cant_cert }} registrado/s</a>
                       </div>
                       <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifvenc" style="height:20px; text-align: right; color: #053666">
                           <a href="{{ URL::to('certvencidos') }}">{{ $cant_cert_vencidos }} vencido/s</a>
                       </div>
+                      @endrole
 
                  </div>
               </div>

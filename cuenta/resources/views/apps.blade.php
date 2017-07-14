@@ -29,11 +29,12 @@
 		                    <h2>Lista de bases de datos de aplicación</h2>
 		                    <div class="clearfix"></div>
 		                  </div>
-		                  
+		                  @permission('crear.aplicacion')
 		                  <div class="form-group">
 		                 
 		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#094784; "><b>Nueva aplicación</b></button>
 		                  </div>
+		                  @endpermission
 
 		                  <br/>
 		                  @if (Session::has('message'))
@@ -80,7 +81,9 @@
 			                          	
 
 										<div class="btn-group">
+		                          			@permission('asociar.usuario')
 		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>
+		                          			@endpermission
 
 		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalusr{{$a->id}}">
 		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -219,11 +222,12 @@
 
 			                          	</div>
 
-			                          		
+			                          		@permission('eliminar.aplicacion')
 			                          		{{ Form::open(['route' => ['apps.destroy', $a->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
 		                      				<button  href="{{ route('empresas.destroy', $a->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-trash fa-3x" onclick="return confirm('Al realizar esta acción se eliminará la base de datos de aplicación correspondiente con todos sus datos, así como los backups guardados en el sistema de dicha base de datos. ¿Está seguro que quiere eliminar este registro?')"></i></button>
 											{{ Form::close() }}
+											@endpermission
 
 			                          	</div>
 
@@ -369,6 +373,7 @@
 			function cleanusersandroles(bdid){
 			document.getElementById("select_usr_id"+bdid).value = 'null';
 			$("#select_usr_id"+bdid).select2({
+                  allowClear: true,
                   placeholder: 'Seleccione un usuario...'
                    
                });

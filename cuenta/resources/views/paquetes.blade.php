@@ -38,12 +38,11 @@
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
 		                         
-		                          <th>Cantidad de RFC</th>
-		                          <th>Cantidad de Gigas</th>
 		                          <th>Fecha de venta</th>
 		                          <th>Fecha de activación</th>
 		                          <th>Fecha de fin</th>
 		                          <th>Fecha de caducidad</th>
+		                          <th>Estado</th>
 		                          
 		                        </tr>
 		                      </thead>
@@ -51,12 +50,12 @@
 		                      	@foreach ($paqs as $p)
 		                        <tr>
 		                          
-		                          <td>{{$p->paqapp_cantrfc}}</td>
-		                          <td>{{$p->paqapp_cantgig}}</td>
 		                          <td>{{$p->paqapp_f_venta}}</td>
 		                          <td>{{$p->paqapp_f_act}}</td>
 		                          <td>{{$p->paqapp_f_fin}}</td>
 		                          <td>{{$p->paqapp_f_caduc}}</td>
+		                          <td>{{ $p->paqapp_activo == 1 ? 'Activa' : 'Vencida' }}</td>
+		                          
 		                         
 		                          		                          
 		                        </tr>

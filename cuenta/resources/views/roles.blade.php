@@ -28,9 +28,11 @@
 		                    <div class="clearfix"></div>
 		                  </div>
 
+		                  @permission('crear.rol')
 		                  <div class="form-group">
 		                  <button type="button" onclick="location.href = '{{ URL::to('roles/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#254d74; "><b>Nuevo rol</b></button>
 		                  </div>
+		                  @endpermission
 		                  
 		                  
 		                  <br/>
@@ -66,12 +68,13 @@
 		                          <td>{{$r->level}}</td>
 		                         
 		                          <td class=" last" width="12%">
-		                          	
+		                          	@permission('editar.rol')
 		                          	<div class="btn-group">
 			                          	<div class="btn-group">
 		                          			<button onclick="location.href = 'roles/{{$r->id}}/edit';" class="btn btn-xs" data-placement="left" title="Editar" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-edit fa-3x"></i> </button>
 			                          	</div>
 			                         </div>
+			                         @endpermission
 		                          </td>
 		                          		                          
 		                        </tr>

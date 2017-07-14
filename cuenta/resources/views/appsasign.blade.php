@@ -28,21 +28,19 @@
 		                    <div class="clearfix"></div>
 		                  </div>
 
-		                  <div class="form-group" style="visibility: ;">
-		                  <a href="{{ URL::to('appsasign/create') }}"><i class="fa fa-edit right"></i> <b>Crear nueva aplicación</b></a>
-		                  </div>
-		                  
-		                  
+		                 
 		                  <br/>
 		                 		                  
 		                  <div class="x_content">
 		                    
-		                    <table id="datatable-buttons" class="table table-striped table-bordered">
+		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr>
+		                        <tr style="color:#FFFFFF; background-color:#254d74;">
 		                          <th>Nombre</th>
 		                          <th>Código</th>
-		                          <th>Acciones</th>
+		                          <th>Cantidad de instancias</th>
+		                          <th>Cantidad de megas</th>
+		                          <th>Estado</th>
 		                        </tr>
 		                      </thead>
 		                      <tbody>
@@ -50,23 +48,11 @@
 		                        <tr>
 		                          <td>{{$a->app_nom}}</td>
 		                          <td>{{$a->app_cod}}</td>
-		                          <td>
-		                          <div class="btn-group">
-			                          	<div class="btn-group">
-		                          			<button onclick="#" class="btn btn-xs" data-placement="left" title="Ver roles y permisos" style=" color:#790D4E"><i class="fa fa-unlock-alt fa-2x"></i> </button>
-			                          	</div>
-			                         </div>
-		                          	<div class="btn-group">
-		                          		<p></p>
-		                          		{{ Form::open(['route' => ['appsasign.destroy', $a->id], 'class'=>'pull-right']) }}
-			                          	{{ Form::hidden('_method', 'DELETE') }}
-	                      				<button  href="{{ route('appsasign.destroy', $a->id) }}" class="btn btn-xs" type="submit" data-placement="left" title="Borrar" style=" color:#790D4E"><i class="fa fa-trash fa-2x"></i></button>
-										{{ Form::close() }}
-
-
-		                          	</div>
-
-		                          </td>
+		                          <td>{{$a->app_insts}}</td>
+		                          <td>{{$a->app_megs}}</td>
+		                          <td>{{ $a->app_activa == 1 ? 'Activa' : 'Deshabilitada' }}</td>
+		                          
+		                         
 		                        </tr>
 		                        @endforeach
 		                      </tbody>
@@ -89,13 +75,13 @@
 @section('app_js') 
     @parent
    			<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.js') }}"></script>
+	    	<script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>

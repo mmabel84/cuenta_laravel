@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Bican\Roles\Models\Role;
 use Bican\Roles\Models\Permission;
+use App\User;
 
 class sed_roles extends Seeder
 {
@@ -107,6 +108,34 @@ class sed_roles extends Seeder
 			'model' => 'App\Certificado',
 		]);
 
+		$readUsrPermission = Permission::create([
+			'name' => 'Leer usuarios',
+			'slug' => 'leer.usuario',
+			'description' => 'Puede leer usuarios',
+			'model' => 'App\User',
+		]);
+
+		$createUsrPermission = Permission::create([
+			'name' => 'Crear usuarios',
+			'slug' => 'crear.usuario',
+			'description' => 'Puede crear usuarios',
+			'model' => 'App\User',
+		]);
+
+		$editUsrPermission = Permission::create([
+			'name' => 'Editar usuarios',
+			'slug' => 'editar.usuario',
+			'description' => 'Puede editar usuarios',
+			'model' => 'App\User',
+		]);
+
+		$deleteUsrPermission = Permission::create([
+			'name' => 'Eliminar usuarios',
+			'slug' => 'eliminar.usuario',
+			'description' => 'Puede eliminar usuarios',
+			'model' => 'App\User',
+		]);
+
 		$readAppPermission = Permission::create([
 			'name' => 'Leer aplicación',
 			'slug' => 'leer.aplicacion',
@@ -125,6 +154,13 @@ class sed_roles extends Seeder
 			'name' => 'Eliminar aplicación',
 			'slug' => 'eliminar.aplicacion',
 			'description' => 'Puede eliminar aplicaciones',
+			'model' => 'App\BasedatosApp',
+		]);
+
+		$asocUsrAppPermission = Permission::create([
+			'name' => 'Asociar usuarios',
+			'slug' => 'asociar.usuario',
+			'description' => 'Puede asociar usuarios a aplicaciones',
 			'model' => 'App\BasedatosApp',
 		]);
 
@@ -200,6 +236,10 @@ class sed_roles extends Seeder
 		$gestorMantenimRole->attachPermission($createCertPermission);
 		$gestorMantenimRole->attachPermission($editCertPermission);
 		$gestorMantenimRole->attachPermission($deleteCertPermission);
+		$gestorMantenimRole->attachPermission($readUsrPermission);
+		$gestorMantenimRole->attachPermission($createUsrPermission);
+		$gestorMantenimRole->attachPermission($editUsrPermission);
+		$gestorMantenimRole->attachPermission($deleteUsrPermission);
 
 
 		$gestorAplicacRole->attachPermission($readAppPermission);
@@ -208,15 +248,18 @@ class sed_roles extends Seeder
 		$gestorAplicacRole->attachPermission($readBackPermission);
 		$gestorAplicacRole->attachPermission($createBackPermission);
 		$gestorAplicacRole->attachPermission($deleteBackPermission);
+		$gestorAplicacRole->attachPermission($asocUsrAppPermission);
+
+		
 
 		$gestorSegurRole->attachPermission($readRolPermission);
 		$gestorSegurRole->attachPermission($createRolPermission);
 		$gestorSegurRole->attachPermission($editRolPermission);
 		$gestorSegurRole->attachPermission($deleteRolPermission);
 		$gestorSegurRole->attachPermission($readPermPermission);
-		$gestorSegurRole->attachPermission($readPermPermission);
+		$gestorSegurRole->attachPermission($readBitPermission);
 
-
+		
 
     }
 }
