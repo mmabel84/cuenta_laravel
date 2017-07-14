@@ -38,8 +38,8 @@
 		                        <tr style="color:#FFFFFF; background-color:#254d74;">
 		                          <th>Nombre</th>
 		                          <th>Código</th>
-		                          <th>Cantidad de instancias</th>
-		                          <th>Cantidad de megas</th>
+		                          <th>Cantidad de instancias contratadas</th>
+		                          <th>Cantidad de megas contratados</th>
 		                          <th>Estado</th>
 		                        </tr>
 		                      </thead>

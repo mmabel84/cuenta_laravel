@@ -47,17 +47,21 @@
                                   @role('gestor.mantenimiento')
                                    <li><a><i class="fa fa-cogs"></i> MANTENIMIENTO <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
+                                      @permission('leer.empresa')
                                       <li><a href="{{ URL::to('empresas') }}">EMPRESAS</a></li>
-
+                                      @endpermission
+                                      @permission('leer.usuario')
                                       <li><a href="{{ URL::to('usuarios') }}">USUARIOS</a></li>
-
-                                    @role('gestor.aplicacion')
+                                      @endpermission
+                                      @permission('leer.aplicacion')
                                       <li><a href="{{ URL::to('apps') }}">APLICACIONES</a></li>
+                                      @endpermission
+                                      @permission('leer.respaldo')
                                       <li><a href="{{ URL::to('backups') }}">RESPALDOS</a></li>
-                                    @endrole
-
+                                      @endpermission
+                                      @permission('leer.certificado')
                                       <li><a href="{{ URL::to('certificados') }}">CERTIFICADOS</a></li>
-
+                                      @endpermission
                                       
                                     </ul>
                                   </li>
@@ -70,20 +74,20 @@
                                       <ul class="nav child_menu">
                                         <li><a href="{{ URL::to('paqs') }}">LÍNEA DE TIEMPO CONTRATADA</a></li>
                                         <li><a href="{{ URL::to('appsasign') }}">APLICACIONES CONTRATADAS</a></li>
-
-                                        @role('gestor.seguridad')
+                                          @permission('leer.rol')
                                           <li><a href="{{ URL::to('roles') }}">ROLES</a></li>
+                                          @endpermission
+                                          @permission('leer.permiso')
                                           <li><a href="{{ URL::to('permisos') }}">PERMISOS</a></li>
+                                          @endpermission
                                         
-                                        <!--<li><a href="{{ URL::to('appsasign') }}">APLICACIONES ASIGNADAS</a></li>-->
                                       </ul>
 
 
                                   </li>
-                                  
+                                  @permission('leer.bitácora')
                                   <li><a href="{{ URL::to('bitacoras') }}"><i class="fa fa-eye"></i> BITÁCORA </a></li>
-                                  @endrole
-                               
+                                  @endpermission
                               </ul>
                           </div>
 

@@ -280,14 +280,12 @@
                        <div class="contenedor_select col-md-12 col-sm-12 col-xs-12" id="certif" style="height:84px;">
                         
                       </div>
-                      @role('gestor.mantenimiento')
                       <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifreg" style="height:20px; text-align: left; color: #053666">
                           <a href="{{ URL::to('certificados') }}">{{ $cant_cert }} registrado/s</a>
                       </div>
                       <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifvenc" style="height:20px; text-align: right; color: #053666">
                           <a href="{{ URL::to('certvencidos') }}">{{ $cant_cert_vencidos }} vencido/s</a>
                       </div>
-                      @endrole
 
                  </div>
               </div>
