@@ -28,8 +28,12 @@ class Role extends Model implements RoleHasRelationsContract
     {
         parent::__construct($attributes);
 
-        if ($connection = config('roles.connection')) {
-            $this->connection = $connection;
-        }
+        //if ($connection = config('roles.connection')) {
+        //    $this->connection = $connection;
+        //}
+
+        $this->connection = \Session::get('selected_database','mysql');
+
+
     }
 }

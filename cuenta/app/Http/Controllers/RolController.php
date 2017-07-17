@@ -21,6 +21,7 @@ class RolController extends Controller
     {       
 
         $roles = Role::all();
+        \Session::pull('failmessage','default');
 
         return view('roles')->with('roles',$roles);
     }

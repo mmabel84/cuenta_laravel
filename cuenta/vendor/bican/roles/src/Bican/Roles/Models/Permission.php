@@ -28,8 +28,10 @@ class Permission extends Model implements PermissionHasRelationsContract
     {
         parent::__construct($attributes);
 
-        if ($connection = config('roles.connection')) {
-            $this->connection = $connection;
-        }
+        //if ($connection = config('roles.connection')) {
+        //    $this->connection = $connection;
+        //}
+
+        $this->connection = \Session::get('selected_database','mysql');
     }
 }

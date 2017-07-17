@@ -19,6 +19,7 @@ class PermController extends Controller
     {       
 
         $permissions = Permission::all();
+        \Session::pull('failmessage','default');
 
         return view('permissions')->with('permissions',$permissions);
     }

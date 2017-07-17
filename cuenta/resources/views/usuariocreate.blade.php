@@ -249,6 +249,7 @@
 
     <script type="text/javascript">
 
+
          function getSelectValues(select) {
           var result = [];
           var options = select && select.options;
@@ -269,10 +270,13 @@
              
              var selected = getSelectValues(element);
 
+             console.log(selected);
+
+
 
              var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-             console.log(CSRF_TOKEN);
+             //console.log(CSRF_TOKEN);
 
              $.ajax({
                 url: 'permsbyroles',
@@ -282,15 +286,13 @@
                 success: function (data) {
                     var roles = [];
                     var perms = document.getElementById('permisos').options;
-                    data['roles'].forEach(function(entry) {
+                    data['permissions'].forEach(function(entry) {
                         roles.push(entry);
                         for(var i=0;i<perms.length;i++){
 
-                    if(String(perms[i].value)==String(entry)){
-                                console.log(perms[i]);
-                                perms[i].selected=true;
-
-
+                          if(String(perms[i].value)==String(entry)){
+                                      console.log(perms[i]);
+                                      perms[i].selected=true;
                             }
                         }
                     });

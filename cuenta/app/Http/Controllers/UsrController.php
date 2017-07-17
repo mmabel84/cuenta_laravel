@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage; 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UsrController extends Controller
 {
@@ -49,6 +50,8 @@ class UsrController extends Controller
      */
     protected function customcreate(array $data)
     {
+
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -74,6 +77,7 @@ class UsrController extends Controller
 
         $usuario = User::all();
         $apps = BasedatosApp::all();
+        \Session::pull('failmessage','default');
 
         return view('usuarios',['apps'=>$apps,'usuarios'=>$usuario]);
 
@@ -81,11 +85,20 @@ class UsrController extends Controller
 
     public function create()
     {       
+        $usr = $user = \Auth::user();
+        if ($usr->can('crear.usuario'))
+        {
+            $roles = Role::all();
+            $permissions = Permission::all();
+            $apps = BasedatosApp::all();
+            return view('usuariocreate',['apps'=>$apps,'roles'=>$roles,'permissions'=>$permissions]); 
 
-        $roles = Role::all();
-        $permissions = Permission::all();
+        }
+        $usuario = User::all();
         $apps = BasedatosApp::all();
-        return view('usuariocreate',['apps'=>$apps,'roles'=>$roles,'permissions'=>$permissions]); 
+        \Session::flash('failmessage','No tiene acceso a crear usuarios');
+        return view('usuarios',['apps'=>$apps,'usuarios'=>$usuario]);
+        
 
     }
 
@@ -229,12 +242,21 @@ class UsrController extends Controller
     public function edit($id)
     {       
 
-        $user = User::findOrFail($id);
-        $roles = Role::all();
-        $permissions = Permission::all();
+        $usr = $user = \Auth::user();
+        if ($usr->can('editar.usuario'))
+        {
+            $user = User::findOrFail($id);
+            $roles = Role::all();
+            $permissions = Permission::all();
+            return view('usuarioedit',['roles'=>$roles,'permissions'=>$permissions,'user'=>$user]); 
+        }
+        $usuario = User::all();
+        $apps = BasedatosApp::all();
+        \Session::flash('failmessage','No tiene acceso a editar usuarios');
+        return view('usuarios',['apps'=>$apps,'usuarios'=>$usuario]);
 
 
-        return view('usuarioedit',['roles'=>$roles,'permissions'=>$permissions,'user'=>$user]); 
+        
     }
 
 
@@ -349,6 +371,7 @@ class UsrController extends Controller
         $alldata = $request->all();
         $return_array = array();
         if(array_key_exists('selected',$alldata) && isset($alldata['selected'])){
+
             foreach ($alldata['selected'] as $select) {
                 $role = Role::find((int)$select);
                 $tests = false;
@@ -358,15 +381,22 @@ class UsrController extends Controller
                         array_push($return_array, $test->id);
                     }
                 }
+            }
 
-
+        }
+        elseif (array_key_exists('email',$alldata) && isset($alldata['email']))
+        {            
+            $usr = User::where('email','=',$alldata['email'])->get();
+            if (count($usr) > 0){
+                $usrobj = User::find($usr[0]->id);
+                $return_array = $usrobj->userPermissions()->get()->pluck('id');
             }
         }
 
         $response = array(
             'status' => 'success',
             'msg' => 'Setting created successfully',
-            'roles' => $return_array,
+            'permissions' => $return_array
         );
         return \Response::json($response);
     } 

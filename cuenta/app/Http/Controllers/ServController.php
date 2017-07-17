@@ -22,7 +22,7 @@ class ServController extends Controller
 	public function __construct()
     {
         //This allow only to api users
-        $this->middleware('role.api');
+        //$this->middleware('role.api');
     }
 
 
@@ -83,8 +83,8 @@ class ServController extends Controller
 		        ]);
 
 		        \Config::set('database.default', $dbname);
-		        \Artisan::call('migrate');
-		        \Artisan::call('db:seed');
+		        \Artisan::call('migrate', ['--database'=>$dbname]);
+		        \Artisan::call('db:seed', ['--database'=>$dbname]);//Verificar que se creen en la base de datos que es
 
 		        //Recuperando datos de primer usuario a crear
 		        $email = 'test@gmail.com';
@@ -117,43 +117,46 @@ class ServController extends Controller
 		        }
 
 		        //Insertando primer usuario de base de datos de cuenta, enviado por control
-		        $firstusr_id = DB::connection($dbname)->insertGetId('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', [$name, $nick,$email, $pass]);
+		        $firstusr_id = DB::connection($dbname)->table('users')->insertGetId(['name'=>$name, 'users_nick'=>$nick,'email'=>$email, 'password'=>$pass]);
+
+		        //$firstusr_id = DB::connection($dbname)->insertGetId('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', [$name, $nick,$email, $pass]);
 
 		        //Insertando usuario avanzado de advans en base de datos de cuenta
-		        $advansusr_id = DB::connection($dbname)->insertGetId('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', ['Usuario Advans', 'advans','advans@advans.mx', bcrypt('advans')]);
+		        $advansusr_id = DB::connection($dbname)->table('users')->insertGetId(['name'=>'Usuario Advans', 'users_nick'=>'advans', 'email'=>'advans@advans.mx', 'password'=>bcrypt('advans')]);
+
+		        //$advansusr_id = DB::connection($dbname)->insertGetId('insert into users (name, users_nick, email, password) values (?, ?, ?, ?)', ['Usuario Advans', 'advans','advans@advans.mx', bcrypt('advans')]);
 
 		        //Asignando primeros roles a usuarios creados
 		        $mantrol_id_array = DB::connection($dbname)->select('select id from roles where slug = ?',['gestor.mantenimiento']);
 		        $approl_id_array = DB::connection($dbname)->select('select id from roles where slug = ?',['gestor.aplicacion']);
 		        $segurol_id_array = DB::connection($dbname)->select('select id from roles where slug = ?',['gestor.seguridad']);
 
-		        
 		        if (count($mantrol_id_array) > 0 && count($approl_id_array) > 0 && count($segurol_id_array) > 0)
 		        {
-		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$mantrol_id_array[0], $firstusr_id]);
-		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$mantrol_id_array[0], $advansusr_id]);
-		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$approl_id_array[0], $firstusr_id]);
-		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$approl_id_array[0], $advansusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$mantrol_id_array[0]->id, $firstusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$mantrol_id_array[0]->id, $advansusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$approl_id_array[0]->id, $firstusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$approl_id_array[0]->id, $advansusr_id]);
 
-		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$segurol_id_array[0], $firstusr_id]);
-		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$segurol_id_array[0], $advansusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$segurol_id_array[0]->id, $firstusr_id]);
+		        	DB::connection($dbname)->insert('insert into role_user (role_id, user_id) values (?, ?)', [$segurol_id_array[0]->id, $advansusr_id]);
 
 		        	//Asignando permisos
-			        $manrperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$mantrol_id_array[0]]);
-			        $appperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$approl_id_array[0]]);
-			        $segurperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$segurol_id_array[0]]);
+			        $manrperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$mantrol_id_array[0]->id]);
+			        $appperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$approl_id_array[0]->id]);
+			        $segurperm_id_array = DB::connection($dbname)->select('select permission_id from permission_role where role_id = ?',[$segurol_id_array[0]->id]);
 
 			        foreach ($manrperm_id_array as $permm) {
-			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$permm, $advansusr_id]);
-			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$permm, $firstusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$permm->permission_id, $advansusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$permm->permission_id, $firstusr_id]);
 			        }
 			        foreach ($appperm_id_array as $perma) {
-			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perma, $advansusr_id]);
-			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perma, $firstusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perma->permission_id, $advansusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perma->permission_id, $firstusr_id]);
 			        }
 			        foreach ($segurperm_id_array as $perms) {
-			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perms, $advansusr_id]);
-			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perms, $firstusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perms->permission_id, $advansusr_id]);
+			        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$perms->permission_id, $firstusr_id]);
 			        }
 
 		        }

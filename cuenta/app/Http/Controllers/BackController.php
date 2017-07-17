@@ -24,6 +24,7 @@ class BackController extends Controller
     {       
 
         $backs = Backup::all();
+        \Session::pull('failmessage','default');
 
         return view('backups',['backs'=>$backs]);
     }

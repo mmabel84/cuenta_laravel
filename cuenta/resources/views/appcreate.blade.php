@@ -69,7 +69,7 @@
                     <div class="form-group">
                         <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación</label>-->
                           <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id">
+                            <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id" required="required">
                                <!--<option value="null">Seleccione una aplicación ...</option>
                                 @foreach($aplicaciones as $app)
                                     <option value="{{ $app->id }}">{{ $app->app_nom }}</option>

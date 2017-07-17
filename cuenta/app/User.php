@@ -57,6 +57,8 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
+    
+
     public function rolePermissions()
     {
         $permissionModel = app(config('roles.models.permission'));

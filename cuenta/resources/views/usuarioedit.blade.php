@@ -12,6 +12,12 @@
     <!-- Chosen -->
 
     <link href="{{ asset('vendors/chosen/chosen.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
 
 
     <style>
@@ -30,7 +36,11 @@
         color: red;
         font-family: monospace;
         font-weight: normal;
+
     }
+    .hidden{
+            visibility:hidden;
+            }
     </style>
 @endsection
 
@@ -139,7 +149,7 @@
                     </table>
 
 
-
+                    
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         </br>
                         </br>
@@ -157,7 +167,7 @@
                           <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
 
-
+                                
                                 <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
                                           <select id="roles" name="roles[]" tabindex="1" data-placeholder="Seleccione los roles ..." class="chosen-select form-control" onchange="onSelectUserCreate(this)" multiple="multiple">
@@ -178,6 +188,7 @@
                                           </select>
                                           </div>
                                   </div>
+
 
 
 
@@ -202,6 +213,7 @@
             </div>
           </div>
     </div>
+ <input type="hidden" name="edit" id="edit" onchange="onShowEditUser();" />
 </div>
 @endsection
 
@@ -221,16 +233,20 @@
     <!-- File Input -->
     <script src="{{ asset('vendors/bootstrap-fileinput-master/js/fileinput.js') }}" type="text/javascript"></script>
 
-    <!-- Custom Theme Scripts -->
-    <script src="{{ asset('build/js/custom.js') }}"></script>
+    
 
     <!-- Chosen -->
     <script src="{{ asset('vendors/chosen/chosen.jquery.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendors/chosen/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
     <script src="{{ asset('vendors/chosen/docsupport/init.js') }}" type="text/javascript" charset="utf-8"></script>
 
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('build/js/custom.js') }}"></script>
+
 
     <script type="text/javascript">
+
+    $('#edit').trigger('change');
 
         function getSelectValues(select) {
           var result = [];
@@ -263,19 +279,51 @@
                 success: function (data) {
                     var roles = [];
                     var perms = document.getElementById('permisos').options;
-                    data['roles'].forEach(function(entry) {
+                    data['permissions'].forEach(function(entry) {
                         roles.push(entry);
                         for(var i=0;i<perms.length;i++){
 
-                if(String(perms[i].value)==String(entry)){
-                                console.log(perms[i]);
-                                perms[i].selected=true;
-
-
-                            }
+                          if(String(perms[i].value)==String(entry)){
+                                          console.log(perms[i]);
+                                          perms[i].selected=true;
+                          }
                         }
                     });
                     console.log(perms);
+                    $('#permisos').trigger("chosen:updated");
+
+                }
+            });
+         }
+
+
+         function onShowEditUser(){
+
+             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+             var email = document.getElementById('email').value;
+
+             console.log(CSRF_TOKEN);
+
+             $.ajax({
+                url: 'permsbyroles',
+                type: 'POST',
+                data: {_token: CSRF_TOKEN,edit:true,email:email},
+                dataType: 'JSON',
+                success: function (data) {
+                    var roles = [];
+                    var perms = document.getElementById('permisos').options;
+                    console.log(data['algo']);
+                    data['permissions'].forEach(function(entry) {
+                        roles.push(entry);
+                        for(var i=0;i<perms.length;i++){
+
+                          if(String(perms[i].value)==String(entry)){
+                                          //console.log(perms[i]);
+                                          perms[i].selected=true;
+                          }
+                        }
+                    });
+                    //console.log(perms);
                     $('#permisos').trigger("chosen:updated");
 
                 }

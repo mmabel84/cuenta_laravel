@@ -36,7 +36,7 @@ class CertController extends Controller
 	        	}
         	}
 
-     	
+     	\Session::pull('failmessage','default');
         return view('certificados')->with('certs',$certificados);
     }
 

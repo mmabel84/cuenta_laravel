@@ -36,6 +36,7 @@
 		                        <tr style="color:#FFFFFF; background-color:#8c4a7e; ">
 		                          <th>Fecha</th>
 		                          <th>Operación</th>
+		                          <th>Usuario</th>
 		                          <th>IP</th>
 		                          <th>Navegador</th>
 		                          <th>Mensaje</th>
@@ -52,6 +53,7 @@
 		                        <tr>
 		                          <td>{{$b->bitc_fecha}}</td>
 		                          <td>{{$b->bitcta_tipo_op}}</td>
+		                          <td>{{$b->user->name}}</td>
 		                          <td>{{$b->bitcta_ip}}</td>
 		                          <td>{{$b->bitcta_naveg}}</td>
 		                          <td>{{$b->bitcta_msg}}</td>

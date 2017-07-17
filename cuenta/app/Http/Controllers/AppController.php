@@ -22,17 +22,26 @@ class AppController extends Controller
     {       
         $usrs = User::all();
         $apps = BasedatosApp::all();
+        \Session::pull('failmessage','default');
 
         return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
     }
 
     public function create()
     {       
+        $usr = $user = \Auth::user();
+        if ($usr->can('crear.aplicacion'))
+        {
+            $empresa = Empresa::all();
+            $aplicaciones = Aplicacion::all();
+            return view('appcreate',['empresas'=>$empresa,'aplicaciones'=>$aplicaciones]);
 
-
-    	$empresa = Empresa::all();
-        $aplicaciones = Aplicacion::all();
-        return view('appcreate',['empresas'=>$empresa,'aplicaciones'=>$aplicaciones]);
+        }
+        
+        $usrs = User::all();
+        $apps = BasedatosApp::all();
+        \Session::flash('failmessage','No tiene acceso a crear aplicaciones');
+        return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
     }
 
     public function store(Request $request)
@@ -142,11 +151,20 @@ class AppController extends Controller
 
     public function edit($id)
     {       
+        $usr = $user = \Auth::user();
+        if ($usr->can('editar.aplicacion'))
+        {
+            $empresa = Empresa::all();
+            $appe = BasedatosApp::find($id);
+            return view('appedit',['app'=>$appe,'empresas'=>$empresa]);
 
-        $empresa = Empresa::all();
+        }
+        $usrs = User::all();
+        $apps = BasedatosApp::all();
+        \Session::flash('failmessage','No tiene acceso a editar aplicaciones');
+        return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
 
-        $appe = BasedatosApp::find($id);
-        return view('appedit',['app'=>$appe,'empresas'=>$empresa]);
+       
     }
 
     public function update(Request $request, $id)

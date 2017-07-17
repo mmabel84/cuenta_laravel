@@ -24,6 +24,7 @@ class EmprController extends Controller
     {       
 
         $empresa = Empresa::all();
+        \Session::pull('failmessage','default');
 
         return view('empresas')->with('empresas',$empresa);
     }

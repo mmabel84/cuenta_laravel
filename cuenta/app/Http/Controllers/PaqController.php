@@ -16,6 +16,7 @@ class PaqController extends Controller
     {       
 
         $paqs = Paquete::all();
+        \Session::pull('failmessage','default');
 
         return view('paquetes')->with('paqs',$paqs);
     }

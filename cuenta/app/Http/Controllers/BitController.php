@@ -16,6 +16,7 @@ class BitController extends Controller
     {       
 
         $bitacoras = Bitacora::all();
+        \Session::pull('failmessage','default');
 
         return view('bitacoras')->with('bitacoras',$bitacoras);
     }
