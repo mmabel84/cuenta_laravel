@@ -8,7 +8,7 @@
 
 var validator = (function($){
     var message, tests, checkField, validate, mark, unmark, field, minmax, defaults,
-        validateWords, lengthRange, lengthLimit, pattern, alertTxt, data,
+        validateWords, lengthRange, lengthLimit, pattern, alertTxt, data, validateRfc,
         email_illegalChars = /[\(\)\<\>\,\;\:\\\/\"\[\]]/,
         email_filter = /^.+@.+\..{2,6}$/;  // exmaple email "steve@s-i.photo"
 
@@ -42,9 +42,9 @@ var validator = (function($){
     defaults = {
         alerts  : true,
         classes : {
-	        item    : 'item',
-	        alert   : 'alert',
-	        bad     : 'bad'
+            item    : 'item',
+            alert   : 'alert',
+            bad     : 'bad'
         }
     };
 
@@ -79,11 +79,13 @@ var validator = (function($){
         },
         // a "skip" will skip some of the tests (needed for keydown validation)
         text : function(a, skip){
-            console.log(validateWords);
             // make sure there are at least X number of words, each at least 2 chars long.
             // for example 'john F kenedy' should be at least 2 words and will pass validation
+
+
             if( validateWords ){
                 var words = a.split(' ');
+
                 // iterrate on all the words
                 var wordsLength = function(len){
                     for( var w = words.length; w--; )
@@ -92,12 +94,18 @@ var validator = (function($){
                     return true;
                 };
 
+
+
                 if( words.length < validateWords || !wordsLength(2) ){
                     alertTxt = message.complete;
                     return false;
                 }
+
                 return true;
             }
+
+
+
             if( !skip && lengthRange && a.length < lengthRange[0] ){
                 alertTxt = message.min;
                 return false;
@@ -134,6 +142,23 @@ var validator = (function($){
                     default :
                         regex = pattern;
                 }
+                try{
+                    jsRegex = new RegExp(regex).test(a);
+                    if( a && !jsRegex )
+                        return false;
+                }
+                catch(err){
+                    console.log(err, field, 'regex is invalid');
+                    return false;
+                }
+            }
+
+
+            if( validateRfc ){
+
+                var regex, jsRegex;
+                regex = /^[A-ZÑ&]{3,4}([0-9]{2})([0-1][0-9])([0-3][0-9])[A-Z0-9][A-Z0-9][0-9A]$/u;
+
                 try{
                     jsRegex = new RegExp(regex).test(a);
                     if( a && !jsRegex )
@@ -254,6 +279,7 @@ var validator = (function($){
             return true;
         },
         select : function(a){
+
             if( !tests.hasValue(a) ){
                 alertTxt = message.select;
                 return false;
@@ -268,6 +294,7 @@ var validator = (function($){
         if( !text || !field || !field.length )
             return false;
 
+
         // check if not already marked as a 'bad' record and add the 'alert' object.
         // if already is marked as 'bad', then make sure the text is set again because i might change depending on validation
         var item = field.closest('.' + defaults.classes.item),
@@ -280,6 +307,7 @@ var validator = (function($){
 
 
         else if( defaults.alerts ){
+            console.log(text);
             warning = $('<div class="'+ defaults.classes.alert +'">').html( text );
             item.append( warning );
         }
@@ -344,7 +372,7 @@ var validator = (function($){
         if( this.type !='hidden' && $(this).is(':hidden') )
             return true;
 
-        
+
         prepareFieldData(this);
 
         field.data( 'val', field[0].value.replace(/^\s+|\s+$/g, "") );  // cache the value of the field and trim it
@@ -357,6 +385,7 @@ var validator = (function($){
 
         // Special treatment
         if( field[0].nodeName.toLowerCase() === "select" ){
+
             data.type = 'select';
         }
         else if( field[0].nodeName.toLowerCase() === "textarea" ){
@@ -368,6 +397,9 @@ var validator = (function($){
         lengthRange     = data['validateLengthRange'] ? (data['validateLengthRange']+'').split(',') : [1];
         lengthLimit     = data['validateLength'] ? (data['validateLength']+'').split(',') : false;
         minmax          = data['validateMinmax'] ? (data['validateMinmax']+'').split(',') : ''; // for type 'number', defines the minimum and/or maximum for the value as a number.
+        validateRfc     = data['validateRfc'] == '1' ? true : false;
+
+
 
         data.valid = tests.hasValue(data.val);
 
@@ -398,6 +430,7 @@ var validator = (function($){
 
             // if this field is linked to another field (their values should be the same)
             if( data.validateLinked ){
+
                 var linkedTo = data['validateLinked'].indexOf('#') == 0 ? $(data['validateLinked']) : $(':input[name=' + data['validateLinked'] + ']');
                 data.valid = tests.linked( data.val, linkedTo.val() );
 
@@ -423,13 +456,14 @@ var validator = (function($){
             submit = false;
         }
 
+
         return data.valid;
     }
 
     /* vaildates all the REQUIRED fields prior to submiting the form
     */
     function checkAll( $form ){
-        console.log($form);
+
         $form = $($form);
 
         if( $form.length == 0 ){
@@ -459,4 +493,4 @@ var validator = (function($){
         message     : message,
         tests       : tests
     }
-})(jQuery);
+})(jQuery); 

@@ -60,20 +60,20 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="form2" data-parsley-validate class="form-horizontal form-label-left" method="POST" action="{{route('apps.store')}}">
+                    <form id="form2" class="form-horizontal form-label-left" novalidate method="POST" action="{{route('apps.store')}}">
                     {{ csrf_field() }}
 
 
                     <input type="hidden" id="apps" name="apps" value="{{ $aplicaciones }}">
 
-                    <div class="form-group">
+                    <div class="item form-group">
                         <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación</label>-->
                           <div class="col-md-9 col-sm-9 col-xs-12">
                             <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id" required="required">
-                               <!--<option value="null">Seleccione una aplicación ...</option>
+                               <option value="">Seleccione una aplicación ...</option>
                                 @foreach($aplicaciones as $app)
                                     <option value="{{ $app->id }}">{{ $app->app_nom }}</option>
-                                @endforeach-->
+                                @endforeach
                               
                             </select>
                           </div>
@@ -81,13 +81,13 @@
 
                      
                      <input type="hidden" id="emps" name="emps" value="{{ $empresas }}" onchange="filldata();">
-	                      <div class="form-group">
+	                      <div class="item form-group">
 	                          <div class="col-md-9 col-sm-9 col-xs-12">
-	                             <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_empr_id" id="bdapp_empr_id">
-		                            <!--<option value="null">Seleccione una empresa ...</option>
-		                            @foreach($empresas as $empr)
+	                             <select class="js-example-basic-single js-states form-control" name="bdapp_empr_id" id="bdapp_empr_id" required>
+		                            <option value="">Seleccione una empresa...</option>
+                                @foreach($empresas as $empr)
 		                                <option value="{{ $empr->id }}">{{ $empr->empr_nom }}</option>
-		                            @endforeach-->
+		                            @endforeach
 		                          </select>
 	                          </div>
 	                        </div>
@@ -182,9 +182,10 @@
             console.log(dataemps);
 
             $("#bdapp_empr_id").select2({
-                  data: dataemps,
+                  placeholder: 'Seleccione una empresa...',
                   allowClear: true,
-                  placeholder: 'Seleccione una empresa...'
+                  //data: dataemps
+                  
                    
                });
 
@@ -197,16 +198,14 @@
               var dic = {'id': apps[i].id, 'text': apps[i].app_nom};
               dataapps.push(dic);
             }
+          }
 
-            $("#bdapp_app_id").select2({
-                  data: dataapps,
+          $("#bdapp_app_id").select2({
+                  //data: dataapps,
                   allowClear: true,
                   placeholder: 'Seleccione una aplicación...'
                    
                });
-
-                         
-          }
 
 
         }

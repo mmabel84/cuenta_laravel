@@ -21,13 +21,19 @@ Route::get('/createbd', 'ServController@createbd')->middleware('auth:api');
 
 Route::get('/addapp', 'ServController@addapp')->middleware('auth:api');
 
+Route::get('/modapp', 'ServController@modapp')->middleware('auth:api');
+
 Route::get('/desactapp', 'ServController@desactapp')->middleware('auth:api');
 
 Route::get('/delapp', 'ServController@delapp')->middleware('auth:api');
 
 Route::get('/modpaq', 'ServController@modpaq')->middleware('auth:api');
 
+Route::get('/pagpaq', 'ServController@pagpaq')->middleware('auth:api');
+
 Route::get('/addpaq', 'ServController@addpaq')->middleware('auth:api');
+
+Route::get('/delpaq', 'ServController@delpaq')->middleware('auth:api');
 
 Route::get('/getusr', 'ServController@returnUsersControl')->middleware('auth:api');
 

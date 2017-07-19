@@ -74,12 +74,17 @@ class UsrController extends Controller
 
     public function index()
     {       
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.usuario'))
+        {
+            $usuario = User::all();
+            $apps = BasedatosApp::all();
+            return view('usuarios',['apps'=>$apps,'usuarios'=>$usuario]);
+        }
+        \Session::flash('failmessage','No tiene acceso a leer usuarios');
+        return redirect()->back();
 
-        $usuario = User::all();
-        $apps = BasedatosApp::all();
-        \Session::pull('failmessage','default');
-
-        return view('usuarios',['apps'=>$apps,'usuarios'=>$usuario]);
+        
 
     }
 
@@ -94,10 +99,8 @@ class UsrController extends Controller
             return view('usuariocreate',['apps'=>$apps,'roles'=>$roles,'permissions'=>$permissions]); 
 
         }
-        $usuario = User::all();
-        $apps = BasedatosApp::all();
         \Session::flash('failmessage','No tiene acceso a crear usuarios');
-        return view('usuarios',['apps'=>$apps,'usuarios'=>$usuario]);
+        return redirect()->back();
         
 
     }
@@ -250,13 +253,8 @@ class UsrController extends Controller
             $permissions = Permission::all();
             return view('usuarioedit',['roles'=>$roles,'permissions'=>$permissions,'user'=>$user]); 
         }
-        $usuario = User::all();
-        $apps = BasedatosApp::all();
         \Session::flash('failmessage','No tiene acceso a editar usuarios');
-        return view('usuarios',['apps'=>$apps,'usuarios'=>$usuario]);
-
-
-        
+        return redirect()->back();
     }
 
 
@@ -321,10 +319,6 @@ class UsrController extends Controller
 
             }
         }
-
-
-
-
 
         $fmessage = 'Se ha modificado el usuario: '.$alldata['name'];
         \Session::flash('message',$fmessage);
@@ -447,7 +441,7 @@ class UsrController extends Controller
 
         $bd = BasedatosApp::find($bdid);
         
-        //TODO llamar a sericio que trae arreglo de roles
+        //TODO llamar a sevricio que trae arreglo de roles
         /*
          //$app_cod = $bd->bdapp_app;
          //$arrayparams['bd'] = $bd->bdapp_nombd;

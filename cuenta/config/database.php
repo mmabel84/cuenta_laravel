@@ -92,22 +92,7 @@ return [
             'strict' => false,
             'engine' => null,
         ],
-		
 
-		       'LOMD8607273Y8_cta' => [
-		            'driver' => 'mysql',
-		            'host' => env('DB_HOST', '172.31.2.220'),
-		            'port' => env('DB_PORT', '3306'),
-		            'database' => 'LOMD8607273Y8_cta',
-		            'username' => env('DB_USERNAME', 'forge'),
-		            'password' => env('DB_PASSWORD', ''),
-		            'unix_socket' => env('DB_SOCKET', ''),
-		            'charset' => 'utf8mb4',
-		            'collation' => 'utf8mb4_unicode_ci',
-		            'prefix' => '',
-		            'strict' => false,
-		            'engine' => null,
-		        ],
 
 		       'SEO1002227C3_cta' => [
 		            'driver' => 'mysql',
@@ -125,6 +110,11 @@ return [
 		        ],
 
 		       //AddDB
+		        
+		        
+		        
+		        
+		        
 		        
 		        
 		        

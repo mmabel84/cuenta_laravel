@@ -52,23 +52,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
         return $this->hasMany('App\Bitacora');
     }
 
-    /**
-     * Get all permissions from roles.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     
-
-    public function rolePermissions()
-    {
-        $permissionModel = app(config('roles.models.permission'));
-
-        return $permissionModel::select(['permissions.*', 'permission_role.created_at as pivot_created_at', 'permission_role.updated_at as pivot_updated_at'])
-                ->join('permission_role', 'permission_role.permission_id', '=', 'permissions.id')->join('roles', 'roles.id', '=', 'permission_role.role_id')
-                ->whereIn('roles.id', $this->getRoles()->pluck('id')->toArray()) ->orWhere('roles.level', '<', $this->level())
-                ->groupBy(['permissions.id', 'pivot_created_at', 'pivot_updated_at', 'name', 'slug','description','model','created_at','updated_at']);
-    }
-
 
     /**
      *
@@ -77,20 +61,21 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      */
     public function customGetUserPerms($perm_id,$count=false)
     {
-
-        if($count!=false){
-            $perms = DB::table('permission_user')->where([
+        $dbname = \Session::get('selected_database','mysql');
+        if($count!=false)
+        {
+            $perms = DB::connection($dbname)->table('permission_user')->where([
                 ['permission_id', '=', $perm_id],
                 ['user_id', '=', $this->id],
             ])->count();
-        }else{
-            $perms = DB::table('permission_user')->where([
+        }
+        else
+        {
+            $perms = DB::connection($dbname)->table('permission_user')->where([
                 ['permission_id', '=', $perm_id],
                 ['user_id', '=', $this->id],
             ])->get();
         }
-
-
         return $perms;
     }
 
@@ -102,13 +87,12 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      */
     public function customPermsByUser($count=false)
     {
+        $dbname = \Session::get('selected_database','mysql');
         if($count!=false){
-            $perms = DB::table('permission_user')->where('user_id', '=', $this->id)->count();
+            $perms = DB::connection($dbname)->table('permission_user')->where('user_id', '=', $this->id)->count();
         }else{
-            $perms = DB::table('permission_user')->where('user_id', '=', $this->id)->get();
+            $perms = DB::connection($dbname)->table('permission_user')->where('user_id', '=', $this->id)->get();
         }
-
-
         return $perms;
     }
 
@@ -120,21 +104,19 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      */
     public function customGetRolePerms($role_id,$perm_id,$count=false)
     {
+        $dbname = \Session::get('selected_database','mysql');
 
         if($count!=false){
-            $perms = DB::table('permission_role')->where([
+            $perms = DB::connection($dbname)->table('permission_role')->where([
                 ['permission_id', '=', $perm_id],
                 ['role_id', '=', $role_id],
             ])->count();
         }else{
-            $perms = DB::table('permission_role')->where([
+            $perms = DB::connection($dbname)->table('permission_role')->where([
                 ['permission_id', '=', $perm_id],
                 ['role_id', '=', $role_id],
             ])->get();
         }
-
-
-
         return $perms;
     }
 
@@ -146,13 +128,12 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      */
     public function customRolesByUser($count=false)
     {
+        $dbname = \Session::get('selected_database','mysql');
         if($count!=false){
-            $perms = DB::table('role_user')->where('user_id', '=', $this->id)->count();
+            $perms = DB::connection($dbname)->table('role_user')->where('user_id', '=', $this->id)->count();
         }else{
-          $perms = DB::table('role_user')->where('user_id', '=', $this->id)->get();
+          $perms = DB::connection($dbname)->table('role_user')->where('user_id', '=', $this->id)->get();
         }
-
-
         return $perms;
     } 
 

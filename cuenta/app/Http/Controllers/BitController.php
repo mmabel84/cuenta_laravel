@@ -16,9 +16,31 @@ class BitController extends Controller
     {       
 
         $bitacoras = Bitacora::all();
-        \Session::pull('failmessage','default');
-
         return view('bitacoras')->with('bitacoras',$bitacoras);
+    }
+
+    public function create()
+    {       
+
+       return redirect()->back();
+    }
+
+    public function edit()
+    {       
+
+       return redirect()->back();
+    }
+
+    public function store(Request $request)
+    {
+    	
+    	return redirect()->back();
+    }
+
+     public function destroy($id, Request $request)
+    {
+    	
+    	return redirect()->back();
     }
 
 }

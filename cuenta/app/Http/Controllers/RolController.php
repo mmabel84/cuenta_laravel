@@ -8,31 +8,40 @@ use Bican\Roles\Models\Permission;
 use View;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Auth\Events\Registered;
+use Bican\Roles\Traits\HasRoleAndPermission;
 
 
 class RolController extends Controller
 {
+    use HasRoleAndPermission;
     public function __construct()
     {
         $this->middleware('auth');
     }
 
     public function index()
-    {       
-
-        $roles = Role::all();
-        \Session::pull('failmessage','default');
-
-        return view('roles')->with('roles',$roles);
+    {     
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.rol'))  
+        {
+            $roles = Role::all();
+            return view('roles')->with('roles',$roles);
+        }
+        \Session::flash('failmessage','No tiene acceso a leer roles');
+        return redirect()->back();
     }
 
     public function create()
     {       
-
-    	$permissions = Permission::all();
-
-        return view('rolcreate')->with('permissions',$permissions);
-
+        $usr = $user = \Auth::user();
+        if ($usr->can('crear.rol'))  
+        {
+            $permissions = Permission::all();
+            return view('rolcreate')->with('permissions',$permissions);
+        }
+        \Session::flash('failmessage','No tiene acceso a crear roles');
+        return redirect()->back();
     }
 
     public function store(Request $request)
@@ -66,12 +75,23 @@ class RolController extends Controller
     }
 
     public function edit($id)
-    {       
+    {     
 
-    	$rol = Role::find($id);
-    	$permissions = Permission::all();
+        $usr = $user = \Auth::user();
+        if ($usr->can('editar.rol'))  
+        {
+            $rol = Role::find($id);
+            $permissions_related = $rol->permissions()->get()->pluck('id');
 
-    	return view('roledit',['permissions'=>$permissions,'rol'=>$rol]); 
+            /*echo "<pre>";
+            print_r($permissions_related); die();
+            echo "</pre>";*/
+            $permissions = Permission::all();
+            return view('roledit',['permissions'=>$permissions,'rol'=>$rol,'permissions_related'=>json_encode($permissions_related)]); 
+        }  
+        \Session::flash('failmessage','No tiene acceso a editar roles');
+        return redirect()->back();
+    	
 
     }
 
@@ -99,6 +119,12 @@ class RolController extends Controller
         \Session::flash('message',$fmessage);
         return Redirect::to('roles');
 
+    }
+
+    public function destroy($id, Request $request)
+    {
+        
+        return redirect()->back();
     }
 
 

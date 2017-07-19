@@ -18,38 +18,30 @@ class AppAsignController extends Controller
     {       
 
         $aplicaciones = Aplicacion::all();
-        \Session::pull('failmessage','default');
-
         return view('appsasign')->with('apps',$aplicaciones);
     }
 
-    /*public function create()
+    public function create()
     {       
 
-       return View::make('appsasigncreate');
+       return redirect()->back();
+    }
+
+    public function edit()
+    {       
+
+       return redirect()->back();
     }
 
     public function store(Request $request)
     {
     	
-    	$app = new Aplicacion;
-    	$app->app_nom = $request->app_nom;
-    	$app->app_cod = $request->app_cod;
-    	$app->save();
-    	return Redirect::to('appsasign');
-
-
+    	return redirect()->back();
     }
 
      public function destroy($id, Request $request)
     {
     	
-    	$app = Aplicacion::find($id);
-       
-        $app->delete();
-           
- 	   	return Redirect::to('appsasign');
-
-
-    }*/
+    	return redirect()->back();
+    }
 }

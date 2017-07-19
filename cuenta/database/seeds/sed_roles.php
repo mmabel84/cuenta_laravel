@@ -18,7 +18,7 @@ class sed_roles extends Seeder
 
     	//Roles
 
-    	$gestorApiRole = Role::create([
+    	/*$gestorApiRole = Role::create([
 			'name' => 'Rol para servicios web',
 			'slug' => 'rol.api',
 			'level' => 1,
@@ -28,7 +28,7 @@ class sed_roles extends Seeder
 			'name' => 'Rol para aplicación',
 			'slug' => 'rol.app',
 			'level' => 1,
-		]);
+		]);*/
 
         $gestorMantenimRole = Role::create([
 			'name' => 'Gestor de mantenimiento',

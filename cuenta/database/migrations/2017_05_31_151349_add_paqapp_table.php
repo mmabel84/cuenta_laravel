@@ -23,6 +23,7 @@ class AddPaqappTable extends Migration
             $table->date('paqapp_f_fin');
             $table->date('paqapp_f_caduc')->nullable();
             $table->boolean('paqapp_activo')->default(True);
+            $table->boolean('paqapp_pagado')->default(False);
             $table->timestamps();
         });
     }

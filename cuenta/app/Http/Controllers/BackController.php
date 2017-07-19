@@ -23,10 +23,18 @@ class BackController extends Controller
 	public function index()
     {       
 
-        $backs = Backup::all();
-        \Session::pull('failmessage','default');
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.respaldo'))
+        {
+            $backs = Backup::all();
 
-        return view('backups',['backs'=>$backs]);
+            return view('backups',['backs'=>$backs]);
+        }
+
+        \Session::flash('failmessage','No tiene acceso a leer respaldos');
+        return redirect()->back();
+
+        
     }
 
     public function downloadBackup($bdid){
@@ -72,23 +80,27 @@ class BackController extends Controller
         \Session::flash('failmessage',$msg);
         return Redirect::to('backups');
          
-        
-        
-        
         //->deleteFileAfterSend(true)
-
-
-
-
-
-
 
     }
 
 
     public function create()
     {       
-    	$bdapp = BasedatosApp::all();
+        $usr = $user = \Auth::user();
+        if ($usr->can('crear.respaldo'))
+        {
+            $bdapp = BasedatosApp::all();
+            return view('backupcreate',['bdapp'=>$bdapp]);
+
+        }
+        
+        \Session::flash('failmessage','No tiene acceso a crear respaldos');
+        return redirect()->back();
+
+
+
+
         /*$sftp = new SFTP('13.58.170.3');
 
         $Key = new RSA();
@@ -100,7 +112,7 @@ class BackController extends Controller
         if (!$sftp->login('bitnami', $Key)) {
             throw new Exception('Login failed');
         }*/
-        return view('backupcreate',['bdapp'=>$bdapp]);
+        
     }
 
     public function store(Request $request)
@@ -168,5 +180,11 @@ class BackController extends Controller
         return Redirect::to('backups');
 
 
+    }
+
+    public function edit()
+    {       
+
+       return redirect()->back();
     }
 }

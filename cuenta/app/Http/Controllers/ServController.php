@@ -179,7 +179,7 @@ class ServController extends Controller
 		        	$apps = json_decode($alldata['apps_cta']);
 		        	
 		        	foreach ($apps as $appc) {
-		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
+		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
 		        	}
 
 		        }
@@ -188,7 +188,7 @@ class ServController extends Controller
 		        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta'])){
 		        	Log::info($alldata['paq_cta']);
 		        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
-		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_f_venta, paqapp_f_act, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?, ?)', [$paqt->paqapp_f_venta, $paqt->paqapp_f_act, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
+		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_f_venta, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?)', [$paqt->paqapp_f_venta, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
 		        	}
 		        }
 
@@ -242,7 +242,7 @@ class ServController extends Controller
 		        		$appexist = DB::connection($dbname)->select('select id from app where app_cod = ?', [$appc->app_cod]);
 
 		        		if (count($appexist) == 0){
-		        			DB::connection($dbname)->insert('insert into app (app_nom, app_cod, created_at) values (?, ?, ?)', [$appc->app_nom, $appc->app_cod, date('Y-m-d H:i:s')]);
+		        			DB::connection($dbname)->insert('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
 		        		}
 		        		else{
 		        			DB::connection($dbname)->update('update app set app_activa = true, updated_at = ?  where app_cod = ?', [date('Y-m-d H:i:s'), $appc->app_cod]);
@@ -250,6 +250,44 @@ class ServController extends Controller
 		        		}
 
 		        		
+		        	}
+		        }
+
+	        }
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata,
+            'apps' => $apps,
+            'dbname' => $dbname);
+
+        	return \Response::json($response);
+	   }
+
+
+	   	//Modificar aplicación existente
+	   public function modapp(Request $request){
+
+	   		$alldata = $request->all();
+	        $msg = "Aplicación modificada.";
+	        $status = "Success";
+	        $apps = [];
+	        $dbname = '';
+
+	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
+
+	        	$apps = json_decode($alldata['apps_cta']);
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
+	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+	            $db = DB::select($query, [$dbname]);
+		        
+
+		        if(!empty($db)){
+
+		        	foreach ($apps as $appc) {
+
+		        		DB::connection($dbname)->update('update app set app_insts = ?, app_megs = ?, app_estado = ?, updated_at = ? where app_cod = ?', [$appc->app_insts, $appc->app_megs, $appc->app_estado, date('Y-m-d H:i:s'), $appc->app_cod]);
 		        	}
 		        }
 
@@ -386,9 +424,38 @@ class ServController extends Controller
 	   		$response = array(
             'status' => $status,
             'msg' => $msg,
-            'data' => $alldata,
-            'paqs' => $paqs,
-            'dbname' => $dbname);
+            'data' => $alldata);
+
+        	return \Response::json($response);
+	   }
+
+	   	//Marcar línea de tiempo como pagada
+	   public function pagpaq(Request $request){
+
+	   		$alldata = $request->all();
+	        $msg = "Paquete modificado.";
+	        $status = "Success";
+
+	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
+
+	        	$paqs = json_decode($alldata['paq_cta']);
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
+	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+	            $db = DB::select($query, [$dbname]);
+		        
+		        if(!empty($db)){
+
+		        	foreach ($paqs as $paqt) {
+		        		DB::connection($dbname)->update('update paqapp set paqapp_pagado = true, updated_at = ? where paqapp_control_id = ?', [date('Y-m-d H:i:s'), $paqt->paqapp_control_id]);
+		        	}
+		        }
+
+	        }
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata);
 
         	return \Response::json($response);
 	   }
@@ -423,12 +490,43 @@ class ServController extends Controller
 	   		$response = array(
             'status' => $status,
             'msg' => $msg,
-            'data' => $alldata,
-            'paqs' => $paqs,
-            'dbname' => $dbname);
+            'data' => $alldata);
 
         	return \Response::json($response);
 	   }
+
+	   	//Borrar línea de tiempo
+	   public function delpaq(Request $request){
+
+	   		$alldata = $request->all();
+	        $msg = "Línea de tiempo eliminada.";
+	        $status = "Success";
+
+
+
+	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
+
+	        	$paqs = json_decode($alldata['paq_cta']);
+	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
+	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+	            $db = DB::select($query, [$dbname]);
+		        
+		        if(!empty($db)){
+		        	foreach ($paqs as $paqt) {
+		        		DB::connection($dbname)->table('paqapp')->where('paqapp_control_id', '=', $paqt->paqapp_control_id)->delete();
+		        	}
+		        }
+
+	        }
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata);
+
+        	return \Response::json($response);
+	   }
+
 
 	   //Método para desbloquear desde control usuario bloqueado por 3 intentos fallidos de login
 	   public function unlockUserControl(Request $request)

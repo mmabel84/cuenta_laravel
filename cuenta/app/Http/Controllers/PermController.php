@@ -16,35 +16,45 @@ class PermController extends Controller
     }
 
     public function index()
-    {       
+    {    
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.permiso'))
+        {
+            $permissions = Permission::all();
+            return view('permissions')->with('permissions',$permissions);
+        }  
+        \Session::flash('failmessage','No tiene acceso a leer permisos');
+        return redirect()->back(); 
 
-        $permissions = Permission::all();
-        \Session::pull('failmessage','default');
-
-        return view('permissions')->with('permissions',$permissions);
+        
     }
 
     public function create()
     {       
 
-        return view('permcreate');
+        return redirect()->back(); 
 
     }
+
+    public function edit()
+    {       
+
+        return redirect()->back(); 
+
+    }
+
 
     public function store(Request $request)
     {
-
-    	$alldata = $request->all();
-    	
-    	$perm = new Permission;
-    	$perm->name = $request->name;
-    	$perm->slug = $request->slug;
-    	$perm->description = $request->description;
-    	$perm->save();
-    	\Session::flash('message','Se ha creado el permiso: '.$request->name);
-
-    	return redirect()->route('permisos.index'); 
-
+        return redirect()->back(); 
 
     }
+
+    public function destroy()
+    {       
+
+        return redirect()->back(); 
+
+    }
+
 }

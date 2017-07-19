@@ -60,6 +60,7 @@
                 <!--<form class="form-horizontal form-label-left input_mask">-->
                {{ Form::open(['route' => ['roles.update', $rol], 'class'=>'form-horizontal form-label-left']) }}
                {{ Form::hidden('_method', 'PUT') }}
+               <input type="hidden" name="permsrel" id="permsrel" value="{{ $permissions_related }}" onchange="permsrelated(this)" />
                     <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
                     <td>
@@ -90,7 +91,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="description" class="form-control has-feedback-left" name="description" placeholder="Descripción *" required="required" data-validate-words="1" autocomplete="off" value="{{$rol->description}}">
+                              <input id="description" class="form-control has-feedback-left" name="description" placeholder="Descripción *" required="required" autocomplete="off" value="{{$rol->description}}">
                               <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('description'))
                                     <span class="help-block">
@@ -194,5 +195,32 @@
     <script src="{{ asset('vendors/chosen/chosen.jquery.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendors/chosen/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
     <script src="{{ asset('vendors/chosen/docsupport/init.js') }}" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+      
+      //$('#permsrel').trigger('change');
+
+      function permsrelated(element){
+        var perms = document.getElementById('permisos').options;
+        var id_perms_related = element.value;
+
+        console.log(id_perms_related);
+        //console.log(perms[0].value);
+
+        for(var i=0;i<perms.length;i++){
+          //var index = $.inArray(parseInt(perms[i].value), id_perms_related)
+          var index = id_perms_related.indexOf(perms[i].value);
+          var include = id_perms_related.includes(parseInt(perms[i].value));
+          
+          if (index >= 0)
+          {
+            console.log(perms[i].value + '_' + index);
+            perms[i].selected=true;
+          }
+        }
+        $('#permisos').trigger("chosen:updated");
+         
+      }
+    </script>
 
 @endsection        

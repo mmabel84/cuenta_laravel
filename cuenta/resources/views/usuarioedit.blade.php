@@ -246,7 +246,7 @@
 
     <script type="text/javascript">
 
-    $('#edit').trigger('change');
+    //$('#edit').trigger('change');
 
         function getSelectValues(select) {
           var result = [];

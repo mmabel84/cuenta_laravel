@@ -54,7 +54,7 @@
                       </div>
                       <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="empr_razsoc" type="text" required="required" class="form-control has-feedback-left" name="empr_razsoc" placeholder="Razón social de empresa " value="{{$empresa->empr_razsoc}}">
+                              <input id="empr_razsoc" type="text" class="form-control has-feedback-left" name="empr_razsoc" placeholder="Razón social de empresa " value="{{$empresa->empr_razsoc}}">
                               <span class="fa fa-building-o form-control-feedback left" aria-hidden="true"></span>
                             </div>
                       </div>

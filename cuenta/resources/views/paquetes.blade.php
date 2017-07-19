@@ -31,6 +31,20 @@
 		                  
 		                  
 		                  <br/>
+		                   @if (Session::has('message'))
+			                  <div class="alert alert-success alert-dismissible fade in" role="alert">
+			                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+			                    </button>
+			                    <strong>{{ Session::get('message') }}</strong>
+			                  </div>
+			                  @endif
+			               @if (Session::has('failmessage'))
+			                  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+			                    <button id="alertmsgfaildelete" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+			                    </button>
+			                    <strong>{{ Session::get('failmessage') }}</strong>
+			                  </div>
+			                  @endif
 		                  
 		                  <div class="x_content">
 		                    
@@ -97,6 +111,30 @@
 	    	<script src="{{ asset('vendors/pdfmake/build/pdfmake.min.js') }}"></script>
 	    	<script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
+
+	    	<script>
+		      $( function() {
+		          $('#alertmsgcreation').click(function() {
+		              console.log('alertmsgcreation button clicked');
+		          });
+		          
+		         setTimeout(function() {
+		              $('#alertmsgcreation').trigger('click');
+		          }, 4e3);
+		      });
+		    </script>
+
+		    <script>
+		      $( function() {
+		          $('#alertmsgfaildelete').click(function() {
+		              console.log('alertmsgfaildelete button clicked');
+		          });
+		          
+		         setTimeout(function() {
+		              $('#alertmsgfaildelete').trigger('click');
+		          }, 4e3);
+		      });
+		    </script>
 
    
 @endsection   

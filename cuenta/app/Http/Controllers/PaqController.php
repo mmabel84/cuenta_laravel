@@ -16,9 +16,31 @@ class PaqController extends Controller
     {       
 
         $paqs = Paquete::all();
-        \Session::pull('failmessage','default');
-
         return view('paquetes')->with('paqs',$paqs);
+    }
+
+    public function create()
+    {       
+
+       return redirect()->back();
+    }
+
+    public function edit()
+    {       
+
+       return redirect()->back();
+    }
+
+    public function store(Request $request)
+    {
+    	
+    	return redirect()->back();
+    }
+
+     public function destroy($id, Request $request)
+    {
+    	
+    	return redirect()->back();
     }
 
 }

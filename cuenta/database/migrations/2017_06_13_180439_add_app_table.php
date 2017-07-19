@@ -20,6 +20,7 @@ class AddAppTable extends Migration
             $table->integer('app_insts')->nullable();
             $table->float('app_megs')->nullable();
             $table->boolean('app_activa')->default(true);
+            $table->string('app_estado')->nullable();
             $table->timestamps();
 
         });

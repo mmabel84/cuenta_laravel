@@ -18,61 +18,77 @@ class CertController extends Controller
     }
 
     public function index()
-    {       
-        $certificados = Certificado::all();
-        $certif_vencidos = [];
+    { 
 
-        foreach ($certificados as $cert ) {
-        	
-        		if ($cert->cert_f_fin >= date('Y-m-d H:i:s'))
-	        	{
-	        		$cert->cert_estado = 'Vigente';
-	        	}
-	        	else
-	        	{
-	        		
-	        		$cert->cert_estado = 'Vencido';
-                    array_push($certif_vencidos, $cert);
-	        	}
-        	}
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.certificado'))
+        {
+            $certificados = Certificado::all();
+            $certif_vencidos = [];
 
-     	\Session::pull('failmessage','default');
-        return view('certificados')->with('certs',$certificados);
+            foreach ($certificados as $cert ) {
+                
+                    if ($cert->cert_f_fin >= date('Y-m-d H:i:s'))
+                    {
+                        $cert->cert_estado = 'Vigente';
+                    }
+                    else
+                    {
+                        
+                        $cert->cert_estado = 'Vencido';
+                        array_push($certif_vencidos, $cert);
+                    }
+                }
+            return view('certificados')->with('certs',$certificados);
+
+        }
+        \Session::flash('failmessage','No tiene acceso a leer certificados');
+        return redirect()->back();      
+        
     }
 
     public function indexvencidos()
-    {       
-        $certificados = Certificado::all();
-        $certif_vencidos = [];
+    {   
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.certificado'))
+        {    
+            $certificados = Certificado::all();
+            $certif_vencidos = [];
 
-        foreach ($certificados as $cert ) {
-            
-                if ($cert->cert_f_fin < date('Y-m-d H:i:s'))
-                {
-                     array_push($certif_vencidos, $cert);
-                     $cert->cert_estado = 'Vencido';
+            foreach ($certificados as $cert ) {
+                
+                    if ($cert->cert_f_fin < date('Y-m-d H:i:s'))
+                    {
+                         array_push($certif_vencidos, $cert);
+                         $cert->cert_estado = 'Vencido';
+                    }
                 }
-            }
 
-        return view('certificados')->with('certs',$certif_vencidos);
+            return view('certificados')->with('certs',$certif_vencidos);
+        }
+        \Session::flash('failmessage','No tiene acceso a leer certificados');
+        return redirect()->back();     
+        
     }
 
 
     public function create()
     {       
+        $usr = $user = \Auth::user();
+        if ($usr->can('crear.certificado'))
+        {  
+            return View::make('certificadocreate');
+        }
 
-        
-       return View::make('certificadocreate');
+        \Session::flash('failmessage','No tiene acceso a crear certificados');
+        return redirect()->back();
     }
 
 
     public function store(Request $request)
     {
     	
-    	
         $alldata = $request->all();
-
-
 
         $certf = new Certificado;
         //$certf->cert_rfc = strtoupper($alldata['cert_rfc']);
@@ -154,5 +170,11 @@ class CertController extends Controller
  	   	return Redirect::to('certificados');
 
 
+    }
+
+    public function edit()
+    {       
+
+       return redirect()->back();
     }
 }

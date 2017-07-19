@@ -20,11 +20,15 @@ class AppController extends Controller
 
      public function index()
     {       
-        $usrs = User::all();
-        $apps = BasedatosApp::all();
-        \Session::pull('failmessage','default');
-
-        return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.aplicacion'))
+        {
+            $usrs = User::all();
+            $apps = BasedatosApp::all();
+            return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
+        }
+        \Session::flash('failmessage','No tiene acceso a leer aplicaciones');
+        return redirect()->back();
     }
 
     public function create()
@@ -38,16 +42,13 @@ class AppController extends Controller
 
         }
         
-        $usrs = User::all();
-        $apps = BasedatosApp::all();
         \Session::flash('failmessage','No tiene acceso a crear aplicaciones');
-        return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
+        return redirect()->back();
     }
 
     public function store(Request $request)
     {
     	
-        
         $bdapps = BasedatosApp::all();
     	$emprexist = null;
         $appexist = null;
@@ -64,7 +65,7 @@ class AppController extends Controller
     	
     	if ($emprexist != null)
     	{
-	    	\Session::flash('message','Ya existe la aplicación '.$appexist. ' de '.$emprexist);
+	    	\Session::flash('failmessage','Ya existe la aplicación '.$appexist. ' de '.$emprexist);
 	    	return redirect()->route('apps.create');
     	}
 
@@ -121,13 +122,6 @@ class AppController extends Controller
 
         \Session::flash('failmessage',$fmessage);
         return Redirect::to('apps');
-        
-
-
-    	
-
-        
-
 
     }
 
@@ -151,43 +145,11 @@ class AppController extends Controller
 
     public function edit($id)
     {       
-        $usr = $user = \Auth::user();
-        if ($usr->can('editar.aplicacion'))
-        {
-            $empresa = Empresa::all();
-            $appe = BasedatosApp::find($id);
-            return view('appedit',['app'=>$appe,'empresas'=>$empresa]);
 
-        }
-        $usrs = User::all();
-        $apps = BasedatosApp::all();
-        \Session::flash('failmessage','No tiene acceso a editar aplicaciones');
-        return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
-
+        return redirect()->back();
        
     }
 
-    public function update(Request $request, $id)
-    {
-        $appu = BasedatosApp::find($id);
-        $app = Aplicacion::where('app_cod', '=', $request->bdapp_app)->get();
-
-
-
-        $appu->bdapp_app_id =  $app[0]->id;
-        $appu->bdapp_app = $app[0]->app_cod;
-        //TODO llamar archivo de configuracion para seleccionar base de datos
-        $appu->bdapp_nomserv = 'Test';
-        $appu->bdapp_empr_id = $request->bdapp_empr_id;
-        
-        
-        $appu->save();
-        $fmessage = 'Se ha actualizado la aplicación: '.$app[0]->app_nom.', de la empresa: '.$appu->empresa->empr_nom;
-        $this->registroBitacora($request,'update',$fmessage); 
-        \Session::flash('message',$fmessage);
-        return Redirect::to('apps');
-
-    }
 
     public function relateAppUsr(Request $request)
     {

@@ -8,19 +8,18 @@
 
 @section('app_css')
         @parent
-        <!-- Forms -->
-	        
-	    	<link href="{{ asset('vendors/google-code-prettify/bin/prettify.min.css') }}" rel="stylesheet">
-	    	<link href="{{ asset('vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
-	    	<link href="{{ asset('vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
-	    	<link href="{{ asset('vendors/starrr/dist/starrr.css') }}" rel="stylesheet">
+        
+  	   <!-- Switchery -->
+    <link href="{{ asset('vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="{{ asset('build/css/custom.css') }}" rel="stylesheet">
+    <!-- Datetime -->
+    <link href="{{ asset('vendors/datetime/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" media="screen">
+    <!-- Chosen -->
+    <link href="{{ asset('vendors/chosen/chosen.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Select 2 -->
+    <link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
 
-	    	<link href="{{ asset('vendors/cropper/dist/cropper.min.css') }}" rel="stylesheet">
-	    	<link href="{{ asset('vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet">
-	    	<link href="{{ asset('vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css') }}" rel="stylesheet">
-	    	<link href="{{ asset('vendors/ion.rangeSlider/css/ion.rangeSlider.css') }}" rel="stylesheet">
-	    	<link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
-	    	<link href="{{ asset('vendors/normalize-css/normalize.css" rel="stylesheet') }}" rel="stylesheet">
 	    	
 @endsection 
 
@@ -58,13 +57,14 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="form2" data-parsley-validate class="form-horizontal form-label-left" method="POST" action="{{route('backups.store')}}">
+                    <form id="form2" class="form-horizontal form-label-left" novalidate method="POST" action="{{route('backups.store')}}" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <input type="hidden" id="apps" name="apps" value="{{ $bdapp }}" onchange="filldata();">
-                    <div class="form-group">
+                    <div class="item form-group">
                           <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id">
+                            <select class="js-example-basic-single js-states form-control" name="bdapp_app_id" id="bdapp_app_id" required>
+                                <option value="">Seleccione una instancia de aplicación...</option>
                                 @foreach($bdapp as $bd)
                                     <option value="{{ $bd->id }}">{{ $bd->empresa->empr_nom }} {{ $bd->aplicacion->app_nom }}</option>
                                 @endforeach
@@ -72,6 +72,7 @@
                             </select>
                           </div>
                      </div>
+
 
                      
 
@@ -103,31 +104,21 @@
 
 @section('app_js')
 		@parent
-        <!-- Forms -->
-
-	    	<script src="{{ asset('vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/moment/min/moment.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-	    	<script src="{{ asset('vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/jquery.hotkeys/jquery.hotkeys.js') }}"></script>
-	    	<script src="{{ asset('vendors/google-code-prettify/src/prettify.js') }}"></script>
-	    	<script src="{{ asset('vendors/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
-	    	<script src="{{ asset('vendors/switchery/dist/switchery.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/select2/dist/js/select2.full.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/parsleyjs/dist/parsley.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/autosize/dist/autosize.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/starrr/dist/starrr.js') }}"></script>
-	    	<script src="{{ asset('vendors/starrr/dist/starrr.js') }}"></script>
-
-	    	<script src="{{ asset('vendors/ion.rangeSlider/js/ion.rangeSlider.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/jquery-knob/dist/jquery.knob.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/cropper/dist/cropper.min.js') }}"></script>
-	    	<script src="{{ asset('vendors/select2/dist/js/select2.min.js') }}"></script>
-	    	<script src="{{ asset('build/js/custom.js') }}"></script>
+    <!-- Chosen -->
+    <script src="{{ asset('vendors/chosen/chosen.jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendors/chosen/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ asset('vendors/chosen/docsupport/init.js') }}" type="text/javascript" charset="utf-8"></script>
+    <!-- validator -->
+    <script src="{{ asset('vendors/validator/control.validator.js') }}"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('build/js/custom.js') }}"></script>
+    <!-- Date Time -->
+    <script type="text/javascript" src="{{ asset('vendors/datetime/js/bootstrap-datetimepicker.js') }}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{ asset('vendors/datetime/js/locales/bootstrap-datetimepicker.es.js') }}" charset="UTF-8"></script>
+    <!-- Select 2 -->
+    <script src="{{ asset('vendors/select2/dist/js/select2.min.js') }}"></script>
+    <!-- Switchery -->
+    <script src="{{ asset('vendors/switchery/dist/switchery.min.js') }}"></script>
 
 	    	<script>
           $( function() {
@@ -155,7 +146,7 @@
                       
             $("#bdapp_app_id").select2({
                   allowClear: true,
-                  placeholder: 'Seleccione una aplicación...'
+                  placeholder: 'Seleccione una instancia de aplicación...'
                    
                });
 

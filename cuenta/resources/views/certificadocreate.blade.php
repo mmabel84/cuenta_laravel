@@ -88,7 +88,7 @@
 
 							<div class="item form-group">                        
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                  <input id="cert_file" class="form-control has-feedback-left" name="cert_file" placeholder="Certificado del Cliente " type="file" accept=".cer" title="Certificado con extensión .cer">
+                                  <input id="cert_file" class="form-control has-feedback-left" name="cert_file" placeholder="Certificado del Cliente " type="file" accept=".cer" title="Certificado con extensión .cer" required="required">
                                   <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                             </div>

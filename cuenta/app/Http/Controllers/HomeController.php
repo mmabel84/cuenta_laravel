@@ -37,10 +37,14 @@ class HomeController extends Controller
     public function index()
     {
         $emps = Empresa::all();
-        $apps = Aplicacion::all();
+        $appsall = Aplicacion::all();
+        $apps = $appsall->where('app_estado','!=','Prueba');
         $usrs = User::all();
         $bdapps = BasedatosApp::all();
-        $appsact = Aplicacion::where('app_activa', '=', true)->get();
+        $appsact = $appsall->where('app_activa', '=', true);
+        $appsdesact = $appsall->where('app_activa', '=', false);
+        $appstest = $appsall->where('app_estado', '=', 'Prueba');
+
 
         //Cálculo de instancias creadas y consumidas por aplicación
         $appnames = [];
@@ -83,6 +87,26 @@ class HomeController extends Controller
                      'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
                     'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    </i></a>",
+                    
+                    'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>NOTARÍA</b></span></i></a>",
+                    'cc'=>"<a href='' data-dir='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>TAREAS</b></span></i></a>
+                    ");
+
+        //diccionario con aplicaciones en prueba activas
+
+        $appsenprueba = array (
+                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso a aplicación de facturación electrónica'><i class='iconfacttest icon-accessibilityfact' padding: 0 25px;'>
+                    </i></a>",
+                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbovtest icon-accessibilitybov' padding: 0 25px;'>
+                    </i></a>",
+                    'cont'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>CONTAB</b></span></i></a>",
+                     'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    <b>NÓMINA</b></span></i></a>",
+                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpldtest icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
                     'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
@@ -142,7 +166,15 @@ class HomeController extends Controller
              
             if (count($app)>0){
                 if ($app[0]->app_activa == true){
-                    $appvisible = $appvisible.$appsicons[$key];
+                    if ($app[0]->app_estado != 'Prueba')
+                    {
+                        $appvisible = $appvisible.$appsicons[$key];
+                    }
+                    else
+                    {
+                        $appvisible = $appvisible.$appsenprueba[$key];
+                    }
+                    
                 }
                 else{
                     $appvisible = $appvisible.$appsiconsblocked[$key];
@@ -220,24 +252,41 @@ class HomeController extends Controller
         $intervalshow = $intervalsemanas;
 
 
-
         if ($dias_hasta_fin >= 0)
         {
             if ($intervalsemanas > 0)
             {
-                $medida_tiempo = 'SEMANA/S DISPONIBLES PARA PAGO';
+                $medida_tiempo = 'SEMANAS DISPONIBLES PARA PAGO';
+            }
+            elseif ($intervalsemanas == 1)
+            {
+                $medida_tiempo = 'SEMANA DISPONIBLE PARA PAGO';
             }
             else
             {
-                $medida_tiempo = 'DÍA/S DISPONIBLES PARA PAGO';
                 $intervalshow = $intervaldias;
+                if ($intervaldias > 1){
+                    $medida_tiempo = 'DÍAS DISPONIBLES PARA PAGO';
+                }
+                else{
+                    $medida_tiempo = 'DÍA DISPONIBLE PARA PAGO';
+                }
+                
+                
             }
             
         }
         else
         {
-            $medida_tiempo = 'DÍA/S DE ATRASO PARA PAGO';
             $intervalshow = $intervaldias;
+            if ($intervaldias > 1){
+                $medida_tiempo = 'DÍAS DE ATRASO PARA PAGO';
+            }
+            else{
+                $medida_tiempo = 'DÍA DE ATRASO PARA PAGO';
+            }
+            
+            
         }
         
 
@@ -332,7 +381,7 @@ class HomeController extends Controller
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons)]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact)]);
 
         
 

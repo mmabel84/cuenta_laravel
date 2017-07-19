@@ -28,7 +28,17 @@
                  cursor: default;
                  opacity: 0.3;
                  color:grey;
+                -webkit-filter: blur(2px)
+
+
               }
+      .disabledtest {
+               pointer-events: none;
+               cursor: default;
+               opacity: 0.3;
+               color:grey;
+
+            }
       .hidden{
             visibility:hidden;
             }
@@ -38,14 +48,33 @@
       .iconpld {
             display: inline-block;
             background: url("{{asset('MejoraPLD.png')}}") no-repeat top left;
+
+            }
+      .iconpldtest {
+            display: inline-block;
+            background: url("{{asset('MejoraPLD.png')}}") no-repeat top left;
+            -webkit-filter: sepia(100%)
+
             }
       .iconbov {
             display: inline-block;
             background: url("{{asset('boveda.png')}}") no-repeat top left;
+
+            }
+      .iconbovtest {
+            display: inline-block;
+            background: url("{{asset('boveda.png')}}") no-repeat top left;
+            -webkit-filter: sepia(100%)
             }
       .iconfact {
             display: inline-block;
             background: url("{{asset('logo_advans_edited.jpg')}}") no-repeat top left;
+            }
+      
+      .iconfacttest {
+            display: inline-block;
+            background: url("{{asset('logo_advans_edited.jpg')}}") no-repeat top left;
+            -webkit-filter: sepia(100%)
             }
       .icon-accessibility{ 
             background-position: 0 0; width: 100px; height: 60px; 
@@ -75,10 +104,10 @@
                 <div class="tile-stats">
 
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-suitcase" style="color: #053666; font-size: 50px;"></i></div>
-                  <div class="count" style="color: #053666;">{{ $apps }}</div>
-                  <p style="color: #053666;"><b>APLICACIONES CONTRATADAS</b></p>
-                  <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $appsact }} aplicaciones activas</p></a>
-                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cant_app_coninst }} aplicaciones con instancias creadas</p></a>
+                  <div class="count" style="color: #053666;">{{ $appsall }}</div>
+                  <p style="color: #053666;"><b>APLICACIONES EN USO</b></p>
+                  <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $apps }} contratadas | {{ $appstest }} en prueba</p></a>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $appsact }} activas | {{ $appsdesact }} inactivas</p></a>
                 </div>
               </div>
 
@@ -125,7 +154,7 @@
             <div class="col-md-9 col-sm-9 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                          <h2>Acceso a aplicaciones contratadas</h2>
+                          <h2>Acceso a aplicaciones</h2>
                           <div class="clearfix"></div>
                 </div>
 
@@ -141,6 +170,7 @@
                 <br>
                 <br>
                 <input type="hidden" id="iconsapp" name="iconsapp" value="{{ $appvisible }}">
+                <input type="hidden" id="cantinstcreadas" name="cantinstcreadas" value="{{ $cantinstcreadas }}">
                 <div class="contenedor_select col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:80px;">
    
                 <!--    <a href="#" data-toggle="tooltip" data-placement="right" title="PLD" id="pld"><i class="fa fa-money fa-3x" style="color:#053666;"></i></a>
@@ -294,7 +324,7 @@
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                     </div>
-
+ 
 
                 <input type="hidden" name="gigascons" id="gigascons" value="{{ $gigas_cons }}" onchange="fillpiechart(this)" />
                 <input type="hidden" name="gigastotal" id="gigastotal" value="{{ $gigas }}"/>
@@ -443,7 +473,7 @@
                     </div>
                   </div>-->
 
-                  <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="col-md-12 col-sm-12 col-xs-12" id="graphapp">
                     <div class="x_panel">
                       <div class="x_title">
                         <h2>Análisis de instancias por aplicación</h2>
@@ -546,6 +576,15 @@
             $("#divnews").hide();
           }
 
+          //Verificando si existen instancias creadas
+          var cantinst = document.getElementById('instcreadas').value;
+          if (cantinst == 0){
+            $("#graphapp").hide();
+          }
+          else{
+            $("#graphapp").show();
+          }
+          
         </script>
 
 
@@ -870,6 +909,9 @@
             };
 
 
+              console.log(jQuery.parseJSON(appnames));
+              console.log(jQuery.parseJSON(instcont));
+              console.log(jQuery.parseJSON(instcreadas));
 
                   //MAINB
       if ($('#mainb').length ){
@@ -885,7 +927,7 @@
             trigger: 'axis'
           },
           legend: {
-            data: ['Instancias contratadas', 'Instancias creadas', 'Megas consumidos']
+            data: ['Instancias contratadas', 'Instancias creadas']
           },
           toolbox: {
             show: false

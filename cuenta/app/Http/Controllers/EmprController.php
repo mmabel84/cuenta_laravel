@@ -22,40 +22,53 @@ class EmprController extends Controller
 
     public function index()
     {       
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.empresa'))
+        {
+            $empresa = Empresa::all();
+            return view('empresas')->with('empresas',$empresa);
+        }
+        \Session::flash('failmessage','No tiene acceso a leer empresas');
+        return redirect()->back();
 
-        $empresa = Empresa::all();
-        \Session::pull('failmessage','default');
-
-        return view('empresas')->with('empresas',$empresa);
+        
     }
 
     public function create()
     {       
 
-        $totalempscreadas = Empresa::all();
-        $totalpaquetesact = Paquete::where('paqapp_activo', '=', true)->get();
-        $totalempcont = 0;
+        $usr = $user = \Auth::user();
+        if ($usr->can('crear.empresa'))
+        {
+            $totalempscreadas = Empresa::all();
+            $totalpaquetesact = Paquete::where('paqapp_activo', '=', true)->get();
+            $totalempcont = 0;
 
-        foreach ($totalpaquetesact as $paq) {
-            $totalempcont+=$paq->paqapp_cantrfc;
+            foreach ($totalpaquetesact as $paq) {
+                $totalempcont+=$paq->paqapp_cantrfc;
+            }
+
+           return View::make('empresacreate');
         }
-
-
-        /*if (count($totalempscreadas) >= $totalempcont){
-            \Session::flash('failmessage','Se alcanzó el número máximo de empresas contratadas. Para crear una nueva empresa consulte con distribuidor para incrementar paquete asignado o elimine empresas existentes.');
-            return Redirect::to('empresas');
-        }*/
-
-       return View::make('empresacreate');
+        \Session::flash('failmessage','No tiene acceso a crear empresas');
+        return redirect()->back();
+        
     }
 
     public function edit($id)
-    {       
-
-    	$empresase = Empresa::find($id);
-    	return View::make('empresaedit')
+    {    
+        $usr = $user = \Auth::user();
+        if ($usr->can('editar.empresa'))
+        { 
+            $empresase = Empresa::find($id);
+            return View::make('empresaedit')
             ->with('empresa', $empresase);
-    }
+        }
+        \Session::flash('failmessage','No tiene acceso a editar empresas');
+        return redirect()->back();
+    } 
+
+    	
 
     public function update(Request $request, $id)
     {
