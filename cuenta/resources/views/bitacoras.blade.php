@@ -33,15 +33,15 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#8c4a7e; ">
+		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
 		                          <th>Fecha</th>
 		                          <th>Operación</th>
+		                          <th>Usuario</th>
+		                          <th>Módulo</th>
 		                          <th>IP</th>
 		                          <th>Navegador</th>
 		                          <th>Mensaje</th>
-		                          <th>Módulo</th>
-		                          <th>Dato</th>
-		                          <th>Resultado</th>
+		                          
 		                          
 		                        </tr>
 		                      </thead>
@@ -52,12 +52,12 @@
 		                        <tr>
 		                          <td>{{$b->bitc_fecha}}</td>
 		                          <td>{{$b->bitcta_tipo_op}}</td>
+		                          <td>{{$b->user ? $b->user->name:''}}</td>
+		                          <td>{{$b->bitc_modulo}}</td>
 		                          <td>{{$b->bitcta_ip}}</td>
 		                          <td>{{$b->bitcta_naveg}}</td>
 		                          <td>{{$b->bitcta_msg}}</td>
-		                          <td>{{$b->bitc_modulo}}</td>
-		                          <td>{{$b->bitcta_dato}}</td>
-		                          <td>{{$b->bitcta_result}}</td>
+		                          
 		                      
 		                          		                          
 		                        </tr>

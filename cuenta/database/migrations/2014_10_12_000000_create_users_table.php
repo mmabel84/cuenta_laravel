@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('users_pic')->nullable();
             $table->dateTime('users_f_ultacces');
             $table->boolean('users_activo')->default(True);
+            $table->boolean('users_control')->default(False);
             $table->rememberToken();
             $table->timestamps();
         });

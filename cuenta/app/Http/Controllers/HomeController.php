@@ -52,9 +52,9 @@ class HomeController extends Controller
         $instcreadas = [];
         $megcons = [];
 
-        foreach ($apps as $app) {
+        foreach ($appsall as $app) {
             array_push($appnames, $app->app_nom);
-            if ($app->app_insts == null)
+            if ($app->app_insts == null || $app->app_estado == 'Prueba')
                 $app_inst = 0;
             else
                 $app_inst = $app->app_insts;
@@ -98,20 +98,20 @@ class HomeController extends Controller
         //diccionario con aplicaciones en prueba activas
 
         $appsenprueba = array (
-                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso a aplicación de facturación electrónica'><i class='iconfacttest icon-accessibilityfact' padding: 0 25px;'>
+                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso de prueba a aplicación de facturación electrónica'><i class='iconfacttest icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
-                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbovtest icon-accessibilitybov' padding: 0 25px;'>
+                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso de prueba a aplicación de bóveda'><i class='iconbovtest icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cont'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Contabilidad' ><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
-                     'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                     'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Nómina' ><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpldtest icon-accessibility' padding: 0 25px;'>
+                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' title='Acceso de prueba a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpldtest icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
-                    'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Notaría' ><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='' data-dir='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cc'=>"<a href='' data-dir='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Control de Calidad' ><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>TAREAS</b></span></i></a>
                     ");
 
@@ -204,90 +204,119 @@ class HomeController extends Controller
         $fecha_venta = '';
         $fecha_fin = '';
         $fecha_caduc = '';
+        $porc_fin = 0;
+        $intervalshow = 0;
+        $medida_tiempo = 'SIN LÍNEA DE TIEMPO ACTIVA';
+        $color_interval = '#FFFFFF';
+
 
         $paquetes = Paquete::where('paqapp_activo', '=', true)->get();
 
-        if (count($paquetes) > 0){
+        if (count($paquetes) > 0)
+        {
             $fecha_venta = $paquetes[0]->paqapp_f_venta;
             $fecha_fin = $paquetes[0]->paqapp_f_fin;
             $fecha_caduc = $paquetes[0]->paqapp_f_caduc;
-        }
 
-        $fecha_actual = strtotime("now");
-        $dias_total_fin = strtotime($fecha_fin) - strtotime($fecha_venta);
-        $dias_transc_fin = $fecha_actual - strtotime($fecha_venta);
-        $dias_hasta_fin = strtotime($fecha_fin) - $fecha_actual;
-
-
-        if ($dias_total_fin > 0) {
-            $porc_fin = round($dias_transc_fin / $dias_total_fin * 100, 0);
-        }
-        else
-        {
-            $porc_fin = 100;
-        }
-        
-        //Calculando semanas disponibles o de atraso
-       
-        foreach ($paquetes as $p) {
-
-            if ($fecha_venta > $p->paqapp_f_venta){
-                 $fecha_venta = $p->paqapp_f_venta;
-            }
-            if ($fecha_fin < $p->paqapp_f_fin){
-                $fecha_fin = $p->paqapp_f_fin;
-            }
-            if ($fecha_caduc < $p->fecha_caduc){
-                $fecha_caduc = $p->fecha_caduc;
-            }
-        }
-
-        $medida_tiempo = '';
-        $fecha_fin_datetime = new Datetime($fecha_fin);
-        $fecha_actual_datetime = new Datetime(date('Y-m-d H:i:s'));
-        $interval=$fecha_fin_datetime->diff($fecha_actual_datetime);
-        $intervalsemanas=round($interval->format("%a") / 7, 0);
-        $intervaldias=round($interval->format("%d"));
-        $intervalAnos = round($interval->format("%y")*12, 0);
-        $intervalshow = $intervalsemanas;
+            $fecha_actual = strtotime("now");
+            $dias_total_fin = strtotime($fecha_fin) - strtotime($fecha_venta);
+            $dias_transc_fin = $fecha_actual - strtotime($fecha_venta);
+            $dias_hasta_fin = strtotime($fecha_fin) - $fecha_actual;
 
 
-        if ($dias_hasta_fin >= 0)
-        {
-            if ($intervalsemanas > 0)
+            if ($fecha_actual < strtotime($fecha_venta))
             {
-                $medida_tiempo = 'SEMANAS DISPONIBLES PARA PAGO';
+                $porc_fin = 0;
             }
-            elseif ($intervalsemanas == 1)
-            {
-                $medida_tiempo = 'SEMANA DISPONIBLE PARA PAGO';
+            elseif ($dias_total_fin > 0) {
+                $porc_fin = round($dias_transc_fin / $dias_total_fin * 100, 0);
             }
             else
             {
-                $intervalshow = $intervaldias;
-                if ($intervaldias > 1){
-                    $medida_tiempo = 'DÍAS DISPONIBLES PARA PAGO';
+                $porc_fin = 100;
+            }
+            
+            //Calculando semanas disponibles o de atraso
+           
+            foreach ($paquetes as $p) {
+
+                if ($fecha_venta > $p->paqapp_f_venta){
+                     $fecha_venta = $p->paqapp_f_venta;
                 }
-                else{
-                    $medida_tiempo = 'DÍA DISPONIBLE PARA PAGO';
+                if ($fecha_fin < $p->paqapp_f_fin){
+                    $fecha_fin = $p->paqapp_f_fin;
                 }
-                
-                
+                if ($fecha_caduc < $p->fecha_caduc){
+                    $fecha_caduc = $p->fecha_caduc;
+                }
             }
+
+            $medida_tiempo = '';
+            $fecha_fin_datetime = new Datetime($fecha_fin);
+            $fecha_actual_datetime = new Datetime(date('Y-m-d H:i:s'));
+            $interval=$fecha_fin_datetime->diff($fecha_actual_datetime);
+            $intervalsemanas=round($interval->format("%a") / 7, 0);
+            $intervaldias=round($interval->format("%d"));
+            $intervalAnos = round($interval->format("%y")*12, 0);
+            $intervalshow = $intervalsemanas;
+            $color_interval = '#053666';
+
+            if ($paquetes[0]->paqapp_pagado == false)
+            {
+                if ($dias_hasta_fin >= 0)
+                {
+                    if ($intervalsemanas > 1)
+                    {
+                        $medida_tiempo = 'SEMANAS DISPONIBLES PARA PAGO';
+                    }
+                    elseif ($intervalsemanas == 1)
+                    {
+                        $medida_tiempo = 'SEMANA DISPONIBLE PARA PAGO';
+                        $color_interval = '#b38f00';
+                    }
+                    else
+                    {   
+                        $color_interval = '#990000';
+                        $intervalshow = $intervaldias;
+                        if ($intervaldias > 1){
+                            $medida_tiempo = 'DÍAS DISPONIBLES PARA PAGO';
+                        }
+                        else{
+                            $medida_tiempo = 'DÍA DISPONIBLE PARA PAGO';
+                        }
+                        
+                        
+                    }
+                    
+                }
+                else
+                {
+                    $color_interval = '#990000';
+                    $intervalshow = $intervaldias;
+                    if ($intervaldias > 1){
+                        $medida_tiempo = 'DÍAS DE ATRASO PARA PAGO';
+                    }
+                    else{
+                        $medida_tiempo = 'DÍA DE ATRASO PARA PAGO';
+                    }
+                    
+                    
+                }
+
+
+            }
+            else
+            {
+                $medida_tiempo = 'LÍNEA DE TIEMPO PAGADA';
+                $intervalshow = '';
+
+            }
+
             
+
         }
-        else
-        {
-            $intervalshow = $intervaldias;
-            if ($intervaldias > 1){
-                $medida_tiempo = 'DÍAS DE ATRASO PARA PAGO';
-            }
-            else{
-                $medida_tiempo = 'DÍA DE ATRASO PARA PAGO';
-            }
-            
-            
-        }
+
+        
         
 
 
@@ -381,7 +410,7 @@ class HomeController extends Controller
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact)]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval]);
 
         
 

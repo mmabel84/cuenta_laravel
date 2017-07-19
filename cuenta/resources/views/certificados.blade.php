@@ -30,7 +30,7 @@
 		                  
 		                  @permission('crear.certificado')
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('certificados/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#5f7284; "><b>Nuevo certificado</b></button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('certificados/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nuevo certificado</b></button>
 		                  </div>
 		                  @endpermission
 
@@ -53,12 +53,12 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#5f7284 ">
+		                        <tr style="color:#FFFFFF; background-color:#2d5986 ">
 		                          <th>RFC</th>
 		                          <th>Razón social</th>
 		                          <th>Número de serie</th>
 		                          <th>Tipo</th>
-		                          <th>Fecha de vencimiento</th>
+		                          <th>Vencimiento</th>
 		                          <th>Estado</th>
 		                          <th>Acciones</th>
 		                         

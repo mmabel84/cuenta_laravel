@@ -49,11 +49,10 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#254d74;">
+		                        <tr style="color:#FFFFFF; background-color:#2d5986;">
 		                          <th>Nombre</th>
-		                          <th>Código</th>
-		                          <th>Cantidad de instancias contratadas</th>
-		                          <th>Cantidad de megas contratados</th>
+		                          <th>Instancias contratadas</th>
+		                          <th>Megas contratados</th>
 		                          <th>Estado</th>
 		                          <th>Uso</th>
 		                        </tr>
@@ -62,7 +61,6 @@
 		                      	@foreach ($apps as $a)
 		                        <tr>
 		                          <td>{{$a->app_nom}}</td>
-		                          <td>{{$a->app_cod}}</td>
 		                          <td>{{$a->app_insts}}</td>
 		                          <td>{{$a->app_megs}}</td>
 		                          <td>{{ $a->app_activa == 1 ? 'Activa' : 'Deshabilitada' }}</td>

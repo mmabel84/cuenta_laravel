@@ -16,14 +16,14 @@
 @endsection
 
 @section('app_body')
-    <body class="nav-md" style="background-color: #072542">
+    <body class="nav-md" style="background-color: #001a33">
         <div class="container body">
-            <div class="main_container" style="background-color: #072542">
+            <div class="main_container" style="background-color: #001a33">
                 
                 @section('app_left_menu')
-                    <div class="col-md-3 left_col" style="background-color: #072542">
-                        <div class="left_col scroll-view" style="background-color: #072542">
-                          <div class="navbar nav_title" style="border: 0; background-color: #072542;">
+                    <div class="col-md-3 left_col" style="background-color: #001a33">
+                        <div class="left_col scroll-view" style="background-color: #001a33">
+                          <div class="navbar nav_title" style="border: 0; background-color: #001a33;">
                             <a href="/" class="site_title"><img height="60px" src="{{asset('logo_advans_head.png')}}"><span>{{ config('app.name') }}</span></a>
                           </div>
                           <div class="clearfix"></div>

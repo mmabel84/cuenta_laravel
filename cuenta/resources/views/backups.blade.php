@@ -30,7 +30,7 @@
 		                  
 		                  @permission('crear.respaldo')
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('backups/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#486d91; "><b>Nuevo respaldo</b></button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('backups/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nuevo respaldo</b></button>
 		                  </div>
 		                  @endpermission
 
@@ -53,7 +53,7 @@
 		                    
 		                    <table id="datatable-buttons" class="table table-striped table-bordered">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#486d91 ">
+		                        <tr style="color:#FFFFFF; background-color:#2d5986 ">
 		                          <th>Empresa</th>
 		                          <th>Aplicación</th>
 		                          <th>Fecha</th>

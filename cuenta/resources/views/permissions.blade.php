@@ -29,7 +29,7 @@
 		                  </div>
 
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('permisos/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#254d74; "><b>Nuevo permiso</b></button>
+		                  <!--<button type="button" onclick="location.href = '{{ URL::to('permisos/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nuevo permiso</b></button>-->
 		                  </div>
 		                  
 		                  
@@ -46,7 +46,7 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
+		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
 		                          <th>Nombre</th>
 		                          <th>Código</th>
 		                          <th>Descripción</th>

@@ -29,7 +29,7 @@
 		                  
 		                  @permission('crear.usuario')
 		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#062c51; "><b>Nuevo usuario</b></button>
+		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nuevo usuario</b></button>
 		                  </div>
 		                  @endpermission
 
@@ -60,13 +60,12 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#062c51; ">
+		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
 		                          <th>Nombre</th>
-		                          <th>Usuario</th>
 		                          <th>Correo</th>
 		                          <th>Teléfono</th>
 		                          <th>Fecha de último acceso</th>
-		                          <th width="16%">Acciones</th>
+		                          <th width="20%">Acciones</th>
 		                          
 		                        </tr>
 		                      </thead>
@@ -76,7 +75,6 @@
 		                      @foreach ($usuarios as $u)
 		                        <tr>
 		                          <td>{{$u->name}}</td>
-		                          <td>{{$u->users_nick}}</td>
 		                          <td>{{$u->email}}</td>
 		                          <td>{{$u->users_tel}}</td>
 		                          <td>{{$u->users_f_ultacces}}</td>

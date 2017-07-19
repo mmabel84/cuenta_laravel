@@ -107,7 +107,7 @@
                   <div class="count" style="color: #053666;">{{ $appsall }}</div>
                   <p style="color: #053666;"><b>APLICACIONES EN USO</b></p>
                   <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $apps }} contratadas | {{ $appstest }} en prueba</p></a>
-                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $appsact }} activas | {{ $appsdesact }} inactivas</p></a>
+                  <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $appsact }} activas | {{ $appsdesact }} inactivas</p></a>
                 </div>
               </div>
 
@@ -125,9 +125,9 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-calendar" style="color: #053666; font-size: 50px;"></i></div>
-                  <div class="count" style="color: #053666;">{{ $intervalshow }}</div>
+                  <div id="tiempodisp" class="count" style="color: #053666;">{{ $intervalshow }} </div>
                    <p style="color: #053666;"><b>{{ $medida_tiempo }} </b></p>
-                   <p style="color: #053666;">F. Pago: {{ $fecha_fin }} | F. Corte: {{ $fecha_caduc }}</p>
+                   <p style="color: #053666;">Pago en {{ $fecha_fin }} | Corte en {{ $fecha_caduc }}</p>
                    <p style="color: #053666;">{{ $porc_final }}% de tiempo consumido </p>
 
                 </div>
@@ -151,7 +151,7 @@
 
           
 
-            <div class="col-md-9 col-sm-9 col-xs-12">
+            <div class="contenedor_select col-md-9 col-sm-9 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
                           <h2>Acceso a aplicaciones</h2>
@@ -160,7 +160,7 @@
 
                 <div class="contenedor_select col-md-12 col-sm-12 col-xs-12">
                   
-                  <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" >
+                  <select class="js-example-data-array form-control col-md-9 col-sm-9 col-xs-9" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)">
                       <!--<option value="null">Seleccione una empresa ...</option>-->
                            
                   </select>
@@ -171,6 +171,7 @@
                 <br>
                 <input type="hidden" id="iconsapp" name="iconsapp" value="{{ $appvisible }}">
                 <input type="hidden" id="cantinstcreadas" name="cantinstcreadas" value="{{ $cantinstcreadas }}">
+                 <input type="hidden" id="inp_colorinterv" name="inp_colorinterv" value="{{ $color_interval }}">
                 <div class="contenedor_select col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:80px;">
    
                 <!--    <a href="#" data-toggle="tooltip" data-placement="right" title="PLD" id="pld"><i class="fa fa-money fa-3x" style="color:#053666;"></i></a>
@@ -199,9 +200,9 @@
 
 
              <div class="col-md-3 col-sm-3 col-xs-12" >
-                <div class="x_panel  contenedor_select">
+                <div class="x_panel  contenedor_select" >
                 <div class="x_title">
-                            <h2>Validar RFC en Art. 69 y 69-B</h2>
+                            <h2 style="font-size: 15px">Validar RFC en Art. 69 y 69-B</h2>
                             </br>
                             <p>Actualizado a 23/09/2017</p>
                             <div class="clearfix"></div>
@@ -209,7 +210,7 @@
 
                        <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:100px;">
                            <div class="input-group" >
-                              <input type="text" class="form-control" placeholder="Ingrese RFC..." id="rfc" name="rfc" style="text-transform: uppercase;">
+                              <input type="text" class="form-control" placeholder="RFC..." id="rfc" name="rfc" style="text-transform: uppercase;">
                               <span class="input-group-btn">
                                 <button type="button" class="btn btn-primary" onclick="art69cons()" style="background-color: #053666">Consultar</button>
                               </span>
@@ -307,14 +308,14 @@
                           
                       </div>
 
-                       <div class="contenedor_select col-md-12 col-sm-12 col-xs-12" id="certif" style="height:84px;">
+                       <div class="col-md-12 col-sm-12 col-xs-12" id="certif" style="height:84px;">
                         
                       </div>
-                      <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifreg" style="height:20px; text-align: left; color: #053666">
-                          <a href="{{ URL::to('certificados') }}">{{ $cant_cert }} registrado/s</a>
+                      <div class="col-md-6 col-sm-6 col-xs-12" id="certifreg" style="height:20px; text-align: left; color: #053666">
+                          <a href="{{ URL::to('certificados') }}">{{ $cant_cert }} creados</a>
                       </div>
-                      <div class="contenedor_select col-md-6 col-sm-6 col-xs-12" id="certifvenc" style="height:20px; text-align: right; color: #053666">
-                          <a href="{{ URL::to('certvencidos') }}">{{ $cant_cert_vencidos }} vencido/s</a>
+                      <div class="col-md-6 col-sm-6 col-xs-12" id="certifvenc" style="height:20px; text-align: right; color: #053666">
+                          <a href="{{ URL::to('certvencidos') }}">{{ $cant_cert_vencidos }} vencidos</a>
                       </div>
 
                  </div>
@@ -577,7 +578,7 @@
           }
 
           //Verificando si existen instancias creadas
-          var cantinst = document.getElementById('instcreadas').value;
+          var cantinst = document.getElementById('cantinstcreadas').value;
           if (cantinst == 0){
             $("#graphapp").hide();
           }
@@ -707,11 +708,19 @@
       <script type="text/javascript">
 
 
+      function checktime() {
+        var divtiempodisp = document.getElementById('tiempodisp');
+        var inp_colorinterv = document.getElementById('inp_colorinterv').value;
+        divtiempodisp.style.color = inp_colorinterv;
 
+      }
 
 
       $('#gigascons').trigger('change');
         function fillpiechart(gigascons) {
+
+          checktime();        
+
           var gig_cons = gigascons.value;
           var gig_disp = document.getElementById('gigastotal').value - gig_cons;
           var gig_emp = document.getElementById('gigasemp').value;

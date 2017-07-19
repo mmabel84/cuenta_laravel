@@ -50,7 +50,7 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#254d74; ">
+		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
 		                         
 		                          <th>Fecha de venta</th>
 		                          <th>Fecha de activación</th>

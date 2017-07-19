@@ -32,7 +32,7 @@
 		                  @permission('crear.aplicacion')
 		                  <div class="form-group">
 		                 
-		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#094784; "><b>Nueva aplicación</b></button>
+		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nueva aplicación</b></button>
 		                  </div>
 		                  @endpermission
 
@@ -56,7 +56,7 @@
 		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
-		                        <tr style="color:#FFFFFF; background-color:#094784; ">
+		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
 		                          <th>Aplicación</th>
 		                          <th>Empresa</th>
 		                          <th>RFC empresa</th>
@@ -74,7 +74,7 @@
 		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 
 
-		                          <td class=" last" width="12%">
+		                          <td class=" last" width="14%">
 		                          	
 		                          	
 			                          <div class="btn-group">

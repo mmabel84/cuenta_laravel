@@ -77,10 +77,16 @@ class UsrController extends Controller
         $usr = $user = \Auth::user();
         if ($usr->can('leer.usuario'))
         {
-            $usuario = User::all();
+            $usuarios = User::where('users_control','<>',true)->get();
+            if ($usr->can('leer.usuario.advans'))
+            {
+                $usuarios = User::all();
+            }
+            
             $apps = BasedatosApp::all();
-            return view('usuarios',['apps'=>$apps,'usuarios'=>$usuario]);
+            return view('usuarios',['apps'=>$apps,'usuarios'=>$usuarios]);
         }
+
         \Session::flash('failmessage','No tiene acceso a leer usuarios');
         return redirect()->back();
 

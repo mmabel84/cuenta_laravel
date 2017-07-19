@@ -16,6 +16,7 @@ class PaqController extends Controller
     {       
 
         $paqs = Paquete::all();
+        $paqs->sortByDesc('created_at');
         return view('paquetes')->with('paqs',$paqs);
     }
 
