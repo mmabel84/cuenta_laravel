@@ -15,7 +15,6 @@ class BitController extends Controller
     public function index()
     {       
         $bitacoras = Bitacora::all();
-        $bitacoras->sortByDesc('bitc_fecha');
         return view('bitacoras')->with('bitacoras',$bitacoras);
     }
 

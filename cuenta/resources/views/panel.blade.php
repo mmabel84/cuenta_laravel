@@ -107,7 +107,7 @@
                   <div class="count" style="color: #053666;">{{ $appsall }}</div>
                   <p style="color: #053666;"><b>APLICACIONES EN USO</b></p>
                   <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $apps }} contratadas | {{ $appstest }} en prueba</p></a>
-                  <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $appsact }} activas | {{ $appsdesact }} inactivas</p></a>
+                  <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $appsdesact }} bloqueadas</p></a>
                 </div>
               </div>
 
@@ -117,7 +117,7 @@
                   <div class="count" style="color: #053666;">{{ $insts }}</div>
                   <p style="color: #053666;"><b>INSTANCIAS CONTRATADAS</b></p>
                   <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas }} instancias creadas</p></a>
-                  <a href="{{ URL::to('empresas') }}"><p style="color: #053666;">{{ $rfccreados }} empresas creadas</p></a>
+                  <a href="{{ URL::to('empresas') }}"><p style="color: #053666;">{{ $cantbdappstest }} instancias en prueba</p></a>
 
                 </div>
               </div>
@@ -125,7 +125,7 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-calendar" style="color: #053666; font-size: 50px;"></i></div>
-                  <div id="tiempodisp" class="count" style="color: #053666;">{{ $intervalshow }} </div>
+                  <div id="tiempodisp" class="count" >{{ $intervalshow }} </div>
                    <p style="color: #053666;"><b>{{ $medida_tiempo }} </b></p>
                    <p style="color: #053666;">Pago en {{ $fecha_fin }} | Corte en {{ $fecha_caduc }}</p>
                    <p style="color: #053666;">{{ $porc_final }}% de tiempo consumido </p>
@@ -160,7 +160,7 @@
 
                 <div class="contenedor_select col-md-12 col-sm-12 col-xs-12">
                   
-                  <select class="js-example-data-array form-control col-md-9 col-sm-9 col-xs-9" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)">
+                  <select class="js-example-data-array form-control col-md-9 col-sm-9 col-xs-9" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" title="Seleccione empresa">
                       <!--<option value="null">Seleccione una empresa ...</option>-->
                            
                   </select>
@@ -210,7 +210,7 @@
 
                        <div class="col-md-12 col-sm-12 col-xs-12" id="art69" style="height:100px;">
                            <div class="input-group" >
-                              <input type="text" class="form-control" placeholder="RFC..." id="rfc" name="rfc" style="text-transform: uppercase;">
+                              <input type="text" class="form-control" placeholder="RFC..." id="rfc" name="rfc" style="text-transform: uppercase;" title="Ingrese RFC a validar">
                               <span class="input-group-btn">
                                 <button type="button" class="btn btn-primary" onclick="art69cons()" style="background-color: #053666">Consultar</button>
                               </span>

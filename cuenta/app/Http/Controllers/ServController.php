@@ -236,8 +236,7 @@ class ServController extends Controller
 	       
 	   }
 
-	   
-	    //Agregar nueva aplicación
+	    //Agregar o activar nueva aplicación
 	   public function addapp(Request $request){
 
 	   		$alldata = $request->all();
@@ -252,10 +251,10 @@ class ServController extends Controller
 	        	$dbname = $alldata['rfc_nombrebd'].'_cta';
 	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 	            $db = DB::select($query, [$dbname]);
-	            //Registrando en bitácora creación de bd
 		        
-		        $bitcta_tipo_op = 'add/activate application';
-			    
+		        $bitcta_tipo_op = 'add application';
+		        Log::info($apps);
+
 		        if(!empty($db)){
 
 		        	foreach ($apps as $appc) {
@@ -263,10 +262,11 @@ class ServController extends Controller
 
 		        		if (count($appexist) == 0){
 		        			DB::connection($dbname)->insert('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
-		        			$bitcta_msg = 'Aplicación '.$appc->app_nom. ' creada desde control';
+		        			$bitcta_msg = 'Aplicación '.$appc->app_nom. ' añadida desde control';
 		        		}
 		        		else{
 		        			DB::connection($dbname)->update('update app set app_activa = true, updated_at = ?  where app_cod = ?', [date('Y-m-d H:i:s'), $appc->app_cod]);
+		        			$bitcta_tipo_op = 'activate application';
 		        			$bitcta_msg = 'Aplicación '.$appc->app_nom. ' activada desde control';
 
 		        		}
@@ -348,7 +348,7 @@ class ServController extends Controller
 	            $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 	            $db = DB::select($query, [$dbname]);
 	            
-		        $bitcta_tipo_op = 'desable application';
+		        $bitcta_tipo_op = 'disable application';
 			    
 		        if(!empty($db)){
 

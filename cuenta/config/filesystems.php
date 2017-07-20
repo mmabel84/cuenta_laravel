@@ -69,7 +69,7 @@ return [
             'username' => 'bitnami',
             'password' => 'Advan$97120',
             'port' => 22,
-            'timeout' => 10,
+            'timeout' => 20,
             'privateKey' => 'PuTTY-User-Key-File-2: ssh-rsa
                         Encryption: aes256-cbc
                         Comment: imported-openssh-key

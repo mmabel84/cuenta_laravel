@@ -38,12 +38,22 @@ class HomeController extends Controller
     {
         $emps = Empresa::all();
         $appsall = Aplicacion::all();
-        $apps = $appsall->where('app_estado','!=','Prueba');
-        $usrs = User::all();
-        $bdapps = BasedatosApp::all();
         $appsact = $appsall->where('app_activa', '=', true);
         $appsdesact = $appsall->where('app_activa', '=', false);
         $appstest = $appsall->where('app_estado', '=', 'Prueba');
+        $apps = $appsall->where('app_estado','!=','Prueba');
+        $usrs = User::all();
+        $bdapps = BasedatosApp::all();
+        $bdappstest = 0;
+        foreach ($bdapps as $bd) {
+            if ($bd->aplicacion->app_estado == 'Prueba')
+            {
+                $bdappstest+=1;
+            }
+
+        }
+
+        
 
 
         //Cálculo de instancias creadas y consumidas por aplicación
@@ -189,7 +199,7 @@ class HomeController extends Controller
         //Calculando cantidad de aplicaciones con instancias creadas
         $cantgigas = 0;
         $cant_app_coninst = 0;
-        $cantinstcont = 0;
+        $cantinstcont = 0; 
        foreach ($apps as $app) {
            $cantgigas = $cantgigas + $app->app_megs;
             $cantinstcont = $cantinstcont + $app->app_insts;
@@ -384,8 +394,6 @@ class HomeController extends Controller
                             .'<br></br>';
 
             }
-            
-
         }
 
         //recuperando noticias de servicio web de control
@@ -410,7 +418,7 @@ class HomeController extends Controller
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'bdapps'=>count($bdapps),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest]);
 
         
 

@@ -38,28 +38,25 @@
 		                          <th>Operación</th>
 		                          <th>Usuario</th>
 		                          <th>Módulo</th>
+		                          <th>Mensaje</th>
 		                          <th>IP</th>
 		                          <th>Navegador</th>
-		                          <th>Mensaje</th>
-		                          
 		                          
 		                        </tr>
 		                      </thead>
 
 
 		                      <tbody>
-		                      	@foreach ($bitacoras as $b)
+		                      	@foreach ($bitacoras->sortBy('created_at') as $b)
 		                        <tr>
 		                          <td>{{$b->bitc_fecha}}</td>
 		                          <td>{{$b->bitcta_tipo_op}}</td>
 		                          <td>{{$b->user ? $b->user->name:''}}</td>
 		                          <td>{{$b->bitc_modulo}}</td>
+		                          <td>{{$b->bitcta_msg}}</td>
 		                          <td>{{$b->bitcta_ip}}</td>
 		                          <td>{{$b->bitcta_naveg}}</td>
-		                          <td>{{$b->bitcta_msg}}</td>
 		                          
-		                      
-		                          		                          
 		                        </tr>
 		                        @endforeach
 		                       		                       

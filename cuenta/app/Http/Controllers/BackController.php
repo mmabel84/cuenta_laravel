@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use BackupManager\Filesystems\SftpFilesystem;
 use BackupManager\Filesystems\FilesystemProvider;
 use BackupManager\Config\Config;
+use Illuminate\Support\Facades\Log;
 
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
@@ -44,12 +45,16 @@ class BackController extends Controller
         $root = '';
 
         if ($bdid){
+
+            
             
             $backapp = Backup::find($bdid);
             if($backapp){
                 $root = $backapp->backbd_linkback;
             }
         }
+        Log::info($bdid);
+        Log::info($root);
 
         $msg = 'Respaldo sin ruta en base de datos';
         $status = 'Failure';
@@ -58,24 +63,23 @@ class BackController extends Controller
          if ($root == '')
          {
             \Session::flash('failmessage',$msg);
-            //$response = array ('status' => $status, 'result' => $msg);
             return Redirect::to('backups');
          }
 
         $msg = 'Respaldo no encontrado en servidor sftp';
         $status = 'Failure';
 
-            //Funciona pero devuelve el contenido del archivo no legible
         $content = Storage::disk('sftp')->get($root.'.gz');
+
         if ($content)
         {
             Storage::disk('local')->put($root.'.gz', $content);
             $msg = 'Respaldo descargado exitosamente';
             $status = 'Success';
-            //\Session::flash('message',$msg);
-            return response()->download(storage_path('app').DIRECTORY_SEPARATOR.$root.'.gz')->deleteFileAfterSend(true);
+            return response()->download(storage_path('app').DIRECTORY_SEPARATOR.$root.'.gz')->deleteFileAfterSend(true);//
             
         }
+
 
         \Session::flash('failmessage',$msg);
         return Redirect::to('backups');
@@ -148,7 +152,6 @@ class BackController extends Controller
 
     			\Artisan::call('db:backup', array('--destination' => 'sftp', '--database'=> 'mysql', '--destinationPath' => $dest, '--compression' => 'gzip')) ;
 
-
     			$backbd->save();
 
     			
@@ -160,8 +163,6 @@ class BackController extends Controller
         $this->registroBitacora($request,'create',$fmessage); 
     	\Session::flash('message',$fmessage);
     	return Redirect::to('backups');
-
-
     }
 
      public function destroy($id, Request $request)
@@ -169,10 +170,11 @@ class BackController extends Controller
                 
         $backbd = Backup::find($id);
         $root = $backbd->backbd_linkback;
-        Storage::disk('sftp')->delete($root.'.gz');
 
+        Storage::disk('sftp')->delete($root.'.gz');
+        $fmessage = 'Se ha eliminado respaldo de aplicación '.$backbd->basedatosapp->aplicacion->app_nom.' de empresa '.$backbd->basedatosapp->empresa->empr_nom;
         $backbd->delete();
-        $fmessage = 'Se ha eliminado el respaldo';
+        
         //$fmessage = 'Se ha eliminado el respaldo de aplicación: '.$backbd->aplicacion->app_nom.' de '.$backbd->empresa->empr_nom;
         $this->registroBitacora($request,'delete',$fmessage); 
         \Session::flash('message',$fmessage);

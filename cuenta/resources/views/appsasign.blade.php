@@ -63,7 +63,7 @@
 		                          <td>{{$a->app_nom}}</td>
 		                          <td>{{$a->app_insts}}</td>
 		                          <td>{{$a->app_megs}}</td>
-		                          <td>{{ $a->app_activa == 1 ? 'Activa' : 'Deshabilitada' }}</td>
+		                          <td>{{ $a->app_activa == 1 ? 'Activa' : 'Bloqueada' }}</td>
 		                          <td>{{$a->app_estado}}</td>
 		                          
 		                         
