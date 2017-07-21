@@ -619,7 +619,7 @@
                 data: {_token: CSRF_TOKEN,selected:selected},
                 dataType: 'JSON',
                 success: function (data) {
-                    //console.log(data['appcodes']);
+                    console.log(data['appcodes']);
                     data['appcodes'].forEach(function(entry){
                       $("#"+entry).removeClass('disabled');
                       var link = document.getElementById(entry);  
