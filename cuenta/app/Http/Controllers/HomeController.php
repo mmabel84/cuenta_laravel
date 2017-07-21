@@ -119,7 +119,7 @@ class HomeController extends Controller
 
         //diccionario de aplicaciones bloqueadas
         $appsiconsblocked = array (
-                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
+                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='fact' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
                     'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
