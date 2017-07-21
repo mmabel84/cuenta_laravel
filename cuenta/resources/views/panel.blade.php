@@ -623,6 +623,7 @@
                     data['appcodes'].forEach(function(entry){
                       $("#"+entry).removeClass('disabled');
                       var link = document.getElementById(entry);  
+                      console.log(link);
                       var href = $("#"+entry).data('dir');
                       var newhref = href + element.value ;
                       link.setAttribute("href", '');  

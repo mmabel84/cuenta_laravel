@@ -119,15 +119,15 @@ class HomeController extends Controller
 
         //diccionario de aplicaciones bloqueadas
         $appsiconsblocked = array (
-                    'fact'=>"<a href='https://app.advans.mx/login/usuarios/login' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
+                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
-                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
                     'cont'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabledblocked' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
                      'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabledblocked' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='pld' class='disabledblocked' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' data-toggle='tooltip' data-placement='right' id='pld' class='disabledblocked' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
                     'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabledblocked' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
