@@ -13,9 +13,9 @@ return [
     'advans_apps_security' => ['control'=> [
                                     'grant_type' => 'password',
                                     'client_id' => '1',
-                                    'client_secret' => '5Cmjd7kvzD5NM8vfRl7JiwqkodRc4k92NCfy2Rjs',
+                                    'client_secret' => 'VNbURsbz2QZlrVJorXDIhyNc2TfxOgKraL5zTkFr',
                                     'username' => 'api.cuenta@gmail.com',
-                                    'password' => 'api.cuenta',
+                                    'password' => 'Api.cuenta123*',
                                     'scope' => '*',
                                     ],
                                 'bov'=>[
