@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://devcta.advans.mx'),
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
