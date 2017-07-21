@@ -24,7 +24,8 @@
                         {{ csrf_field() }}
 
 
-                        {{ Session::pull('midred') }}
+                        
+                        <input type="hidden" id="cantinstcreadas" name="cantinstcreadas" value="{{ Session::pull('midred') }}">
 
                        <div class="form-group{{ Session::get('loginrfcerr') ? ' has-error' : '' }}">
 

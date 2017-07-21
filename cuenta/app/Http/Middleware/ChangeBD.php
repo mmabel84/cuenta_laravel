@@ -56,13 +56,13 @@ class ChangeBD
                         $bitcta_tipo_op = 'Failed login';
                         $bitc_modulo = '\Login';
                         $bitcta_dato = json_encode($_REQUEST);
-                        $advans_usr = DB::connection($dbname)->select('select id, name, email from users where users_control = true');
+                        $advans_usr = \DB::connection($dbname)->select('select id, name, email from users where users_control = true');
                         $bitcta_users_id = null;
                         if (count($advans_usr) > 0)
                         {
                             $bitcta_users_id = $advans_usr[0]->id;
                         }
-                        DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, bitcta_users_id, bitcta_dato,  created_at) values (?, ?, ?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, $bitcta_users_id, $bitcta_dato, date('Y-m-d H:i:s')]);    
+                        \DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, bitcta_users_id, bitcta_dato,  created_at) values (?, ?, ?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, $bitcta_users_id, $bitcta_dato, date('Y-m-d H:i:s')]);    
 
                         return redirect()->back();
                     }
