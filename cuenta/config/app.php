@@ -8,14 +8,14 @@ return [
     //Advans Apps
     'advans_apps' => ['cont'=>'Contabilidad','bov'=>'Bóveda','nom'=>'Nómina','pld'=>'PLD','cc'=>'Control de Calidad','not'=>'Notaría', 'fact'=>'Facturación electrónica'],
 
-    'advans_apps_url' => ['control'=>'http://devctrl.advans.mx','cont'=>'Contabilidad','bov'=>'Bóveda','nom'=>'Nómina','pld'=>'PLD','cc'=>'Control de Calidad','not'=>'Notaría'],
+    'advans_apps_url' => ['control'=>'http://advans.control.mx','cont'=>'Contabilidad','bov'=>'Bóveda','nom'=>'Nómina','pld'=>'PLD','cc'=>'Control de Calidad','not'=>'Notaría'],
 
     'advans_apps_security' => ['control'=> [
                                     'grant_type' => 'password',
                                     'client_id' => '1',
-                                    'client_secret' => 'VNbURsbz2QZlrVJorXDIhyNc2TfxOgKraL5zTkFr',
+                                    'client_secret' => 'h3xAjSpYvTh4yZicPFRxsAf68ntg44rFX8Gos6Bl',
                                     'username' => 'api.cuenta@gmail.com',
-                                    'password' => 'Api.cuenta123*',
+                                    'password' => 'api.cuenta',
                                     'scope' => '*',
                                     ],
                                 'bov'=>[
@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://devcta.advans.mx'),
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
