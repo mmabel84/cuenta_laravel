@@ -137,7 +137,7 @@ class ServController extends Controller
 
 		        //Registrando en bitácora creación de bd
 		        $bitcta_msg = 'Base de datos '.$dbname. ' creada desde control';
-		        $bitcta_tipo_op = 'create application';
+		        $bitcta_tipo_op = 'create account instance';
 			    $this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
 		       
 		        //Asignando primeros roles a usuarios creados

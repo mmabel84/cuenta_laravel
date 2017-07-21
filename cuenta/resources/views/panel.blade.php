@@ -163,6 +163,7 @@
                 <br>
                 <input type="hidden" id="iconsapp" name="iconsapp" value="{{ $appvisible }}">
                 <input type="hidden" id="cantinstcreadas" name="cantinstcreadas" value="{{ $cantinstcreadas }}">
+                <input type="hidden" id="cantinstcont" name="cantinstcont" value="{{ $apps }}">
                  <input type="hidden" id="inp_colorinterv" name="inp_colorinterv" value="{{ $color_interval }}">
                 <div class="contenedor_select col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:80px;">
    
@@ -570,8 +571,10 @@
           }
 
           //Verificando si existen instancias creadas
-          var cantinst = document.getElementById('cantinstcreadas').value;
-          if (cantinst == 0){
+          var cantinstcread = document.getElementById('cantinstcreadas').value;
+          var cantinstcont = document.getElementById('cantinstcont').value;
+          
+          if (cantinstcread == 0 && cantinstcont == 0){
             $("#graphapp").hide();
           }
           else{
