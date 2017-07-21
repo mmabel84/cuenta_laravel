@@ -29,16 +29,8 @@
                  opacity: 0.3;
                  color:grey;
                 -webkit-filter: blur(2px)
-
-
               }
-      .disabledtest {
-               pointer-events: none;
-               cursor: default;
-               opacity: 0.3;
-               color:grey;
-
-            }
+      
       .hidden{
             visibility:hidden;
             }
@@ -53,7 +45,7 @@
       .iconpldtest {
             display: inline-block;
             background: url("{{asset('MejoraPLD.png')}}") no-repeat top left;
-            -webkit-filter: sepia(100%)
+            -webkit-filter: sepia(100%);
 
             }
       .iconbov {
@@ -117,7 +109,7 @@
                   <div class="count" style="color: #053666;">{{ $insts }}</div>
                   <p style="color: #053666;"><b>INSTANCIAS CONTRATADAS</b></p>
                   <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas }} instancias creadas</p></a>
-                  <a href="{{ URL::to('empresas') }}"><p style="color: #053666;">{{ $cantbdappstest }} instancias en prueba</p></a>
+                  <a href="{{ URL::to('appsprueba') }}"><p style="color: #053666;">{{ $cantbdappstest }} instancias en prueba</p></a>
 
                 </div>
               </div>
@@ -588,13 +580,8 @@
           
         </script>
 
-
-
-      
-
       <script type="text/javascript">
         
-  
         //alert(document.getElementById('iconsapp').value);
 
         //document.getElementById('diviscons').html(document.getElementById('iconsapp').value);
@@ -641,7 +628,7 @@
                     );
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    //alert("Status: " + textStatus); alert("Error: " + errorThrown);
                     
                 }
             });
@@ -1127,9 +1114,6 @@
       } 
 
 
-
-
-
       //if ($('#graph_bar').length){ 
       
               /*data: [
@@ -1170,7 +1154,6 @@
               color: 'rgba(0,0,0,0)'
             }
             };
-
 
 
             if ($('#echart_mini_pie').length ){ 

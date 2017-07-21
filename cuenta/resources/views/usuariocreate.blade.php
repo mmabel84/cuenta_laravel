@@ -90,7 +90,7 @@
 
                         <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del Usuario *" required="required" type="text" value="{{ old('name') }}">
+                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del Usuario *" required="required" type="text" value="{{ old('name') }}" title="Nombre y apellidos del usuario">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('name'))
                                     <span class="help-block">
@@ -100,7 +100,7 @@
                             </div>
                         </div>
 
-                          <div class="item form-group">
+                          <!--<div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="users_nick" class="form-control has-feedback-left" name="users_nick" placeholder="Usuario *" required="required" type="text" data-validate-words="1" value="{{ old('users_nick') }}" autocomplete="off">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
@@ -110,11 +110,11 @@
                                     </span>
                                 @endif
                             </div>
-                          </div>
+                          </div>-->
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="password" class="form-control has-feedback-left" value="" name="password" placeholder="Contraseña *" required="required" type="password" data-validate-words="1" autocomplete="off">
+                              <input id="password" class="form-control has-feedback-left" value="" name="password" placeholder="Contraseña *" required="required" type="password" data-validate-words="1" autocomplete="off" title="Contraseña del usuario">
                               <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
                               
 
@@ -126,14 +126,14 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="password-confirm" class="form-control has-feedback-left" value="" name="password_confirmation" placeholder="Confirmar Contraseña *" required="required" type="password" data-validate-words="1" autocomplete="off">
+                              <input id="password-confirm" class="form-control has-feedback-left" value="" name="password_confirmation" placeholder="Confirmar Contraseña *" required="required" type="password" data-validate-words="1" autocomplete="off" title="Confirmación de contraseña">
                               <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
                             </div>
                           </div>
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="email" class="form-control has-feedback-left" name="email" placeholder="Correo *" required="required" type="email" value="{{ old('email') }}">
+                              <input id="email" class="form-control has-feedback-left" name="email" placeholder="Correo *" required="required" type="email" value="{{ old('email') }}" title="Correo electrónico del usuario">
                               <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('email'))
                                     <span class="help-block">
@@ -145,7 +145,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="users_tel" class="form-control has-feedback-left" name="users_tel" placeholder="Teléfono *" type="tel" value="{{ old('users_tel') }}">
+                              <input id="users_tel" class="form-control has-feedback-left" name="users_tel" placeholder="Teléfono *" type="tel" value="{{ old('users_tel') }}" title="Teléfono del usuario">
                               <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                             </div>
                           </div>
@@ -177,7 +177,7 @@
 
                                 <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
-                                          <select id="roles" name="roles[]" tabindex="1" data-placeholder="Seleccione los roles ..." class="chosen-select form-control" onchange="onSelectUserCreate(this)" multiple="multiple">
+                                          <select id="roles" name="roles[]" tabindex="1" data-placeholder="Seleccione los roles ..." class="chosen-select form-control" onchange="onSelectUserCreate(this)" multiple="multiple" title="Roles del usuario">
                                             @foreach($roles as $role)
                                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                                             @endforeach
@@ -187,7 +187,7 @@
 
                                   <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
-                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..." class="chosen-select form-control" multiple="multiple">
+                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..." class="chosen-select form-control" multiple="multiple" title="Permisos del usuario">
 
                                             @foreach($permissions as $permission)
                                                 <option value="{{ $permission->id }}">{{ $permission->name }}</option>

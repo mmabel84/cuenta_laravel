@@ -74,7 +74,7 @@
 
                         <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="empr_nom" class="form-control has-feedback-left" name="empr_nom" placeholder="Nombre de empresa *" required="required" type="text" value="{{ old('empr_nom') }}">
+                              <input id="empr_nom" class="form-control has-feedback-left" name="empr_nom" placeholder="Nombre de empresa *" required="required" type="text" value="{{ old('empr_nom') }}" title="Nombre de empresa">
                               <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
                               
                             </div>
@@ -82,7 +82,7 @@
 
                           <div class="item form-group {{ $errors->has('empr_rfc') ? 'bad' : '' }}">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="empr_rfc" class="form-control has-feedback-left" name="empr_rfc" placeholder="RFC de empresa *" required="required" type="text" data-validate-words="1" value="{{ old('empr_rfc') }}" autocomplete="off" data-inputmask="'mask' : '*************'" style="text-transform: uppercase;">
+                              <input id="empr_rfc" class="form-control has-feedback-left" name="empr_rfc" placeholder="RFC de empresa *" required="required" type="text" data-validate-words="1" value="{{ old('empr_rfc') }}" autocomplete="off" data-inputmask="'mask' : '*************'" style="text-transform: uppercase;" title="RFC de empresa">
                               <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
                               
                              
@@ -98,7 +98,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="empr_razsoc" class="form-control has-feedback-left" name="empr_razsoc" placeholder="Razón social de empresa " type="text" value="{{ old('empr_razsoc') }}" autocomplete="off">
+                              <input id="empr_razsoc" class="form-control has-feedback-left" name="empr_razsoc" placeholder="Razón social de empresa " type="text" value="{{ old('empr_razsoc') }}" autocomplete="off" title="Razón social de empresa">
                               <span class="fa fa-building-o form-control-feedback left" aria-hidden="true"></span>
                              
                             </div>

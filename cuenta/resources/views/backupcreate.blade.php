@@ -63,7 +63,7 @@
                     <input type="hidden" id="apps" name="apps" value="{{ $bdapp }}" onchange="filldata();">
                     <div class="item form-group">
                           <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select class="js-example-basic-single js-states form-control" name="bdapp_app_id" id="bdapp_app_id" required>
+                            <select class="js-example-basic-single js-states form-control" name="bdapp_app_id" id="bdapp_app_id" required title="Instancia de aplicación">
                                 <option value="">Seleccione una instancia de aplicación...</option>
                                 @foreach($bdapp as $bd)
                                     <option value="{{ $bd->id }}">{{ $bd->empresa->empr_nom }} {{ $bd->aplicacion->app_nom }}</option>

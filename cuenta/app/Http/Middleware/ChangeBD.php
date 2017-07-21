@@ -49,12 +49,23 @@ class ChangeBD
                     }else{
                         $request->session()->flash('midred', '1');
                         $request->session()->put('loginrfcerr', 'Cuenta bloqueada');
-                        $request->session()->put('login_rfc', $dbname);                  
+                        $request->session()->put('login_rfc', $dbname);  
+
+                        $bitcta_msg = 'Intento de login fallido por cuenta bloqueada desde control';
+                        $bitc_fecha = date("Y-m-d H:i:s");
+                        $bitcta_tipo_op = 'Failed login';
+                        $bitc_modulo = '\Login';
+                        $bitcta_dato = json_encode($_REQUEST);
+                        $advans_usr = DB::connection($dbname)->select('select id, name, email from users where users_control = true');
+                        $bitcta_users_id = null;
+                        if (count($advans_usr) > 0)
+                        {
+                            $bitcta_users_id = $advans_usr[0]->id;
+                        }
+                        DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, bitcta_users_id, bitcta_dato,  created_at) values (?, ?, ?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, $bitcta_users_id, $bitcta_dato, date('Y-m-d H:i:s')]);    
+
                         return redirect()->back();
-
                     }
-
-                    
                 }else{
                     $request->session()->flash('midred', '1');
                     $request->session()->put('loginrfcerr', 'RFC no registrado');

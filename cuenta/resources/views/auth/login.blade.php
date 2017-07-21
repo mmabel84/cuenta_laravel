@@ -31,7 +31,7 @@
                            <div class="col-md-8 col-md-offset-2 input-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
-                                    <input id="login_rfc" name="login_rfc" type="text" class="rfc form-control" value="{{ old('login_rfc') }}" required placeholder="RFC" />
+                                    <input id="login_rfc" name="login_rfc" type="text" class="rfc form-control" value="{{ old('login_rfc') }}" required placeholder="RFC" title="Ingrese RFC" />
                                 </div>
 
                                @if (Session::has('loginrfcerr'))
@@ -49,7 +49,7 @@
                             
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required placeholder="Correo electrónico">
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required placeholder="Correo electrónico" title="Ingrese correo electrónico">
                                 </div>
 
                                 @if ($errors->has('email'))
@@ -65,7 +65,7 @@
                             <div class="col-md-8 col-md-offset-2 input-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input id="password" type="password" class="form-control" name="password" required placeholder="Contraseña">
+                                    <input id="password" type="password" class="form-control" name="password" required placeholder="Contraseña" title="Ingrese contraseña">
                                 </div>
 
                                 @if ($errors->has('password'))

@@ -26,13 +26,13 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 		        <div class="x_panel">
 		                  <div class="x_title">
-		                    <h2>Lista de bases de datos de aplicación</h2>
+		                    <h2>Lista de instancias de aplicación</h2>
 		                    <div class="clearfix"></div>
 		                  </div>
 		                  @permission('crear.aplicacion')
 		                  <div class="form-group">
 		                 
-		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nueva aplicación</b></button>
+		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nueva instancia</b></button>
 		                  </div>
 		                  @endpermission
 

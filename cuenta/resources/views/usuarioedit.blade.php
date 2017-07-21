@@ -50,7 +50,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
-                <h2>Nuevo Usuario</h2>
+                <h2>Editar Usuario</h2>
                 <ul class="nav navbar-right panel_toolbox">
                   <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                   </li>
@@ -101,7 +101,7 @@
 
                         <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del Usuario *" required="required" type="text" value="{{$user->name}}">
+                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del Usuario *" required="required" type="text" value="{{$user->name}}" title="Nombre y apellidos del usuario">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('name'))
                                     <span class="help-block">
@@ -111,7 +111,7 @@
                             </div>
                         </div>
 
-                          <div class="item form-group">
+                          <!--<div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="users_nick" class="form-control has-feedback-left" name="users_nick" placeholder="Usuario *" required="required" type="text" data-validate-words="1" value="{{$user->users_nick}}" autocomplete="off">
                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
@@ -121,13 +121,13 @@
                                     </span>
                                 @endif
                             </div>
-                          </div>
+                          </div>-->
 
 
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="email" class="form-control has-feedback-left" name="email" placeholder="Correo *" required="required" type="email" value="{{$user->email}}">
+                              <input id="email" class="form-control has-feedback-left" name="email" placeholder="Correo *" required="required" type="email" value="{{$user->email}}" title="Correo electrónico del usuario">
                               <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('email'))
                                     <span class="help-block">
@@ -139,7 +139,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="users_tel" class="form-control has-feedback-left" name="users_tel" placeholder="Teléfono *" type="tel" value="{{$user->users_tel}}">
+                              <input id="users_tel" class="form-control has-feedback-left" name="users_tel" placeholder="Teléfono *" type="tel" value="{{$user->users_tel}}" title="Teléfono del usuario">
                               <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                             </div>
                           </div>
@@ -170,7 +170,7 @@
                                 
                                 <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
-                                          <select id="roles" name="roles[]" tabindex="1" data-placeholder="Seleccione los roles ..." class="chosen-select form-control" onchange="onSelectUserCreate(this)" multiple="multiple">
+                                          <select id="roles" name="roles[]" tabindex="1" data-placeholder="Seleccione los roles ..." class="chosen-select form-control" onchange="onSelectUserCreate(this)" multiple="multiple" title="Roles del usuario">
                                             @foreach($roles as $role)
                                                 <option value="{{ $role->id }}" {{$user->hasRole($role->id) ? 'selected':''}} >{{ $role->name }}</option>
                                             @endforeach
@@ -180,7 +180,7 @@
 
                                   <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
-                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..."  class="chosen-select form-control" multiple="multiple">
+                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..."  class="chosen-select form-control" multiple="multiple" title="Permisos del usuario">
 
                                             @foreach($permissions as $permission)
                                                 <option value="{{ $permission->id }}" {{$user->customGetUserPerms($permission->id,true) ? 'selected':''}} >{{ $permission->name }}</option>

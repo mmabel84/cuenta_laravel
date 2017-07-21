@@ -21,6 +21,11 @@ use phpseclib\Net\SFTP;
 class BackController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
 	public function index()
     {       
 
@@ -46,8 +51,6 @@ class BackController extends Controller
 
         if ($bdid){
 
-            
-            
             $backapp = Backup::find($bdid);
             if($backapp){
                 $root = $backapp->backbd_linkback;

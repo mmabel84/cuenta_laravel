@@ -19,11 +19,7 @@ class ServController extends Controller
 
 	use AuthenticatesUsers;
 
-	public function __construct()
-    {
-        //This allow only to api users
-        //$this->middleware('role.api');
-    }
+	
 
     public function registrarBitacora($msg, $op, $dbname)
     {
@@ -178,7 +174,13 @@ class ServController extends Controller
 			        }
 
 		        }
+		        //Asignando a usuario advans permiso para leer usuarios de advans
+		        $usradvans_perm_id_array = DB::connection($dbname)->select('select id from permissions where slug = ?',['leer.usuario.advans']);
 
+		        if (count($usradvans_perm_id_array) > 0)
+		        {
+		        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$usradvans_perm_id_array[0]->id, $advansusr_id]);
+		        }
 		        
 		       	//Insertando primera empresa en base de datos de cuenta		        
 		        if (array_key_exists('client_f_fin',$alldata) && isset($alldata['client_f_fin']) && array_key_exists('client_f_inicio',$alldata) && isset($alldata['client_f_inicio']))
@@ -199,7 +201,6 @@ class ServController extends Controller
 		        	foreach ($apps as $appc) {
 		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
 		        	}
-
 		        }
 
 		        // Desplegando en cuenta la línea de tiempo en caso de venir
@@ -233,7 +234,6 @@ class ServController extends Controller
             'user' => $alldata);
 
         	return \Response::json($response);
-	       
 	   }
 
 	    //Agregar o activar nueva aplicación
@@ -272,11 +272,8 @@ class ServController extends Controller
 		        		}
 
 		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
-
-		        		
 		        	}
 		        }
-
 	        }
 
 	   		$response = array(
@@ -316,10 +313,8 @@ class ServController extends Controller
 		        		
 		        		$bitcta_msg = 'Aplicación '.$appc->app_nom. ' actualizada desde control';
 		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
-
 		        	}
 		        }
-
 	        }
 
 	   		$response = array(
@@ -358,10 +353,8 @@ class ServController extends Controller
 
 		        		$bitcta_msg = 'Aplicación '.$appc->app_nom. ' desactivada desde control';
 		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
-
 		        	}
 		        }
-
 	        }
 
 	   		$response = array(
@@ -414,12 +407,9 @@ class ServController extends Controller
 		        				
 		        			}
 		        			$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
-
 		        		}
-
 		        	}
 		        }
-
 	        }
 
 	   		$response = array(
@@ -458,10 +448,8 @@ class ServController extends Controller
 		        		$bitcta_msg = 'Línea de tiempo con id de control '. $paqt->paqapp_control_id.' modificada desde control';
 
 		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
-
 		        	}
 		        }
-
 	        }
 
 	   		$response = array(
@@ -497,7 +485,6 @@ class ServController extends Controller
 		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
 		        	}
 		        }
-
 	        }
 
 	   		$response = array(
@@ -537,7 +524,6 @@ class ServController extends Controller
 		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
 		        	}
 		        }
-
 	        }
 
 	   		$response = array(
@@ -554,8 +540,6 @@ class ServController extends Controller
 	   		$alldata = $request->all();
 	        $msg = "Línea de tiempo eliminada.";
 	        $status = "Success";
-
-
 
 	        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
 
@@ -575,10 +559,7 @@ class ServController extends Controller
 		        		$bitcta_msg = 'Línea de tiempo con id de control '.$paqt->paqapp_control_id.' eliminada';
 		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
 		        	}
-
-		        	
 		        }
-
 	        }
 
 	   		$response = array(
@@ -593,7 +574,6 @@ class ServController extends Controller
 	   //Método para desbloquear desde control usuario bloqueado por 3 intentos fallidos de login
 	   public function unlockUserControl(Request $request)
 	   {
-
 	   		$alldata = $request->all();
 	   		if(array_key_exists('user_id',$alldata) && isset($alldata['user_id']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
 
@@ -607,13 +587,9 @@ class ServController extends Controller
 	    			
 			        DB::connection($dbname)->update('update users set users_blocked = false where id = ?', [$usr[0]->id]);
 			        //$this->clearLoginAttempts($request, $usr->email);
-        			//Log::info(DB::connection($dbname)->table('cache')->where('cache.key', 'like', '"%'.$usr->email.'%"')->get());
-
+        			
 			        $key = '%' . $usr[0]->email . '%';
 
-			        //Log::info($usr[0]->email);
-
-			        //Log::info(DB::connection($dbname)->table('cache')->where('cache.key', 'like', $key)->get());
 			        DB::connection($dbname)->table('cache')->where('cache.key', 'like', $key)->delete();
 	   			}
 	   			else
@@ -623,10 +599,7 @@ class ServController extends Controller
 
 		   		}
 		   		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
-			   
 	   		}
-
-
 	   }
 
 	   //Limpia intentos de login para desbloquear usuario
@@ -638,22 +611,19 @@ class ServController extends Controller
 	        else{
 	            $this->limiter()->clear($this->throttleKey($request));
 	        }
-	        
 	    }
 	   
 	   //Retorna listado de usuarios con estado para control
 	   public function returnUsersControl(Request $request){
 
-	   	$alldata = $request->all();
-	   	$users = [];
-	   	if (array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
-	   		$dbname = $alldata['dbname'].'_cta';
+		   	$alldata = $request->all();
+		   	$users = [];
+		   	if (array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
+		   		$dbname = $alldata['dbname'].'_cta';
+		   		$users = DB::connection($dbname)->select('select id, name, email, users_blocked from users;');
+		   	}
 
-	   		$users = DB::connection($dbname)->select('select id, name, email, users_blocked from users;');
-	   	}
-
-	   	return \Response::json($users);
-
+		   	return \Response::json($users);
 	   }
 
 	   //Retorna bitácora para control
@@ -667,9 +637,6 @@ class ServController extends Controller
 	   			$bitacoras = DB::connection($dbname)->select('select bitc_fecha, bitc_modulo, bitcta_ip, bitcta_tipo_op, bitcta_msg from bitcta order by bitc_fecha DESC limit 10;');
 	   		}
 	        return \Response::json($bitacoras);
-
 	    }
-
-       
     }
 

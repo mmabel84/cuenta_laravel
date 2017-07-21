@@ -31,6 +31,30 @@ class AppController extends Controller
         return redirect()->back();
     }
 
+    public function indexprueba()
+    {   
+        $usr = $user = \Auth::user();
+        if ($usr->can('leer.aplicacion'))
+        {    
+            $apps = BasedatosApp::all();
+            $usrs = User::all();
+            $apps_prueba = [];
+
+            foreach ($apps as $app ) {
+                
+                    if ($app->aplicacion->app_estado == 'Prueba')
+                    {
+                         array_push($apps_prueba, $app);
+                    }
+                }
+
+            return view('apps',['apps'=>$apps_prueba,'usrs'=>$usrs]);
+        }
+        \Session::flash('failmessage','No tiene acceso a leer aplicaciones');
+        return redirect()->back();     
+        
+    }
+
     public function create()
     {       
         $usr = $user = \Auth::user();
@@ -133,7 +157,7 @@ class AppController extends Controller
         $appd-> backups()->delete();
 
         $appd->delete();
-        $fmessage = 'Se ha eliminado la base de datos de aplicación: '.$appd->bdapp_nombd;
+        $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
         $this->registroBitacora($request,'delete',$fmessage); 
         \Session::flash('message',$fmessage);
 

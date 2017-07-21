@@ -70,7 +70,7 @@
 
                         <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del rol *" required="required" type="text">
+                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del rol *" required="required" type="text" title="Nombre del rol">
                               <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('name'))
                                     <span class="help-block">
@@ -82,7 +82,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="slug" class="form-control has-feedback-left" name="slug" placeholder="Código *" required="required" type="text" data-validate-words="1" value="" autocomplete="off">
+                              <input id="slug" class="form-control has-feedback-left" name="slug" placeholder="Código *" required="required" type="text" data-validate-words="1" value="" autocomplete="off" title="Código o slug del rol">
                               <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('slug'))
                                     <span class="help-block">
@@ -94,7 +94,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="description" class="form-control has-feedback-left" value="" name="description" placeholder="Descripción *" required="required" data-validate-words="1" autocomplete="off">
+                              <input id="description" class="form-control has-feedback-left" value="" name="description" placeholder="Descripción *" required="required" data-validate-words="1" autocomplete="off" title="Descripción del rol">
                               <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('description'))
                                     <span class="help-block">
@@ -106,7 +106,7 @@
                           
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="level" class="form-control has-feedback-left" name="level" placeholder="Nivel *">
+                              <input id="level" class="form-control has-feedback-left" name="level" placeholder="Nivel *" title="Nivel del rol">
                               <span class="fa fa-sitemap form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('level'))
                                     <span class="help-block">
@@ -140,7 +140,7 @@
 
                                  <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
-                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..." name="rolesapp" class="chosen-select form-control" multiple="multiple">
+                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..." class="chosen-select form-control" multiple="multiple" title="Permisos del rol">
 
                                             @foreach($permissions as $permission)
                                                 <option value="{{ $permission->id }}">{{ $permission->name }}</option>

@@ -12,7 +12,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar una empresa</h2>
+                    <h2>Editar empresa</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -36,14 +36,14 @@
                       <div class="item form-group">
                        
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="empr_nom" name="empr_nom" required="required" class="form-control has-feedback-left" value="{{$empresa->empr_nom}}" placeholder="Nombre de empresa *">
+                          <input type="text" id="empr_nom" name="empr_nom" required="required" class="form-control has-feedback-left" value="{{$empresa->empr_nom}}" placeholder="Nombre de empresa *" title="Nombre de empresa">
                           <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
                         </div>
                       </div>
                       
                       <div class="item form-group {{ $errors->has('empr_rfc') ? 'bad' : '' }}">
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="empr_rfc" name="empr_rfc" class="form-control has-feedback-left" data-inputmask="'mask' : '*************'" value="{{$empresa->empr_rfc}}" placeholder="RFC de empresa *" readonly>
+                          <input type="text" id="empr_rfc" name="empr_rfc" class="form-control has-feedback-left" data-inputmask="'mask' : '*************'" value="{{$empresa->empr_rfc}}" placeholder="RFC de empresa *" readonly title="RFC de empresa">
                           <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
@@ -54,7 +54,7 @@
                       </div>
                       <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="empr_razsoc" type="text" class="form-control has-feedback-left" name="empr_razsoc" placeholder="Razón social de empresa " value="{{$empresa->empr_razsoc}}">
+                              <input id="empr_razsoc" type="text" class="form-control has-feedback-left" name="empr_razsoc" placeholder="Razón social de empresa " value="{{$empresa->empr_razsoc}}" title="Razón social de empresa">
                               <span class="fa fa-building-o form-control-feedback left" aria-hidden="true"></span>
                             </div>
                       </div>

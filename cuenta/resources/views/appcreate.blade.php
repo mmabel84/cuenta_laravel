@@ -33,7 +33,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Crear base de datos de aplicación</h2>
+                    <h2>Crear instancia de aplicación</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -69,7 +69,7 @@
                     <div class="item form-group">
                         <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación</label>-->
                           <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id" required="required">
+                            <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id" required="required" title="Aplicación">
                                <option value="">Seleccione una aplicación ...</option>
                                 @foreach($aplicaciones as $app)
                                     <option value="{{ $app->id }}">{{ $app->app_nom }}</option>
@@ -83,7 +83,7 @@
                      <input type="hidden" id="emps" name="emps" value="{{ $empresas }}" onchange="filldata();">
 	                      <div class="item form-group">
 	                          <div class="col-md-9 col-sm-9 col-xs-12">
-	                             <select class="js-example-basic-single js-states form-control" name="bdapp_empr_id" id="bdapp_empr_id" required>
+	                             <select class="js-example-basic-single js-states form-control" name="bdapp_empr_id" id="bdapp_empr_id" required title="Empresa">
 		                            <option value="">Seleccione una empresa...</option>
                                 @foreach($empresas as $empr)
 		                                <option value="{{ $empr->id }}">{{ $empr->empr_nom }}</option>

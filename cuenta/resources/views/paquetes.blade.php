@@ -53,10 +53,11 @@
 		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
 		                         
 		                          <th>Fecha de venta</th>
-		                          <th>Fecha de activación</th>
 		                          <th>Fecha de fin</th>
-		                          <th>Fecha de caducidad</th>
+		                          <th>Fecha de corte</th>
 		                          <th>Estado</th>
+		                          <th>Pagado</th>
+
 		                          
 		                        </tr>
 		                      </thead>
@@ -65,13 +66,11 @@
 		                        <tr>
 		                          
 		                          <td>{{$p->paqapp_f_venta}}</td>
-		                          <td>{{$p->paqapp_f_act}}</td>
 		                          <td>{{$p->paqapp_f_fin}}</td>
 		                          <td>{{$p->paqapp_f_caduc}}</td>
 		                          <td>{{ $p->paqapp_activo == 1 ? 'Activa' : 'Vencida' }}</td>
-		                          
-		                         
-		                          		                          
+		                          <td>{{ $p->paqapp_pagado == 1 ? 'Sí' : 'No' }}</td>
+
 		                        </tr>
 		                        @endforeach
 		                       		                       

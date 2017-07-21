@@ -37,7 +37,6 @@ class UsrController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed|passwordsat',
-            'users_nick' => 'required|string|max:15|unique:users',
         ]);
     }
 
@@ -205,9 +204,6 @@ class UsrController extends Controller
         );
         }
 
-
-
-
         if($file!=false){
             $user->users_pic = $user->id.'.'.$file->getClientOriginalName();
         }
@@ -215,9 +211,9 @@ class UsrController extends Controller
         if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
             $user->users_tel = $alldata['users_tel'];
         }
-        if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
+        /*if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
             $user->users_nick = $alldata['users_nick'];
-        }
+        }*/
 
         $user->save();
 
@@ -301,9 +297,9 @@ class UsrController extends Controller
             $user->name = $alldata['name'];
         }
 
-        if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
+        /*if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
             $user->users_nick = $alldata['users_nick'];
-        }
+        }*/
 
 
         $user->save();

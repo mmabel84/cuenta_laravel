@@ -257,7 +257,6 @@ class sed_roles extends Seeder
 		$gestorAplicacRole->attachPermission($deleteBackPermission);
 		$gestorAplicacRole->attachPermission($asocUsrAppPermission);
 
-		
 
 		$gestorSegurRole->attachPermission($readRolPermission);
 		$gestorSegurRole->attachPermission($createRolPermission);

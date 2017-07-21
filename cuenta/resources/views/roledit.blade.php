@@ -40,7 +40,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
-                <h2>Nuevo Rol</h2>
+                <h2>Editar Rol</h2>
                 <ul class="nav navbar-right panel_toolbox">
                   <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                   </li>
@@ -67,7 +67,7 @@
 
                         <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del rol *" required="required" type="text" value="{{$rol->name}}">
+                              <input id="name" class="form-control has-feedback-left" name="name" placeholder="Nombre del rol *" required="required" type="text" value="{{$rol->name}}" title="Nombre del rol">
                               <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('name'))
                                     <span class="help-block">
@@ -79,7 +79,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="slug" class="form-control has-feedback-left" name="slug" placeholder="Código *" required="required" type="text" data-validate-words="1" value="{{$rol->slug}}" autocomplete="off">
+                              <input id="slug" class="form-control has-feedback-left" name="slug" placeholder="Código *" required="required" type="text" data-validate-words="1" value="{{$rol->slug}}" autocomplete="off" title="Código del rol">
                               <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('slug'))
                                     <span class="help-block">
@@ -91,7 +91,7 @@
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="description" class="form-control has-feedback-left" name="description" placeholder="Descripción *" required="required" autocomplete="off" value="{{$rol->description}}">
+                              <input id="description" class="form-control has-feedback-left" name="description" placeholder="Descripción *" required="required" autocomplete="off" value="{{$rol->description}}" title="Descripción del rol">
                               <span class="fa fa-edit form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('description'))
                                     <span class="help-block">
@@ -103,7 +103,7 @@
                           
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="level" class="form-control has-feedback-left" name="level" placeholder="Nivel *" value="{{$rol->level}}">
+                              <input id="level" class="form-control has-feedback-left" name="level" placeholder="Nivel *" value="{{$rol->level}}" title="Nivel del rol">
                               <span class="fa fa-sitemap form-control-feedback left" aria-hidden="true"></span>
                               @if ($errors->has('level'))
                                     <span class="help-block">
@@ -137,7 +137,7 @@
 
                                  <div class="item form-group">
                                         <div class="col-md-10 col-sm-10 col-xs-12">
-                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..." name="rolesapp" class="chosen-select form-control" multiple="multiple">
+                                          <select id="permisos" name="permisos[]" tabindex="2" data-placeholder="Seleccione los permisos ..." class="chosen-select form-control" multiple="multiple" title="Permisos del rol">
 
                                             @foreach($permissions as $permission)
                                                 <option value="{{ $permission->id }}" {{Auth::user()->customGetRolePerms($rol->id, $permission->id, true) ? 'selected':''}}>{{ $permission->name }}</option>

@@ -25,6 +25,7 @@ Route::resource('appsasign', 'AppAsignController');
 Route::resource('backups', 'BackController');
 Route::resource('certificados', 'CertController');
 Route::get('certvencidos', 'CertController@indexvencidos')->name('certvencidos');
+Route::get('appsprueba', 'AppController@indexprueba')->name('appsprueba');
 
 Route::get('/', 'HomeController@index')->name('home');
 
