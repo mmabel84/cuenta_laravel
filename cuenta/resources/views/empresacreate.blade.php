@@ -83,7 +83,7 @@
                           <div class="item form-group {{ $errors->has('empr_rfc') ? 'bad' : '' }}">
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="empr_rfc" class="form-control has-feedback-left" name="empr_rfc" placeholder="RFC de empresa *" required="required" type="text" data-validate-words="1" value="{{ old('empr_rfc') }}" autocomplete="off" data-inputmask="'mask' : '*************'" style="text-transform: uppercase;" title="RFC de empresa">
-                              <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
+                              <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
                               
                              
                             </div>

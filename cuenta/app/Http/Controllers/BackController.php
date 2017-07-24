@@ -144,8 +144,8 @@ class BackController extends Controller
     			$fmessage = 'Se ha generado el respaldo número '. $backsbd .' de aplicación '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom;
     			//Límite de respaldos de 5
     			if ($backsbd == 6){
-    				$fmessage = 'Ha superado el número máximo (5) de respaldos para base de datos '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom.' ,debe eliminar respaldos anteriores para generar nuevos.';
-    				\Session::flash('message',$fmessage);
+    				$fmessage = 'Ha superado el número máximo (5) de respaldos para base de datos '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom.', debe eliminar respaldos anteriores para generar nuevos.';
+    				\Session::flash('failmessage',$fmessage);
     				return Redirect::to('backups');
     			}
                 $carpeta = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc;

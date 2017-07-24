@@ -16,6 +16,7 @@
     <!-- Chosen -->
 
     <link href="{{ asset('vendors/chosen/chosen.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
 
 
     <style>
@@ -237,6 +238,7 @@
 
     <!-- File Input -->
     <script src="{{ asset('vendors/bootstrap-fileinput-master/js/fileinput.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendors/select2/dist/js/select2.min.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('build/js/custom.js') }}"></script>

@@ -89,7 +89,7 @@ class AppController extends Controller
     	
     	if ($emprexist != null)
     	{
-	    	\Session::flash('failmessage','Ya existe la aplicación '.$appexist. ' de '.$emprexist);
+	    	\Session::flash('failmessage','Ya existe la aplicación '.$appexist. ' de empresa '.$emprexist);
 	    	return redirect()->route('apps.create');
     	}
 

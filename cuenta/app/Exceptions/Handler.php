@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +49,24 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Bican\Roles\Exceptions\RoleDeniedException || $exception instanceof \Bican\Roles\Exceptions\PermissionDeniedException) 
         {
             return redirect()->back();
+        }
+        elseif ($exception instanceof \GuzzleHttp\Exception\ClientException)
+        {
+            Log::info('entre a catch client');
+             $request->session()->put('loginrfcerr', 'Fallo de autenticación de cliente de servicio web');
+             $request->session()->flash('midred', '1');
+             return redirect()->back();
+        }
+        elseif ($exception instanceof \GuzzleHttp\Exception\ServerException)
+        {
+            Log::info('entre a catch server');
+             $request->session()->put('loginrfcerr', 'Sin comunicación a servicio de control');
+             $request->session()->flash('midred', '1');
+             return redirect()->back();
+        }
+        elseif ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
+        {
+             return redirect()->back();
         }
         
         return parent::render($request, $exception);

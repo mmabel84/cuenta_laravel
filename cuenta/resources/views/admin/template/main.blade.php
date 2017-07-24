@@ -61,6 +61,8 @@
                                       @permission('leer.certificado')
                                       <li><a href="{{ URL::to('certificados') }}">CERTIFICADOS</a></li>
                                       @endpermission
+
+                                      <li><a href="{{ URL::to('consulta69') }}">CONSULTAR ARTÍCULO 69</a></li>
                                       
                                     </ul>
                                   </li>

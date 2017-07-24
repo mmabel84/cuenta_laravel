@@ -195,18 +195,24 @@
                                                     </div>
                                                     <div class="modal-body">
                                                       <form>
-                                                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} col-md-12 col-sm-12 col-xs-12">
-	                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
-		                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-		                                                          <input placeholder="Nueva Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
-		                                                           @if ($errors->has('password'))
-									                                    <span class="help-block">
-									                                        <strong>{{ $errors->first('password') }}</strong>
-									                                    </span>
-									                                @endif
+	                                                      <div class="col-md-12 col-sm-12 col-xs-12">
+	                                                      	<div class="item form-group{{ $errors->has('password') ? ' has-error' : '' }} col-md-9 col-sm-9 col-xs-12">
+		                                                        <div class="input-group">
+			                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+			                                                          <input placeholder="Nueva Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
+			                                                           @if ($errors->has('password'))
+										                                    <span class="help-block">
+										                                        <strong>{{ $errors->first('password') }}</strong>
+										                                    </span>
+										                                @endif
+										                                <button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+		                                                        </div>
 	                                                        </div>
-	                                                        
-                                                        </div>
+	                                                      </div>
+                                                        
+                                                        
+                                                        
+                                                        
                                                       </form>
 
                                                      
@@ -220,7 +226,7 @@
 
                                                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
                                                      	<button type="button" onclick="cleanmodalPass({{$u->id}});" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                      	<button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+                                                      	
                                                      </div>
                                                       
                                                       
@@ -560,7 +566,7 @@
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     //alert("Status: " + textStatus); alert("Error: " + errorThrown);
                     console.log(XMLHttpRequest);
-                    $("#result_failure_pass"+user).html('<p>La contraseña es inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+                    $("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
                     //$("#result_failure_pass"+user).html('<p><strong>Ocurrió un error: '+errorThrown+'</strong></p>');
                     //hideModal(data['user']);
 

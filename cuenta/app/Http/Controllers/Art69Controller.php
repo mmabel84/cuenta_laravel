@@ -187,5 +187,175 @@ class Art69Controller extends Controller
 
         return $htmldef;
         }
+
+    function consulta69(){
+        return view('consultaart69');
+    }
+
+    function request69consult(Request $request){
+
+        $arrayparams = array();
+
+        /*$arrayparams['by_rfc'] = strtoupper($request['by_rfc']);
+        $arrayparams['rfc_value'] = $request['rfc_value'];
+        $arrayparams['nombre_value'] = $request['nombre_value'];
+        $arrayparams['oficio_value'] = $request['oficio_value'];
+        $arrayparams['estado_value'] = $request['estado_value'];
+        $arrayparams['by_sat'] = $request['by_sat'];
+        $arrayparams['by_sat_specific'] = $request['by_sat_specific'];
+        $arrayparams['fecha_esp_sat'] = $request['fecha_esp_sat'];
+        $arrayparams['fecha_ini_sat'] = $request['fecha_ini_sat'];
+        $arrayparams['fecha_fin_sat'] = $request['fecha_fin_sat'];
+        $arrayparams['by_dof'] = $request['by_dof'];
+        $arrayparams['by_dof_specific'] = $request['by_dof_specific'];
+        $arrayparams['fecha_esp_dof'] = $request['fecha_esp_dof'];
+        $arrayparams['fecha_ini_dof'] = $request['fecha_ini_dof'];
+        $arrayparams['fecha_fin_dof'] = $request['fecha_fin_dof'];*/
+
+        
+        /*try
+        {
+            $service_response = $this->getAppService($acces_vars['access_token'],'get69response',$arrayparams,'control');
+            if (count($service_response['response69']) > 0){
+                $registros69 = json_decode($service_response['response69']);
+            }
+        } 
+        catch (\GuzzleHttp\Exception\ServerException $e) 
+        {
+             \Session::put('newserror', 'Sin comunicación a servicio de control para consulta de artículo 69');
+
+        }*/
+
+        //conformacion de consulta para control
+        $alldata = null;
+        $alldata = $request->all();
+        $parameters = [];
+        $query = 'select rfc, nombre, oficio, estado, fecha_sat, fecha_dof, url_oficio, url_anexo where ';
+
+        
+        if($alldata['by_rfc'] == 1)
+        {
+            if (array_key_exists('rfc_value',$alldata) && isset($alldata['rfc_value']))
+            {
+                $query = $query.'rfc = ?';
+                array_push($parameters, strtoupper($alldata['rfc_value']));
+                
+            }
+        }
+        else
+        {
+            $num = 0;
+
+            if (array_key_exists('nombre_value',$alldata) && isset($alldata['nombre_value'])){
+                $query = $query.'nombre = ? ';
+                array_push($parameters, $alldata['nombre_value']);
+                $num += 1;
+            }
+
+            if (array_key_exists('oficio_value',$alldata) && isset($alldata['oficio_value'])){
+                if ($num != 0)
+                    $query = $query.'AND oficio = ? ';
+                else
+                    $query = $query.'oficio = ? ';
+                array_push($parameters, $alldata['oficio_value']);
+                $num += 1;
+            }
+
+            if (array_key_exists('estado_value',$alldata) && isset($alldata['estado_value'])){
+                 if ($num != 0)
+                    $query = $query.'AND estado in (?';
+                else
+                    $query = $query.'estado in (?';
+                
+                array_push($parameters, $alldata['estado_value'][0]);
+                for ($i = 1; $i < count($alldata['estado_value']); $i++ )
+                {
+                    $query = $query.',?';
+                    array_push($parameters, $alldata['estado_value'][$i]);
+                }
+                 $query = $query.') ';
+                 $num += 1;
+            }
+
+            //by sat
+            if ($alldata['by_sat'] == 1){
+                if ($alldata['by_sat_specific'] == 1){
+                    if (array_key_exists('fecha_esp_sat',$alldata) && isset($alldata['fecha_esp_sat']))
+                    {
+                        if ($num != 0)
+                            $query = $query.'AND fecha_sat = ? ';
+                        else
+                            $query = $query.'fecha_sat = ? ';
+                        array_push($parameters, $alldata['fecha_esp_sat']);
+                        $num += 1;
+                    }
+                }
+                else
+                {
+                    if (array_key_exists('fecha_ini_sat',$alldata) && isset($alldata['fecha_ini_sat']) && array_key_exists('fecha_fin_sat',$alldata) && isset($alldata['fecha_fin_sat']))
+                    {
+                        if ($num != 0)
+                            $query = $query.'AND fecha_sat BETWEEN (? AND ?) ';
+                        else
+                            $query = $query.'fecha_sat BETWEEN (? AND ?) ';
+                        array_push($parameters, $alldata['fecha_ini_sat']);
+                        array_push($parameters, $alldata['fecha_fin_sat']);
+                        $num += 1;
+                    }
+                    
+
+                }
+            }
+
+            //by dof
+            if ($alldata['by_dof'] == 1){
+                if ($alldata['by_dof_specific'] == 1){
+                    if (array_key_exists('fecha_esp_dof',$alldata) && isset($alldata['fecha_esp_dof']))
+                    {
+                        if ($num != 0)
+                            $query = $query.'AND fecha_dof = ? ';
+                        else
+                            $query = $query.'fecha_dof = ? ';
+                        array_push($parameters, $alldata['fecha_esp_dof']);
+                        $num += 1;
+                    }
+                }
+                else
+                {
+                    if (array_key_exists('fecha_ini_dof',$alldata) && isset($alldata['fecha_ini_dof']) && array_key_exists('fecha_fin_dof',$alldata) && isset($alldata['fecha_fin_dof']))
+                    {
+                        if ($num != 0)
+                            $query = $query.'AND fecha_dof BETWEEN (? AND ?) ';
+                        else
+                            $query = $query.'fecha_dof BETWEEN (? AND ?) ';
+                        array_push($parameters, $alldata['fecha_ini_dof']);
+                        array_push($parameters, $alldata['fecha_fin_dof']);
+                        $num += 1;
+                    }
+                    
+
+                }
+            }
+        }
+
+
+        //DB::connection($dbname)->select($query,$parameters);
+
+        $registros69 = array(
+            array('rfc'=>'rrrrr', 'nombre'=>'rrrrr','estado'=>'rrrr','fecha_sat'=>'rrrr','fecha_dof'=>'rrr','url_oficio'=>'rrrr','url_anexo'=>'rrrr'),
+            array('rfc'=>'aaaaa', 'nombre'=>'aaaa','estado'=>'aaaa','fecha_sat'=>'aaaa','fecha_dof'=>'aaaa','url_oficio'=>'aaaa','url_anexo'=>'aaaaa'),
+            array('rfc'=>'bbbbb', 'nombre'=>'bbbb','estado'=>'bbbb','fecha_sat'=>'bbbbb','fecha_dof'=>'bbbb','url_oficio'=>'bbbb','url_anexo'=>'bbbb'),
+        );
+
+       $response = array(
+            'status' => 'Success',
+            'msg' => 'Registers returned',
+            'registros69' => $registros69,
+            'query' => $query,
+            'parameters' => $parameters);
+
+         return \Response::json($response);
+
+    }
     
 }
