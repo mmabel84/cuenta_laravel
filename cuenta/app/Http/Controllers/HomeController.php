@@ -188,10 +188,11 @@ class HomeController extends Controller
              }
         }
 
-        //Calculando cantidad de aplicaciones con instancias creadas
+        //Calculando cantidad de aplicaciones con instancias creadas y cantidad de gigas asignados total
         $cantgigas = 0;
         $cant_app_coninst = 0;
         $cantinstcont = 0; 
+        
        foreach ($apps as $app) {
            $cantgigas = $cantgigas + $app->app_megs;
             $cantinstcont = $cantinstcont + $app->app_insts;
@@ -201,6 +202,8 @@ class HomeController extends Controller
                 $cant_app_coninst += 1;
             }
        }
+
+       
 
        //Calculando porcentaje de tiempo consumido
         $fecha_venta = '';
@@ -313,6 +316,7 @@ class HomeController extends Controller
         $dict_empr_gig = array();
         $gigas_cons_emp = array();
         $empr_cons = array();
+
         
         foreach ($bdapps as $a) {
             if ($a->bdapp_gigcons != null){
@@ -330,6 +334,26 @@ class HomeController extends Controller
             $empr_cons = array_keys($dict_empr_gig);
             $gigas_cons_emp = array_values($dict_empr_gig);
         }
+
+        $cant_gigas_rest = $cantgigas - $cant_gigas_cons;
+        $porc_esp_cons = round(($cant_gigas_cons / $cantgigas) * 100, 2);
+
+        $medidaespdisp = 'megas';
+        if ($cantgigas >= 1024)
+        {
+            $cantgigas = round($cantgigas / 1024, 2);
+            $medidaespdisp = 'gigas';
+        }
+
+        $medidaesprest = 'megas';
+        if ($cant_gigas_cons >= 1024)
+        {
+            $cant_gigas_cons = round($cant_gigas_cons / 1024, 2);
+            $medidaesprest = 'gigas';
+
+        }
+
+
 
         //Calculando vigencia de certificados
         $certificados = Certificado::all();
@@ -389,11 +413,10 @@ class HomeController extends Controller
         catch (\GuzzleHttp\Exception\ServerException $e) 
         {
              \Session::put('newserror', 'Sin comunicación a servicio de control para noticias');
-
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest]);
 
     }
 

@@ -239,7 +239,6 @@ class Art69Controller extends Controller
             {
                 $query = $query.'rfc = ?';
                 array_push($parameters, strtoupper($alldata['rfc_value']));
-                
             }
         }
         else
@@ -247,7 +246,7 @@ class Art69Controller extends Controller
             $num = 0;
 
             if (array_key_exists('nombre_value',$alldata) && isset($alldata['nombre_value'])){
-                $query = $query.'nombre = ? ';
+                $query = $query."nombre like '%?%' ";
                 array_push($parameters, $alldata['nombre_value']);
                 $num += 1;
             }
@@ -302,8 +301,6 @@ class Art69Controller extends Controller
                         array_push($parameters, $alldata['fecha_fin_sat']);
                         $num += 1;
                     }
-                    
-
                 }
             }
 
@@ -332,8 +329,6 @@ class Art69Controller extends Controller
                         array_push($parameters, $alldata['fecha_fin_dof']);
                         $num += 1;
                     }
-                    
-
                 }
             }
         }

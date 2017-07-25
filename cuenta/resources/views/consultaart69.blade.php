@@ -166,7 +166,7 @@
                           </div>
 							
 
-                          <div id="div_fecha_esp_sat" class="row hidden">
+                          <div id="div_fecha_esp_sat" class="row item form-group hidden">
                           	<div class="item form-group">
                           		<input type="date" id="inp_fecha_esp_sat" name="inp_fecha_esp_sat" title="Fecha de publicación en el SAT" style="margin-left: 25px">
                           	</div>
@@ -331,6 +331,23 @@
 
     <script src="{{ asset('vendors/moment/min/moment.min.js') }}" type="text/javascript" charset="utf-8"></script>
     <script src="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.js') }}" type="text/javascript" charset="utf-8"></script>
+
+    <script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons/js/buttons.html5.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-buttons/js/buttons.print.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+    <script src="{{ asset('vendors/jszip/dist/jszip.min.js') }}"></script>
+    <script src="{{ asset('vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('build/js/custom.js') }}"></script>
 
@@ -609,41 +626,38 @@
                     	console.log(response['query']);
                       console.log(response['parameters']);
 	        			
-                var registros69 = response['registros69'];
-	        			var table = document.getElementById("datatable-responsive");
+                      var registros69 = response['registros69'];
+      	        			var table = document.getElementById("datatable-responsive");
 
-	        			if (registros69.length > 0) {
-				            for (var i = 0; i < registros69.length; i++) {
+      	        			if (registros69.length > 0) {
+      				            for (var i = 0; i < registros69.length; i++) {
 
-				              var row = table.insertRow(i+1);
-				              
-				              var cell0 = row.insertCell(0);
-				              cell0.innerHTML = registros69[i].rfc;
+      				              var row = table.insertRow(i+1);
+      				              
+      				              var cell0 = row.insertCell(0);
+      				              cell0.innerHTML = registros69[i].rfc;
 
-				              var cell1 = row.insertCell(1);
-				              cell1.innerHTML = registros69[i].nombre;
+      				              var cell1 = row.insertCell(1);
+      				              cell1.innerHTML = registros69[i].nombre;
 
-				              var cell2 = row.insertCell(2);
-				              cell2.innerHTML = registros69[i].estado;
-				             
-				              var cell3 = row.insertCell(3);
-				              cell3.innerHTML = registros69[i].fecha_sat;
+      				              var cell2 = row.insertCell(2);
+      				              cell2.innerHTML = registros69[i].estado;
+      				             
+      				              var cell3 = row.insertCell(3);
+      				              cell3.innerHTML = registros69[i].fecha_sat;
 
-				              var cell4 = row.insertCell(4);
-				              cell4.innerHTML = registros69[i].fecha_dof;
+      				              var cell4 = row.insertCell(4);
+      				              cell4.innerHTML = registros69[i].fecha_dof;
 
-				              var cell5 = row.insertCell(5);
-				              cell5.innerHTML = registros69[i].url_oficio;
+      				              var cell5 = row.insertCell(5);
+      				              cell5.innerHTML = registros69[i].url_oficio;
 
-				              var cell6 = row.insertCell(6);
-				              cell6.innerHTML = registros69[i].url_anexo;
+      				              var cell6 = row.insertCell(6);
+      				              cell6.innerHTML = registros69[i].url_anexo;
 
-				            }
-				            
-				          }
-	        			
-
-	        		}
+      				            }
+      				        }
+	        		     }
 
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -652,9 +666,6 @@
                 }
             });
          }
-
-
-
     </script>
 
 

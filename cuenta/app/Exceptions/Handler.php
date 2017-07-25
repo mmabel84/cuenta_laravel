@@ -68,6 +68,11 @@ class Handler extends ExceptionHandler
         {
              return redirect()->back();
         }
+        elseif ($exception instanceof \Illuminate\Session\TokenMismatchException)
+        {
+            \Session::flash('loginrfcerr','Su sesión expiró');
+            return redirect(route('login'));
+        }
         
         return parent::render($request, $exception);
     }

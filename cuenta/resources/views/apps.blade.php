@@ -60,6 +60,7 @@
 		                          <th>Aplicación</th>
 		                          <th>Empresa</th>
 		                          <th>RFC empresa</th>
+		                          <th>Uso</th>
 		                          <th>Acciones</th>
 		                          
 		                        </tr>
@@ -72,6 +73,7 @@
 		                          <td>{{$a->aplicacion->app_nom}}</td>
 		                          <td>{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
+		                          <td>{{$a->uso}}</td>
 
 
 		                          <td class=" last" width="14%">
