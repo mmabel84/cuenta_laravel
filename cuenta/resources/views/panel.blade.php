@@ -197,7 +197,7 @@
                 <div class="x_title">
                             <h2 style="font-size: 15px">Validar RFC en Art. 69 y 69-B</h2>
                             </br>
-                            <p>Actualizado a 23/09/2017</p>
+                            <p>Actualizado a {{ $fecha_act_69 }}</p>
                             <div class="clearfix"></div>
                   </div>
 
@@ -653,7 +653,7 @@
                   data: {_token: CSRF_TOKEN,rfc:rfc},
                   dataType: 'JSON',
                   success: function (data) {
-                    
+                    console.log(data);
                     if (data['tienerep'] == false){
                       $('#art69').append(data['reporte']);
                       setTimeout(HideLabel, 5000);

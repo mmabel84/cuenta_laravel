@@ -20,6 +20,11 @@
     <link href="{{ asset('vendors/ion.rangeSlider/css/ion.rangeSlider.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/cropper/dist/cropper.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 
 
     <style>
@@ -274,7 +279,8 @@
 		                        <tr style="color:#FFFFFF; background-color:#2d5986 ">
 		                          <th>RFC</th>
 		                          <th>Razón social</th>
-		                          <th>Estado</th>
+		                          <th>Tipo</th>
+                              <th>Oficio</th>
 		                          <th>Fecha SAT</th>
 		                          <th>Fecha DOF</th>
 		                          <th>URL oficio</th>
@@ -548,7 +554,7 @@
       {
         if (select_estado.options[i].selected) estado_value.push(select_estado.options[i].value);
       }
-      console.log(estado_value);
+      //console.log(estado_value);
 
       var by_sat = 2;
       var by_sat_specific = 2;
@@ -611,9 +617,7 @@
         alert("Debe especificar un RFC");
         throw new Error("Debe especificar un RFC");
       }
-
 			
-
              var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
              $.ajax({
@@ -623,9 +627,20 @@
                 dataType: 'JSON',
                 success: function (response) {
                     if (response['status'] == 'Success'){
-                    	console.log(response['query']);
-                      console.log(response['parameters']);
-	        			
+                      var dataTablevalues = []; 
+                      var table_counter = 0; 
+                      response['registros69'].forEach(function(item){
+                            dataTablevalues.push([item.rfc,item.contribuyente,item.tipo,item.oficio,item.fecha_sat,item.fecha_dof,"<a target='_blank' href='"+item.url_oficio+"'>"+item.url_oficio+"</a>","<a target='_blank' href='"+item.url_anexo+"'>"+item.url_anexo+"</a>"]);
+                                                table_counter ++;
+                                            });
+
+
+                      $('#datatable-responsive').dataTable().fnDestroy();
+                      dtobj = $('#datatable-responsive').DataTable( {
+                          data: dataTablevalues,
+                      });
+                      
+                      /*
                       var registros69 = response['registros69'];
       	        			var table = document.getElementById("datatable-responsive");
 
@@ -638,25 +653,28 @@
       				              cell0.innerHTML = registros69[i].rfc;
 
       				              var cell1 = row.insertCell(1);
-      				              cell1.innerHTML = registros69[i].nombre;
+      				              cell1.innerHTML = registros69[i].contribuyente;
 
       				              var cell2 = row.insertCell(2);
-      				              cell2.innerHTML = registros69[i].estado;
+      				              cell2.innerHTML = registros69[i].tipo;
       				             
       				              var cell3 = row.insertCell(3);
-      				              cell3.innerHTML = registros69[i].fecha_sat;
+      				              cell3.innerHTML = registros69[i].oficio;
 
       				              var cell4 = row.insertCell(4);
-      				              cell4.innerHTML = registros69[i].fecha_dof;
+      				              cell4.innerHTML = registros69[i].fecha_sat;
 
-      				              var cell5 = row.insertCell(5);
-      				              cell5.innerHTML = registros69[i].url_oficio;
+                            var cell5 = row.insertCell(5);
+                            cell5.innerHTML = registros69[i].fecha_dof;
 
       				              var cell6 = row.insertCell(6);
-      				              cell6.innerHTML = registros69[i].url_anexo;
+      				              cell6.innerHTML = registros69[i].url_oficio;
+
+      				              var cell7 = row.insertCell(7);
+      				              cell7.innerHTML = registros69[i].url_anexo;
 
       				            }
-      				        }
+      				        }*/
 	        		     }
 
                 },

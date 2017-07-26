@@ -136,6 +136,7 @@
                                                         {{ csrf_field() }}
                                                     </form>
                                                 </li>
+                                                <li><a href="{{ route('usuarios.edit',Auth::user()->id) }}"> Perfil</a></li>
                                         </li>
                                     @endif
                                   </ul>
@@ -157,31 +158,26 @@
                           </div>
                         </div>
                     <!-- /page content -->
-              @section('app_footer')
-              <footer>
-                  <div class="pull-right">
-                      <b>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</b>  </div>
-                    
-                  <div class="span6">
-                          <div class="content">
-                            <nav id="sub-menu">
-                                <ul>
-                                  <li><a href="http://www.advans.mx/content/aviso-de-privacidad" target='_blank'><b>Aviso de Privacidad</b></a></li>
-                                  <li><a href="http://www.advans.mx/content/terminos-y-condiciones" target='_blank'><b>Términos y Condiciones</b></a></li>
-                                </ul>
-                            </nav>
-                          </div>  
-                    
-                  </div>
-                  <div class="clearfix"></div>
-            </footer>
-
-            
-            @show
-
-
+                        @section('app_footer')
+                        <footer>
+                            <div class="pull-right">
+                                <b>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</b>  </div>
+                              
+                            <div class="span6">
+                                    <div class="content">
+                                      <nav id="sub-menu">
+                                          <ul>
+                                            <li><a href="http://www.advans.mx/content/aviso-de-privacidad" target='_blank'><b>Aviso de Privacidad</b></a></li>
+                                            <li><a href="http://www.advans.mx/content/terminos-y-condiciones" target='_blank'><b>Términos y Condiciones</b></a></li>
+                                          </ul>
+                                      </nav>
+                                    </div>  
+                              
+                            </div>
+                            <div class="clearfix"></div>
+                      </footer>
+                      @show
             </div>
-
         </div>
 
         @section('app_js')
