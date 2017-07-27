@@ -64,6 +64,13 @@ class Handler extends ExceptionHandler
              $request->session()->flash('midred', '1');
              return redirect()->back();
         }
+
+        elseif ($exception instanceof \GuzzleHttp\Exception\ConnectException)
+        {
+             $request->session()->put('loginrfcerr', 'Sin conexión a servidor de control');
+             $request->session()->flash('midred', '1');
+             return redirect()->back();
+        }
         elseif ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
         {
              return redirect()->back();
@@ -71,7 +78,7 @@ class Handler extends ExceptionHandler
         elseif ($exception instanceof \Illuminate\Session\TokenMismatchException)
         {
             //\Session::flash('loginrfcerr','Su sesión expiró');
-            \Session::put('loginrfcerr', 'Su sesión expiró');
+            $request->session()->put('loginrfcerr', 'Su sesión expiró');
             return redirect(route('login'));  
         }
         

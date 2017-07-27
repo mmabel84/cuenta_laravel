@@ -70,7 +70,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                        <div class=" form-group{{ $errors->has('password') ? ' has-error' : '' }}">
 
                             <div class="col-md-8 col-md-offset-2 input-group">
                                 <div class="input-group">
