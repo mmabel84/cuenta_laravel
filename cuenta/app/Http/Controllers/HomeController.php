@@ -336,7 +336,13 @@ class HomeController extends Controller
         }
 
         $cant_gigas_rest = $cantgigas - $cant_gigas_cons;
-        $porc_esp_cons = round(($cant_gigas_cons / $cantgigas) * 100, 2);
+        $porc_esp_cons = 0;
+        if ($cantgigas > 0)
+        {
+            $porc_esp_cons = round(($cant_gigas_cons / $cantgigas) * 100, 2);
+        }
+
+        
 
         $medidaespdisp = 'megas';
         if ($cantgigas >= 1024)
