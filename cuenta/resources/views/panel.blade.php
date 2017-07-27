@@ -108,8 +108,8 @@
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-database" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $insts }}</div>
                   <p style="color: #053666;"><b>INSTANCIAS CONTRATADAS</b></p>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas }} creadas</p></a>
                   <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas -  $cantbdappstest}} en producción | {{ $cantbdappstest }} en prueba</p></a>
-                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas }} total creadas</p></a>
 
                 </div>
               </div>
