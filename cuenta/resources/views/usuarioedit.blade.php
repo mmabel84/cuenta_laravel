@@ -74,13 +74,8 @@
 
                     <input type="hidden" id="inpimg" name="inpimg" value="{{asset('storage/'.$user->users_pic)}}">
                     <div id="invimg">
-                        @if (count($user->users_pic) >= 1)
-                            <img id='imageid' src="{{asset('storage/'.$user->users_pic)}}">
-                        @else
-                            <img id='imageid' src="{{asset('default_avatar_male.jpg')}}">
-                        @endif
-
-                        <input id="deleted_pic" name="deleted_pic" type="text" value="0">
+                          <img id='imageid' src="{{$user->users_pic ? asset('storage/'.$user->users_pic) : asset('default_avatar_male.jpg')}}">
+                    <input id="deleted_pic" name="deleted_pic" type="text" value="0">
 
                     </div>
 
