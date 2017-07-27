@@ -195,9 +195,9 @@
              <div class="col-md-3 col-sm-3 col-xs-12" >
                 <div class="x_panel  contenedor_select" >
                 <div class="x_title">
-                            <h2 style="font-size: 15px">Validar RFC en Art. 69 y 69-B</h2>
+                            <h2 class="col-md-12 col-sm-12 col-xs-12" style="font-size: 15px">Validar RFC en Art. 69 y 69-B</h2>
                             </br>
-                            <div class="item form-group">Actualizado a {{ $fecha_act_69 }}</div>
+                            <p class="col-md-12 col-sm-12 col-xs-12">Actualizado a {{ $fecha_act_69 }}</p>
                             
                             <div class="clearfix"></div>
                   </div>
