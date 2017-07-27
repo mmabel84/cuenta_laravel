@@ -288,11 +288,7 @@ class UsrController extends Controller
 
 
         if($file!=false){
-            echo "<pre>";
-            print_r($file); 
-            print_r($path); 
-            die();
-            echo "</pre>";
+            
             $user->users_pic = $user->id.'.'.$file->getClientOriginalName();
         }
 
