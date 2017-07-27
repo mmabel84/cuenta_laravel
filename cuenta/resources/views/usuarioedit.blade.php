@@ -72,9 +72,8 @@
 
                     {{ Form::hidden('_method', 'PUT') }}
 
-
+                    <input type="hidden" id="inpimg" name="inpimg" value="{{asset('storage/'.$user->users_pic)}}">
                     <div id="invimg">
-                        <!--<img id='imageid' src="{{asset('default_avatar_male.jpg')}}">-->
                         @if (count($user->users_pic) >= 1)
                             <img id='imageid' src="{{asset('storage/'.$user->users_pic)}}">
                         @else
@@ -332,8 +331,9 @@
 
          var imgdiv = document.getElementById("invimg");
          imgdiv.style.display='none';
-
-          //var img = document.getElementById("invimg");
+         var inpimg = document.getElementById("inpimg");
+         if (inpimg.value != '')
+          $("#imageid").attr("src", inpimg.value);
 
          $("#avatar-2").fileinput({
             overwriteInitial: true,
