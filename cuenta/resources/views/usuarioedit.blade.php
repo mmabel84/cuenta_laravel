@@ -331,7 +331,7 @@
          }
 
          var imgdiv = document.getElementById("invimg");
-         imgdiv.style.display='none';
+         //imgdiv.style.display='none';
 
          $("#avatar-2").fileinput({
             overwriteInitial: true,
