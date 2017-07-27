@@ -256,6 +256,15 @@
 
         $("#users_pic").on('change', function () {
 
+          var inpimg = document.getElementById('inpimg');
+          console.log(inpimg.value);
+          if (inpimg.value != '')
+          {
+
+            $("#users_pic").val(inpimg.value);
+
+          }
+
              var countFiles = $(this)[0].files.length;
              console.log();
              var imgPath = $(this)[0].value;
