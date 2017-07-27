@@ -74,6 +74,7 @@
 
                     <input type="hidden" id="inpimg" name="inpimg" value="{{asset('storage/'.$user->users_pic)}}">
                     <div id="invimg">
+                          <img id='imageidmale' src="{{asset('default_avatar_male.jpg')}}">
                           <img id='imageid' src="{{$user->users_pic ? asset('storage/'.$user->users_pic) : asset('default_avatar_male.jpg')}}">
                     <input id="deleted_pic" name="deleted_pic" type="text" value="0">
 
