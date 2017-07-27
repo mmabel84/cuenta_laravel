@@ -197,7 +197,8 @@
                 <div class="x_title">
                             <h2 style="font-size: 15px">Validar RFC en Art. 69 y 69-B</h2>
                             </br>
-                            <p>Actualizado a {{ $fecha_act_69 }}</p>
+                            <div class="item form-group">Actualizado a {{ $fecha_act_69 }}</div>
+                            
                             <div class="clearfix"></div>
                   </div>
 
