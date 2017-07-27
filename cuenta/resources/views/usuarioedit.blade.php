@@ -74,7 +74,7 @@
 
 
                     <div id="invimg">
-                        <img id='imageiddef' src="{{asset('default_avatar_male.jpg')}}">
+                        <!--<img id='imageid' src="{{asset('default_avatar_male.jpg')}}">-->
                         @if (count($user->users_pic) >= 1)
                             <img id='imageid' src="{{asset('storage/'.$user->users_pic)}}">
                         @else
@@ -331,7 +331,9 @@
          }
 
          var imgdiv = document.getElementById("invimg");
-         //imgdiv.style.display='none';
+         imgdiv.style.display='none';
+
+          //var img = document.getElementById("invimg");
 
          $("#avatar-2").fileinput({
             overwriteInitial: true,
