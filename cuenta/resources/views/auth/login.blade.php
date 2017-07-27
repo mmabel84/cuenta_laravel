@@ -122,7 +122,7 @@
     </div>
 
     <div style="align-content: center;">
-         <a href="/" class="site_title"><img src="{{asset('logo_advans_head.png')}}" alt="Advans" height="80" width="140" style="display: block; margin-top: 45%; margin-left: auto; margin-right: auto; "><b>Advans</b></a>
+         <a href="/" class="site_title"><img src="{{asset('logo_advans_head.png')}}" alt="Advans" height="80" width="120" style="display: block; margin-top: 45%; margin-left: auto; margin-right: auto; "><b></b></a>
     </div>
 </div>
 @endsection
