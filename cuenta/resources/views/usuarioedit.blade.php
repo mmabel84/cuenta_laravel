@@ -348,9 +348,9 @@
             allowedFileExtensions: ["jpg", "png", "gif"]
         });
 
-         var inpimg = document.getElementById("inpimg");
+         /*var inpimg = document.getElementById("inpimg");
          if (inpimg.value != '')
-            $("#imageid").attr("src", inpimg.value);
+            $("#imageid").attr("src", inpimg.value);*/
 
 
     </script>
