@@ -98,7 +98,7 @@
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-suitcase" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $appsall }}</div>
                   <p style="color: #053666;"><b>APLICACIONES EN USO</b></p>
-                  <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $apps }} contratadas | {{ $appstest }} en prueba</p></a>
+                  <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $apps }} en producción | {{ $appstest }} en prueba</p></a>
                   <a href="{{ URL::to('appsasign') }}"><p style="color: #053666;">{{ $appsdesact }} bloqueadas</p></a>
                 </div>
               </div>
@@ -108,8 +108,8 @@
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-database" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $insts }}</div>
                   <p style="color: #053666;"><b>INSTANCIAS CONTRATADAS</b></p>
-                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas }} instancias creadas</p></a>
-                  <a href="{{ URL::to('appsprueba') }}"><p style="color: #053666;">{{ $cantbdappstest }} instancias en prueba</p></a>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas -  $cantbdappstest}} en producción | {{ $cantbdappstest }} en prueba</p></a>
+                  <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas }} total creadas</p></a>
 
                 </div>
               </div>
@@ -117,7 +117,7 @@
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-calendar" style="color: #053666; font-size: 50px;"></i></div>
-                  <div id="tiempodisp" class="count" >{{ $intervalshow }} </div>
+                  <div id="tiempodisp" class="count" style="color: #FFFFFF;">{{ $intervalshow }} </div>
                    <p style="color: #053666;"><b>{{ $medida_tiempo }} </b></p>
                    <p style="color: #053666;">Pago en {{ $fecha_fin }} | Corte en {{ $fecha_caduc }}</p>
                    <p style="color: #053666;">{{ $porc_final }}% de tiempo consumido </p>
@@ -133,9 +133,9 @@
                        <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-pie-chart" style="color: #053666; font-size: 50px;"></i></div>
                   </div>
                  
-                  <p style="color: #053666;"><b>MEGAS CONTRATADOS</b></p>
-                  <p style="color: #053666;">{{ $gigas - $gigas_cons }} megas disponibles</p>
-                  <p style="color: #053666;">{{ $gigas_cons }} megas consumidos</p>
+                  <p style="color: #053666;"><b>{{ $medidaespdispmay }} CONTRATADOS</b></p>
+                  <p style="color: #053666;">{{ $cant_gigas_rest }} {{ $medidaesprest }} disponibles</p>
+                  <p style="color: #053666;">{{ $porc_esp_cons }}% de espacio consumido</p>
                 </div>
               </div>
             </div>
@@ -152,7 +152,7 @@
 
                 <div class="contenedor_select col-md-12 col-sm-12 col-xs-12">
                   
-                  <select class="js-example-data-array form-control col-md-9 col-sm-9 col-xs-9" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" title="Seleccione empresa">
+                  <select class="js-example-data-array form-control col-md-9 col-sm-9 col-xs-9" name="select_emp" id="select_emp" onchange="onSelectEmpresa(this)" title="Seleccione razón social">
                       <!--<option value="null">Seleccione una empresa ...</option>-->
                            
                   </select>
@@ -197,7 +197,7 @@
                 <div class="x_title">
                             <h2 style="font-size: 15px">Validar RFC en Art. 69 y 69-B</h2>
                             </br>
-                            <p>Actualizado a 23/09/2017</p>
+                            <p>Actualizado a {{ $fecha_act_69 }}</p>
                             <div class="clearfix"></div>
                   </div>
 
@@ -653,7 +653,7 @@
                   data: {_token: CSRF_TOKEN,rfc:rfc},
                   dataType: 'JSON',
                   success: function (data) {
-                    
+                    console.log(data);
                     if (data['tienerep'] == false){
                       $('#art69').append(data['reporte']);
                       setTimeout(HideLabel, 5000);

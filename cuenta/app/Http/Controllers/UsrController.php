@@ -54,8 +54,7 @@ class UsrController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'users_nick' => $data['users_nick']
+            'password' => bcrypt($data['password'])
         ]);
     } 
 

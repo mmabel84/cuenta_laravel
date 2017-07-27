@@ -50,11 +50,11 @@
                       </li>
                     </ul>
                     <div class="clearfix"></div>
-                    @if (Session::has('message'))
-	                  <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    @if (Session::has('failmessage'))
+	                  <div class="alert alert-warning alert-dismissible fade in" role="alert">
 	                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
 	                    </button>
-	                    <strong>{{ Session::get('message') }}</strong>
+	                    <strong>{{ Session::get('failmessage') }}</strong>
 	                  </div>
                   @endif
                   </div>

@@ -3,19 +3,56 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class Art69Controller extends Controller
 {
     function auditar69b(Request $request) {
-        //recibe el rfc en post
-        //$rfc = $this->input->post('rfc', TRUE);
-        printf('entre');
+        
         $rfc = strtoupper($request->rfc);
+        Log::info($rfc);
         $data['error'] = 1;
         $data['reporte'] = 0;
+        $arrayparams = array();
 
+        $arrayparams['by_rfc'] = true;
+        $arrayparams['rfc_value'] = $rfc;
 
-            //inicializando el cliente (_*-*)_
+        try
+        {
+            $acces_vars = $this->getAccessToken();
+            $service_response = $this->getAppService($acces_vars['access_token'],'get69response',$arrayparams,'control');
+            Log::info($service_response);
+            if (count($service_response['response69']) > 0){
+                $registros69 = $service_response['response69'];
+                $reporte['69b'] = [];
+                $reporte['69'] = [];
+                $reporte['desvirtuados'] = [];
+
+                foreach ($registros69 as $r) {
+                    if ($r->tipo == 'Presunto'){
+                       array_push($reporte['69'], $r);
+                    }
+                    elseif ($r->tipo == 'Definitivo')
+                    {
+                        array_push($reporte['69b'], $r);
+                    }
+                    else
+                    {
+                        array_push($reporte['Desvirtuados'], $r);
+                    }
+
+                    
+                }
+                $data['reporte'] = $this->_reporteA69($reporte,$rfc);
+            }
+        } 
+        catch (\GuzzleHttp\Exception\ServerException $e) 
+        {
+             \Session::put('newserror', 'Sin comunicación a servicio de control para consulta de artículo 69');
+
+        }
+            /*//inicializando el cliente (_*-*)_
             $cliente = new SoapClient(URL_WS_69);//WEB_SERVICE_69 url del webserice definido en constans de Laravel
             //base64 el rfc antes de enviar
             $rfc64 = base64_encode($rfc);
@@ -38,9 +75,9 @@ class Art69Controller extends Controller
                 }
                 //notificamos que se realizo el proceso sin errores
                 $data['error'] = 0;
-            }
-        //retornamos la respuesta del servidor SOAP _(*-*_)
-        //echo json_encode($data);
+            }*/
+        
+        Log::info($data);
         return \Response::json_encode($data);
 
     }
@@ -96,11 +133,13 @@ class Art69Controller extends Controller
                            for ($i=0; $i < count($json69['69b']); $i++) {
                                 $html .='
                                 <li class="list-group-item list-group-item-danger">
-                                    #'.$json69['69b'][$i]['iddefinitivos_69b'].'<br>
-                                    Empresa: '.$json69['69b'][$i]['nombre_empresa_definitivos_69b'].'<br>
-                                    Fecha de oficio: '.$json69['69b'][$i]['fecha_oficio_definitivos_69b'].'<br>
-                                    Numero de oficio: '.$json69['69b'][$i]['numero_oficio_definitivos_69b'].'<br>
-                                    Oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_definitivos_69b'].'">Ver oficio.pdf</a><br>
+                                    #'.$json69['69b'][$i]['id'].'<br>
+                                    Empresa: '.$json69['69b'][$i]['contribuyente'].'<br>
+                                    Numero de oficio: '.$json69['69b'][$i]['oficio'].'<br>
+                                    Fecha de SAT: '.$json69['69b'][$i]['fecha_sat'].'<br>
+                                    Fecha de DOF: '.$json69['69b'][$i]['fecha_dof'].'<br>
+                                    Url de oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                    Url de oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
                                 </li><br>';
                             }
                             $html.='</ul>';
@@ -117,10 +156,13 @@ class Art69Controller extends Controller
                            for ($i=0; $i < count($json69['69']); $i++) {
                                 $html .='
                                 <li class="list-group-item list-group-item-warning">
-                                    #'.$json69['69'][$i]['idpresuncion_69'].'<br>
-                                    Empresa: '.$json69['69'][$i]['nombre_empresa_presuncion_69'].'<br>
-                                    Fecha de oficio: '.$json69['69'][$i]['fecha_oficio_presuncion_69'].'<br>
-                                    Presuncion: '.$json69['69'][$i]['tipo_presuncion'].'<br>
+                                   #'.$json69['69'][$i]['id'].'<br>
+                                    Empresa: '.$json69['69'][$i]['contribuyente'].'<br>
+                                    Numero de oficio: '.$json69['69'][$i]['oficio'].'<br>
+                                    Fecha de SAT: '.$json69['69'][$i]['fecha_sat'].'<br>
+                                    Fecha de DOF: '.$json69['69'][$i]['fecha_dof'].'<br>
+                                    Url de oficio: <a target="_blank" href="'.$json69['69'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                    Url de oficio: <a target="_blank" href="'.$json69['69'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
                                 </li><br>';
                             }
                             $html.='</ul>';
@@ -139,10 +181,13 @@ class Art69Controller extends Controller
                            for ($i=0; $i < count($json69['desvirtuados']); $i++) {
                                 $html .='
                                 <li class="list-group-item list-group-item-success">
-                                    #'.$json69['desvirtuados'][$i]['iddesvirtuados'].'<br>
-                                    Empresa: '.$json69['desvirtuados'][$i]['nombre_empresa_desvirtuados'].'<br>
-                                    Desvirtuado: '.$json69['desvirtuados'][$i]['tipo_desvirtuados'].'<br>
-                                    Oficio: '.$json69['desvirtuados'][$i]['numero_fecha_oficio_desvirtuados'].'<br>
+                                    #'.$json69['desvirtuados'][$i]['id'].'<br>
+                                    Empresa: '.$json69['desvirtuados'][$i]['contribuyente'].'<br>
+                                    Numero de oficio: '.$json69['desvirtuados'][$i]['oficio'].'<br>
+                                    Fecha de SAT: '.$json69['desvirtuados'][$i]['fecha_sat'].'<br>
+                                    Fecha de DOF: '.$json69['desvirtuados'][$i]['fecha_dof'].'<br>
+                                    Url de oficio: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                    Url de oficio: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
                                 </li><br>';
                             }
                             $html.='</ul>';
@@ -187,5 +232,66 @@ class Art69Controller extends Controller
 
         return $htmldef;
         }
+
+    function consulta69(){
+        return view('consultaart69');
+    }
+
+    function request69consult(Request $request){
+
+        $arrayparams = array();
+
+        $arrayparams['by_rfc'] = $request['by_rfc'];
+        $arrayparams['rfc_value'] = strtoupper($request['rfc_value']);
+        $arrayparams['nombre_value'] = $request['nombre_value'];
+        $arrayparams['oficio_value'] = $request['oficio_value'];
+        $arrayparams['estado_value'] = $request['estado_value'];
+        $arrayparams['by_sat'] = $request['by_sat'];
+        $arrayparams['by_sat_specific'] = $request['by_sat_specific'];
+        $arrayparams['fecha_esp_sat'] = $request['fecha_esp_sat'];
+        $arrayparams['fecha_ini_sat'] = $request['fecha_ini_sat'];
+        $arrayparams['fecha_fin_sat'] = $request['fecha_fin_sat'];
+        $arrayparams['by_dof'] = $request['by_dof'];
+        $arrayparams['by_dof_specific'] = $request['by_dof_specific'];
+        $arrayparams['fecha_esp_dof'] = $request['fecha_esp_dof'];
+        $arrayparams['fecha_ini_dof'] = $request['fecha_ini_dof'];
+        $arrayparams['fecha_fin_dof'] = $request['fecha_fin_dof'];
+
+        $registros69 = [];
+
+        
+        try
+        {
+            $acces_vars = $this->getAccessToken();
+            $service_response = $this->getAppService($acces_vars['access_token'],'get69response',$arrayparams,'control');
+            Log::info($service_response);
+            if (count($service_response['response69']) > 0){
+                $registros69 = $service_response['response69'];
+            }
+        } 
+        catch (\GuzzleHttp\Exception\ServerException $e) 
+        {
+             \Session::put('newserror', 'Sin comunicación a servicio de control para consulta de artículo 69');
+
+        }
+
+        
+
+
+        /*$registros69 = array(
+            array('rfc'=>'rrrrr', 'contribuyente'=>'rrrrr','tipo'=>'rrrr', 'oficio'=>'rrrr','fecha_sat'=>'rrrr','fecha_dof'=>'rrr','url_oficio'=>'rrrr','url_anexo'=>'rrrr'),
+            array('rfc'=>'rrrrr', 'contribuyente'=>'rrrrr','tipo'=>'rrrr', 'oficio'=>'rrrr','fecha_sat'=>'rrrr','fecha_dof'=>'rrr','url_oficio'=>'rrrr','url_anexo'=>'rrrr'),
+           array('rfc'=>'rrrrr', 'contribuyente'=>'rrrrr','tipo'=>'rrrr', 'oficio'=>'rrrr','fecha_sat'=>'rrrr','fecha_dof'=>'rrr','url_oficio'=>'rrrr','url_anexo'=>'rrrr'),
+        );*/
+
+       $response = array(
+            'status' => 'Success',
+            'msg' => 'Registers returned',
+            'registros69' => $registros69,
+            );
+
+         return \Response::json($response);
+
+    }
     
 }

@@ -188,10 +188,11 @@ class HomeController extends Controller
              }
         }
 
-        //Calculando cantidad de aplicaciones con instancias creadas
+        //Calculando cantidad de aplicaciones con instancias creadas y cantidad de gigas asignados total
         $cantgigas = 0;
         $cant_app_coninst = 0;
         $cantinstcont = 0; 
+        
        foreach ($apps as $app) {
            $cantgigas = $cantgigas + $app->app_megs;
             $cantinstcont = $cantinstcont + $app->app_insts;
@@ -201,6 +202,8 @@ class HomeController extends Controller
                 $cant_app_coninst += 1;
             }
        }
+
+       
 
        //Calculando porcentaje de tiempo consumido
         $fecha_venta = '';
@@ -313,6 +316,7 @@ class HomeController extends Controller
         $dict_empr_gig = array();
         $gigas_cons_emp = array();
         $empr_cons = array();
+
         
         foreach ($bdapps as $a) {
             if ($a->bdapp_gigcons != null){
@@ -330,6 +334,26 @@ class HomeController extends Controller
             $empr_cons = array_keys($dict_empr_gig);
             $gigas_cons_emp = array_values($dict_empr_gig);
         }
+
+        $cant_gigas_rest = $cantgigas - $cant_gigas_cons;
+        $porc_esp_cons = round(($cant_gigas_cons / $cantgigas) * 100, 2);
+
+        $medidaespdisp = 'megas';
+        if ($cantgigas >= 1024)
+        {
+            $cantgigas = round($cantgigas / 1024, 2);
+            $medidaespdisp = 'gigas';
+        }
+
+        $medidaesprest = 'megas';
+        if ($cant_gigas_cons >= 1024)
+        {
+            $cant_gigas_cons = round($cant_gigas_cons / 1024, 2);
+            $medidaesprest = 'gigas';
+
+        }
+
+
 
         //Calculando vigencia de certificados
         $certificados = Certificado::all();
@@ -389,11 +413,25 @@ class HomeController extends Controller
         catch (\GuzzleHttp\Exception\ServerException $e) 
         {
              \Session::put('newserror', 'Sin comunicación a servicio de control para noticias');
+        }
 
+        //recuperando fecha de actualización de artículo 69
+         $fecha_act_69 = '';
+         try
+        {
+            $service_response = $this->getAppService($acces_vars['access_token'],'getmax69',$arrayparams,'control');
+            if (count($service_response['response69']) > 0){
+                $fecha_act_69 = $service_response['response69'][0]['fecha'];
+                //Log::info($fecha_act_69[0]['fecha']);
+            }
+        } 
+        catch (\GuzzleHttp\Exception\ServerException $e) 
+        {
+             \Session::put('newserror', 'Sin comunicación a servicio de control para noticias');
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest,'fecha_act_69'=>$fecha_act_69]);
 
     }
 
@@ -430,49 +468,49 @@ class HomeController extends Controller
     }
 
     function auditar69b(Request $request) {
-        //recibe el rfc en post
-        //$rfc = $this->input->post('rfc', TRUE);
-        $rfc = $request->rfc;
+        $rfc = strtoupper($request->rfc);
         $data['error'] = 1;
         $data['reporte'] = 0;
-
-            //inicializando el cliente (_*-*)_
-       
-        $cliente = new SoapClient('http://lista69.advans.mx/Lista69b/index/consultarLista?wsdl');//WEB_SERVICE_69 url del webserice definido en constans de Laravel
-
+        $arrayparams = array();
+        $arrayparams['by_rfc'] = true;
+        $arrayparams['rfc_value'] = $rfc;
+        $reporte = [];
+        try
+        {
+            $acces_vars = $this->getAccessToken();
+            $service_response = $this->getAppService($acces_vars['access_token'],'get69response',$arrayparams,'control');
             
-            //base64 el rfc antes de enviar
-            $rfc64 = base64_encode($rfc);
-            //preparando parametros, en este caso solo uno
-            $params = array($rfc64);
-            //llamamos el metodo declarodo en el servidor SOAP
-            $result = $cliente->__soapCall("consultarLista", $params);
-            //convertimos ajson la respuesta y luego a un array
-            $json = json_decode($result, true);
-            //verificamos que sea array
+            if (count($service_response['response69']) > 0){
+                $registros69 = $service_response['response69'];
+                
 
-
-           if(is_array($json)){
-                //verificamos que esxista el indice de error
-                if(in_array('error',$json)){
-                    //verificamos que no hay errores y que el reporte regreso algo
-                    if($json['error']==0){
-                        //preparamos el reporte para retornar
-                        $response = $this->_reporteA69($json['reporte'],$rfc);
-                        $data['reporte'] = $response['htmldef'];
-                        $data['tienerep'] = $response['tienerep'];
+                foreach ($registros69 as $r) {
+                    if ($r['tipo'] == 'Presunto'){
+                        $reporte['69'] = [];
+                       array_push($reporte['69'], $r);
                     }
-
+                    elseif ($r['tipo'] == 'Definitivo')
+                    {
+                        $reporte['69b'] = [];
+                        array_push($reporte['69b'], $r);
+                    }
+                    else
+                    {
+                        $reporte['desvirtuados'] = [];
+                        array_push($reporte['desvirtuados'], $r);
+                    }
                 }
-                //notificamos que se realizo el proceso sin errores
-                $data['error'] = 0;
             }
-        //retornamos la respuesta del servidor SOAP _(*-*_)
-        //echo json_encode($data);
+           $response = $this->_reporteA69($reporte,$rfc);
+            $data['reporte'] = $response['htmldef'];
+            $data['tienerep'] = $response['tienerep'];
 
-            //$data =  array('reporte' => 'helloooo');
+        } 
+        catch (\GuzzleHttp\Exception\ServerException $e) 
+        {
+             \Session::put('newserror', 'Sin comunicación a servicio de control para consulta de artículo 69');
+        }
         return \Response::json($data);
-            //return  $data;
 
     }
 
@@ -489,100 +527,89 @@ class HomeController extends Controller
 
         $html .= '<dl class="dl-horizontal">';
 
-        /*$html .= '<div class="bootbox-body">
-            <dl class="dl-horizontal">
-                <dt>RFC:</dt>
-                    <dd>'.$rfc.'</dd>
-            ';*/
-        //verificamos que no regreasar numerico
+        //verificando si es un array
+        if(count($json69) > 0){
 
-        if(!is_numeric($json69)){
-            //verificando si es un array
-            if(is_array($json69)){
+                //buscando el array key 69b
+                if(array_key_exists('69b',$json69)){
+                    $tienerep = true;
+                       $html .= '
+                        <dt>Encontrado en:</dt>
+                            <dd>Lista 69 - B definitivos</dd>
+                        <br>
+                        <ul class="list-group">';
+                       //recorremos los datos de la respuesta
+                       for ($i=0; $i < count($json69['69b']); $i++) {
+                            $html .='
+                            <li class="list-group-item list-group-item-danger">
+                                #'.$json69['69b'][$i]['id'].'<br>
+                                Empresa: '.$json69['69b'][$i]['contribuyente'].'<br>
+                                Número de oficio: '.$json69['69b'][$i]['oficio'].'<br>
+                                Fecha de SAT: '.$json69['69b'][$i]['fecha_sat'].'<br>
+                                Fecha de DOF: '.$json69['69b'][$i]['fecha_dof'].'<br>
+                                Url de oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                Url de anexo: <a target="_blank" href="'.$json69['69b'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                            </li><br>';
+                        }
+                        $html.='</ul>';
+                }
+                //buscando el array key 69
+                if(array_key_exists('69',$json69)){
+                    $tienerep = true;
+                        $html .= '
+                        <dt>Encontrado en:</dt>
+                            <dd>Lista 69 presuntos</dd>
+                        <br>
+                        <ul class="list-group">';
+                        //recorremos los datos de la respuesta
+                       for ($i=0; $i < count($json69['69']); $i++) {
+                            $html .='
+                            <li class="list-group-item list-group-item-warning">
+                                #'.$json69['69'][$i]['id'].'<br>
+                                Empresa: '.$json69['69'][$i]['contribuyente'].'<br>
+                                Número de oficio: '.$json69['69'][$i]['oficio'].'<br>
+                                Fecha de SAT: '.$json69['69'][$i]['fecha_sat'].'<br>
+                                Fecha de DOF: '.$json69['69'][$i]['fecha_dof'].'<br>
+                                Url de oficio: <a target="_blank" href="'.$json69['69'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                Url de anexo: <a target="_blank" href="'.$json69['69'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                            </li><br>';
+                        }
+                        $html.='</ul>';
 
-                    //buscando el array key 69b
-                    if(array_key_exists('69b',$json69)){
-                        $tienerep = true;
-                           $html .= '
-                            <dt>Encontrado en:</dt>
-                                <dd>Lista 69 - B definitivos</dd>
-                            <br>
-                            <ul class="list-group">';
-                           //recorremos los datos de la respuesta
-                           for ($i=0; $i < count($json69['69b']); $i++) {
-                                $html .='
-                                <li class="list-group-item list-group-item-danger">
-                                    #'.$json69['69b'][$i]['iddefinitivos_69b'].'<br>
-                                    Empresa: '.$json69['69b'][$i]['nombre_empresa_definitivos_69b'].'<br>
-                                    Fecha de oficio: '.$json69['69b'][$i]['fecha_oficio_definitivos_69b'].'<br>
-                                    Numero de oficio: '.$json69['69b'][$i]['numero_oficio_definitivos_69b'].'<br>
-                                    Oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_definitivos_69b'].'">Ver oficio.pdf</a><br>
-                                </li><br>';
-                            }
-                            $html.='</ul>';
-                    }
-                    //buscando el array key 69
-                    if(array_key_exists('69',$json69)){
-                        $tienerep = true;
-                            $html .= '
-                            <dt>Encontrado en:</dt>
-                                <dd>Lista 69 presuntos</dd>
-                            <br>
-                            <ul class="list-group">';
-                            //recorremos los datos de la respuesta
-                           for ($i=0; $i < count($json69['69']); $i++) {
-                                $html .='
-                                <li class="list-group-item list-group-item-warning">
-                                    #'.$json69['69'][$i]['idpresuncion_69'].'<br>
-                                    Empresa: '.$json69['69'][$i]['nombre_empresa_presuncion_69'].'<br>
-                                    Fecha de oficio: '.$json69['69'][$i]['fecha_oficio_presuncion_69'].'<br>
-                                    Presuncion: '.$json69['69'][$i]['tipo_presuncion'].'<br>
-                                </li><br>';
-                            }
-                            $html.='</ul>';
+                }
+                //buscando el array key desvirtuados
+                if(array_key_exists('desvirtuados',$json69)){
+                    $tienerep = true;
 
-                    }
-                    //buscando el array key desvirtuados
-                    if(array_key_exists('desvirtuados',$json69)){
-                        $tienerep = true;
+                        $html .= '
+                        <dt>Encontrado en:</dt>
+                            <dd>Desvirtuados</dd>
+                        <br>
+                        <ul class="list-group">';
+                        //recorremos los datos de la respuesta
+                       for ($i=0; $i < count($json69['desvirtuados']); $i++) {
+                            $html .='
+                            <li class="list-group-item list-group-item-success">
+                                #'.$json69['desvirtuados'][$i]['id'].'<br>
+                                Empresa: '.$json69['desvirtuados'][$i]['contribuyente'].'<br>
+                                Número de oficio: '.$json69['desvirtuados'][$i]['oficio'].'<br>
+                                Fecha de SAT: '.$json69['desvirtuados'][$i]['fecha_sat'].'<br>
+                                Fecha de DOF: '.$json69['desvirtuados'][$i]['fecha_dof'].'<br>
+                                Url de oficio: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                Url de anexo: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                            </li><br>';
+                        }
+                        $html.='</ul>';
+                }
 
-                            $html .= '
-                            <dt>Encontrado en:</dt>
-                                <dd>Desvirtuados</dd>
-                            <br>
-                            <ul class="list-group">';
-                            //recorremos los datos de la respuesta
-                           for ($i=0; $i < count($json69['desvirtuados']); $i++) {
-                                $html .='
-                                <li class="list-group-item list-group-item-success">
-                                    #'.$json69['desvirtuados'][$i]['iddesvirtuados'].'<br>
-                                    Empresa: '.$json69['desvirtuados'][$i]['nombre_empresa_desvirtuados'].'<br>
-                                    Desvirtuado: '.$json69['desvirtuados'][$i]['tipo_desvirtuados'].'<br>
-                                    Oficio: '.$json69['desvirtuados'][$i]['numero_fecha_oficio_desvirtuados'].'<br>
-                                </li><br>';
-                            }
-                            $html.='</ul>';
-                    }
-
-
-
-            }
-        }else{
+        }else
+        {
             //si no se encontro nada
-
             $htmlsinreporte = '
                               <div>
                                 <label style="color: #3DB1A5" id="norep">No se encontró incidencia</label>
                               </div>';
-            
-            /*$html .= '<br>
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-success">
-                                <span class="badge alert-success">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                </span>No se encontraron reportes del RFC proporcionado.
-                            </li>
-                        </ul>';*/
+
         }
         $html .='</dl>';
 

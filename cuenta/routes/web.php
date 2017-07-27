@@ -27,6 +27,9 @@ Route::resource('certificados', 'CertController');
 Route::get('certvencidos', 'CertController@indexvencidos')->name('certvencidos');
 Route::get('appsprueba', 'AppController@indexprueba')->name('appsprueba');
 
+Route::get('consulta69', 'Art69Controller@consulta69')->name('consulta69');
+Route::post('request69consult', 'Art69Controller@request69consult')->name('request69consult');
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('/addusrdb', 'UsrController@relateUsrApp')->name('relatedb');

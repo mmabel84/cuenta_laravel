@@ -25,6 +25,16 @@ class AppController extends Controller
         {
             $usrs = User::all();
             $apps = BasedatosApp::all();
+
+            foreach ($apps as $app) {
+                if ($app->aplicacion->app_estado == 'Prueba'){
+                    $app->uso = 'Prueba';
+                }
+                else
+                {
+                    $app->uso = 'Producción';
+                }
+            }
             return view('apps',['apps'=>$apps,'usrs'=>$usrs]);
         }
         \Session::flash('failmessage','No tiene acceso a leer aplicaciones');
@@ -89,7 +99,7 @@ class AppController extends Controller
     	
     	if ($emprexist != null)
     	{
-	    	\Session::flash('failmessage','Ya existe la aplicación '.$appexist. ' de '.$emprexist);
+	    	\Session::flash('failmessage','Ya existe la aplicación '.$appexist. ' de empresa '.$emprexist);
 	    	return redirect()->route('apps.create');
     	}
 
