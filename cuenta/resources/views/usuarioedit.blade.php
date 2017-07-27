@@ -73,23 +73,20 @@
                     {{ Form::hidden('_method', 'PUT') }}
 
                     <input type="hidden" id="inpimg" name="inpimg" value="{{asset('storage/'.$user->users_pic)}}">
-                    <div id="invimg">
-                          <img id='imageidmale' src="{{asset('default_avatar_male.jpg')}}">
-                          <img id='imageid' src="{{$user->users_pic ? asset('storage/'.$user->users_pic) : asset('default_avatar_male.jpg')}}">
-                    <input id="deleted_pic" name="deleted_pic" type="text" value="0">
-
-                    </div>
+                    
 
                     <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
                     <td width="25%">
                         <div class="row">
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <div class="kv-avatar center-block text-center" style="width:200px">
-                                    <input id="avatar-2" name="users_pic" type="file" class="file-loading">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                <div id="imgcontainer" class="file-preview-frame">
+                                    <img id='imageiddef' src="{{asset('default_avatar_male.jpg')}}" hidden>
+                                    <img id="blah" alt="your image" width="150" height="150" src="{{$user->users_pic ? asset('storage/'.$user->users_pic) : asset('default_avatar_male.jpg')}}" />
+                                    <button id="cleanpic" type="button" onclick="cleanFunc();"  class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -140,6 +137,14 @@
                           </div>
 
                     </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="fileinputcontainer" class="col-md-6 col-sm-6 col-xs-6">
+                                <input id="users_pic" name="users_pic" style='position:absolute;z-index:2;top:0;' type="file"/>
+                            </div>
+                        </td>
+                        <td></td>
                     </tr>
                     </table>
 
@@ -240,6 +245,41 @@
 
 
     <script type="text/javascript">
+
+
+
+    function cleanFunc(){
+            $("#blah").attr("src", document.getElementById('imageiddef').src);
+            $("#users_pic").val('');
+        }
+
+
+        $("#users_pic").on('change', function () {
+
+             var countFiles = $(this)[0].files.length;
+             console.log();
+             var imgPath = $(this)[0].value;
+             var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+
+
+             if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                 if (typeof (FileReader) != "undefined") {
+                     for (var i = 0; i < countFiles; i++) {
+
+                         var reader = new FileReader();
+                         reader.onload = function (e) {
+                             $("#blah").attr("src", e.target.result);
+                         }
+                      reader.readAsDataURL($(this)[0].files[i]);
+                     }
+
+                 } else {
+                     alert("This browser does not support FileReader.");
+                 }
+             } else {
+                 alert("Pls select only images");
+             }
+         }); 
 
     //$('#edit').trigger('change');
 

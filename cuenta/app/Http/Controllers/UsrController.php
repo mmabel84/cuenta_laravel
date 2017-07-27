@@ -198,7 +198,6 @@ class UsrController extends Controller
         $file = false;
         if(array_key_exists('users_pic',$alldata)){
             $file     = request()->file('users_pic');
-
             $path = $request->file('users_pic')->storeAs(
             'public', $user->id.'.'.$file->getClientOriginalName()
         );
@@ -273,23 +272,18 @@ class UsrController extends Controller
         $file = false;
         if(array_key_exists('users_pic',$alldata)){
             $file = request()->file('users_pic');
-
             $path = $request->file('users_pic')->storeAs(
             'public', $user->id.'.'.$file->getClientOriginalName()
             );
            
-        }else{
-            if(array_key_exists('deleted_pic',$alldata)){
-                if($alldata['deleted_pic']=='1'){
-                    $user->users_pic = 'default_avatar_male.jpg';
-                }
-            }
         }
-
 
         if($file!=false){
             
             $user->users_pic = $user->id.'.'.$file->getClientOriginalName();
+        }
+        else{
+            $user->users_pic = null;
         }
 
         if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
