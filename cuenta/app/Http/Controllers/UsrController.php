@@ -270,18 +270,14 @@ class UsrController extends Controller
         print_r($alldata);die();
         echo "</pre>";*/
 
-        $file     = false;
+        $file = false;
         if(array_key_exists('users_pic',$alldata)){
-            $file     = request()->file('users_pic');
+            $file = request()->file('users_pic');
 
             $path = $request->file('users_pic')->storeAs(
             'public', $user->id.'.'.$file->getClientOriginalName()
             );
-            echo "<pre>";
-            print_r($file); 
-            print_r($path); 
-            die();
-            echo "</pre>";
+           
         }else{
             if(array_key_exists('deleted_pic',$alldata)){
                 if($alldata['deleted_pic']=='1'){
@@ -292,6 +288,11 @@ class UsrController extends Controller
 
 
         if($file!=false){
+            echo "<pre>";
+            print_r($file); 
+            print_r($path); 
+            die();
+            echo "</pre>";
             $user->users_pic = $user->id.'.'.$file->getClientOriginalName();
         }
 
