@@ -72,8 +72,7 @@
 
                     {{ Form::hidden('_method', 'PUT') }}
 
-                    <input type="hidden" id="inpimg" name="inpimg" value="{{asset('storage/'.$user->users_pic)}}">
-                    
+                    <input type="hidden" name="checkpic" id="checkpic" value="{{$user->users_pic ? 1 : 0}}">
 
                     <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
@@ -251,19 +250,12 @@
     function cleanFunc(){
             $("#blah").attr("src", document.getElementById('imageiddef').src);
             $("#users_pic").val('');
+            document.getElementById('checkpic').value = 0;
         }
 
 
         $("#users_pic").on('change', function () {
 
-          var inpimg = document.getElementById('inpimg');
-          console.log(inpimg.value);
-          if (inpimg.value != '')
-          {
-
-            $("#users_pic").val(inpimg.value);
-
-          }
 
              var countFiles = $(this)[0].files.length;
              console.log();
@@ -280,6 +272,7 @@
                              $("#blah").attr("src", e.target.result);
                          }
                       reader.readAsDataURL($(this)[0].files[i]);
+                      document.getElementById('checkpic').value = 1;
                      }
 
                  } else {

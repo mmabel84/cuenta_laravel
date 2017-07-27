@@ -282,8 +282,13 @@ class UsrController extends Controller
             
             $user->users_pic = $user->id.'.'.$file->getClientOriginalName();
         }
-        else{
-            $user->users_pic = null;
+        else
+        {
+            if(array_key_exists('checkpic',$alldata)){
+                if($alldata['checkpic']==0 || $alldata['checkpic']=='0'){
+                    $user->users_pic = null;
+                }
+            }
         }
 
         if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
