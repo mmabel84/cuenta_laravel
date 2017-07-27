@@ -331,9 +331,7 @@
 
          var imgdiv = document.getElementById("invimg");
          imgdiv.style.display='none';
-         var inpimg = document.getElementById("inpimg");
-         if (inpimg.value != '')
-          $("#imageid").attr("src", inpimg.value);
+         
 
          $("#avatar-2").fileinput({
             overwriteInitial: true,
@@ -348,11 +346,15 @@
             removeTitle: 'Cancel or reset changes',
             elErrorContainer: '#kv-avatar-errors-2',
             msgErrorClass: 'alert alert-block alert-danger',
-            defaultPreviewContent: "<img src={{asset('default_avatar_male.jpg')}} alt='Your Avatar' style='width:160px'><h6 class='text-muted'>Click to select</h6>",
+            defaultPreviewContent: "<img id='imageid' src={{asset('default_avatar_male.jpg')}} alt='Your Avatar' style='width:160px'><h6 class='text-muted'>Click to select</h6>",
             layoutTemplates: {main2: '{preview} {remove} {browse}'},
             browseLabel: 'Foto Usuario',
             allowedFileExtensions: ["jpg", "png", "gif"]
         });
+
+         var inpimg = document.getElementById("inpimg");
+         if (inpimg.value != '')
+            $("#imageid").attr("src", inpimg.value);
 
 
     </script>
