@@ -9,6 +9,7 @@
    
     <!-- bootstrap-daterangepicker -->
     <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}" rel="stylesheet">
     <!-- Custom Theme Style -->
     
     
@@ -243,7 +244,6 @@
             <!-- iCheck -->
             <script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
 
-            <script src="{{ asset('build/js/custom.js') }}"></script>
 
             <script type="text/javascript">
 
