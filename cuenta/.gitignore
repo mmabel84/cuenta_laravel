@@ -3,5 +3,5 @@
 Homestead.json
 Homestead.yaml
 npm-debug.log
-/cuenta/.env
-/cuenta/config/app.php
+cuenta/.env
+cuenta/config/app.php
