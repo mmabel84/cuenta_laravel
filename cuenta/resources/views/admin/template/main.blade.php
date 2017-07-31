@@ -144,9 +144,7 @@
                                                   <div class="modal-content">
                                                     <div class="modal-header">
                                                       <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña: {{ Auth::user()->name }}</h5>
-                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <!--<span aria-hidden="true">&times;</span>-->
-                                                      </button>
+                                                      
                                                     </div>
                                                     <div class="modal-body">
                                                       <form>
@@ -244,6 +242,8 @@
             <script src="{{ asset('vendors/nprogress/nprogress.js') }}"></script>
             <!-- iCheck -->
             <script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
+
+            <script src="{{ asset('build/js/custom.js') }}"></script>
 
             <script type="text/javascript">
 
