@@ -129,8 +129,14 @@ class AppController extends Controller
             //    $password = $this->rand_chars($caracteres,8);
             //    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
             //}
-
-            //$arrayparams['nombrebd'] = $empresa->empr_rfc.'_'.$app->app_cod;
+            //empresaprincipal = Empresa::where('empr_principal', '=', true)->get();
+            //if (count(empresaprincipal) > 0)
+            //{
+                //rfccuenta = empresaprincipal[0]->empr_rfc;
+                //$arrayparams['rfccuenta'] = rfccuenta;
+            //}
+            
+            //$arrayparams['rfcempresa'] = $empresa->empr_rfc;
             //$user = \Auth::user();
             //$user_email = $user->email;
             //$arrayparams['email'] = $user_email;
@@ -140,7 +146,7 @@ class AppController extends Controller
 
             //if ($user_email){
                 //TODO Descomentar cuando se desbloquee el puerto 587 para enviar correo al cliente
-                //Mail::to($cliente_correo)->send(new ClientCreate(['user'=>$user_email,'password'=>$password]));
+                //Mail::to($user_email)->send(new ClientCreate(['user'=>$user_email,'password'=>$password]));
             //}
 
             //$acces_vars = $this->getAccessToken($app->app_cod);

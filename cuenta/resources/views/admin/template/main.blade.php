@@ -137,6 +137,59 @@
                                                     </form>
                                                 </li>
                                                 <li><a href="{{ route('usuarios.edit',Auth::user()->id) }}"> Perfil</a></li>
+                                                <li><a onclick="showModal({{ Auth::user()->id }})"> Cambiar contraseña</a>
+                                                </li>
+                                                <div class="modal fade" id="passmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                                                <div class="modal-dialog" role="document" style=" width:60%">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña: {{ Auth::user()->name }}</h5>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <!--<span aria-hidden="true">&times;</span>-->
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <form>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                          <div class="item form-group{{ $errors->has('password') ? ' has-error' : '' }} col-md-9 col-sm-9 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                                                                <input placeholder="Nueva Contraseña" required="required" type="password" class="form-control" id="password">
+                                                                 @if ($errors->has('password'))
+                                                        <span class="help-block">
+                                                            <strong>{{ $errors->first('password') }}</strong>
+                                                        </span>
+                                                    @endif
+                                                    <button type="button"  onclick="changePass({{ Auth::user()->id }});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                      </form>
+
+                                                     
+
+                                                   </div>
+                                                    <div class="modal-footer">
+                                                    <div  class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                     <div id="result_failure_pass" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+                                                      
+                                                     </div>
+
+                                                     <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                                      <button type="button" onclick="cleanmodalPass({{ Auth::user()->id }});" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                        
+                                                     </div>
+                                                      
+                                                      
+                                                    </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
                                         </li>
                                     @endif
                                   </ul>
@@ -191,6 +244,86 @@
             <script src="{{ asset('vendors/nprogress/nprogress.js') }}"></script>
             <!-- iCheck -->
             <script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
+
+            <script type="text/javascript">
+
+              function showModal(user) {
+                var modalid = "passmodal";
+
+                $("#"+modalid).modal('show');
+                
+              }
+
+              function hideModal(user) {
+                var modalid = "passmodal";
+                $("#"+modalid).modal('hide');
+              }
+
+              function cleanmodalPass(usrid){
+
+                $("#result_failure_pass").html('');
+              }
+
+              //Función para cambiar contraseña
+               function changePass(user){
+
+                   var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                   var passid = "password";
+
+                   var password = document.getElementById(passid).value;
+
+
+
+                   if(password){
+                      $.ajax({
+                        url: 'cambcont',
+                        type: 'POST',
+                        data: {_token: CSRF_TOKEN,password:password,user:user},
+                        dataType: 'JSON',
+                        success: function (data) {
+
+                         //console.log(data);
+                          hideModal(data['user']);
+                          cleanmodalPass(user);
+                          //$('#alertmsgcreation').trigger('click');
+
+                          var content = '<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;"><button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong id="alertpassmsg"></strong></div>';
+                          
+
+                          /*console.log(document.getElementById("divpasschange"));
+                          console.log(document.getElementById("alertpasschange"));
+                          
+                          document.getElementById("divpasschange").style.display = 'block';
+
+                          document.getElementById("alertpassmsg").innerHTML = data['msg'];
+                          setTimeout(function() {
+                          $('#alertpasschange').trigger('click');
+                          document.getElementById("cont_pass_change_div").innerHTML = content;
+
+
+                      }, 4e3);*/
+                          
+
+                       },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            //alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                            console.log(XMLHttpRequest);
+                            $("#result_failure_pass").html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+
+                        }
+                    });
+                    }else{
+                      $("#result_failure_pass").html('<p>La contraseña es obligatoria</p>');
+                   }
+
+                   document.getElementById("password").value = "";
+                }
+
+              
+
+
+            </script>
         @show
     </body>
 @endsection
