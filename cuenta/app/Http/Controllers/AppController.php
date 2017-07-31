@@ -142,12 +142,27 @@ class AppController extends Controller
             //$arrayparams['email'] = $user_email;
             //$arrayparams['name'] = $user->name;
             //$arrayparams['password'] = $password;
+            
+            $numcta = $empresaprincipal->empr_rfc;
+            $numinst = $empresa->empr_rfc;
+            $url_inst = config('app.advans_apps_url.'.$app->app_cod).$numcta.'_'.$numinst;
+            Mail::send('instemail', ['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'numcta'=>$numcta,'emprrfc'=>$numinst,'user'=>$user_email,'password'=>$password,'url'=>$url_inst], function($message)
+            {
+                $message->to($user_email)->subject('Creación de instancia de '.$app->app_nom);
+            });
 
 
             //if ($user_email){
-                //TODO Descomentar cuando se desbloquee el puerto 587 para enviar correo al cliente
-                //Mail::to($user_email)->send(new ClientCreate(['user'=>$user_email,'password'=>$password]));
+                //Mail::to($user_email)->send(new ClientCreate(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'numcta'=>$empresaprincipal->empr_rfc,'emprrfc'=>$empresa->empr_rfc,'user'=>$user_email,'password'=>$password]));
             //}
+            
+            /*$textemail = 'Se ha generado una instancia de '.$app->app_nom.' para empresa '.$empresa->empr_nom.' , con usuario: '.$user_email.' y contraseña: '.$password. ' Por favor cambie su contraseña al acceder.'
+            Mail::raw($textemail, function($message)
+            {
+                $message->from('us@example.com', 'Laravel');
+
+                $message->to($user_email);
+            });*/
 
             //$acces_vars = $this->getAccessToken($app->app_cod);
             //$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
