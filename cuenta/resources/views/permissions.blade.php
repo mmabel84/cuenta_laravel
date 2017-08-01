@@ -1,10 +1,6 @@
  @extends('admin.template.main')
 
 
-@section('app_title')
-      Permisos
-@endsection 
-
 @section('app_css')
     @parent
     <!-- Datatables -->
@@ -19,7 +15,6 @@
 		<div class="container">
 			<div class="row">
 				
-
 				<div class="col-md-12 col-sm-12 col-xs-12">
 		                <div class="x_panel">
 		                  <div class="x_title">
@@ -65,9 +60,6 @@
 		                  </div>
 		                </div>
 		              </div>
-
-
-
 
 			</div>
 		</div>

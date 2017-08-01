@@ -1,9 +1,6 @@
  @extends('admin.template.main')
 
 
-@section('app_title')
-      Aplicaciones
-@endsection 
 
 @section('app_css')
     @parent
@@ -92,15 +89,6 @@
 	                          </div>
 	                        </div>
 
-	                      <!--<div class="form-group">
-	                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de servidor <span class="required">*</span>
-	                        </label>
-	                        <div class="col-md-6 col-sm-6 col-xs-12">
-	                          <input type="text" id="bdapp_nomserv" name="bdapp_nomserv" required="required" class="form-control col-md-7 col-xs-12">
-	                        </div>
-	                      </div>-->
-
-	                       
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -115,11 +103,6 @@
               </div>
             </div>
           </div>
-
-          
-
-
-
 
 @endsection
 
@@ -158,12 +141,7 @@
                   $('#alertmsgcreation').trigger('click');
               }, 4e3);
           });
-      </script>
-
-
-
-      <script type="text/javascript">
-          
+     
           $('#emps').trigger('change');
 
           function filldata() {
@@ -185,13 +163,8 @@
                   placeholder: 'Seleccione una empresa...',
                   allowClear: true,
                   //data: dataemps
-                  
-                   
                });
-
-                         
           }
-          
 
           if (apps.length > 0) {
             for (var i = 0; i < apps.length; i++) {
@@ -206,15 +179,8 @@
                   placeholder: 'Seleccione una aplicación...'
                    
                });
-
-
         }
 
-           
-
-          
-
-        </script>
-
+      </script>
 
 @endsection

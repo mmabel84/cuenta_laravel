@@ -62,8 +62,8 @@
                {{ Form::hidden('_method', 'PUT') }}
                <input type="hidden" name="permsrel" id="permsrel" value="{{ $permissions_related }}" onchange="permsrelated(this)" />
                     <table border="0" class="col-md-12 col-sm-12 col-xs-12">
-                    <tr>
-                    <td>
+                      <tr>
+                      <td>
 
                         <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -112,8 +112,8 @@
                                 @endif
                             </div>
                           </div>
-                    </td>
-                    </tr>
+                      </td>
+                      </tr>
                     </table>
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -121,10 +121,7 @@
                         </br>
                     </div>
 
-
-                      
-
-                        <div class="x_content">
+                    <div class="x_content">
                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
                           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Permisos</a>
@@ -146,10 +143,7 @@
                                           </div>
                                   </div>
 
-
-
                             </div>
-
 
                           </div>
                         </div>

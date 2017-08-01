@@ -1,11 +1,6 @@
  @extends('admin.template.main')
 
 
-@section('app_title')
-      Paquetes
-@endsection 
-
-
 @section('app_css')
     @parent
     <!-- Datatables -->
@@ -28,7 +23,6 @@
 		                    
 		                    <div class="clearfix"></div>
 		                  </div>
-		                  
 		                  
 		                  <br/>
 		                   @if (Session::has('message'))
@@ -58,7 +52,6 @@
 		                          <th>Estado</th>
 		                          <th>Pagado</th>
 
-		                          
 		                        </tr>
 		                      </thead>
 		                      <tbody>
@@ -79,9 +72,6 @@
 		                  </div>
 		                </div>
 		              </div>
-
-
-
 
 			</div>
 		</div>

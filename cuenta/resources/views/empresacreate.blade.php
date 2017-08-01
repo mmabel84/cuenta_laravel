@@ -1,9 +1,6 @@
 
 @extends('admin.template.main')
 
-@section('app_title')
-      Empresas
-@endsection 
 
 @section('app_css')
     @parent
@@ -16,7 +13,6 @@
     <!-- Chosen -->
 
     <link href="{{ asset('vendors/chosen/chosen.css') }}" rel="stylesheet" type="text/css" />
-
 
     <style>
     .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
@@ -65,13 +61,10 @@
                 <form id="emprcreateform" class="form-horizontal form-label-left" novalidate action="{{ route('empresas.store') }}" method='POST' enctype="multipart/form-data">
 
                       {{ csrf_field() }}
-
-                    
                     <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
                     
                     <td>
-
                         <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="empr_nom" class="form-control has-feedback-left" name="empr_nom" placeholder="Nombre de empresa *" required="required" type="text" value="{{ old('empr_nom') }}" title="Nombre de empresa">
@@ -91,10 +84,8 @@
                             <span style="float: left; color: red;" id="span_empr_rfc" {{$errors->has('empr_rfc') ? '' : 'hidden'}}>
                                 {{ $errors->first('empr_rfc') }}
                             </span>
-                        </div>
+                            </div>
                           </div>
-
-                           
 
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -103,20 +94,14 @@
                              
                             </div>
                           </div>
-
                     </td>
                     </tr>
                     </table>
-
-
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         </br>
                         </br>
                     </div>
-
-
-
 
                       <div class="ln_solid"></div>
                       <div class="form-group">
@@ -125,9 +110,7 @@
                             <button id="send" type="submit" class="btn btn-success">Guardar</button>
                         </div>
                       </div>
-
                     </form>
-
               </div>
             </div>
           </div>
@@ -181,7 +164,6 @@
          function onSelectUserCreate(element){
              
              var selected = getSelectValues(element);
-
 
              var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 

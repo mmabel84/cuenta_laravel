@@ -1,9 +1,6 @@
 
 @extends('admin.template.main')
 
-@section('app_title')
-      Consulta de artículo 69
-@endsection 
 
 @section('app_css')
     @parent

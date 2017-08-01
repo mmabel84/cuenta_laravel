@@ -1,10 +1,6 @@
    @extends('admin.template.mainform')
 
 
-@section('app_title')
-      Empresas
-@endsection 
-
 @section('content')
 	         <div class="container">
             <div class="row">
@@ -28,8 +24,6 @@
                   <div class="x_content">
                     <br />
                     
-
-            
            	 		{{ Form::open(['route' => ['empresas.update', $empresa], 'class'=>'form-horizontal form-label-left']) }}
 
                       {{ Form::hidden('_method', 'PUT') }}
@@ -58,7 +52,6 @@
                               <span class="fa fa-building-o form-control-feedback left" aria-hidden="true"></span>
                             </div>
                       </div>
-                      
                       
                       <div class="ln_solid"></div>
                       <div class="form-group">

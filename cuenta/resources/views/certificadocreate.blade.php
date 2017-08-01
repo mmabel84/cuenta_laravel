@@ -1,9 +1,7 @@
 
 @extends('admin.template.main')
 
-@section('app_title')
-      Certificados
-@endsection 
+
 
 @section('app_css')
     @parent
@@ -16,7 +14,6 @@
     <!-- Chosen -->
 
     <link href="{{ asset('vendors/chosen/chosen.css') }}" rel="stylesheet" type="text/css" />
-
 
     <style>
     .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
@@ -72,40 +69,21 @@
                     
                     <td>
 
-                          <!--<div class="item form-group {{ $errors->has('cert_rfc') ? 'bad' : '' }}">
+							         <div class="item form-group">                        
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="cert_rfc" class="form-control has-feedback-left" name="cert_rfc" placeholder="RFC de empresa *" required="required" type="text" data-validate-words="1" value="{{ old('cert_rfc') }}" autocomplete="off" data-inputmask="'mask' : '*************'" style="text-transform: uppercase;" >
-                              <span class="fa fa-building form-control-feedback left" aria-hidden="true"></span>
-                              
-                             
+                              <input id="cert_file" class="form-control has-feedback-left" name="cert_file" placeholder="Certificado del Cliente " type="file" accept=".cer" title="Certificado con extensión .cer" required="required">
+                              <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
                             </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                            <span style="float: left; color: red;" id="span_empr_rfc" {{$errors->has('cert_rfc') ? '' : 'hidden'}}>
-                                {{ $errors->first('cert_rfc') }}
-                            </span>
                         </div>
-                          </div>-->
-
-							<div class="item form-group">                        
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                  <input id="cert_file" class="form-control has-feedback-left" name="cert_file" placeholder="Certificado del Cliente " type="file" accept=".cer" title="Certificado con extensión .cer" required="required">
-                                  <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-                            </div>
 
                     </td>
                     </tr>
                     </table>
 
-
-
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         </br>
                         </br>
                     </div>
-
-
-
 
                       <div class="ln_solid"></div>
                       <div class="form-group">
@@ -114,9 +92,7 @@
                             <button id="send" type="submit" class="btn btn-success">Guardar</button>
                         </div>
                       </div>
-
                     </form>
-
               </div>
             </div>
           </div>
@@ -147,14 +123,5 @@
     <script src="{{ asset('vendors/chosen/chosen.jquery.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendors/chosen/docsupport/prism.js') }}" type="text/javascript" charset="utf-8"></script>
     <script src="{{ asset('vendors/chosen/docsupport/init.js') }}" type="text/javascript" charset="utf-8"></script>
-
-
-    <script type="text/javascript">
-
-         
-
-
-    </script>
-
 
 @endsection   

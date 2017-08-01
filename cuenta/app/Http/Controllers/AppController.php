@@ -82,38 +82,36 @@ class AppController extends Controller
 
     public function store(Request $request)
     {
-    	
         $bdapps = BasedatosApp::all();
     	$emprexist = null;
         $appexist = null;
+        $empresa = Empresa::find($request->bdapp_empr_id);
+        $app = Aplicacion::find($request->bdapp_app_id);
+        $exist = 0;
 
     	foreach ($bdapps as $a )
     	{
     		if ($a->bdapp_app_id == $request->bdapp_app_id && $a->bdapp_empr_id == $request->bdapp_empr_id)
     		{
-    			$emprexist = Empresa::find($a->bdapp_empr_id)->empr_nom;
-                $appexist = Aplicacion::find($a->bdapp_app_id)->app_nom;
-
+                $exist = 1;
     		}
     	}
     	
-    	if ($emprexist != null)
+    	if ($exist == 1)
     	{
-	    	\Session::flash('failmessage','Ya existe la aplicación '.$appexist. ' de empresa '.$emprexist);
-	    	return redirect()->route('apps.create');
+	    	\Session::flash('failmessage','Ya existe la aplicación '.$app->app_nom. ' de empresa '.$empresa->empr_nom);
+	    	return redirect()->back();
     	}
 
     	$appbd = new BasedatosApp;
-    	$empresa = Empresa::find($request->bdapp_empr_id);
-        $app = Aplicacion::find($request->bdapp_app_id);
         $dbs = BasedatosApp::where('bdapp_app', '=', $app->app_cod)->get();
-        $fmessage = 'No se puede generar la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom.' pues ha alcanzado el límite máximo de instancias contratadas para la aplicación '.$app->app_nom;
+        $fmessage = 'No se puede generar la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom.' pues ha alcanzado el límite máximo de instancias contratadas';
         $instlimit = $app->app_insts;
         if ($instlimit == null || count($dbs) <  $instlimit)
         {
-            $appbd->bdapp_app_id = $request->bdapp_app_id;
+            $appbd->bdapp_app_id = $app->id;
             $appbd->bdapp_app = $app->app_cod;
-            $appbd->bdapp_empr_id = $request->bdapp_empr_id;
+            $appbd->bdapp_empr_id = $empresa->id;
             //llamar archivo de configuracion para seleccionar base de datos
             $appbd->bdapp_nomserv = 'Test';
             $appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;
@@ -158,17 +156,14 @@ class AppController extends Controller
             $this->registroBitacora($request,'create',$fmessage); 
             \Session::flash('message',$fmessage);
             return Redirect::to('apps');
-
         }
-
         \Session::flash('failmessage',$fmessage);
-        return Redirect::to('apps');
+        return redirect()->back();
 
     }
 
      public function destroy($id, Request $request)
     {
-        
         $appd = BasedatosApp::find($id);
         $appd->users()->detach();
         $appd-> backups()->delete();
@@ -179,8 +174,6 @@ class AppController extends Controller
         \Session::flash('message',$fmessage);
 
         return Redirect::to('apps');
-
-
     }
 
 

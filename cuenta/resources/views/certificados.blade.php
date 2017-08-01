@@ -1,10 +1,6 @@
    @extends('admin.template.main')
 
 
-@section('app_title')
-      Certificados
-@endsection 
-
 @section('app_css')
     @parent
     <!-- Datatables -->
@@ -62,7 +58,6 @@
 		                          <th>Estado</th>
 		                          <th>Acciones</th>
 		                         
-		                          
 		                        </tr>
 		                      </thead>
 
@@ -90,11 +85,8 @@
 										@endpermission
 
 		                          	</div>
-		                          	   	
-
 
 		                          </div>
-		 
 		                          </td>
 		                          
 		                        </tr>
@@ -106,14 +98,9 @@
 		                </div>
 		              </div>
 
-
-
-
 			</div>
 		</div>
 	
-			
-
 
 @endsection
 
@@ -160,8 +147,6 @@
           }, 4e3);
       });
 
-
-      	
 
     </script>
 @endsection    

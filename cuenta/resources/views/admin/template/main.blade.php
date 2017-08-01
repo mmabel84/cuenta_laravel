@@ -1,17 +1,12 @@
 @extends('admin.template.apptemplate')
 
-@section('app_title','Cuenta App')
+@section('app_title','Cuenta')
 
 @section('app_css')
     @parent
       
-
-   
     <!-- bootstrap-daterangepicker -->
     <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-
-
-    
 
 @endsection
 
@@ -39,7 +34,7 @@
                           <br />
                           <!-- sidebar menu -->
                            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                          <div class="menu_section">
+                            <div class="menu_section">
                               <ul class="nav side-menu">
                                 
                                   <li><a href="/"><i class="fa fa-dashboard"></i> INICIO </a></li>
@@ -68,9 +63,6 @@
                                     </ul>
                                   </li>
 
-                                  <!--<li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> EMPRESAS </a></li>
-                                  <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> APLICACIONES </a></li>-->
-
                                   <li><a><i class="fa fa-wrench"></i> CONFIGURACIÓN <span class="fa fa-chevron-down"></span></a>
                                       <ul class="nav child_menu">
                                         <li><a href="{{ URL::to('paqs') }}">LÍNEA DE TIEMPO CONTRATADA</a></li>
@@ -83,24 +75,19 @@
                                           @endpermission
                                         
                                       </ul>
-
-
                                   </li>
                                   @permission('leer.bitacora')
                                   <li><a href="{{ URL::to('bitacoras') }}"><i class="fa fa-eye"></i> BITÁCORA </a></li>
                                   @endpermission
                               </ul>
                           </div>
-
-                            
-
-                          </div>
+                        </div>
                           <!-- /sidebar menu -->
                           <!-- /menu footer buttons -->
                           
                           <!-- /menu footer buttons -->
-                        </div>
                       </div>
+                    </div>
                 @show
 
                 @section('app_top_navigation')

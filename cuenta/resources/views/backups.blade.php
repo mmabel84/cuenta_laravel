@@ -1,9 +1,6 @@
    @extends('admin.template.main')
 
 
-@section('app_title')
-      Respaldos
-@endsection 
 
 @section('app_css')
     @parent
@@ -19,7 +16,6 @@
 		<div class="container">
 			<div class="row">
 				
-
 				<div class="col-md-12 col-sm-12 col-xs-12">
 		                <div class="x_panel">
 		                  <div class="x_title">
@@ -60,7 +56,6 @@
 		                          <th>Usuario</th>
 		                          <th>Acciones</th>
 		                         
-		                          
 		                        </tr>
 		                      </thead>
 
@@ -87,19 +82,13 @@
 
 										&nbsp;
 										<div class="btn-group">
-		                          			<!--<button onclick="downloadback(this);" id="{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Descargar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-download fa-3x"></i> </button>-->
+
 		                          			<a href="{{ route('downlback',['bdid'=>$back->id]) }}" id="{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Descargar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-download fa-3x"></i> </a>
 
 			                          	</div>
-
 		                          	</div>
-		                          	   	
-
-
 		                          </div>
-		 
 		                          </td>
-		                          
 		                        </tr>
 		                        @endforeach
 		                       		                       
@@ -108,16 +97,9 @@
 		                  </div>
 		                </div>
 		              </div>
-
-
-
-
 			</div>
 		</div>
 	
-			
-
-
 @endsection
 
 @section('app_js') 
@@ -185,23 +167,14 @@
 	        		else{
 	        			console.log(response);
 	        		}
-
-	        		
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	        		console.log(XMLHttpRequest);
                     alert("Error: " + errorThrown); 
                 } 
 
-
 	    });
 	    };
-
-
-
-
-
-
 
     </script>
 @endsection

@@ -1,9 +1,6 @@
 
 @extends('admin.template.main')
 
-@section('app_title')
-      Usuarios
-@endsection 
 
 @section('app_css')
     @parent
@@ -67,9 +64,7 @@
 
                       {{ csrf_field() }}
 
-                    
-
-                    <table border="0" class="col-md-12 col-sm-12 col-xs-12">
+                  <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
                     <td width="25%">
                         <div class="row">
@@ -96,19 +91,7 @@
                                 @endif
                             </div>
                         </div>
-
-                          <!--<div class="item form-group">
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="users_nick" class="form-control has-feedback-left" name="users_nick" placeholder="Usuario *" required="required" type="text" data-validate-words="1" value="{{ old('users_nick') }}" autocomplete="off">
-                              <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                              @if ($errors->has('users_nick'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('users_nick') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                          </div>-->
-
+                         
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="password" class="form-control has-feedback-left" value="" name="password" placeholder="Contraseña *" required="required" type="password" data-validate-words="1" autocomplete="off" title="Contraseña del usuario">
@@ -159,17 +142,12 @@
                     </tr>
                     </table>
 
-
-
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         </br>
                         </br>
                     </div>
 
-
-                      
-
-                        <div class="x_content">
+                    <div class="x_content">
                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
                           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Roles y Permisos</a>
@@ -201,10 +179,7 @@
                                           </div>
                                   </div>
 
-
-
                             </div>
-
 
                           </div>
                         </div>
@@ -260,7 +235,6 @@
             $("#users_pic").val('');
         }
 
-
         $("#users_pic").on('change', function () {
 
              var countFiles = $(this)[0].files.length;
@@ -288,11 +262,6 @@
              }
          }); 
 
-
-
-
-
-
          function getSelectValues(select) {
           var result = [];
           var options = select && select.options;
@@ -315,11 +284,7 @@
 
              console.log(selected);
 
-
-
              var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-             //console.log(CSRF_TOKEN);
 
              $.ajax({
                 url: 'permsbyroles',

@@ -59,7 +59,6 @@
                 <div class="clearfix"></div>
               </div>
 
-              
               <div id="cont_pass_change_div">
                       <div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;">
                         <button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -133,11 +132,9 @@
 
                     {{ Form::hidden('_method', 'PUT') }}
 
-                    <input type="hidden" name="checkpic" id="checkpic" value="{{$user->users_pic ? 1 : 0}}">
+                  <input type="hidden" name="checkpic" id="checkpic" value="{{$user->users_pic ? 1 : 0}}">
 
-                    
-
-                    <table border="0" class="col-md-12 col-sm-12 col-xs-12">
+                  <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
                     <td width="25%">
                         <div class="row">
@@ -198,8 +195,6 @@
                             </div>
                           </div>
 
-                          
-
                     </td>
                     </tr>
                     <tr>
@@ -210,18 +205,14 @@
                         </td>
                         <td></td>
                     </tr>
-                    </table>
+                  </table>
 
-
-                    
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         </br>
                         </br>
                     </div>
 
-
-                      
-                        <div class="x_content">
+                    <div class="x_content">
                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
                           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Roles y Permisos</a>
@@ -252,13 +243,7 @@
                                           </select>
                                           </div>
                                   </div>
-
-
-
-
                             </div>
-
-
                           </div>
                         </div>
                     </div>
@@ -326,7 +311,6 @@
     function cleanmodalPass(usrid){
       $("#result_failure_pass"+usrid).html('');
       }
-
 
 
     function changePass(user){
@@ -424,7 +408,6 @@
              }
          }); 
 
-    //$('#edit').trigger('change');
 
         function getSelectValues(select) {
           var result = [];
@@ -530,10 +513,6 @@
             browseLabel: 'Foto Usuario',
             allowedFileExtensions: ["jpg", "png", "gif"]
         });
-
-         /*var inpimg = document.getElementById("inpimg");
-         if (inpimg.value != '')
-            $("#imageid").attr("src", inpimg.value);*/
 
 
     </script>

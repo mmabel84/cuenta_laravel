@@ -1,10 +1,6 @@
 @extends('admin.template.main')
 
 
-@section('app_title')
-      Aplicaciones
-@endsection 
-
 @section('app_css')
     @parent
     <!-- Datatables -->
@@ -25,35 +21,33 @@
 
 			<div class="col-md-12 col-sm-12 col-xs-12">
 		        <div class="x_panel">
-		                  <div class="x_title">
-		                    <h2>Lista de instancias de aplicación</h2>
-		                    <div class="clearfix"></div>
-		                  </div>
-		                  @permission('crear.aplicacion')
-		                  <div class="form-group">
-		                 
-		                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nueva instancia</b></button>
-		                  </div>
-		                  @endpermission
+                  <div class="x_title">
+                    <h2>Lista de instancias de aplicación</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  @permission('crear.aplicacion')
+                  <div class="form-group">
+                 
+                   <button type="button" onclick="location.href = '{{ URL::to('apps/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nueva instancia</b></button>
+                  </div>
+                  @endpermission
 
-		                  <br/>
-		                  @if (Session::has('message'))
-			                  <div class="alert alert-success alert-dismissible fade in" role="alert">
-			                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-			                    </button>
-			                    <strong>{{ Session::get('message') }}</strong>
-			                  </div>
-			                  @endif
-			               @if (Session::has('failmessage'))
-			                  <div class="alert alert-warning alert-dismissible fade in" role="alert">
-			                    <button id="alertmsgfaildelete" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-			                    </button>
-			                    <strong>{{ Session::get('failmessage') }}</strong>
-			                  </div>
-			                  @endif
-
+                  <br/>
+                  @if (Session::has('message'))
+	                  <div class="alert alert-success alert-dismissible fade in" role="alert">
+	                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	                    </button>
+	                    <strong>{{ Session::get('message') }}</strong>
+	                  </div>
+	                  @endif
+	               @if (Session::has('failmessage'))
+	                  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+	                    <button id="alertmsgfaildelete" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	                    </button>
+	                    <strong>{{ Session::get('failmessage') }}</strong>
+	                  </div>
+	                  @endif
 		                  <div class="x_content">
-		                    
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
@@ -66,7 +60,6 @@
 		                        </tr>
 		                      </thead>
 
-
 		                      <tbody>
 		                      @foreach ($apps as $a)
 		                        <tr>
@@ -74,14 +67,8 @@
 		                          <td>{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td>{{$a->uso}}</td>
-
-
 		                          <td class=" last" width="14%">
-		                          	
-		                          	
 			                          <div class="btn-group">
-			                          	
-
 										<div class="btn-group">
 		                          			@permission('asociar.usuario')
 		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>
@@ -103,20 +90,18 @@
 			                        						
 			                        						<form id="modalform">
 			                        						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
-				                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_usr_id" id="select_usr_id{{$a->id}}" style="width:100%;">
-					                            						<option value="null">Seleccione un usuario...</option>
-					                            						@foreach($usrs as $u)
-					                                					<option value="{{ $u->id }}">{{ $u->name }}</option>
-					                           							@endforeach
-					                          						</select>
+			                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_usr_id" id="select_usr_id{{$a->id}}" style="width:100%;">
+				                            						<option value="null">Seleccione un usuario...</option>
+				                            						@foreach($usrs as $u)
+				                                					<option value="{{ $u->id }}">{{ $u->name }}</option>
+				                           							@endforeach
+				                          						</select>
 			                          						</div>
 			                          						<br>	
 		                          							<br>
-
 			                          						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
-						                                          <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="roles[]" id="roles{{$a->id}}" multiple="multiple" style="width:100%;" >
-												                  </select>
-
+					                                          <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="roles[]" id="roles{{$a->id}}" multiple="multiple" style="width:100%;" >
+											                  </select>
 					                                        </div>
 
 					                                        <br>	
@@ -126,7 +111,6 @@
 				                          							<button id="addid" type="button" class="btn btn-primary" onclick="relatedb({{$a->id}});">Agregar</button>
 			                          						</div>
 
-				                          						
 		                          								<br>	
 		                          								<br>
 		                            							<div class="col-md-12 col-sm-12 col-xs-12">
@@ -157,9 +141,7 @@
 		                          											</tbody>
 		                          									</table>
 				                          						</div>
-
 				                          						<div id="result_failure{{$a->id}}"></div>
-
 	                          								</form>
 								                        </div>
 								                        <div class="modal-footer">
@@ -189,9 +171,7 @@
 								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">Bitácora de {{$a->aplicacion->app_nom}} de  {{$a->empresa->empr_nom}}</label>
 								                        </div>
 								                        <div class="modal-body">
-			                        						
 			                        						<form id="modalform">
-			                        						
 		                            							<div class="col-md-12 col-sm-12 col-xs-12">
 				                             						<table id="datatable-buttons-bit{{$a->id}}" class="table table-striped table-bordered">
 		                      												<thead>
@@ -202,14 +182,10 @@
 															                        <th>Módulo</th>
 		                        												</tr>
 		                      												</thead>
-
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
-		                      												
 		                          											</tbody>
 		                          									</table>
 				                          						</div>
-
-
 	                          								</form>
 								                        </div>
 								                        <div class="modal-footer">
@@ -220,8 +196,6 @@
 								                      </div>
 								                    </div>
 								                  </div>
-
-
 			                          	</div>
 
 			                          		@permission('eliminar.aplicacion')
@@ -232,10 +206,7 @@
 											@endpermission
 
 			                          	</div>
-
-
 		                          </td>
-
 		                        </tr>
 		                        @endforeach
 	                       
@@ -244,8 +215,6 @@
 		                  </div>
 		                </div>
 		              </div>
-
-
 			</div>
 		</div>
 
@@ -306,10 +275,6 @@
 
 			  table.deleteRow(1);
 			}
-
-			/*var tableRef = document.getElementById("datatable-buttons-bit"+bdid).getElementsByTagName('tbody')[0];
-			tableRef.innerHTML="";*/
-
 		}
 
 	    function showModalBit(bdid) {
@@ -346,26 +311,17 @@
 				             
 				              var cell5 = row.insertCell(3);
 				              cell5.innerHTML = bit[i].bitc_modulo;
-
-				              
 				            }
-				            
 				          }
-	        			
-
 	        		}
-
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	        		console.log(XMLHttpRequest);
                     alert("Error: " + errorThrown); 
                 } 
+	    	});
 
-
-	    });
-
-	          
-	        }
+	    }
 
     	function cleanFailureDiv(bdid){
 			$("#result_failure"+bdid).html('');
@@ -380,9 +336,6 @@
                    
                });
 			$("#roles"+bdid).val('').change();
-			//$("#roles"+bdid).html('');
-			//$("#roles"+bdid).find($('option')).attr('selected',false);
-
 			}
 
 	    	function relatedb(bdid){
@@ -409,20 +362,13 @@
 	        			//console.log($(".result_failure"+bdid));
 	        		}
 	        		cleanusersandroles(bdid);
-	        		
-
-
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	        		console.log(XMLHttpRequest);
                     alert("Error: " + errorThrown); 
                 } 
-
-
-	    });
+	    	});
 	    };
-
-
 
 
 	    function unrelatedb(usrid, bdid){
@@ -457,11 +403,8 @@
 	        		console.log(XMLHttpRequest);
                     alert("Error: " + errorThrown); 
                 } 
-
-
 	    });
 	    };
-
 	   
 	    function getrolepermissionbd(bdid){
 
@@ -500,27 +443,16 @@
 	        			$("#result_failure"+bdid).html(response['result']);
 	        			console.log($(".result_failure"+bdid));
 	        		}
-
-	        		
-
-
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	        		console.log(XMLHttpRequest);
                     alert("Error: " + errorThrown); 
                 } 
 
+	    	});
 
-	    });
-
-	        
 	    };
 
-
-	   
-
-	    
 	</script>
-
 
 	@endsection
