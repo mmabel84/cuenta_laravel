@@ -52,6 +52,10 @@ Route::get('/downloadback/{bdid}', 'BackController@downloadBackup')->name('downl
 //Ruta para consumir servicio web que expone roles de BD de aplicación
 Route::post('/getrolesbd/{bdid}', 'UsrController@getrolepermissionbd')->name('getrolesbd');
 
+Route::get('main', function () {
+    return view('admin/template/main');
+});
+
 
 
 Auth::routes();

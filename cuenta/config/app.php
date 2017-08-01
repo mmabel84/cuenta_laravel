@@ -18,6 +18,7 @@ return [
                                     'password' => 'api.cuenta',
                                     'scope' => '*',
                                     ],
+                                    
                                 'bov'=>[
                                     'grant_type' => 'password',
                                     'client_id' => '1',

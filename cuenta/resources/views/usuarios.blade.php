@@ -181,7 +181,8 @@
 			                          	<div class="btn-group">
                                               
 
-                                                <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModal({{$u->id}})"><i class="fa fa-key fa-3x"></i> </button>
+                                              <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModal({{$u->id}})">
+                                              <i class="fa fa-key fa-3x"></i> </button>
 
 
                                               <div class="modal fade" id="passmodal{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
@@ -197,7 +198,7 @@
                                                       <form>
 	                                                      <div class="col-md-12 col-sm-12 col-xs-12">
 	                                                      	<div class="item form-group{{ $errors->has('password') ? ' has-error' : '' }} col-md-9 col-sm-9 col-xs-12">
-		                                                        <div class="input-group">
+		                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
 			                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
 			                                                          <input placeholder="Nueva Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
 			                                                           @if ($errors->has('password'))
@@ -205,18 +206,14 @@
 										                                        <strong>{{ $errors->first('password') }}</strong>
 										                                    </span>
 										                                @endif
-										                                <button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
 		                                                        </div>
+		                                                        <br>
+		                                                        <div class="input-group col-md-3 col-sm-3 col-xs-12">
+							                                      <button type="button" onclick="changePass({{$u->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+							                                    </div>
 	                                                        </div>
 	                                                      </div>
-                                                        
-                                                        
-                                                        
-                                                        
                                                       </form>
-
-                                                     
-
                                                    </div>
                                                     <div class="modal-footer">
                                                     <div  class="form-group col-md-12 col-sm-12 col-xs-12">

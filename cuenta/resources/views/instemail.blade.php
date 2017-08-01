@@ -6,7 +6,7 @@ Se ha creado una instancia. Los datos de acceso son:
     Empresa: {{ $empr }}
 </div>
 <div>
-    Número de cuenta: {{ $numcta }}
+    Número de cuenta: {{ $ctarfc }}
 </div>
 <div>
     RFC de empresa: {{ $emprrfc }}

@@ -14,6 +14,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UsrController extends Controller
 {
@@ -404,6 +405,8 @@ class UsrController extends Controller
     {
         $alldata = $request->all();
         //$this->customvalidator($alldata)->validate();
+
+        Log::info($alldata['password']);
 
         $rules = ['password' => 'min:8|passwordsat'];
         //$messages = ['passwordsat' => 'Contraseña inválida'];
