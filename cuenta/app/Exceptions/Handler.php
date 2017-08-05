@@ -52,22 +52,20 @@ class Handler extends ExceptionHandler
         }
         elseif ($exception instanceof \GuzzleHttp\Exception\ClientException)
         {
-            Log::info('entre a catch client');
-             $request->session()->put('loginrfcerr', 'Fallo de autenticación de cliente de servicio web');
+             $request->session()->put('loginrfcerr', 'Excepción de cliente');
              $request->session()->flash('midred', '1');
              return redirect()->back();
         }
         elseif ($exception instanceof \GuzzleHttp\Exception\ServerException)
         {
-            Log::info('entre a catch server');
-             $request->session()->put('loginrfcerr', 'Sin comunicación a servicio de control');
+             $request->session()->put('loginrfcerr', 'Excepción de servidor');
              $request->session()->flash('midred', '1');
              return redirect()->back();
         }
 
         elseif ($exception instanceof \GuzzleHttp\Exception\ConnectException)
         {
-             $request->session()->put('loginrfcerr', 'Sin conexión a servidor de control');
+             $request->session()->put('loginrfcerr', 'Sin conexión a servicio');
              $request->session()->flash('midred', '1');
              return redirect()->back();
         }

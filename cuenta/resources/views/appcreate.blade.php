@@ -87,7 +87,18 @@
 		                            @endforeach
 		                          </select>
 	                          </div>
+                           
 	                        </div>
+
+                          <div class="item form-group">
+                             @if (Session::has('loginrfcerr'))
+                                    <span class="help-block">
+                                        <strong>{{ Session::pull('loginrfcerr') }}</strong>
+                                    </span>
+                            @endif
+                          </div>
+
+                          
 
                       <div class="ln_solid"></div>
                       <div class="form-group">

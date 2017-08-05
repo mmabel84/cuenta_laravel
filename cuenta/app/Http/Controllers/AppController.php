@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use View;
 use Illuminate\Support\Facades\Redirect;
 use App\Bitacora;
+use App\Mail\InstEmail;
+use Illuminate\Support\Facades\Log;
 
 class AppController extends Controller
 {
@@ -80,6 +82,17 @@ class AppController extends Controller
         return redirect()->back();
     }
 
+    public function rand_chars($characters,$length)
+    {
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+
+    }
+
     public function store(Request $request)
     {
         $bdapps = BasedatosApp::all();
@@ -112,45 +125,55 @@ class AppController extends Controller
             $appbd->bdapp_app_id = $app->id;
             $appbd->bdapp_app = $app->app_cod;
             $appbd->bdapp_empr_id = $empresa->id;
-            //llamar archivo de configuracion para seleccionar base de datos
+            //TODO llamar archivo de configuracion para seleccionar base de datos
             $appbd->bdapp_nomserv = 'Test';
-            $appbd->bdapp_nombd =  $empresa->empr_rfc.'_'.$app->app_cod;
-            $appbd->save();
+            
+            
 
             //Llamar a servicio web que genera base de datos en aplicación
 
-            //$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
-            //$password = $this->rand_chars($caracteres,8);
-            //$resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+            $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
+            $password = $this->rand_chars($caracteres,8);
+            $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
 
-            //while(!$resultm || count($matchesm) == 0){
-            //    $password = $this->rand_chars($caracteres,8);
-            //    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
-            //}
-            //empresaprincipal = Empresa::where('empr_principal', '=', true)->get();
-            //$emprrfc = $empresa->empr_rfc;
-            //$ctarfc = $emprrfc; 
-            //if (count(empresaprincipal) > 0)
-            //{
-                //ctarfc = empresaprincipal[0]->empr_rfc;
-            //}
-            
-            //$user = \Auth::user();
-            //$user_email = $user->email;
-            //$arrayparams['email'] = $user_email;
-            //$arrayparams['name'] = $user->name;
-            //$arrayparams['password'] = $password;
-            //$arrayparams['emprrfc'] = $emprrfc;
-            //$arrayparams['ctarfc'] = ctarfc;
-            //$url_inst = config('app.advans_apps_url.'.$app->app_cod).$ctarfc.'_'.$emprrfc;
-            
-            /*
-            if ($user_email){
-                Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'numcta'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$url_inst]));
+            while(!$resultm || count($matchesm) == 0){
+                $password = $this->rand_chars($caracteres,8);
+                $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
             }
+
+            $empresaprincipal = Empresa::where('empr_principal', '=', true)->get();
+            $emprrfc = $empresa->empr_rfc;
+            $ctarfc = $emprrfc; 
+            if (count($empresaprincipal) > 0)
+            {
+                $ctarfc = $empresaprincipal[0]->empr_rfc;
+            }
+
+            $appbd->bdapp_nombd =  $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
             
+            $user = \Auth::user();
+            $user_email = $user->email;
+            $arrayparams['email'] = $user_email;
+            $arrayparams['name'] = $user->name;
+            $arrayparams['password'] = $password;
+            $arrayparams['rfc'] = $emprrfc;
+            $arrayparams['cta'] = $ctarfc;
+            $url_inst = config('app.advans_apps_url.'.$app->app_cod).$ctarfc.'_'.$emprrfc;
+            
+
             $acces_vars = $this->getAccessToken($app->app_cod);
-            $service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);*/
+            $service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
+            
+            /*echo '<pre>';
+            print_r(json_decode($service_response['dbvalue']));
+            print_r(json_decode($service_response['dbvalueafter']));
+            echo '</pre>';
+            die();*/
+            $appbd->save();
+
+            if ($user_email){
+                \Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$url_inst]));
+            }
 
             $fmessage = 'Se ha generado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
             $this->registroBitacora($request,'create',$fmessage); 
@@ -165,12 +188,25 @@ class AppController extends Controller
      public function destroy($id, Request $request)
     {
         $appd = BasedatosApp::find($id);
-        $appd->users()->detach();
-        $appd-> backups()->delete();
+        $arrayparams['dbname'] = $appd->bdapp_nombd;
 
-        $appd->delete();
-        $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
-        $this->registroBitacora($request,'delete',$fmessage); 
+        $acces_vars = $this->getAccessToken($appd->bdapp_app);
+        $service_response = $this->getAppService($acces_vars['access_token'],'dropbd',$arrayparams,$appd->bdapp_app);
+
+        if ($service_response['status'] == 1)
+        {
+            $appd->users()->detach();
+            $appd-> backups()->delete();
+            $appd->delete();
+            $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
+            $this->registroBitacora($request,'delete',$fmessage); 
+
+        }
+        else
+        {
+           $fmessage = 'No se pudo eliminar instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
+        }
+
         \Session::flash('message',$fmessage);
 
         return Redirect::to('apps');
@@ -195,7 +231,11 @@ class AppController extends Controller
 
      
         if(array_key_exists('usrid',$alldata) && isset($alldata['usrid']) && array_key_exists('bdid',$alldata) && isset($alldata['bdid'])){
-        
+            if ($alldata['usrid'] == 'null')
+            {
+                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Debe seleccionar un usuario</label>");
+                return \Response::json($response);
+            }
             $usrp = User::find($alldata['usrid']);
             $bdp = BasedatosApp::find($alldata['bdid']);
             $exist = False;
@@ -213,20 +253,18 @@ class AppController extends Controller
                 }
                 else
                 {
-                     $stringroles = '';
-                     $bdp->users()->attach($alldata['usrid']);
-                     $usrarray = array('name'=>$usrp->name,'correo'=>$usrp->email,'telef'=>$usrp->users_tel, 'user'=>$usrp->users_nick,'password'=>$usrp->password,'id_cuenta'=>$usrp->id);
                      
+                     $usrarray = array('name'=>$usrp->name,'email'=>$usrp->email,'users_tel'=>$usrp->users_tel,'id_cuenta'=>$usrp->id);
                      
-                     
-                     //TODO consumir servicio para guardar usuario con roles asociados, pasando usuario, arreglo de roles con slug de cada rol y nombre de bd
-                     //$app_cod = $bdp->aplicacion->app_cod;
-                     //$arrayparams['usr'] = $usrarray;
-                     //$arrayparams['bd'] = $bdp->bdapp_nombd;
-                     //$arrayparams['roles'] = $alldata['roles'];
+                     $app_cod = $bdp->bdapp_app;
+                     $arrayparams['usr'] = $usrarray;
+                     $arrayparams['dbname'] = $bdp->bdapp_nombd;
+                     $arrayparams['roles'] = $alldata['roles'];
+                     Log::info($alldata['roles']);
 
-                     //$acces_vars = $this->getAccessToken($app_cod);
-                    //$service_response = $this->getAppService($acces_vars['access_token'],'relateusr',$arrayparams,$app_cod);
+                     $acces_vars = $this->getAccessToken($app_cod);
+                     $service_response = $this->getAppService($acces_vars['access_token'],'adduser',$arrayparams,$app_cod);
+                     $bdp->users()->attach($alldata['usrid']);
 
                     $btn = '<div 
                 class="btn-group'.$usrp->id.'">

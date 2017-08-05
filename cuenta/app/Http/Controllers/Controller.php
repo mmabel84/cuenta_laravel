@@ -6,7 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
+use Illuminate\Support\Facades\Log;
 use App\Bitacora;
 use Illuminate\Http\Request;
 use Sinergi\BrowserDetector\Browser;
@@ -46,11 +46,15 @@ class Controller extends BaseController
     }
 
     public function getAccessToken($control_app='control'){
+
         $url_aux = config('app.advans_apps_url.'.$control_app);
+        //Log::info(config('app.advans_apps_security.'.$control_app));
+        //Log::info($url_aux);
         $http = new \GuzzleHttp\Client();
         $response = $http->post($url_aux.'/oauth/token', [
             'form_params' => config('app.advans_apps_security.'.$control_app),
         ]);
+        //Log::info($response);
 
        $vartemp = json_decode((string) $response->getBody(), true);
         return $vartemp;

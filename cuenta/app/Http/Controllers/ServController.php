@@ -638,5 +638,48 @@ class ServController extends Controller
 	   		}
 	        return \Response::json($bitacoras);
 	    }
+
+
+	    //Verifica si existe determinada instancia
+	     public function verifyInstance(Request $request){
+	   	
+	    	$alldata = $request->all();
+	   		$status = 1;
+	   		$msg = 'Existe instancia';
+
+	   		if (array_key_exists('cta',$alldata) && isset($alldata['cta']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname']))
+	   		{
+	   			$dbcon = $alldata['cta'].'_cta';
+	   			$instdbname = $alldata['dbname'];
+	   			$dbapps = DB::connection($dbcon)->table('bdapp')->where('bdapp_nombd', '=', $instdbname)->get();
+
+	   			if (count($dbapps) == 0)
+	   			{
+	   				$status = 0;
+	   				$msg = 'RFC o número de cuenta no registrado';
+	   			}
+	   			else
+	   			{
+	   				$app_id = $dbapps[0]->bdapp_app_id;
+	   				$app = DB::connection($dbcon)->table('app')->where('id', '=', $app_id)->get();
+	   				if (count($app) > 0)
+	   				{
+	   					if ($app[0]->app_activa == false)
+	   					{
+	   						$status = 0;
+	   						$msg = 'Aplicación bloqueada desde cuenta';
+	   					}
+	   				}
+	   			}
+
+	   		}
+
+	   		$response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'data' => $alldata);
+
+        	return \Response::json($response);
+	    }
     }
 

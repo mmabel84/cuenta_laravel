@@ -11,6 +11,13 @@
     <link href="{{ asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
 
+    <style type="text/css">
+      
+      .hidden{
+            visibility:hidden;
+            }
+    </style>
+
 @endsection
 
 @section('content')
@@ -90,7 +97,7 @@
 			                        						
 			                        						<form id="modalform">
 			                        						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
-			                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_usr_id" id="select_usr_id{{$a->id}}" style="width:100%;">
+			                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_usr_id" id="select_usr_id{{$a->id}}" style="width:100%;" onchange="showroles(this,{{$a->id}})";>
 				                            						<option value="null">Seleccione un usuario...</option>
 				                            						@foreach($usrs as $u)
 				                                					<option value="{{ $u->id }}">{{ $u->name }}</option>
@@ -99,7 +106,7 @@
 			                          						</div>
 			                          						<br>	
 		                          							<br>
-			                          						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
+			                          						<div class="item form-group col-md-12 col-sm-12 col-xs-12 hidden" id="divroles{{$a->id}}">
 					                                          <select class="js-example-data-array form-control col-md-12 col-sm-12 col-xs-12" name="roles[]" id="roles{{$a->id}}" multiple="multiple" style="width:100%;" >
 											                  </select>
 					                                        </div>
@@ -323,20 +330,7 @@
 
 	    }
 
-    	function cleanFailureDiv(bdid){
-			$("#result_failure"+bdid).html('');
 
-			}
-
-			function cleanusersandroles(bdid){
-			document.getElementById("select_usr_id"+bdid).value = 'null';
-			$("#select_usr_id"+bdid).select2({
-                  allowClear: true,
-                  placeholder: 'Seleccione un usuario...'
-                   
-               });
-			$("#roles"+bdid).val('').change();
-			}
 
 	    	function relatedb(bdid){
 
@@ -344,31 +338,34 @@
 	    		var usrid = document.getElementById("select_usr_id"+bdid).value;
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 	    		var roles = $("#roles"+bdid).val();
-	    		
-	        $.ajax({
-	        	url:"/addbdusr",
-	        	type:'POST',
-	        	cache:false,
-	        	data: {_token: CSRF_TOKEN,roles:roles,usrid:usrid,bdid:bdid},
-    			dataType: 'JSON',
 
-	        	success:function(response){
-	        		if (response['status'] == 'Success'){
-	        			$("#datatable-buttons"+bdid).append(response['result']);
+		        $.ajax({
+		        	url:"/addbdusr",
+		        	type:'POST',
+		        	cache:false,
+		        	data: {_token: CSRF_TOKEN,roles:roles,usrid:usrid,bdid:bdid},
+	    			dataType: 'JSON',
 
-	        		}
-	        		else{
-	        			$("#result_failure"+bdid).html(response['result']);
-	        			//console.log($(".result_failure"+bdid));
-	        		}
-	        		cleanusersandroles(bdid);
-	        },
-	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-	        		console.log(XMLHttpRequest);
-                    alert("Error: " + errorThrown); 
-                } 
-	    	});
-	    };
+		        	success:function(response){
+		        		if (response['status'] == 'Success'){
+		        			$("#datatable-buttons"+bdid).append(response['result']);
+
+		        		}
+		        		else{
+		        			$("#result_failure"+bdid).html(response['result']);
+
+		        			//console.log($(".result_failure"+bdid));
+		        		}
+		        		cleanusersandroles(bdid);
+
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		        		console.log(XMLHttpRequest);
+	                    alert("Error: " + errorThrown); 
+	                } 
+		    	});
+		    	
+		    };
 
 
 	    function unrelatedb(usrid, bdid){
@@ -405,12 +402,29 @@
                 } 
 	    });
 	    };
+
+
+	    function cleanFailureDiv(bdid){
+			$("#result_failure"+bdid).html('');
+
+			}
+
+			function cleanusersandroles(bdid){
+			document.getElementById("select_usr_id"+bdid).value = 'null';
+			$("#select_usr_id"+bdid).select2({
+                  allowClear: true,
+                  placeholder: 'Seleccione un usuario...'
+                   
+               });
+			$("#roles"+bdid).val('').change();
+			$("#divroles"+bdid).addClass('hidden');
+			}
 	   
 	    function getrolepermissionbd(bdid){
 
 	        cleanusersandroles(bdid);
 	    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	    		
+
 	        $.ajax({
 	        	url:"/getrolesbd/"+bdid,
 	        	type:'POST',
@@ -419,24 +433,27 @@
     			dataType: 'JSON',
 
 	        	success:function(response){
-	        		if (response['status'] == 'Success'){
+	        		if (response['status'] == 1){
 	        			//console.log(response['roles']);
 	        			var roles = response['roles'];
+	        			console.log(roles);
 	        			
 						//$('.chosen-select', this).chosen('destroy').chosen();
 	        			var datarole = [];
 	        			if (roles.length > 0) {
 				            for (var i = 0; i < roles.length; i++) {
-				              var dic = {'id': roles[i]['slug'], 'text': roles[i]['name']};
+				              var dic = {'id': roles[i]['id'], 'text': roles[i]['name']};
 				              //console.log(roles[i]['slug']);
 				              datarole.push(dic);
 				            }
 				            $("#roles"+bdid).select2({
 				                  data: datarole,
 				                  allowClear: true,
-				                  placeholder: 'Seleccione los roles...'
+				                  placeholder: 'Roles...',
 				                   
 				             });
+				            
+				            
 				          }
 	        		}
 	        		else{
@@ -450,8 +467,26 @@
                 } 
 
 	    	});
+	    
 
 	    };
+
+	    function showroles(element, bdid)
+	    {
+	    	console.log($("#select_usr_id"+bdid).val());
+	    	if ($("#select_usr_id"+bdid).val() == 'null')
+	    	{
+	    		console.log('es nulo');
+	    		$("#divroles"+bdid).addClass('hidden');
+	    	}
+	    	else
+	    	{
+	    		console.log('tiene valor');
+	    		$("#divroles"+bdid).removeClass('hidden');
+	    	}
+	    		
+	    	
+	    }
 
 	</script>
 

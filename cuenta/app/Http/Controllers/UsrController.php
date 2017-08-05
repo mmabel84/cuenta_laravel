@@ -447,36 +447,38 @@ class UsrController extends Controller
     public function getrolepermissionbd($bdid){
 
         $bd = BasedatosApp::find($bdid);
-        
-        //TODO llamar a sevricio que trae arreglo de roles
-        /*
-         //$app_cod = $bd->bdapp_app;
-         //$arrayparams['bd'] = $bd->bdapp_nombd;
+        $app_cod = $bd->bdapp_app;
+        $arrayparams['dbname'] = $bd->bdapp_nombd;
+        $status = 0;
+        $msg = 'Sin roles';
+        $roles = array();
 
-         //$acces_vars = $this->getAccessToken($app_cod);
-        //$service_response = $this->getAppService($acces_vars['access_token'],'gerroles',$arrayparams,$app_cod);
-         if ($service_response['roles']){
-            $response = array(
-            'status' => 'Success',
-            'msg' => 'Roles returned',
-            'roles' => $service_response['roles']);
-        
-            return \Response::json($response);
+        $acces_vars = $this->getAccessToken($app_cod);
+        $service_response = $this->getAppService($acces_vars['access_token'],'getroles',$arrayparams,$app_cod);
+         if ($service_response['status'] == 1){
 
-         }*/
+            $status = $service_response['status'];
+            $msg = $service_response['msg'];
+            $roles = $service_response['roles'];
+
+            Log::info($roles);
+         }
+
+         $response = array(
+            'status' => $status,
+            'msg' => $msg,
+            'roles' => $roles,
+            );
+
+         return \Response::json($response);
          
-        $roles_array = array(
+        /*$roles_array = array(
             array('slug'=>'rol1','name'=>'Rol 1'),
             array('slug'=>'rol2','name'=>'Rol 2'),
             array('slug'=>'rol3','name'=>'Rol 3'),
-        );
+        );*/
         
-         $response = array(
-            'status' => 'Success',
-            'msg' => 'Roles returned',
-            'roles' => $roles_array);
-
-         return \Response::json($response);
+         
     }
 
     
