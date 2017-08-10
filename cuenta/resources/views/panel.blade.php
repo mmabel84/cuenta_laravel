@@ -155,6 +155,8 @@
                 <input type="hidden" id="cantinstcreadas" name="cantinstcreadas" value="{{ $cantinstcreadas }}">
                 <input type="hidden" id="cantinstcont" name="cantinstcont" value="{{ $apps }}">
                  <input type="hidden" id="inp_colorinterv" name="inp_colorinterv" value="{{ $color_interval }}">
+                 <input type="hidden" id="inp_numcta" name="inp_numcta" value="{{ $num_cta }}">
+                 <input type="hidden" id="inp_user" name="inp_user" value="{{  Auth::user()->id }}">
                 <div class="contenedor_select col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:80px;">
    
                 </div>
@@ -427,8 +429,11 @@
                       $("#"+entry).removeClass('disabled');
                       var link = document.getElementById(entry);  
                       console.log(link);
+                      var numcta = document.getElementById('inp_numcta').value;
+                      var userid = document.getElementById('inp_user').value;
                       var href = $("#"+entry).data('dir');
-                      var newhref = href + element.value ;
+                      //var newhref = href + '/loginservice/' + numcta + '_' + element.value + '_' + entry + '/' + userid;
+                      var newhref = '/redirectapp/' + numcta + '/' + element.value + '/' + entry;
                       link.setAttribute("href", '');  
                       link.setAttribute("href", newhref);  
                       }

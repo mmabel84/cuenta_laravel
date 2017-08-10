@@ -451,8 +451,16 @@ class HomeController extends Controller
              \Session::put('newserror', 'Sin comunicación a servicio de control para noticias');
         }
 
+        //Tomando número de cuenta
+        $empresaprincipal = Empresa::where('empr_principal', '=', true)->get();
+        $num_cta = '';
+        if (count($empresaprincipal) > 0)
+        {
+            $num_cta = $empresaprincipal[0]->empr_rfc;
+        }
+
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest,'fecha_act_69'=>$fecha_act_69]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest,'fecha_act_69'=>$fecha_act_69,'num_cta'=>$num_cta]);
 
     }
 
@@ -644,5 +652,41 @@ class HomeController extends Controller
 
         return  array('htmldef' => $htmldef, 'tienerep'=> $tienerep);
     }
+
+
+    function redirectapp($numcta,$rfc,$codapp)
+    {
+
+        $url_app = config('app.advans_apps_url.'.$codapp);
+        $user_id = \Auth::user()->id;
+        Log::info($codapp);
+
+        if ($codapp != 'fact')
+        {
+            $acces_vars = $this->getAccessToken($codapp);
+            $arrayparams['dbname']=$numcta.'_'.$rfc.'_'.$codapp;
+            $arrayparams['rfc']=$rfc;
+            $arrayparams['cta']=$numcta;
+            $arrayparams['cod']=$codapp;
+            $arrayparams['id_usuario']=$user_id;
+            $service_response = $this->getAppService($acces_vars['access_token'],'loginservice',$arrayparams,$codapp);
+            if(array_key_exists('msg', $service_response)){
+                Log::info($service_response['msg']);
+                $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg'];
+            }else{
+                $url_final = $url_app.$rfc;;
+            }
+            
+            return response()->redirectTo($url_final);
+
+        }
+        else
+        {
+            $url_final = $url_app.$rfc;
+            return response()->redirectTo($url_final);
+        }
+    }
+
+
     
 }

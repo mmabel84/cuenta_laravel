@@ -52,12 +52,14 @@ class Handler extends ExceptionHandler
         }
         elseif ($exception instanceof \GuzzleHttp\Exception\ClientException)
         {
+            Log::info($exception);
              $request->session()->put('loginrfcerr', 'Excepción de cliente');
              $request->session()->flash('midred', '1');
              return redirect()->back();
         }
         elseif ($exception instanceof \GuzzleHttp\Exception\ServerException)
         {
+            Log::info($exception);
              $request->session()->put('loginrfcerr', 'Excepción de servidor');
              $request->session()->flash('midred', '1');
              return redirect()->back();
@@ -65,6 +67,7 @@ class Handler extends ExceptionHandler
 
         elseif ($exception instanceof \GuzzleHttp\Exception\ConnectException)
         {
+            Log::info($exception);
              $request->session()->put('loginrfcerr', 'Sin conexión a servicio');
              $request->session()->flash('midred', '1');
              return redirect()->back();
@@ -75,6 +78,7 @@ class Handler extends ExceptionHandler
         }
         elseif ($exception instanceof \Illuminate\Session\TokenMismatchException)
         {
+            Log::info($exception);
             //\Session::flash('loginrfcerr','Su sesión expiró');
             $request->session()->put('loginrfcerr', 'Su sesión expiró');
             return redirect(route('login'));  

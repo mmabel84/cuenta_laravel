@@ -455,13 +455,11 @@ class UsrController extends Controller
 
         $acces_vars = $this->getAccessToken($app_cod);
         $service_response = $this->getAppService($acces_vars['access_token'],'getroles',$arrayparams,$app_cod);
+        $status = $service_response['status'];
+        $msg = $service_response['msg'];
          if ($service_response['status'] == 1){
-
-            $status = $service_response['status'];
-            $msg = $service_response['msg'];
             $roles = $service_response['roles'];
-
-            Log::info($roles);
+            //Log::info($roles);
          }
 
          $response = array(
@@ -469,6 +467,8 @@ class UsrController extends Controller
             'msg' => $msg,
             'roles' => $roles,
             );
+        Log::info($status);
+       Log::info($roles);
 
          return \Response::json($response);
          

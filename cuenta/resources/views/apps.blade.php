@@ -78,7 +78,7 @@
 			                          <div class="btn-group">
 										<div class="btn-group">
 		                          			@permission('asociar.usuario')
-		                          			<button id="btnmodal" data-usrid="{{$a->id}}" type="button" data-toggle="modal" data-target=".bs-example-modal-lg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>
+		                          			<button id="btnmodal" type="button" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>
 		                          			@endpermission
 
 		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalusr{{$a->id}}">
@@ -90,12 +90,12 @@
 								                        <div class="modal-header">
 								                          <button type="button" class="close" data-dismiss="modal">
 								                          </button>
-								                          <h4 class="modal-title" id="myModalLabel"></h4>
-								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">{{$a->aplicacion->app_nom}} de  {{$a->empresa->empr_nom}}</label>
+								                          <h4 class="modal-title" id="myModalLabela"></h4>
+								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">{{$a->aplicacion->app_nom}} de {{$a->empresa->empr_nom}}</label>
 								                        </div>
 								                        <div class="modal-body">
 			                        						
-			                        						<form id="modalform">
+			                        						<form id="modalforma">
 			                        						<div class="item form-group col-md-12 col-sm-12 col-xs-12">
 			                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_usr_id" id="select_usr_id{{$a->id}}" style="width:100%;" onchange="showroles(this,{{$a->id}})";>
 				                            						<option value="null">Seleccione un usuario...</option>
@@ -139,7 +139,7 @@
 		                          												<td>{{$usr->users_tel}}</td>
 		                          												<td>
 		                          													<div class="btn-group{{ $usr->id }}">
-													                          			<button id="desvusrbtn{{ $usr->id }}" onclick="unrelatedb({{ $usr->id }}, {{ $a->id }});" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button>
+													                          			<a id="desvusrbtn{{ $usr->id }}" onclick="unrelatedb({{$usr->id}},{{$a->id}});" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a>
 														                          	</div>
 		                          												</td>
 		                          												</tr>
@@ -192,6 +192,9 @@
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
 		                          											</tbody>
 		                          									</table>
+				                          						</div>
+				                          						<div id="result_sinbitc{{$a->id}}" class="col-md-12 col-sm-12 col-xs-12">
+
 				                          						</div>
 	                          								</form>
 								                        </div>
@@ -287,6 +290,7 @@
 	    function showModalBit(bdid) {
 	          var modalid = "bit"+bdid;
 	          $("#"+modalid).modal('show');
+	          $("#result_sinbitc"+bdid).html('');
 	          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
 	           $.ajax({
@@ -297,7 +301,7 @@
     			dataType: 'JSON',
 
 	        	success:function(response){
-	        		if (response['status'] == 'Success'){
+	        		if (response['status'] == 'success'){
 	        			var bit = response['result'];
 	        			var table = document.getElementById("datatable-buttons-bit"+bdid);
 	        			console.log(bit[0]);
@@ -321,6 +325,11 @@
 				            }
 				          }
 	        		}
+	        		else
+	        		{
+	        			$("#result_sinbitc"+bdid).html(response['msg']);
+	        		}
+
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	        		console.log(XMLHttpRequest);
@@ -369,10 +378,8 @@
 
 
 	    function unrelatedb(usrid, bdid){
+	    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 	    		
-	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	    		document.getElementById("row"+usrid).outerHTML="";
-	    			    		
 	        $.ajax({
 	        	url:"/unrbdusr",
 	        	type:'POST',
@@ -381,27 +388,28 @@
     			dataType: 'JSON',
 
 	        	success:function(response){
-	        		if (response['status'] == 'Success'){
-	        			console.log(response);
+	        		//console.log(response);
+	        		if (response['status'] == 'success'){
+	        			document.getElementById("row"+usrid).outerHTML="";
 	        			//$("#datatable-buttons"+bdid).append(response['result']);
 	        			cleanFailureDiv(bdid);
 	        			cleanusersandroles(bdid);
-
 	        		}
-	        		else{
-	        			$("#result_failure"+bdid).html(response['result']);
-	        			//console.log($(".result_failure"+bdid));
+	        		else
+	        		{
+	        			$("#result_failure"+bdid).html(response['msg']);
 	        		}
-
-	        		document.getElementById("select_usr_id"+bdid).value = 'null';
-
-	        },
-	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-	        		console.log(XMLHttpRequest);
-                    alert("Error: " + errorThrown); 
-                } 
-	    });
-	    };
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		        		console.log(XMLHttpRequest);
+		        		console.log("Error: " + errorThrown);
+		        		console.log("text: " + textStatus);
+		        		console.log('usrid: '+usrid);
+	    				console.log('bdid: '+bdid);
+		        		//$("#result_failure"+bdid).html(response['result']);
+	                } 
+	    	});
+	    }
 
 
 	    function cleanFailureDiv(bdid){
@@ -409,22 +417,23 @@
 
 			}
 
-			function cleanusersandroles(bdid){
+		function cleanusersandroles(bdid){
 			document.getElementById("select_usr_id"+bdid).value = 'null';
+			//$("#select_usr_id"+bdid).val() = 'null';
 			$("#select_usr_id"+bdid).select2({
-                  allowClear: true,
-                  placeholder: 'Seleccione un usuario...'
-                   
-               });
+	              allowClear: true,
+	              placeholder: 'Seleccione un usuario...'
+	               
+	           });
 			$("#roles"+bdid).val('').change();
 			$("#divroles"+bdid).addClass('hidden');
-			}
+		}
 	   
 	    function getrolepermissionbd(bdid){
 
 	        cleanusersandroles(bdid);
 	    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
+	    	$("#modalusr"+bdid).modal('show');
 	        $.ajax({
 	        	url:"/getrolesbd/"+bdid,
 	        	type:'POST',
@@ -434,7 +443,6 @@
 
 	        	success:function(response){
 	        		if (response['status'] == 1){
-	        			//console.log(response['roles']);
 	        			var roles = response['roles'];
 	        			console.log(roles);
 	        			
@@ -446,20 +454,21 @@
 				              //console.log(roles[i]['slug']);
 				              datarole.push(dic);
 				            }
-				            $("#roles"+bdid).select2({
-				                  data: datarole,
-				                  allowClear: true,
-				                  placeholder: 'Roles...',
-				                   
-				             });
-				            
-				            
-				          }
+			          }
+			          
 	        		}
-	        		else{
+	        		else
+	        		{
 	        			$("#result_failure"+bdid).html(response['result']);
 	        			console.log($(".result_failure"+bdid));
 	        		}
+
+	        		$("#roles"+bdid).select2({
+			                  data: datarole,
+			                  allowClear: true,
+			                  placeholder: 'Roles...',
+			                   
+			             });
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	        		console.log(XMLHttpRequest);

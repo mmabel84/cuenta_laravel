@@ -155,10 +155,12 @@ class AppController extends Controller
             $user_email = $user->email;
             $arrayparams['email'] = $user_email;
             $arrayparams['name'] = $user->name;
+            $arrayparams['id_cuenta'] = $user->id;
             $arrayparams['password'] = $password;
             $arrayparams['rfc'] = $emprrfc;
             $arrayparams['cta'] = $ctarfc;
-            $url_inst = config('app.advans_apps_url.'.$app->app_cod).$ctarfc.'_'.$emprrfc;
+            $arrayparams['dbname'] = $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
+            $url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
             
 
             $acces_vars = $this->getAccessToken($app->app_cod);
@@ -170,6 +172,7 @@ class AppController extends Controller
             echo '</pre>';
             die();*/
             $appbd->save();
+            $appbd->users()->attach($user->id);
 
             if ($user_email){
                 \Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$url_inst]));
@@ -260,7 +263,7 @@ class AppController extends Controller
                      $arrayparams['usr'] = $usrarray;
                      $arrayparams['dbname'] = $bdp->bdapp_nombd;
                      $arrayparams['roles'] = $alldata['roles'];
-                     Log::info($alldata['roles']);
+                     //Log::info($alldata['roles']);
 
                      $acces_vars = $this->getAccessToken($app_cod);
                      $service_response = $this->getAppService($acces_vars['access_token'],'adduser',$arrayparams,$app_cod);
@@ -268,7 +271,7 @@ class AppController extends Controller
 
                     $btn = '<div 
                 class="btn-group'.$usrp->id.'">
-                    <button id="desvusrbtn'.$usrp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </button></div>';
+                    <a id="desvusrbtn'.$usrp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a></div>';
                      $response = array ('status' => 'Success', 'roles'=> $alldata['roles'], 'result' => '<tr id="row'.$usrp->id.'">
                                      <td>' . $usrp->name . '</td>' .
                                     '<td>' . $usrp->email . '</td>' .
@@ -300,41 +303,65 @@ class AppController extends Controller
     public function unrelateAppUsr(Request $request)
     {
         $alldata = $request->all();
-        if(array_key_exists('usrid',$alldata) && isset($alldata['usrid']) && array_key_exists('bdid',$alldata) && isset($alldata['bdid'])){
+        $status = 'failure';
+        $msg = '';
+
+        if(array_key_exists('usrid',$alldata) && isset($alldata['usrid']) && array_key_exists('bdid',$alldata) && isset($alldata['bdid']))
+        {
             $usrp = User::find($alldata['usrid']);
             $bdp = BasedatosApp::find($alldata['bdid']);
-            if ($bdp){
-                $bdp->users()->detach($alldata['usrid']);
+            if ($bdp)
+            {
+                $dbname = $bdp->bdapp_nombd;
+                $app_cod = $bdp->bdapp_app;
+                $arrayparams['id_cuenta'] = $usrp->id;
+                $arrayparams['dbname'] = $dbname;
 
-                //TODO consumir servicio para eliminar usuario
-                //$app_cod = $bdp->aplicacion->app_cod;
-                //$arrayparams['id_cuenta'] = $usrp->id;
-                //$arrayparams['bd'] = $bdp->bdapp_nombd;
+                $acces_vars = $this->getAccessToken($app_cod);
+                $service_response = $this->getAppService($acces_vars['access_token'],'dropuser',$arrayparams,$app_cod);
+                $msgserv = $service_response['msg'];
+                $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".$msgserv."</label>";
 
-                //$acces_vars = $this->getAccessToken($app_cod);
-                //$service_response = $this->getAppService($acces_vars['access_token'],'unrelateusr',$arrayparams,$app_cod);
+                if ($service_response['status'] == 1)
+                {
+                    $bdp->users()->detach($usrp->id);
+                    $status = 'success';
+                }
+            }
+            else
+            {
+                $msg = 'Base de datos no encontrada'; 
             }
         }
+        else
+        {
+           $msg = 'Usuario o identificador de base de datos no enviados'; 
+        }
 
-        $response = array ('status' => 'Success', 'result' => "Usuario eliminado de base de datos de aplicación");
+
+        $response = array ('status' => $status, 'msg' => $msg);
+        //Log::info($status);
+        //Log::info($msg);
+        //Log::info($response);
         return \Response::json($response);
         
-
     }
 
 
      public function getBitBD(Request $request)
     {
         $alldata = $request->all();
-        //TODO llamar a servicio que devuelve bitácora de aplicación, pasando nombre de base de datos específica
-        //$bdp = BasedatosApp::find($alldata['bdid']);
-        //$arrayparams['bd'] = $bdp->bdapp_nombd;
+        $bdp = BasedatosApp::find($alldata['bdid']);
+        $arrayparams['dbname'] = $bdp->bdapp_nombd;
 
-        //$acces_vars = $this->getAccessToken($bdp->bdapp_app);
-        //$service_response = $this->getAppService($acces_vars['access_token'],'getbitc',$arrayparams,$bdp->bdapp_app);
-        $bitacoras = Bitacora::latest()->take(10)->get();
+        $acces_vars = $this->getAccessToken($bdp->bdapp_app);
+        $service_response = $this->getAppService($acces_vars['access_token'],'getbitc',$arrayparams,$bdp->bdapp_app);
+        Log::info($service_response['status']);
+        Log::info($service_response['msg']);
+        Log::info($service_response['bitacora']);
+        $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".$service_response['msg']."</label>";
 
-        $response = array ('status' => 'Success', 'result' => $bitacoras);
+        $response = array ('status' => $service_response['status'], 'msg' => $msg, 'result' => $service_response['bitacora']);
         return \Response::json($response);
 
     }

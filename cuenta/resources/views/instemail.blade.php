@@ -18,5 +18,5 @@ Se ha creado una instancia. Los datos de acceso son:
     Contraseña: {{ $password }}
 </div>    
 <div>
-	URL: {{ $url }}
+<a id="aurl" href="{{ $url }}" target='_blank'>Enlace para cambiar contraseña</a>
 </div>

@@ -79,6 +79,7 @@ class ServController extends Controller
                 }
                 //Pedir datos de conexión a servidor para crear base de datos
 		        DB::statement("create database ".$dbname);
+		        \Artisan::call('config:cache');
 		        \Config::set('database.connections.'.$dbname, [
 		            'driver' => 'mysql',
 		            'host' => env('DB_HOST', '127.0.0.1'),
@@ -397,7 +398,6 @@ class ServController extends Controller
 		        			if (count($bdapp) == 0)
 		        			{
 		        				DB::connection($dbname)->table('app')->where('id', '=', $app[0]->id)->delete();
-		        				
 		        			}
 		        			else
 		        			{
