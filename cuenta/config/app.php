@@ -6,7 +6,7 @@ return [
     //Advans Apps
     'advans_apps' => ['cont'=>'Contabilidad','bov'=>'Bóveda','nom'=>'Nómina','pld'=>'PLD','cc'=>'Control de Calidad','not'=>'Notaría', 'fact'=>'Facturación electrónica'],
 
-    'advans_apps_url' => ['control'=>'http://advans.control.mx','cont'=>'http://advans.contabilidad.mx','bov'=>'http://advans.boveda.mx','nom'=>'http://lab1.advans.mx/control/login#','pld'=>'http://pld-beta.advans.mx/app/usuarios/login#','cc'=>'http://ecacc.selfip.org/cc_beta/index.php/usuarios/login','not'=>'http://lab1.advans.mx/control/login#','fact'=>'https://app.advans.mx/'],
+    'advans_apps_url' => ['control'=>'http://devctrl.advans.mx','cont'=>'http://devcont.advans.mx','bov'=>'http://devbov.advans.mx','nom'=>'http://lab1.advans.mx/control/login#','pld'=>'http://pld-beta.advans.mx/app/usuarios/login#','cc'=>'http://ecacc.selfip.org/cc_beta/index.php/usuarios/login','not'=>'http://lab1.advans.mx/control/login#','fact'=>'https://app.advans.mx/'],
 
     'advans_apps_doc_url' => ['cont'=>'http://www.advans.mx/content/sobre-advans','bov'=>'http://www.advans.mx/content/validacion-cfdi-advans','nom'=>'http://www.advans.mx/content/sobre-advans','pld'=>'http://mejorapld.mx/software/','cc'=>'http://www.advans.mx/content/sobre-advans','not'=>'http://www.advans.mx/content/sobre-advans','fact'=>'http://www.advans.mx/content/factura-electronica-advans'],
 
