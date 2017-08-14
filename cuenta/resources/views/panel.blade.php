@@ -63,6 +63,17 @@
             background: url("{{asset('logo_advans_edited.jpg')}}") no-repeat top left;
             -webkit-filter: sepia(100%)
             }
+
+      .iconcont {
+            display: inline-block;
+            background: url("{{asset('contabilidad.png')}}") no-repeat top left;
+
+            }
+      .iconconttest {
+            display: inline-block;
+            background: url("{{asset('contabilidad.png')}}") no-repeat top left;
+            -webkit-filter: sepia(100%)
+            }
       .icon-accessibility{ 
             background-position: 0 0; width: 100px; height: 60px; 
           } 
@@ -72,6 +83,10 @@
 
       .icon-accessibilitybov{ 
             background-position: 0 0; width: 100px; height: 70px; 
+          } 
+
+      .icon-accessibilitycont{ 
+            background-position: 0 0; width: 100px; height: 60px; 
           } 
 
     </style>

@@ -160,7 +160,8 @@ class AppController extends Controller
             $arrayparams['rfc'] = $emprrfc;
             $arrayparams['cta'] = $ctarfc;
             $arrayparams['dbname'] = $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
-            $url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
+            //$url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
+            $url_inst = config('app.advans_apps_url.'.$app->app_cod).'/login';
             
 
             $acces_vars = $this->getAccessToken($app->app_cod);
@@ -198,17 +199,18 @@ class AppController extends Controller
 
         if ($service_response['status'] == 1)
         {
-            $appd->users()->detach();
-            $appd-> backups()->delete();
-            $appd->delete();
+            
             $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
-            $this->registroBitacora($request,'delete',$fmessage); 
 
         }
         else
         {
-           $fmessage = 'No se pudo eliminar instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
+           $fmessage = 'Instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' no encontrada. Eliminada de cuenta';
         }
+        $appd->users()->detach();
+        $appd-> backups()->delete();
+        $appd->delete();
+        $this->registroBitacora($request,'delete',$fmessage); 
 
         \Session::flash('message',$fmessage);
 
@@ -270,9 +272,9 @@ class AppController extends Controller
                      $bdp->users()->attach($alldata['usrid']);
 
                     $btn = '<div 
-                class="btn-group'.$usrp->id.'">
-                    <a id="desvusrbtn'.$usrp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a></div>';
-                     $response = array ('status' => 'Success', 'roles'=> $alldata['roles'], 'result' => '<tr id="row'.$usrp->id.'">
+                class="btn-group'.$usrp->id.$bdp->id.'">
+                    <a id="desvusrbtn'.$usrp->id.$bdp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a></div>';
+                     $response = array ('status' => 'Success', 'roles'=> $alldata['roles'], 'result' => '<tr id="row'.$usrp->id.$bdp->id.'">
                                      <td>' . $usrp->name . '</td>' .
                                     '<td>' . $usrp->email . '</td>' .
                                     '<td>' . $usrp->users_tel . '</td>' .
@@ -280,6 +282,8 @@ class AppController extends Controller
                                     '<td>' . $btn . '</td>' .
 
                                     '</tr>');
+                Log::info('row id al crear'.$usrp->id.$bdp->id);
+
                 }
 
             }
@@ -313,13 +317,22 @@ class AppController extends Controller
             if ($bdp)
             {
                 $dbname = $bdp->bdapp_nombd;
+
                 $app_cod = $bdp->bdapp_app;
+
+                Log::info($bdp->bdapp_nombd);
+                Log::info($bdp->bdapp_app);
+                Log::info('row id al eliminar'.$usrp->id.$bdp->id);
+
                 $arrayparams['id_cuenta'] = $usrp->id;
                 $arrayparams['dbname'] = $dbname;
 
                 $acces_vars = $this->getAccessToken($app_cod);
                 $service_response = $this->getAppService($acces_vars['access_token'],'dropuser',$arrayparams,$app_cod);
                 $msgserv = $service_response['msg'];
+                Log::info('msg de servicio '.$service_response['msg']);
+                Log::info('status de servicio '.$service_response['status']);
+
                 $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".$msgserv."</label>";
 
                 if ($service_response['status'] == 1)
@@ -340,11 +353,7 @@ class AppController extends Controller
 
 
         $response = array ('status' => $status, 'msg' => $msg);
-        //Log::info($status);
-        //Log::info($msg);
-        //Log::info($response);
         return \Response::json($response);
-        
     }
 
 

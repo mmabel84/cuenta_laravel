@@ -14,6 +14,7 @@ use SoapClient;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 //define("URL_WS_69", 'http://lista69.advans.mx/Lista69b/index/consultarLista.wsdl');
 
@@ -27,6 +28,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        
     }
 
     /**
@@ -36,6 +38,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user_logued = Auth::user();
+        Log::info('Usuario logueado '.$user_logued);
         $emps = Empresa::all();
         $appsall = Aplicacion::all();
         $appsact = $appsall->where('app_activa', '=', true);
@@ -99,8 +103,8 @@ class HomeController extends Controller
                     </i></a>",
                     'bov'=>"<a href='' data-dir='".$url_bov."' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='' data-dir='".$url_cont."' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>CONTAB</b></span></i></a>",
+                    'cont'=>"<a href='' data-dir='".$url_cont."' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank' title='Acceso a aplicación de contabilidad'><i class='iconcont icon-accessibilitycont' padding: 0 25px;'>
+                    </i></a>",
                      'nom'=>"<a href='#' data-dir='".$url_nom."' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
                     'pld'=>"<a href='' data-dir='".$url_pld."' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
@@ -119,8 +123,8 @@ class HomeController extends Controller
                     </i></a>",
                     'bov'=>"<a href='' data-dir='".$url_bov."' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso de prueba a aplicación de bóveda'><i class='iconbovtest icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='' data-dir='".$url_cont."' data-toggle='tooltip' data-placement='right' id='cont' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Contabilidad' ><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>CONTAB</b></span></i></a>",
+                    'cont'=>"<a href='' data-dir='".$url_cont."' data-toggle='tooltip' data-placement='right' id='cont' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Contabilidad' ><i class='iconconttest icon-accessibilitycont' padding: 0 25px;'>
+                    </i></a>",
                      'nom'=>"<a href='#' data-dir='".$url_nom."' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Nómina' ><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
                     'pld'=>"<a href='' data-dir='".$url_pld."' title='Acceso de prueba a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpldtest icon-accessibility' padding: 0 25px;'>
@@ -138,8 +142,8 @@ class HomeController extends Controller
                     </i></a>",
                     'bov'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='top' id='cont' class='disabledblocked' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>CONTAB</b></span></i></a>",
+                    'cont'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='top' id='cont' class='disabledblocked' target='_blank'><i class='iconcont icon-accessibilitycont' padding: 0 25px;'>
+                    </i></a>",
                      'nom'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='nom' class='disabledblocked' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
                     'pld'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='pld' class='disabledblocked' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
@@ -473,6 +477,7 @@ class HomeController extends Controller
         if(array_key_exists('selected',$alldata) && isset($alldata['selected'])){
             $emprfc = $alldata['selected'];
             $emp = Empresa::where('empr_rfc', '=', $emprfc)->get();
+            Log::info($emp);
             $bdapps = [];
 
             if (count($emp) > 0){
@@ -656,7 +661,6 @@ class HomeController extends Controller
 
     function redirectapp($numcta,$rfc,$codapp)
     {
-
         $url_app = config('app.advans_apps_url.'.$codapp);
         $user_id = \Auth::user()->id;
         Log::info($codapp);
@@ -670,15 +674,16 @@ class HomeController extends Controller
             $arrayparams['cod']=$codapp;
             $arrayparams['id_usuario']=$user_id;
             $service_response = $this->getAppService($acces_vars['access_token'],'loginservice',$arrayparams,$codapp);
-            if(array_key_exists('msg', $service_response)){
-                Log::info($service_response['msg']);
+            if(array_key_exists('msg', $service_response))
+            {
                 $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg'];
-            }else{
-                $url_final = $url_app.$rfc;;
+            }
+            else
+            {
+                $url_final = $url_app.$rfc;
             }
             
             return response()->redirectTo($url_final);
-
         }
         else
         {

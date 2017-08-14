@@ -133,13 +133,13 @@
 
 		                      												<tbody>
 		                      												@foreach ($a->users as $usr)
-		                        												<tr id="row{{ $usr->id }}">
+		                        												<tr id="row{{ $usr->id }}{{ $a->id }}">
 		                          												<td>{{$usr->name}}</td>
 		                          												<td>{{$usr->email}}</td>
 		                          												<td>{{$usr->users_tel}}</td>
 		                          												<td>
-		                          													<div class="btn-group{{ $usr->id }}">
-													                          			<a id="desvusrbtn{{ $usr->id }}" onclick="unrelatedb({{$usr->id}},{{$a->id}});" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a>
+		                          													<div class="btn-group{{ $usr->id }}{{ $a->id }}">
+													                          			<a id="desvusrbtn{{ $usr->id }}{{ $a->id }}" onclick="unrelatedb({{$usr->id}},{{$a->id}});" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a>
 														                          	</div>
 		                          												</td>
 		                          												</tr>
@@ -390,7 +390,13 @@
 	        	success:function(response){
 	        		//console.log(response);
 	        		if (response['status'] == 'success'){
-	        			document.getElementById("row"+usrid).outerHTML="";
+	        			console.log(response['status']);
+	        			console.log(document.getElementById("row"+usrid+bdid));
+	        			document.getElementById("row"+usrid+bdid).outerHTML="";
+
+	        			//var row = document.getElementById("row"+usrid+bdid);
+    					//row.parentNode.removeChild(row);
+
 	        			//$("#datatable-buttons"+bdid).append(response['result']);
 	        			cleanFailureDiv(bdid);
 	        			cleanusersandroles(bdid);

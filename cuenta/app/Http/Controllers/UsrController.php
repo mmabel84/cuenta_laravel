@@ -467,8 +467,8 @@ class UsrController extends Controller
             'msg' => $msg,
             'roles' => $roles,
             );
-        Log::info($status);
-       Log::info($roles);
+        //Log::info($status);
+       //Log::info($roles);
 
          return \Response::json($response);
          

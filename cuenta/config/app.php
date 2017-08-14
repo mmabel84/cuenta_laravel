@@ -6,7 +6,7 @@ return [
     //Advans Apps
     'advans_apps' => ['cont'=>'Contabilidad','bov'=>'Bóveda','nom'=>'Nómina','pld'=>'PLD','cc'=>'Control de Calidad','not'=>'Notaría', 'fact'=>'Facturación electrónica'],
 
-    'advans_apps_url' => ['control'=>'http://advans.control.mx','cont'=>'http://lab1.advans.mx/control/login#','bov'=>'http://advans.boveda.mx','nom'=>'http://lab1.advans.mx/control/login#','pld'=>'http://pld-beta.advans.mx/app/usuarios/login#','cc'=>'http://ecacc.selfip.org/cc_beta/index.php/usuarios/login','not'=>'http://lab1.advans.mx/control/login#','fact'=>'https://app.advans.mx/'],
+    'advans_apps_url' => ['control'=>'http://advans.control.mx','cont'=>'http://advans.contabilidad.mx','bov'=>'http://advans.boveda.mx','nom'=>'http://lab1.advans.mx/control/login#','pld'=>'http://pld-beta.advans.mx/app/usuarios/login#','cc'=>'http://ecacc.selfip.org/cc_beta/index.php/usuarios/login','not'=>'http://lab1.advans.mx/control/login#','fact'=>'https://app.advans.mx/'],
 
     'advans_apps_doc_url' => ['cont'=>'http://www.advans.mx/content/sobre-advans','bov'=>'http://www.advans.mx/content/validacion-cfdi-advans','nom'=>'http://www.advans.mx/content/sobre-advans','pld'=>'http://mejorapld.mx/software/','cc'=>'http://www.advans.mx/content/sobre-advans','not'=>'http://www.advans.mx/content/sobre-advans','fact'=>'http://www.advans.mx/content/factura-electronica-advans'],
 
@@ -21,8 +21,16 @@ return [
                                     
                                 'bov'=>[
                                     'grant_type' => 'password',
-                                    'client_id' => '6',
-                                    'client_secret' => 'fXvQyMnVHkyZie6P3qcuvPHbB1fLwbpi6DDfWbwW',
+                                    'client_id' => '5',
+                                    'client_secret' => 'tgEPkAepbpk8hdxOaSwUqdbJeXyokyzGMsjv7sAp',
+                                    'username' => 'api@advans.mx',
+                                    'password' => 'Usuarioapi123*',
+                                    'scope' => '*',
+                                ],
+                                'cont'=>[
+                                    'grant_type' => 'password',
+                                    'client_id' => '3',
+                                    'client_secret' => '4PxclLliQZszzAgcAA9BTRpoIHFfEM2G7o2NMgPv',
                                     'username' => 'api@advans.mx',
                                     'password' => 'Usuarioapi123*',
                                     'scope' => '*',
