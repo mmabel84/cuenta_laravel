@@ -616,13 +616,14 @@
       }
 			
              var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
+             $('#loadingmodal').modal('show');
              $.ajax({
                 url: 'request69consult',
                 type: 'POST',
                 data: {_token: CSRF_TOKEN,by_rfc:by_rfc,by_sat:by_sat,by_sat_specific:by_sat_specific,by_dof:by_dof,by_dof_specific:by_dof_specific,rfc_value:rfc_value,nombre_value:nombre_value,oficio_value:oficio_value,estado_value:estado_value,fecha_esp_sat:fecha_esp_sat,fecha_esp_dof:fecha_esp_dof,fecha_ini_sat:fecha_ini_sat,fecha_fin_sat:fecha_fin_sat,fecha_ini_dof:fecha_ini_dof,fecha_fin_dof:fecha_fin_dof},
                 dataType: 'JSON',
                 success: function (response) {
+                  $('#loadingmodal').modal('hide');
                     if (response['status'] == 'Success'){
                       var dataTablevalues = []; 
                       var table_counter = 0; 
