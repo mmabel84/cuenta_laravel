@@ -180,10 +180,14 @@ class AppController extends Controller
                 if ($user_email){
                     \Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$url_inst]));
                 }
+                $appbd->save();
+                $appbd->users()->attach($user->id);
+             }
+             else
+             {
+                $appbd->save();
              }
             
-            $appbd->save();
-            $appbd->users()->attach($user->id);
 
             $fmessage = 'Se ha generado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
             $this->registroBitacora($request,'create',$fmessage); 
@@ -341,15 +345,11 @@ class AppController extends Controller
         {
             $usrp = User::find($alldata['usrid']);
             $bdp = BasedatosApp::find($alldata['bdid']);
-            if ($bdp)
+            if ($bdp && $usrp)
             {
                 $dbname = $bdp->bdapp_nombd;
 
                 $app_cod = $bdp->bdapp_app;
-
-                Log::info($bdp->bdapp_nombd);
-                Log::info($bdp->bdapp_app);
-                Log::info('row id al eliminar'.$usrp->id.$bdp->id);
 
                 $arrayparams['id_cuenta'] = $usrp->id;
                 $arrayparams['dbname'] = $dbname;
@@ -357,8 +357,6 @@ class AppController extends Controller
                 $acces_vars = $this->getAccessToken($app_cod);
                 $service_response = $this->getAppService($acces_vars['access_token'],'dropuser',$arrayparams,$app_cod);
                 $msgserv = $service_response['msg'];
-                Log::info('msg de servicio '.$service_response['msg']);
-                Log::info('status de servicio '.$service_response['status']);
 
                 $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".$msgserv."</label>";
 
@@ -370,7 +368,7 @@ class AppController extends Controller
             }
             else
             {
-                $msg = 'Base de datos no encontrada'; 
+                $msg = 'Base de datos o usuario no encontrados'; 
             }
         }
         else
