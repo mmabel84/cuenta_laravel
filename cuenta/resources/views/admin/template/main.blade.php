@@ -14,6 +14,20 @@
     <body class="nav-md" style="background-color: #001a33">
         <div class="container body">
             <div class="main_container" style="background-color: #001a33">
+
+              <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="loadingmodal">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+
+                       <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                          </button>
+                          <h4 class="modal-title" id="myModalLabel2">Prosesando ...</h4>
+                        </div>
+
+                     </div>
+                    </div>
+                  </div>
                 
                 @section('app_left_menu')
                     <div class="col-md-3 left_col" style="background-color: #001a33">

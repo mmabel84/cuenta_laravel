@@ -15,7 +15,7 @@
       .disabled {
                  pointer-events: none;
                  cursor: default;
-                 opacity: 0.6;
+                 opacity: 0.4;
                  color:grey;
               }
       .disabledblocked {
