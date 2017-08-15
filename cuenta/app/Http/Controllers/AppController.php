@@ -25,7 +25,8 @@ class AppController extends Controller
         $usr = $user = \Auth::user();
         if ($usr->can('leer.aplicacion'))
         {
-            $usrs = User::all();
+            //$usrs = User::all();
+            $usrs = User::where('users_control','<>',true)->get();
             $apps = BasedatosApp::all();
 
             foreach ($apps as $app) {
