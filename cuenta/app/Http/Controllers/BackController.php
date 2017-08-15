@@ -129,47 +129,49 @@ class BackController extends Controller
     	if(array_key_exists('bdapp_app_id',$alldata) && isset($alldata['bdapp_app_id'])){
     		$dbid = $alldata['bdapp_app_id'];
     		$dbapp = BasedatosApp::find($dbid);
-    		$fmessage = '';
+    		$fmessage = 'No aplica la acción de generar respaldo para instancia seleccionada';
 
     		if ($dbapp){
-    			//TODO Llamar a servcio de app específica pasando nombre de bd ($dbapp->bdapp_nombd), tomando como respuesta url de backup generado
-    			
-    			$backbd = new Backup;
-    			$backbd->backbd_fecha = date('Y/m/d H:i:s');
-    			$backbd->backbd_bdapp_id = $dbid;
-    			$backbd->backbd_user = Auth::user()->name;
+                $gener_inst = config('app.advans_apps_gener_inst.'.$dbapp->bdapp_app);
+                if ($gener_inst == 1)
+                {
+                    $backbd = new Backup;
+                    $backbd->backbd_fecha = date('Y/m/d H:i:s');
+                    $backbd->backbd_bdapp_id = $dbid;
+                    $backbd->backbd_user = Auth::user()->name;
 
-    			$backsbd = count(Backup::where('backbd_bdapp_id', '=', $dbid)->get()) + 1;
+                    $backsbd = count(Backup::where('backbd_bdapp_id', '=', $dbid)->get()) + 1;
 
-    			$fmessage = 'Se ha generado el respaldo número '. $backsbd .' de aplicación '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom;
-    			//Límite de respaldos de 5
-    			if ($backsbd == 6){
-    				$fmessage = 'Ha superado el número máximo (5) de respaldos para base de datos '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom.', debe eliminar respaldos anteriores para generar nuevos.';
-    				\Session::flash('failmessage',$fmessage);
-    				return Redirect::to('backups');
-    			}
-                $carpeta = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc;
-                $bdname = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc.'_'.$backsbd;
-                $dest = $carpeta.DIRECTORY_SEPARATOR.$bdname.'_'.date('Y-m-d H:i:s');
-                $backbd->backbd_linkback = $dest;
+                    $fmessage = 'Se ha generado el respaldo número '. $backsbd .' de aplicación '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom;
+                    //Límite de respaldos de 5
+                    if ($backsbd == 6){
+                        $fmessage = 'Ha superado el número máximo (5) de respaldos para base de datos '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom.', debe eliminar respaldos anteriores para generar nuevos.';
+                        \Session::flash('failmessage',$fmessage);
+                        return Redirect::to('backups');
+                    }
+                    $carpeta = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc;
+                    $bdname = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc.'_'.$backsbd;
+                    $dest = $carpeta.DIRECTORY_SEPARATOR.$bdname.'_'.date('Y-m-d H:i:s');
+                    $backbd->backbd_linkback = $dest;
 
-                $arrayparams['dbname'] = $dbapp->bdapp_nombd;
-                $arrayparams['dest'] = $dest;
-                $acces_vars = $this->getAccessToken($dbapp->bdapp_app);
-                $service_response = $this->getAppService($acces_vars['access_token'],'createbackp',$arrayparams,$dbapp->bdapp_app);
+                    $arrayparams['dbname'] = $dbapp->bdapp_nombd;
+                    $arrayparams['dest'] = $dest;
+                    $acces_vars = $this->getAccessToken($dbapp->bdapp_app);
+                    $service_response = $this->getAppService($acces_vars['access_token'],'createbackp',$arrayparams,$dbapp->bdapp_app);
 
 
-    			//\Artisan::call('db:backup', array('--destination' => 'sftp', '--database'=> 'MERM840926RY3_cta', '--destinationPath' => $dest, '--compression' => 'gzip')) ;
+                    //\Artisan::call('db:backup', array('--destination' => 'sftp', '--database'=> 'MERM840926RY3_cta', '--destinationPath' => $dest, '--compression' => 'gzip')) ;
 
-    			$backbd->save();
+                    $backbd->save();
+                    $this->registroBitacora($request,'create',$fmessage); 
 
-    			
+                }
     		}
     	}
     	
     	//Generar base de datos con script de app en servidor especificado
        
-        $this->registroBitacora($request,'create',$fmessage); 
+        
     	\Session::flash('message',$fmessage);
     	return Redirect::to('backups');
     }

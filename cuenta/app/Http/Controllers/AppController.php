@@ -101,6 +101,7 @@ class AppController extends Controller
         $empresa = Empresa::find($request->bdapp_empr_id);
         $app = Aplicacion::find($request->bdapp_app_id);
         $exist = 0;
+        $gener_inst = config('app.advans_apps_gener_inst.'.$app->app_cod);
 
     	foreach ($bdapps as $a )
     	{
@@ -120,64 +121,69 @@ class AppController extends Controller
         $dbs = BasedatosApp::where('bdapp_app', '=', $app->app_cod)->get();
         $fmessage = 'No se puede generar la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom.' pues ha alcanzado el límite máximo de instancias contratadas';
         $instlimit = $app->app_insts;
+       
         if ($instlimit == null || count($dbs) <  $instlimit)
         {
             $appbd->bdapp_app_id = $app->id;
             $appbd->bdapp_app = $app->app_cod;
             $appbd->bdapp_empr_id = $empresa->id;
             //TODO llamar archivo de configuracion para seleccionar base de datos
-            $appbd->bdapp_nomserv = 'Test';
+            $appbd->bdapp_nomserv = '';
+            $appbd->bdapp_nombd = '';
             
-            
-
-            //Llamar a servicio web que genera base de datos en aplicación
-
-            $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
-            $password = $this->rand_chars($caracteres,8);
-            $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
-
-            while(!$resultm || count($matchesm) == 0){
+            //Si aplicación genera instancia, se ejecuta servicio web para crear base de datos
+             if ($gener_inst == 1)
+             {
+                //Llamar a servicio web que genera base de datos en aplicación
+                $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
                 $password = $this->rand_chars($caracteres,8);
                 $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
-            }
 
-            $empresaprincipal = Empresa::where('empr_principal', '=', true)->get();
-            $emprrfc = $empresa->empr_rfc;
-            $ctarfc = $emprrfc; 
-            if (count($empresaprincipal) > 0)
-            {
-                $ctarfc = $empresaprincipal[0]->empr_rfc;
-            }
+                while(!$resultm || count($matchesm) == 0){
+                    $password = $this->rand_chars($caracteres,8);
+                    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+                }
 
-            $appbd->bdapp_nombd =  $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
-            
-            $user = \Auth::user();
-            $user_email = $user->email;
-            $arrayparams['email'] = $user_email;
-            $arrayparams['name'] = $user->name;
-            $arrayparams['id_cuenta'] = $user->id;
-            $arrayparams['password'] = $password;
-            $arrayparams['rfc'] = $emprrfc;
-            $arrayparams['cta'] = $ctarfc;
-            $arrayparams['dbname'] = $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
-            //$url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
-            $url_inst = config('app.advans_apps_url.'.$app->app_cod).'/login';
-            
+                $empresaprincipal = Empresa::where('empr_principal', '=', true)->get();
+                $emprrfc = $empresa->empr_rfc;
+                $ctarfc = $emprrfc; 
+                if (count($empresaprincipal) > 0)
+                {
+                    $ctarfc = $empresaprincipal[0]->empr_rfc;
+                }
 
-            $acces_vars = $this->getAccessToken($app->app_cod);
-            $service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
+                $appbd->bdapp_nombd =  $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
+                
+                $user = \Auth::user();
+                $user_email = $user->email;
+                $arrayparams['email'] = $user_email;
+                $arrayparams['name'] = $user->name;
+                $arrayparams['id_cuenta'] = $user->id;
+                $arrayparams['password'] = $password;
+                $arrayparams['rfc'] = $emprrfc;
+                $arrayparams['cta'] = $ctarfc;
+                $arrayparams['dbname'] = $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
+                //$url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
+                $url_inst = config('app.advans_apps_url.'.$app->app_cod).'/login';
+                
+
+                $acces_vars = $this->getAccessToken($app->app_cod);
+                $service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
+                
+                /*echo '<pre>';
+                print_r(json_decode($service_response['dbvalue']));
+                print_r(json_decode($service_response['dbvalueafter']));
+                echo '</pre>';
+                die();*/
+
+                if ($user_email){
+                    \Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$url_inst]));
+                }
+             }
             
-            /*echo '<pre>';
-            print_r(json_decode($service_response['dbvalue']));
-            print_r(json_decode($service_response['dbvalueafter']));
-            echo '</pre>';
-            die();*/
             $appbd->save();
             $appbd->users()->attach($user->id);
 
-            if ($user_email){
-                \Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$url_inst]));
-            }
 
             $fmessage = 'Se ha generado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
             $this->registroBitacora($request,'create',$fmessage); 
@@ -194,19 +200,31 @@ class AppController extends Controller
         $appd = BasedatosApp::find($id);
         $arrayparams['dbname'] = $appd->bdapp_nombd;
 
-        $acces_vars = $this->getAccessToken($appd->bdapp_app);
-        $service_response = $this->getAppService($acces_vars['access_token'],'dropbd',$arrayparams,$appd->bdapp_app);
+        $gener_inst = config('app.advans_apps_gener_inst.'.$appd->bdapp_app);
 
-        if ($service_response['status'] == 1)
+        if ($gener_inst == 1)
         {
-            
-            $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
+            $acces_vars = $this->getAccessToken($appd->bdapp_app);
+            $service_response = $this->getAppService($acces_vars['access_token'],'dropbd',$arrayparams,$appd->bdapp_app);
+
+            if ($service_response['status'] == 1)
+            {
+                
+                $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
+
+            }
+            else
+            {
+               $fmessage = 'Instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' no encontrada. Eliminada de cuenta';
+            }
 
         }
         else
         {
-           $fmessage = 'Instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' no encontrada. Eliminada de cuenta';
+            $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' de cuenta';
         }
+
+        
         $appd->users()->detach();
         $appd-> backups()->delete();
         $appd->delete();
@@ -245,47 +263,55 @@ class AppController extends Controller
             $bdp = BasedatosApp::find($alldata['bdid']);
             $exist = False;
             if($bdp){
-                $usrrelated = $bdp->users()->get();
-                foreach ($usrrelated as $u) {
-                    if ($u->id == $alldata['usrid']){
-                        $exist = True;
+                $gener_inst = config('app.advans_apps_gener_inst.'.$bdp->bdapp_app);
+
+                if ($gener_inst == 1)
+                {
+                    $usrrelated = $bdp->users()->get();
+                    foreach ($usrrelated as $u) {
+                        if ($u->id == $alldata['usrid']){
+                            $exist = True;
+                        }
+                    }
+
+                    if ($exist == True)
+                    {
+                        $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación con el usuario ".$usrp->name."</label>");
+                    }
+                    else
+                    {
+                         
+                         $usrarray = array('name'=>$usrp->name,'email'=>$usrp->email,'users_tel'=>$usrp->users_tel,'id_cuenta'=>$usrp->id);
+                         
+                         $app_cod = $bdp->bdapp_app;
+                         $arrayparams['usr'] = $usrarray;
+                         $arrayparams['dbname'] = $bdp->bdapp_nombd;
+                         $arrayparams['roles'] = $alldata['roles'];
+                         //Log::info($alldata['roles']);
+
+                         $acces_vars = $this->getAccessToken($app_cod);
+                         $service_response = $this->getAppService($acces_vars['access_token'],'adduser',$arrayparams,$app_cod);
+                         $bdp->users()->attach($alldata['usrid']);
+
+                        $btn = '<div 
+                    class="btn-group'.$usrp->id.$bdp->id.'">
+                        <a id="desvusrbtn'.$usrp->id.$bdp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a></div>';
+                         $response = array ('status' => 'Success', 'roles'=> $alldata['roles'], 'result' => '<tr id="row'.$usrp->id.$bdp->id.'">
+                                         <td>' . $usrp->name . '</td>' .
+                                        '<td>' . $usrp->email . '</td>' .
+                                        '<td>' . $usrp->users_tel . '</td>' .
+
+                                        '<td>' . $btn . '</td>' .
+
+                                        '</tr>');
+                    Log::info('row id al crear'.$usrp->id.$bdp->id);
+
                     }
                 }
-
-                if ($exist == True)
-                {
-                    $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Ya existe la relación con el usuario ".$usrp->name."</label>");
-                }
                 else
-                {
-                     
-                     $usrarray = array('name'=>$usrp->name,'email'=>$usrp->email,'users_tel'=>$usrp->users_tel,'id_cuenta'=>$usrp->id);
-                     
-                     $app_cod = $bdp->bdapp_app;
-                     $arrayparams['usr'] = $usrarray;
-                     $arrayparams['dbname'] = $bdp->bdapp_nombd;
-                     $arrayparams['roles'] = $alldata['roles'];
-                     //Log::info($alldata['roles']);
-
-                     $acces_vars = $this->getAccessToken($app_cod);
-                     $service_response = $this->getAppService($acces_vars['access_token'],'adduser',$arrayparams,$app_cod);
-                     $bdp->users()->attach($alldata['usrid']);
-
-                    $btn = '<div 
-                class="btn-group'.$usrp->id.$bdp->id.'">
-                    <a id="desvusrbtn'.$usrp->id.$bdp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a></div>';
-                     $response = array ('status' => 'Success', 'roles'=> $alldata['roles'], 'result' => '<tr id="row'.$usrp->id.$bdp->id.'">
-                                     <td>' . $usrp->name . '</td>' .
-                                    '<td>' . $usrp->email . '</td>' .
-                                    '<td>' . $usrp->users_tel . '</td>' .
-
-                                    '<td>' . $btn . '</td>' .
-
-                                    '</tr>');
-                Log::info('row id al crear'.$usrp->id.$bdp->id);
-
+                {   
+                    $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>No aplica la acción de agregar usuario</label>");
                 }
-
             }
             else
             {
@@ -362,15 +388,24 @@ class AppController extends Controller
         $alldata = $request->all();
         $bdp = BasedatosApp::find($alldata['bdid']);
         $arrayparams['dbname'] = $bdp->bdapp_nombd;
+        $gener_inst = config('app.advans_apps_gener_inst.'.$bdp->bdapp_app);
+        $status = 'failure';
+        $result = [];
 
-        $acces_vars = $this->getAccessToken($bdp->bdapp_app);
-        $service_response = $this->getAppService($acces_vars['access_token'],'getbitc',$arrayparams,$bdp->bdapp_app);
-        Log::info($service_response['status']);
-        Log::info($service_response['msg']);
-        Log::info($service_response['bitacora']);
-        $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".$service_response['msg']."</label>";
+        if ($gener_inst == 1)
+        {
+            $acces_vars = $this->getAccessToken($bdp->bdapp_app);
+            $service_response = $this->getAppService($acces_vars['access_token'],'getbitc',$arrayparams,$bdp->bdapp_app);
+            $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".$service_response['msg']."</label>";
+            $status = $service_response['status'];
+            $result = $service_response['bitacora'];
+        }
+        else
+        {
+            $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".'No aplica la acción de retornar bitácora'."</label>";
+        }
 
-        $response = array ('status' => $service_response['status'], 'msg' => $msg, 'result' => $service_response['bitacora']);
+        $response = array ('status' => $status, 'msg' => $msg, 'result' => $result);
         return \Response::json($response);
 
     }

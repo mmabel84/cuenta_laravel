@@ -448,39 +448,32 @@ class UsrController extends Controller
 
         $bd = BasedatosApp::find($bdid);
         $app_cod = $bd->bdapp_app;
-        $arrayparams['dbname'] = $bd->bdapp_nombd;
+        $gener_inst = config('app.advans_apps_gener_inst.'.$app_cod);
         $status = 0;
         $msg = 'Sin roles';
         $roles = array();
 
-        $acces_vars = $this->getAccessToken($app_cod);
-        $service_response = $this->getAppService($acces_vars['access_token'],'getroles',$arrayparams,$app_cod);
-        $status = $service_response['status'];
-        $msg = $service_response['msg'];
-         if ($service_response['status'] == 1){
-            $roles = $service_response['roles'];
-            //Log::info($roles);
-         }
+        if ($gener_inst == 1)
+        {
+            $arrayparams['dbname'] = $bd->bdapp_nombd;
+            $acces_vars = $this->getAccessToken($app_cod);
+            $service_response = $this->getAppService($acces_vars['access_token'],'getroles',$arrayparams,$app_cod);
+            $status = $service_response['status'];
+            $msg = $service_response['msg'];
+             if ($service_response['status'] == 1){
+                $roles = $service_response['roles'];
+             }
+        }
 
          $response = array(
             'status' => $status,
             'msg' => $msg,
             'roles' => $roles,
             );
-        //Log::info($status);
-       //Log::info($roles);
 
          return \Response::json($response);
-         
-        /*$roles_array = array(
-            array('slug'=>'rol1','name'=>'Rol 1'),
-            array('slug'=>'rol2','name'=>'Rol 2'),
-            array('slug'=>'rol3','name'=>'Rol 3'),
-        );*/
+
         
          
     }
-
-    
-
 }

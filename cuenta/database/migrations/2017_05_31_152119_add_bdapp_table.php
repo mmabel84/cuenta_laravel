@@ -16,8 +16,8 @@ class AddBdappTable extends Migration
         Schema::create('bdapp', function (Blueprint $table) {
             $table->increments('id');
             $table->string('bdapp_app');
-            $table->string('bdapp_nombd');
-            $table->string('bdapp_nomserv');
+            $table->string('bdapp_nombd')->nullable();
+            $table->string('bdapp_nomserv')->nullable();
             $table->float('bdapp_gigcons')->nullable();
             $table->float('bdapp_gigdisp')->nullable();
             $table->integer('bdapp_empr_id')->unsigned();
