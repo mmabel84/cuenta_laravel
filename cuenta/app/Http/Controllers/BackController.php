@@ -133,7 +133,7 @@ class BackController extends Controller
 
     		if ($dbapp){
                 $gener_inst = config('app.advans_apps_gener_inst.'.$dbapp->bdapp_app);
-                if ($gener_inst == 1)
+                if ($dbapp->bdapp_app != 'fact')
                 {
                     $backbd = new Backup;
                     $backbd->backbd_fecha = date('Y/m/d H:i:s');

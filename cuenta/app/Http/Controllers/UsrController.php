@@ -453,7 +453,7 @@ class UsrController extends Controller
         $msg = 'Sin roles';
         $roles = array();
 
-        if ($gener_inst == 1)
+        if ($app_cod != 'fact')
         {
             $arrayparams['dbname'] = $bd->bdapp_nombd;
             $acces_vars = $this->getAccessToken($app_cod);

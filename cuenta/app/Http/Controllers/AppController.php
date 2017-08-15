@@ -133,7 +133,7 @@ class AppController extends Controller
             $user = \Auth::user();
             
             //Si aplicación genera instancia, se ejecuta servicio web para crear base de datos
-             if ($gener_inst == 1)
+             if ($app->app_cod != 'fact')
              {
                 //Llamar a servicio web que genera base de datos en aplicación
                 $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
@@ -201,7 +201,7 @@ class AppController extends Controller
 
         $gener_inst = config('app.advans_apps_gener_inst.'.$appd->bdapp_app);
 
-        if ($gener_inst == 1)
+        if ($appd->bdapp_app != 'fact')
         {
             $acces_vars = $this->getAccessToken($appd->bdapp_app);
             $service_response = $this->getAppService($acces_vars['access_token'],'dropbd',$arrayparams,$appd->bdapp_app);
@@ -260,7 +260,7 @@ class AppController extends Controller
                 $gener_inst = config('app.advans_apps_gener_inst.'.$bdp->bdapp_app);
                 Log::info($gener_inst);
                 Log::info($bdp->bdapp_app);
-                if ($bdp->bdapp_app!='fact')
+                if ($bdp->bdapp_app != 'fact')
                 {
                     $usrrelated = $bdp->users()->get();
                     foreach ($usrrelated as $u) {
@@ -386,7 +386,7 @@ class AppController extends Controller
         $status = 'failure';
         $result = [];
 
-        if ($gener_inst == 1)
+        if ($bdp->bdapp_app != 'fact')
         {
             $acces_vars = $this->getAccessToken($bdp->bdapp_app);
             $service_response = $this->getAppService($acces_vars['access_token'],'getbitc',$arrayparams,$bdp->bdapp_app);
