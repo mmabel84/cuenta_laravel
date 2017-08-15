@@ -130,6 +130,7 @@ class AppController extends Controller
             //TODO llamar archivo de configuracion para seleccionar base de datos
             $appbd->bdapp_nomserv = '';
             $appbd->bdapp_nombd = '';
+            $user = \Auth::user();
             
             //Si aplicación genera instancia, se ejecuta servicio web para crear base de datos
              if ($gener_inst == 1)
@@ -154,7 +155,6 @@ class AppController extends Controller
 
                 $appbd->bdapp_nombd =  $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
                 
-                $user = \Auth::user();
                 $user_email = $user->email;
                 $arrayparams['email'] = $user_email;
                 $arrayparams['name'] = $user->name;
@@ -183,7 +183,6 @@ class AppController extends Controller
             
             $appbd->save();
             $appbd->users()->attach($user->id);
-
 
             $fmessage = 'Se ha generado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
             $this->registroBitacora($request,'create',$fmessage); 
