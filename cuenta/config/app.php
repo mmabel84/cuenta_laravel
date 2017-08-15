@@ -6,7 +6,7 @@ return [
     //Advans Apps
     'advans_apps' => ['cont'=>'Contabilidad','bov'=>'Bóveda','nom'=>'Nómina','pld'=>'PLD','cc'=>'Control de Calidad','not'=>'Notaría', 'fact'=>'Facturación electrónica'],
 
-    'advans_apps_gener_inst' => ['cont'=>1,'bov'=>1,'nom'=>1,'pld'=>0,'cc'=>1,'not'=>1,'fact'=>0],
+    'advans_apps_gener_inst' => ['cont'=>'1','bov'=>'1','nom'=>'1','pld'=>'0','cc'=>'1','not'=>'1','fact'=>'0'],
 
     'advans_apps_url' => ['control'=>'http://devctrl.advans.mx','cont'=>'http://devcont.advans.mx','bov'=>'http://devbov.advans.mx','nom'=>'http://lab1.advans.mx/control/login#','pld'=>'http://pld-beta.advans.mx/app/usuarios/login#','cc'=>'http://ecacc.selfip.org/cc_beta/index.php/usuarios/login','not'=>'http://lab1.advans.mx/control/login#','fact'=>'https://app.advans.mx/'],
 
