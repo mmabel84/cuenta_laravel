@@ -72,7 +72,7 @@
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button" onclick="location.href = '{{ URL::to('backups') }}';">Cancelar</button>
-                          <button type="submit" class="btn btn-success">Generar</button>
+                          <button type="submit" class="btn btn-success" onclick="showWaitingModal()">Generar</button>
                         </div>
                       </div>
 
@@ -104,6 +104,11 @@
     <script src="{{ asset('vendors/switchery/dist/switchery.min.js') }}"></script>
 
 	    	<script>
+
+        function showWaitingModal()
+      {
+        $('#loadingmodal').modal('show');
+      }
           $( function() {
               $('#alertmsgcreation').click(function() {
                   console.log('alertmsgcreation button clicked');
