@@ -247,11 +247,6 @@ class AppController extends Controller
     {
         $alldata = $request->all();
 
-        /*echo "<pre>";
-        print_r($alldata);die();
-        echo "</pre>";*/
-
-     
         if(array_key_exists('usrid',$alldata) && isset($alldata['usrid']) && array_key_exists('bdid',$alldata) && isset($alldata['bdid'])){
             if ($alldata['usrid'] == 'null')
             {
@@ -263,8 +258,7 @@ class AppController extends Controller
             $exist = False;
             if($bdp){
                 $gener_inst = config('app.advans_apps_gener_inst.'.$bdp->bdapp_app);
-
-                if ($gener_inst == 1)
+                if ($gener_inst == 1 || $gener_inst == '1')
                 {
                     $usrrelated = $bdp->users()->get();
                     foreach ($usrrelated as $u) {
@@ -293,7 +287,7 @@ class AppController extends Controller
                          $bdp->users()->attach($alldata['usrid']);
 
                         $btn = '<div 
-                    class="btn-group'.$usrp->id.$bdp->id.'">
+                        class="btn-group'.$usrp->id.$bdp->id.'">
                         <a id="desvusrbtn'.$usrp->id.$bdp->id.'" onclick="unrelatedb('.$usrp->id.', '.$bdp->id.');" class="btn btn-xs" data-placement="left" title="Desasociar usuario" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-close fa-3x"></i> </a></div>';
                          $response = array ('status' => 'Success', 'roles'=> $alldata['roles'], 'result' => '<tr id="row'.$usrp->id.$bdp->id.'">
                                          <td>' . $usrp->name . '</td>' .
@@ -303,7 +297,7 @@ class AppController extends Controller
                                         '<td>' . $btn . '</td>' .
 
                                         '</tr>');
-                    Log::info('row id al crear'.$usrp->id.$bdp->id);
+                        Log::info('row id al crear'.$usrp->id.$bdp->id);
 
                     }
                 }
@@ -315,7 +309,6 @@ class AppController extends Controller
             else
             {
                 $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Base de datos no encontrada</label>");
-
             }
             
         }
