@@ -103,7 +103,7 @@ class HomeController extends Controller
                     </i></a>",
                     'bov'=>"<a href='' data-dir='".$url_bov."' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='' data-dir='".$url_cont."' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank' title='Acceso a aplicación de contabilidad'><i class='iconcont icon-accessibilitycont' padding: 0 25px;'>
+                    'cont'=>"<a href='' data-dir='".$url_cont."' data-toggle='tooltip' data-placement='right' id='cont' class='disabled' target='_blank' title='Acceso a aplicación de contabilidad'><i class='iconcont icon-accessibilitycont' padding: 0 25px;'>
                     </i></a>",
                      'nom'=>"<a href='#' data-dir='".$url_nom."' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
