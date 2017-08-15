@@ -260,7 +260,7 @@ class AppController extends Controller
                 $gener_inst = config('app.advans_apps_gener_inst.'.$bdp->bdapp_app);
                 Log::info($gener_inst);
                 Log::info($bdp->bdapp_app);
-                if ($gener_inst == 1 || $gener_inst == '1')
+                if ($bdp->bdapp_app!='fact')
                 {
                     $usrrelated = $bdp->users()->get();
                     foreach ($usrrelated as $u) {
