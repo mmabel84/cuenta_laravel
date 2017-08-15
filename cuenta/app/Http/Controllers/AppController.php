@@ -257,10 +257,8 @@ class AppController extends Controller
             $usrp = User::find($alldata['usrid']);
             $bdp = BasedatosApp::find($alldata['bdid']);
             $exist = False;
-            if($bdp){
+            if($bdp && $usrp){
                 $gener_inst = config('app.advans_apps_gener_inst.'.$bdp->bdapp_app);
-                Log::info($gener_inst);
-                Log::info($bdp->bdapp_app);
                 if ($bdp->bdapp_app != 'fact')
                 {
                     $usrrelated = $bdp->users()->get();
@@ -276,8 +274,16 @@ class AppController extends Controller
                     }
                     else
                     {
-                         
-                         $usrarray = array('name'=>$usrp->name,'email'=>$usrp->email,'users_tel'=>$usrp->users_tel,'id_cuenta'=>$usrp->id);
+                        if ($usrp->users_tel == null)
+                        {
+                            $tel = '';
+                        }
+                        else
+                        {
+                            $tel = $usrp->users_tel;
+                        }
+
+                         $usrarray = array('name'=>$usrp->name,'email'=>$usrp->email,'users_tel'=>$tel,'id_cuenta'=>$usrp->id);
                          
                          $app_cod = $bdp->bdapp_app;
                          $arrayparams['usr'] = $usrarray;
@@ -311,7 +317,7 @@ class AppController extends Controller
             }
             else
             {
-                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Base de datos no encontrada</label>");
+                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Base de datos o usuario no encontrados</label>");
             }
             
         }
