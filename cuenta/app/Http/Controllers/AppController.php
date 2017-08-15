@@ -258,6 +258,8 @@ class AppController extends Controller
             $exist = False;
             if($bdp){
                 $gener_inst = config('app.advans_apps_gener_inst.'.$bdp->bdapp_app);
+                Log::info($gener_inst);
+                Log::info($bdp->bdapp_app);
                 if ($gener_inst == 1 || $gener_inst == '1')
                 {
                     $usrrelated = $bdp->users()->get();
