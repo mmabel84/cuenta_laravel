@@ -151,7 +151,7 @@
             <div class="contenedor_select col-md-9 col-sm-9 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                          <h2>Acceso a aplicaciones</h2>
+                          <h2>Acceso a soluciones</h2>
                           <div class="clearfix"></div>
                 </div>
 

@@ -120,7 +120,7 @@ class AppController extends Controller
 
     	$appbd = new BasedatosApp;
         $dbs = BasedatosApp::where('bdapp_app', '=', $app->app_cod)->get();
-        $fmessage = 'No se puede generar la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom.' pues ha alcanzado el límite máximo de soluciones contratadas';
+        $fmessage = 'No se puede generar la solución '.$app->app_nom." de la empresa ".$empresa->empr_nom.' pues ha alcanzado el límite máximo de soluciones contratadas';
         $instlimit = $app->app_insts;
        
         if ($instlimit == null || count($dbs) <  $instlimit)
@@ -189,7 +189,7 @@ class AppController extends Controller
              }
             
 
-            $fmessage = 'Se ha generado la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom;
+            $fmessage = 'Se ha generado la solución '.$app->app_nom." de la empresa ".$empresa->empr_nom;
             $this->registroBitacora($request,'create',$fmessage); 
             \Session::flash('message',$fmessage);
             return Redirect::to('apps');
@@ -321,14 +321,14 @@ class AppController extends Controller
             }
             else
             {
-                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Base de datos o usuario no encontrados</label>");
+                $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Solución o usuario no encontrados</label>");
             }
             
         }
         else
         {
 
-            $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Usuario o base de datos no encontrados</label>");
+            $response = array ('status' => 'Failure', 'result' => "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'>Usuario o solución no encontrados</label>");
         }
        
         return \Response::json($response);
@@ -368,12 +368,12 @@ class AppController extends Controller
             }
             else
             {
-                $msg = 'Base de datos o usuario no encontrados'; 
+                $msg = 'Solución o usuario no encontrados'; 
             }
         }
         else
         {
-           $msg = 'Usuario o identificador de base de datos no enviados'; 
+           $msg = 'Usuario o identificador de solución no enviados'; 
         }
 
 

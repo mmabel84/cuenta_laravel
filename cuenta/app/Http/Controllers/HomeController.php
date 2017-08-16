@@ -581,8 +581,8 @@ class HomeController extends Controller
                                 Número de oficio: '.$json69['69b'][$i]['oficio'].'<br>
                                 Fecha de SAT: '.$json69['69b'][$i]['fecha_sat'].'<br>
                                 Fecha de DOF: '.$json69['69b'][$i]['fecha_dof'].'<br>
-                                Url de oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
-                                Url de anexo: <a target="_blank" href="'.$json69['69b'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                                Acceso a oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                Acceso a anexo: <a target="_blank" href="'.$json69['69b'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
                             </li><br>';
                         }
                         $html.='</ul>';
@@ -604,8 +604,8 @@ class HomeController extends Controller
                                 Número de oficio: '.$json69['69'][$i]['oficio'].'<br>
                                 Fecha de SAT: '.$json69['69'][$i]['fecha_sat'].'<br>
                                 Fecha de DOF: '.$json69['69'][$i]['fecha_dof'].'<br>
-                                Url de oficio: <a target="_blank" href="'.$json69['69'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
-                                Url de anexo: <a target="_blank" href="'.$json69['69'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                                Acceso a oficio: <a target="_blank" href="'.$json69['69'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                               Acceso a anexo: <a target="_blank" href="'.$json69['69'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
                             </li><br>';
                         }
                         $html.='</ul>';
@@ -629,8 +629,8 @@ class HomeController extends Controller
                                 Número de oficio: '.$json69['desvirtuados'][$i]['oficio'].'<br>
                                 Fecha de SAT: '.$json69['desvirtuados'][$i]['fecha_sat'].'<br>
                                 Fecha de DOF: '.$json69['desvirtuados'][$i]['fecha_dof'].'<br>
-                                Url de oficio: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
-                                Url de anexo: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                                Acceso a oficio: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                Acceso a anexo: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
                             </li><br>';
                         }
                         $html.='</ul>';

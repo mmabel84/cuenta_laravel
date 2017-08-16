@@ -59,7 +59,7 @@ class BackController extends Controller
         Log::info($bdid);
         Log::info($root);
 
-        $msg = 'Respaldo sin ruta en base de datos';
+        $msg = 'Respaldo sin ruta almacenada';
         $status = 'Failure';
         $file = null;
 
@@ -142,10 +142,10 @@ class BackController extends Controller
 
                     $backsbd = count(Backup::where('backbd_bdapp_id', '=', $dbid)->get()) + 1;
 
-                    $fmessage = 'Se ha generado el respaldo número '. $backsbd .' de aplicación '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom;
+                    $fmessage = 'Se ha generado el respaldo número '. $backsbd .' de solución de aplicación '.$dbapp->aplicacion->app_nom. ' de empresa '.$dbapp->empresa->empr_nom;
                     //Límite de respaldos de 5
                     if ($backsbd == 6){
-                        $fmessage = 'Ha superado el número máximo (5) de respaldos para base de datos '.$dbapp->aplicacion->app_nom. ' de '.$dbapp->empresa->empr_nom.', debe eliminar respaldos anteriores para generar nuevos.';
+                        $fmessage = 'Ha superado el número máximo (5) de respaldos para solución de aplicación '.$dbapp->aplicacion->app_nom. ' de empresa '.$dbapp->empresa->empr_nom.', debe eliminar respaldos anteriores para generar nuevos.';
                         \Session::flash('failmessage',$fmessage);
                         return Redirect::to('backups');
                     }
@@ -183,7 +183,7 @@ class BackController extends Controller
         $root = $backbd->backbd_linkback;
 
         Storage::disk('sftp')->delete($root.'.gz');
-        $fmessage = 'Se ha eliminado respaldo de aplicación '.$backbd->basedatosapp->aplicacion->app_nom.' de empresa '.$backbd->basedatosapp->empresa->empr_nom;
+        $fmessage = 'Se ha eliminado respaldo de solución de aplicación '.$backbd->basedatosapp->aplicacion->app_nom.' de empresa '.$backbd->basedatosapp->empresa->empr_nom;
         $backbd->delete();
         
         //$fmessage = 'Se ha eliminado el respaldo de aplicación: '.$backbd->aplicacion->app_nom.' de '.$backbd->empresa->empr_nom;
