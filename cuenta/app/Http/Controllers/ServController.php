@@ -645,7 +645,7 @@ class ServController extends Controller
 	   	
 	    	$alldata = $request->all();
 	   		$status = 1;
-	   		$msg = 'Existe instancia';
+	   		$msg = 'Existe solución';
 
 	   		if (array_key_exists('cta',$alldata) && isset($alldata['cta']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname']))
 	   		{

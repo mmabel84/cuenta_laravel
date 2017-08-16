@@ -115,7 +115,7 @@
                 <div class="tile-stats">
                   <div class="icon" style="width: 5px; height: 10px; top: 30px;"><i class="fa fa-database" style="color: #053666; font-size: 50px;"></i></div>
                   <div class="count" style="color: #053666;">{{ $insts }}</div>
-                  <p style="color: #053666;"><b>INSTANCIAS CONTRATADAS</b></p>
+                  <p style="color: #053666;"><b>SOLUCIONES CONTRATADAS</b></p>
                   <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas }} creadas</p></a>
                   <a href="{{ URL::to('apps') }}"><p style="color: #053666;">{{ $cantinstcreadas -  $cantbdappstest}} en producción | {{ $cantbdappstest }} en prueba</p></a>
 
@@ -314,7 +314,7 @@
                   <div class="col-md-12 col-sm-12 col-xs-12" id="graphapp">
                     <div class="x_panel">
                       <div class="x_title">
-                        <h2>Análisis de instancias por aplicación</h2>
+                        <h2>Análisis de soluciones por aplicación</h2>
                         <ul class="nav navbar-right panel_toolbox">
                           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                           </li>
@@ -739,7 +739,7 @@
             trigger: 'axis'
           },
           legend: {
-            data: ['Instancias contratadas', 'Instancias creadas']
+            data: ['Soluciones contratadas', 'Soluciones creadas']
           },
           toolbox: {
             show: false
@@ -754,7 +754,7 @@
             boundaryGap: [0, 1]
           }],
           series: [{
-            name: 'Instancias contratadas',
+            name: 'Soluciones contratadas',
             type: 'bar',
             data: jQuery.parseJSON(instcont),
             markPoint: {
@@ -767,7 +767,7 @@
             }]
             }
           }, {
-            name: 'Instancias creadas',
+            name: 'Soluciones creadas',
             type: 'bar',
             data: jQuery.parseJSON(instcreadas),
             markPoint: {

@@ -120,7 +120,7 @@ class AppController extends Controller
 
     	$appbd = new BasedatosApp;
         $dbs = BasedatosApp::where('bdapp_app', '=', $app->app_cod)->get();
-        $fmessage = 'No se puede generar la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom.' pues ha alcanzado el límite máximo de instancias contratadas';
+        $fmessage = 'No se puede generar la aplicación '.$app->app_nom." de la empresa ".$empresa->empr_nom.' pues ha alcanzado el límite máximo de soluciones contratadas';
         $instlimit = $app->app_insts;
        
         if ($instlimit == null || count($dbs) <  $instlimit)
@@ -214,18 +214,18 @@ class AppController extends Controller
             if ($service_response['status'] == 1)
             {
                 
-                $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
+                $fmessage = 'Se ha eliminado la solución de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom;
 
             }
             else
             {
-               $fmessage = 'Instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' no encontrada. Eliminada de cuenta';
+               $fmessage = 'Solución de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' no encontrada. Eliminada de cuenta';
             }
 
         }
         else
         {
-            $fmessage = 'Se ha eliminado la instancia de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' de cuenta';
+            $fmessage = 'Se ha eliminado la solución de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' de cuenta';
         }
 
         

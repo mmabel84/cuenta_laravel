@@ -129,7 +129,7 @@ class BackController extends Controller
     	if(array_key_exists('bdapp_app_id',$alldata) && isset($alldata['bdapp_app_id'])){
     		$dbid = $alldata['bdapp_app_id'];
     		$dbapp = BasedatosApp::find($dbid);
-    		$fmessage = 'No aplica la acción de generar respaldo para instancia seleccionada';
+    		$fmessage = 'No aplica la acción de generar respaldo para solución seleccionada';
 
     		if ($dbapp){
                 $gener_inst = config('app.advans_apps_gener_inst.'.$dbapp->bdapp_app);

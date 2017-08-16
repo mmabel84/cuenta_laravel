@@ -28,7 +28,7 @@ class InstEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Creación de instancia de '.$this->array_data['app'].' de '.$this->array_data['empr'])
+        return $this->subject('Creación de solución de '.$this->array_data['app'].' de '.$this->array_data['empr'])
                     ->view('instemail')
                     ->with([
                         'app'=>$this->array_data['app'],

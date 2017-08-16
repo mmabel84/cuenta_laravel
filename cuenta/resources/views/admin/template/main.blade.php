@@ -62,7 +62,7 @@
                                       <li><a href="{{ URL::to('usuarios') }}">USUARIOS</a></li>
                                       @endpermission
                                       @permission('leer.aplicacion')
-                                      <li><a href="{{ URL::to('apps') }}">INSTANCIAS DE APLICACIONES</a></li>
+                                      <li><a href="{{ URL::to('apps') }}">SOLUCIONES</a></li>
                                       @endpermission
                                       @permission('leer.respaldo')
                                       <li><a href="{{ URL::to('backups') }}">RESPALDOS</a></li>

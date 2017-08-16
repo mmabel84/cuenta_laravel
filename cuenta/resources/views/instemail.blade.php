@@ -1,4 +1,4 @@
-Se ha creado una instancia. Los datos de acceso son:
+Se ha creado una solución. Los datos de acceso son:
 <div>
     Aplicación: {{ $app }}
 </div>
