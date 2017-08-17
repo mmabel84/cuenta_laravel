@@ -13,12 +13,12 @@ class ChangeBackup1 extends Migration
      */
     public function up()
     {
-        /*Schema::table('backbd', function($table)
+        Schema::table('backbd', function($table)
             {
                 $table->boolean('backbd_respaldado')->default(False)->nullable();
                 $table->dateTime('backbd_f_respaldo')->nullable();
 
-            });*/
+            });
     }
 
     /**
