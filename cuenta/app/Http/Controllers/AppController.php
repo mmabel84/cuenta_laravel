@@ -390,6 +390,7 @@ class AppController extends Controller
         $gener_inst = config('app.advans_apps_gener_inst.'.$bdp->bdapp_app);
         $status = 'failure';
         $result = [];
+        $bitacora = [];
 
         if ($bdp->bdapp_app != 'fact')
         {
@@ -397,7 +398,13 @@ class AppController extends Controller
             $service_response = $this->getAppService($acces_vars['access_token'],'getbitc',$arrayparams,$bdp->bdapp_app);
             $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".$service_response['msg']."</label>";
             $status = $service_response['status'];
-            $result = $service_response['bitacora'];
+            $bitacora = $service_response['bitacora'];
+            foreach ($bitacora as $b) {
+                $navegador = json_encode($b['navegador']);
+                $navegador_name = $navegador['name'];
+                array_push($result, ['bitc_fecha'=>$b['bitc_fecha'],'bitcta_tipo_op'=>$b['bitcta_tipo_op'],'bitcta_ip'=>$b['bitcta_ip'],'bitc_modulo'=>$b['bitc_modulo'],'navegador'=>$navegador_name])
+            }
+            
         }
         else
         {

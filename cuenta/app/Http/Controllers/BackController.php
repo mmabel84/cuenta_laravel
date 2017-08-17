@@ -176,6 +176,11 @@ class BackController extends Controller
     	return Redirect::to('backups');
     }
 
+    /*public function restore(Request $request)
+    {
+
+    }*/
+
      public function destroy($id, Request $request)
     {
                 
