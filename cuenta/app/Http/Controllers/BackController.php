@@ -184,13 +184,17 @@ class BackController extends Controller
 
     public function restore($bdid, Request $request)
     {
+        Log::info('entre a restaurar');
         if($bdid){
             $backup = Backup::find($bdid);
             $fmessage = 'Respaldo no encontrado';
 
             if ($backup){
+
                 $dest = $backup->backbd_linkback;
                 $dbapp = $backup->basedatosapp;
+
+                Log::info($dest);
 
                 $fmessage = 'Se ha restaurado el respaldo número '. $backup->backbd_number .' de solución de aplicación '.$dbapp->aplicacion->app_nom. ' de empresa '.$dbapp->empresa->empr_nom;
                 //Límite de respaldos de 5
@@ -199,6 +203,8 @@ class BackController extends Controller
                 $arrayparams['dest'] = $dest;
                 $acces_vars = $this->getAccessToken($dbapp->bdapp_app);
                 $service_response = $this->getAppService($acces_vars['access_token'],'restorebackp',$arrayparams,$dbapp->bdapp_app);
+
+                Log::info($service_response['status']);
 
                 $this->registroBitacora($request,'restore backup',$fmessage); 
             }
