@@ -48,6 +48,7 @@ Route::post('/appbyemp', 'HomeController@appbyemp');
 Route::post('/artconsult', 'HomeController@auditar69b')->name('art');
 
 Route::get('/downloadback/{bdid}', 'BackController@downloadBackup')->name('downlback');
+Route::get('/restoreback/{bdid}', 'BackController@restore')->name('restback');
 
 //Ruta para consumir servicio web que expone roles de BD de aplicación
 Route::post('/getrolesbd/{bdid}', 'UsrController@getrolepermissionbd')->name('getrolesbd');

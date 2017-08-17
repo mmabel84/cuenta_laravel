@@ -54,6 +54,7 @@
 		                          <th>Aplicación</th>
 		                          <th>Fecha</th>
 		                          <th>Usuario</th>
+		                          <th>Comentario</th>
 		                          <th>Acciones</th>
 		                         
 		                        </tr>
@@ -67,6 +68,7 @@
 		                          <td>{{$back->basedatosapp->aplicacion->app_nom}}</td>
 		                          <td>{{$back->backbd_fecha}}</td>
 		                          <td>{{$back->backbd_user}}</td>
+		                          <td>{{$back->backbd_coment}}</td>
 		                          
 		                          <td class=" last" width="12%">
 		                          <div>
@@ -84,6 +86,12 @@
 										<div class="btn-group">
 
 		                          			<a href="{{ route('downlback',['bdid'=>$back->id]) }}" id="{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Descargar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-download fa-3x"></i> </a>
+
+			                          	</div>
+			                          	&nbsp;
+										<div class="btn-group">
+
+		                          			<a href="{{ route('restback',['bdid'=>$back->id]) }}" id="rest{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Restaurar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-cogs fa-3x"></i> </a>
 
 			                          	</div>
 		                          	</div>

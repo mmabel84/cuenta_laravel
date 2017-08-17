@@ -153,6 +153,12 @@ class BackController extends Controller
                     $bdname = $dbapp->aplicacion->app_nom.'_'.$dbapp->empresa->empr_rfc.'_'.$backsbd;
                     $dest = $carpeta.DIRECTORY_SEPARATOR.$bdname.'_'.date('Y-m-d H:i:s');
                     $backbd->backbd_linkback = $dest;
+                    $backbd->backbd_number = $backsbd;
+
+                    if (array_key_exists('backbd_coment',$alldata) && isset($alldata['backbd_coment']))
+                    {
+                         $backbd->backbd_coment = $alldata['backbd_coment'];
+                    }
 
                     $arrayparams['dbname'] = $dbapp->bdapp_nombd;
                     $arrayparams['dest'] = $dest;
@@ -176,10 +182,35 @@ class BackController extends Controller
     	return Redirect::to('backups');
     }
 
-    /*public function restore(Request $request)
+    public function restore($bdid, Request $request)
     {
+        if($bdid){
+            $backup = Backup::find($bdid);
+            $fmessage = 'Respaldo no encontrado';
 
-    }*/
+            if ($backup){
+                $dest = $backup->backbd_linkback;
+                $dbapp = $backup->basedatosapp;
+
+                $fmessage = 'Se ha restaurado el respaldo número '. $backup->backbd_number .' de solución de aplicación '.$dbapp->aplicacion->app_nom. ' de empresa '.$dbapp->empresa->empr_nom;
+                //Límite de respaldos de 5
+                
+                $arrayparams['dbname'] = $dbapp->bdapp_nombd;
+                $arrayparams['dest'] = $dest;
+                $acces_vars = $this->getAccessToken($dbapp->bdapp_app);
+                $service_response = $this->getAppService($acces_vars['access_token'],'restorebackp',$arrayparams,$dbapp->bdapp_app);
+
+                $this->registroBitacora($request,'restore backup',$fmessage); 
+            }
+        }
+        
+        //Generar base de datos con script de app en servidor especificado
+       
+        
+        \Session::flash('message',$fmessage);
+        return Redirect::to('backups');
+
+    }
 
      public function destroy($id, Request $request)
     {

@@ -554,6 +554,7 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
+        'ChangeBackup' => __DIR__ . '/../..' . '/database/migrations/2017_08_17_120110_change_backup.php',
         'ChangeBitacora' => __DIR__ . '/../..' . '/database/migrations/2017_08_17_094324_change_bitacora.php',
         'ChangeTableUsers' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_200754_change_table_users.php',
         'ChangeToNullBackup' => __DIR__ . '/../..' . '/database/migrations/2017_06_22_155303_change_to_null_backup.php',

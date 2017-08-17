@@ -68,6 +68,13 @@
                           </div>
                      </div>
 
+                     <div class="item form-group">
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input id="backbd_coment" class="form-control has-feedback-left" name="backbd_coment" placeholder="Comentario" type="text" title="Comentario sobre respaldo">
+                              <span class="fa fa-pencil-square-o form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+                     </div>
+
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
