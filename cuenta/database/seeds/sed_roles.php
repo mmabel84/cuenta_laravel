@@ -192,6 +192,13 @@ class sed_roles extends Seeder
 			'model' => 'App\Backup',
 		]);
 
+		$restoreBackPermission = Permission::create([
+			'name' => 'Restaurar respaldo',
+			'slug' => 'restaurar.respaldo',
+			'description' => 'Puede restaurar respaldos',
+			'model' => 'App\Backup',
+		]);
+
 		$readRolPermission = Permission::create([
 			'name' => 'Leer roles',
 			'slug' => 'leer.rol',
@@ -255,6 +262,7 @@ class sed_roles extends Seeder
 		$gestorAplicacRole->attachPermission($readBackPermission);
 		$gestorAplicacRole->attachPermission($createBackPermission);
 		$gestorAplicacRole->attachPermission($deleteBackPermission);
+		$gestorAplicacRole->attachPermission($restoreBackPermission);
 		$gestorAplicacRole->attachPermission($asocUsrAppPermission);
 
 
