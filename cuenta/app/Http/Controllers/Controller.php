@@ -23,26 +23,32 @@ class Controller extends BaseController
         if ($fname == 'login'){
             $user = User::where('email', '=', $request['email'])->get()[0];
         }
-        else{
+        else
+        {
             $user = \Auth::user();
+        }
+
+        if (!$user->users_control)
+        {
+            $browser = new Browser();
+            $split_var = explode('\Controllers',get_class($this));
+            $bit = new Bitacora();
+            $bit->bitcta_users_id = $user->id;
+            $bit->bitcta_user = $user->name;
+            $bit->bitc_fecha = date("Y-m-d H:i:s");
+            $bit->bitcta_tipo_op = $fname;
+            $bit->bitcta_ip = $request->ip();
+            $bit->bitcta_naveg = $browser->getName().' '.$browser->getVersion();
+            $bit->bitc_modulo = $split_var[1];
+            $bit->bitcta_result = '';
+            $bit->bitcta_msg = $fmessage;
+            $bit->bitcta_dato = json_encode($request->all());
+
+            $bit->save();
         }
         
 
-        $browser = new Browser();
-        $split_var = explode('\Controllers',get_class($this));
-        $bit = new Bitacora();
-        $bit->bitcta_users_id = $user->id;
-        $bit->bitc_fecha = date("Y-m-d H:i:s");
-        $bit->bitcta_tipo_op = $fname;
-        $bit->bitcta_ip = $request->ip();
-        $bit->bitcta_naveg = $browser->getName().' '.$browser->getVersion();
-        $bit->bitc_modulo = $split_var[1];
-        $bit->bitcta_result = 'TODO';
-        $bit->bitcta_msg = $fmessage;
-        $bit->bitcta_dato = json_encode($request->all());
-
-
-        $bit->save();
+        
     }
 
     public function getAccessToken($control_app='control'){

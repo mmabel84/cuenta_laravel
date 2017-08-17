@@ -21,20 +21,23 @@ class ServController extends Controller
 
 	
 
-    public function registrarBitacora($msg, $op, $dbname)
+    public function registrarBitacora($msg, $op, $dbname, $user_name = 'Usuario de control')
     {
     	$bitcta_msg = $msg;
 		$bitc_fecha = date("Y-m-d H:i:s");
         $bitcta_tipo_op = $op;
         $bitc_modulo = '\Services';
 	    $bitcta_dato = json_encode($_REQUEST);
-	    $advans_usr = DB::connection($dbname)->select('select id, name, email from users where users_control = true');
+	    
+	    /*$advans_usr = DB::connection($dbname)->select('select id, name, email from users where users_control = true');
 	    $bitcta_users_id = null;
 	    if (count($advans_usr) > 0)
 	    {
 	    	$bitcta_users_id = $advans_usr[0]->id;
-	    }
-	    DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, bitcta_users_id, bitcta_dato,  created_at) values (?, ?, ?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, $bitcta_users_id, $bitcta_dato, date('Y-m-d H:i:s')]);
+	    }*/
+
+	    $bitcta_user = $user_name;
+	    DB::connection($dbname)->insert('insert into bitcta (bitc_fecha, bitc_modulo, bitcta_tipo_op, bitcta_msg, bitcta_dato, bitcta_user, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$bitc_fecha, $bitc_modulo, $bitcta_tipo_op, $bitcta_msg, $bitcta_dato, $bitcta_user, date('Y-m-d H:i:s')]);
     }
 
 
@@ -139,7 +142,17 @@ class ServController extends Controller
 		        //Registrando en bitácora creación de bd
 		        $bitcta_msg = 'Base de datos '.$dbname. ' creada desde control';
 		        $bitcta_tipo_op = 'create account instance';
-			    $this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        
+		        if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+		        {
+		        	$user_name = $alldata['user_name'];
+		        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+		        }
+		        else
+		        {	
+		        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        }
+			    
 		       
 		        //Asignando primeros roles a usuarios creados
 		        $mantrol_id_array = DB::connection($dbname)->select('select id from roles where slug = ?',['gestor.mantenimiento']);
@@ -272,7 +285,15 @@ class ServController extends Controller
 
 		        		}
 
-		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+				        {
+				        	$user_name = $alldata['user_name'];
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        }
+				        else
+				        {	
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+				        }
 		        	}
 		        }
 	        }
@@ -313,7 +334,15 @@ class ServController extends Controller
 		        		DB::connection($dbname)->update('update app set app_insts = ?, app_megs = ?, app_estado = ?, updated_at = ? where app_cod = ?', [$appc->app_insts, $appc->app_megs, $appc->app_estado, date('Y-m-d H:i:s'), $appc->app_cod]);
 		        		
 		        		$bitcta_msg = 'Aplicación '.$appc->app_nom. ' actualizada desde control';
-		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+				        {
+				        	$user_name = $alldata['user_name'];
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        }
+				        else
+				        {	
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+				        }
 		        	}
 		        }
 	        }
@@ -353,7 +382,15 @@ class ServController extends Controller
 		        		DB::connection($dbname)->update('update app set app_activa = false, updated_at = ?  where app_cod = ?', [date('Y-m-d H:i:s'), $appc->app_cod]);
 
 		        		$bitcta_msg = 'Aplicación '.$appc->app_nom. ' desactivada desde control';
-		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+				        {
+				        	$user_name = $alldata['user_name'];
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        }
+				        else
+				        {	
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+				        }
 		        	}
 		        }
 	        }
@@ -406,7 +443,15 @@ class ServController extends Controller
 		        				$status = "failure";
 		        				
 		        			}
-		        			$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        			if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+					        {
+					        	$user_name = $alldata['user_name'];
+					        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+					        }
+					        else
+					        {	
+					        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+					        }
 		        		}
 		        	}
 		        }
@@ -447,7 +492,15 @@ class ServController extends Controller
 
 		        		$bitcta_msg = 'Línea de tiempo con id de control '. $paqt->paqapp_control_id.' modificada desde control';
 
-		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+				        {
+				        	$user_name = $alldata['user_name'];
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        }
+				        else
+				        {	
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+				        }
 		        	}
 		        }
 	        }
@@ -482,7 +535,15 @@ class ServController extends Controller
 		        		DB::connection($dbname)->update('update paqapp set paqapp_pagado = true, updated_at = ? where paqapp_control_id = ?', [date('Y-m-d H:i:s'), $paqt->paqapp_control_id]);
 		        		$bitcta_msg = 'Línea de tiempo con id de control '.$paqt->paqapp_control_id.' marcada como pagada';
 
-		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+				        {
+				        	$user_name = $alldata['user_name'];
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        }
+				        else
+				        {	
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+				        }
 		        	}
 		        }
 	        }
@@ -521,7 +582,15 @@ class ServController extends Controller
 		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_f_venta, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?)', [$paqt->paqapp_f_venta, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
 		        		$bitcta_msg = 'Nueva línea de tiempo con id de control '.$paqt->paqapp_control_id.' añadida';
 
-		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+				        {
+				        	$user_name = $alldata['user_name'];
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        }
+				        else
+				        {	
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+				        }
 		        	}
 		        }
 	        }
@@ -557,7 +626,15 @@ class ServController extends Controller
 		        		Log::info($paqt->paqapp_control_id);
 
 		        		$bitcta_msg = 'Línea de tiempo con id de control '.$paqt->paqapp_control_id.' eliminada';
-		        		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+				        {
+				        	$user_name = $alldata['user_name'];
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        }
+				        else
+				        {	
+				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+				        }
 		        	}
 		        }
 	        }
@@ -598,7 +675,15 @@ class ServController extends Controller
 	   				$bitcta_msg = 'Intento de desbloqueo desde control de usuario no existente en base de datos'.$alldata['dbname'];
 
 		   		}
-		   		$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		   		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
+		        {
+		        	$user_name = $alldata['user_name'];
+		        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+		        }
+		        else
+		        {	
+		        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+		        }
 	   		}
 	   }
 

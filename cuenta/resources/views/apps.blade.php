@@ -187,6 +187,7 @@
 		                          													<th>Operación</th>
 		                          													<th>IP</th>
 															                        <th>Módulo</th>
+															                        <th>Navegador</th>
 		                        												</tr>
 		                      												</thead>
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
@@ -322,6 +323,9 @@
 				             
 				              var cell5 = row.insertCell(3);
 				              cell5.innerHTML = bit[i].bitc_modulo;
+
+				              var cell6 = row.insertCell(4);
+				              cell6.innerHTML = bit[i].navegador;
 				            }
 				          }
 	        		}

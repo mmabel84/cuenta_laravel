@@ -15,23 +15,29 @@ class UserEventListener
      */
     public function onUserLogin($event) {
         Log::info('Showing user profile for user: ');
-        $binnacle = new Bitacora();
-        $binnacle->bitcta_users_id = $event->user->id;
-        $binnacle->bitc_fecha = date("Y-m-d H:i:s");
-        $binnacle->bitcta_tipo_op = 'access';
-        $binnacle->bitcta_ip = $binnacle->getrealip();
-        $browser_arr = $binnacle->getBrowser();
-        $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
-        $binnacle->bitc_modulo = '\Login';
-        $binnacle->bitcta_result = 'TODO';
         $usr = User::find($event->user->id);
-
-        $binnacle->bitcta_msg = 'Acceso de usuario '.$usr->name;
-        $usr->users_f_ultacces = date('Y-m-d H:i:s');
-        $usr->users_blocked = false;
-        $usr->save();
-        $binnacle->bitcta_dato = json_encode($_REQUEST);
-        $binnacle->save();
+        if ($usr)
+        {
+            if (!$usr->users_control)
+            {
+                $binnacle = new Bitacora();
+                $binnacle->bitcta_users_id = $usr->id;
+                $binnacle->bitcta_user = $usr->name;
+                $binnacle->bitc_fecha = date("Y-m-d H:i:s");
+                $binnacle->bitcta_tipo_op = 'access';
+                $binnacle->bitcta_ip = $binnacle->getrealip();
+                $browser_arr = $binnacle->getBrowser();
+                $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
+                $binnacle->bitc_modulo = '\Login';
+                $binnacle->bitcta_result = '';
+                $binnacle->bitcta_msg = 'Acceso de usuario '.$usr->name;
+                $usr->users_f_ultacces = date('Y-m-d H:i:s');
+                $usr->users_blocked = false;
+                $usr->save();
+                $binnacle->bitcta_dato = json_encode($_REQUEST);
+                $binnacle->save();
+            }
+        }
     }
 
 
@@ -39,21 +45,28 @@ class UserEventListener
         //Log::info($event->credentials);
         $email = $event->credentials['email'];
         $usr = User::where('email', '=', $email)->get();
-        $binnacle = new Bitacora();
+        
         if (count($usr) > 0)
-        {
-            $binnacle->bitcta_users_id = $usr[0]->id;
+        {   
+            $usr = $usr[0];
+
+            if (!$usr->users_control)
+            {
+                $binnacle = new Bitacora();
+                $binnacle->bitcta_users_id = $usr->id;
+                $binnacle->bitcta_user = $usr->name;
+                $binnacle->bitc_fecha = date("Y-m-d H:i:s");
+                $binnacle->bitcta_tipo_op = 'access failed';
+                $binnacle->bitcta_ip = $binnacle->getrealip();
+                $browser_arr = $binnacle->getBrowser();
+                $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
+                $binnacle->bitc_modulo = '\Login';
+                $binnacle->bitcta_result = '';
+                $binnacle->bitcta_msg = 'Intento de acceso fallido de usuario '.$usr->email;
+                $binnacle->bitcta_dato = json_encode($_REQUEST);
+                $binnacle->save();
+            }
         }
-        $binnacle->bitc_fecha = date("Y-m-d H:i:s");
-        $binnacle->bitcta_tipo_op = 'access failed';
-        $binnacle->bitcta_ip = $binnacle->getrealip();
-        $browser_arr = $binnacle->getBrowser();
-        $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
-        $binnacle->bitc_modulo = '\Login';
-        $binnacle->bitcta_result = 'TODO';
-        $binnacle->bitcta_msg = 'Intento de acceso fallido de usuario '.$email;
-        $binnacle->bitcta_dato = json_encode($_REQUEST);
-        $binnacle->save();
     }
 
     /**
@@ -63,17 +76,21 @@ class UserEventListener
         Log::info('Showing user profile for user: ');
         $binnacle = new Bitacora();
         $usr = $event->user;
-        $binnacle->bitcta_users_id = $usr->id;
-        $binnacle->bitc_fecha = date("Y-m-d H:i:s");
-        $binnacle->bitcta_tipo_op = 'logout';
-        $binnacle->bitcta_ip = $binnacle->getrealip();
-        $browser_arr = $binnacle->getBrowser();
-        $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
-        $binnacle->bitc_modulo = '\Login';
-        $binnacle->bitcta_result = 'TODO';
-        $binnacle->bitcta_msg = 'Logout de usuario '.$usr->name;
-        $binnacle->bitcta_dato = json_encode($_REQUEST);
-        $binnacle->save();
+        if (!$usr->users_control)
+        {
+            $binnacle->bitcta_users_id = $usr->id;
+            $binnacle->bitcta_user = $usr->name;
+            $binnacle->bitc_fecha = date("Y-m-d H:i:s");
+            $binnacle->bitcta_tipo_op = 'logout';
+            $binnacle->bitcta_ip = $binnacle->getrealip();
+            $browser_arr = $binnacle->getBrowser();
+            $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
+            $binnacle->bitc_modulo = '\Login';
+            $binnacle->bitcta_result = 'TODO';
+            $binnacle->bitcta_msg = 'Logout de usuario '.$usr->name;
+            $binnacle->bitcta_dato = json_encode($_REQUEST);
+            $binnacle->save();
+        }
 
     }
 
@@ -82,22 +99,30 @@ class UserEventListener
         //Log::info($event->request);
         $email = $event->request['email'];
         $usr = User::where('email', '=', $email)->get();
-        $binnacle = new Bitacora();
-        $binnacle->bitcta_users_id = $usr[0]->id;
-        $binnacle->bitc_fecha = date("Y-m-d H:i:s");
-        $binnacle->bitcta_tipo_op = 'lockout';
-        $binnacle->bitcta_ip = $binnacle->getrealip();
-        $browser_arr = $binnacle->getBrowser();
-        $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
-        $binnacle->bitc_modulo = '\Login';
-        $binnacle->bitcta_result = 'TODO';
-        $usr = User::find($usr[0]->id);
-        $usr->users_blocked = true;
-        $usr->save();
-        $binnacle->bitcta_msg = 'Bloqueo de usuario '.$usr->name.' por superar máxima cantidad de intentos fallidos de autenticación';
-        $binnacle->bitcta_dato = json_encode($_REQUEST);
-        $binnacle->save();
+        
+        if (count($usr) > 0)
+        {
+            $usr = $usr[0];
+            if (!$usr->users_control)
+            {
+                $binnacle = new Bitacora();
+                $binnacle->bitcta_users_id = $usr->id;
+                $binnacle->bitcta_user = $usr->name;
+                $binnacle->bitc_fecha = date("Y-m-d H:i:s");
+                $binnacle->bitcta_tipo_op = 'lockout';
+                $binnacle->bitcta_ip = $binnacle->getrealip();
+                $browser_arr = $binnacle->getBrowser();
+                $binnacle->bitcta_naveg = $browser_arr['name'].' '.$browser_arr['version'];
+                $binnacle->bitc_modulo = '\Login';
+                $binnacle->bitcta_result = 'TODO';
+                $usr->users_blocked = true;
+                $usr->save();
+                $binnacle->bitcta_msg = 'Bloqueo de usuario '.$usr->name.' por superar máxima cantidad de intentos fallidos de autenticación';
+                $binnacle->bitcta_dato = json_encode($_REQUEST);
+                $binnacle->save();
 
+            }
+        }
     }
 
     /**
