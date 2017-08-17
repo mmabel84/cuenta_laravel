@@ -52,9 +52,11 @@
 		                        <tr style="color:#FFFFFF; background-color:#2d5986 ">
 		                          <th>Empresa</th>
 		                          <th>Aplicación</th>
-		                          <th>Fecha</th>
+		                          <th>Fecha de creación</th>
 		                          <th>Usuario</th>
 		                          <th>Comentario</th>
+		                          <th>Respaldado</th>
+		                          <th>Fecha de respaldo</th>
 		                          <th>Acciones</th>
 		                         
 		                        </tr>
@@ -69,6 +71,8 @@
 		                          <td>{{$back->backbd_fecha}}</td>
 		                          <td>{{$back->backbd_user}}</td>
 		                          <td>{{$back->backbd_coment}}</td>
+		                          <td>{{$back->backbd_respaldado ? Sí : No}}</td>
+		                          <td>{{$back->backbd_f_respaldo}}</td>
 		                          
 		                          <td class=" last" width="12%">
 		                          <div>

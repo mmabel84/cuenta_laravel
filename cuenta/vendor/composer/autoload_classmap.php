@@ -151,6 +151,7 @@ return array(
     'Carbon\\CarbonInterval' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
     'Carbon\\Exceptions\\InvalidDateException' => $vendorDir . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
     'ChangeBackup' => $baseDir . '/database/migrations/2017_08_17_120110_change_backup.php',
+    'ChangeBackup1' => $baseDir . '/database/migrations/2017_08_17_170701_change_backup_1.php',
     'ChangeBitacora' => $baseDir . '/database/migrations/2017_08_17_094324_change_bitacora.php',
     'ChangeTableUsers' => $baseDir . '/database/migrations/2017_05_31_200754_change_table_users.php',
     'ChangeToNullBackup' => $baseDir . '/database/migrations/2017_06_22_155303_change_to_null_backup.php',

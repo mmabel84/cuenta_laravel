@@ -205,6 +205,9 @@ class BackController extends Controller
                 $service_response = $this->getAppService($acces_vars['access_token'],'restorebackp',$arrayparams,$dbapp->bdapp_app);
 
                 Log::info($service_response['status']);
+                $backup->backbd_respaldado = true;
+                $backup->backbd_f_respaldo = date('Y-m-d H:i:s');
+                $backup->save();
 
                 $this->registroBitacora($request,'restore backup',$fmessage); 
             }

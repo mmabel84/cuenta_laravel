@@ -17,6 +17,9 @@ class ChangeBackup extends Migration
             {
                 $table->string('backbd_coment')->nullable();
                 $table->integer('backbd_number')->nullable();
+                $table->boolean('backbd_respaldado')->default(False)->nullable();
+                $table->dateTime('backbd_f_respaldo')->nullable();
+
             });
     }
 
