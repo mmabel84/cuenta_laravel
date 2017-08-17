@@ -76,7 +76,7 @@ class Handler extends ExceptionHandler
         {
              return redirect()->back();
         }
-        elseif ($exception instanceof \Illuminate\Session\TokenMismatchException)
+        elseif ($exception instanceof \Illuminate\Session\TokenMismatchException || $exception instanceof FatalThrowableError)
         {
             Log::info($exception);
             //\Session::flash('loginrfcerr','Su sesión expiró');

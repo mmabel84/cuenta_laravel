@@ -131,6 +131,11 @@
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
    <script>
+
+   $('a').click(function() {
+              $('#loadingmodal').modal('show');
+          });
+
       $( function() {
           $('#alertmsgcreation').click(function() {
               console.log('alertmsgcreation button clicked');
