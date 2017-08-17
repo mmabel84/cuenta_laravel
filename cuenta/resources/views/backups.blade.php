@@ -71,7 +71,7 @@
 		                          <td>{{$back->backbd_fecha}}</td>
 		                          <td>{{$back->backbd_user}}</td>
 		                          <td>{{$back->backbd_coment}}</td>
-		                          <td>{{$back->backbd_respaldado ? Sí : No}}</td>
+		                          <td>{{$back->backbd_respaldado ? 'Sí' : 'No'}}</td>
 		                          <td>{{$back->backbd_f_respaldo}}</td>
 		                          
 		                          <td class=" last" width="12%">
