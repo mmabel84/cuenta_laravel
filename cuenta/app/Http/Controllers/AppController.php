@@ -172,7 +172,7 @@ class AppController extends Controller
                 $arrayparams['megas'] = $megas;
 
                 $dbcta = $ctarfc.'_cta';
-                $linea_tiempo_act = DB::connection($dbcta)->table('paqapp')->where('paqapp_activo', '=', true)->get();
+                $linea_tiempo_act = \DB::connection($dbcta)->table('paqapp')->where('paqapp_activo', '=', true)->get();
                 if (count($linea_tiempo_act) > 0)
                 {
                     $arrayparams['f_corte'] = $linea_tiempo_act[0]->paqapp_f_caduc;
@@ -440,7 +440,7 @@ class AppController extends Controller
             if ($app)
             {
                 $esp_total = $app->app_megs;
-                
+
                 $inst_app = BasedatosApp::where('bdapp_app','=',$app->app_cod)->get();
 
                 foreach ($inst_app as $inst) {
