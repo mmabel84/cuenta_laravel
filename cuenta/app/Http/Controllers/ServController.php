@@ -760,6 +760,7 @@ class ServController extends Controller
 	   				$app = DB::connection($dbcon)->table('app')->where('id', '=', $app_id)->get();
 	   				if (count($app) > 0)
 	   				{
+	   					Log::info($bloq);
 	   					if (!$bloq)
 	   					{
 	   						if ($app[0]->app_activa == false)
