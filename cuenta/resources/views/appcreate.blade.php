@@ -236,7 +236,7 @@
            
            if (cantDisp)
            {
-            if (cantAsign >= cantDisp)
+            if (cantAsign > cantDisp)
             {
               return false;
             }
