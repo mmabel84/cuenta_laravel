@@ -57,7 +57,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="form2" class="form-horizontal form-label-left" novalidate method="POST" action="{{route('apps.store')}}" onsubmit="return commit();">
+                    <form id="form2" class="form-horizontal form-label-left" novalidate method="POST" action="{{route('apps.store')}}" onsubmit="event.preventDefault(); commit();">
                     {{ csrf_field() }}
 
 
