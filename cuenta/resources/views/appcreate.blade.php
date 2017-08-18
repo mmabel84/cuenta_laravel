@@ -224,7 +224,7 @@
                   if (data['status'] == 'success')
                   {
                     console.log(data['megdisp']);
-                    $('#cant_disp').value = data['megdisp'];
+                    document.getElementById('cant_disp').value = data['megdisp'];
                   }
 
                 }
@@ -253,7 +253,7 @@
           if (checkCant == false)
           {
             alert('No puede asignar una cantidad superior a la disponible');
-            $('#cant_asign').value = 0;
+            document.getElementById('cant_asign').value = 0;
           }
           
         }
