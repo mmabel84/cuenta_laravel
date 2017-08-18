@@ -236,7 +236,7 @@
            
            if (cantDisp)
            {
-            if (cantAsign > cantDisp)
+            if (Number(cantAsign) > Number(cantDisp))
             {
               return false;
             }
