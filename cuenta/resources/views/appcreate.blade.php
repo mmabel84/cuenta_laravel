@@ -223,6 +223,7 @@
                   console.log(data['megdisp']);
                   if (data['status'] == 'success')
                   {
+                    console.log(data['megdisp']);
                     $('#cant_disp').value = data['megdisp'];
                   }
 
