@@ -741,7 +741,7 @@ class ServController extends Controller
 	   			$dbcon = $alldata['cta'].'_cta';
 	   			$instdbname = $alldata['dbname'];
 
-	   			$cta_bloq = DB::connection($dbname)->select('select ctaconf_bloq from ctaconf');
+	   			$cta_bloq = DB::connection($dbcon)->select('select ctaconf_bloq from ctaconf');
 	   			if (count($cta_bloq) > 0)
 	   			{
 	   				$bloq = $cta_bloq[0];
