@@ -62,6 +62,7 @@
 		                          <th>Empresa</th>
 		                          <th>RFC empresa</th>
 		                          <th>Uso</th>
+		                          <th>Megas asignados</th>
 		                          <th>Acciones</th>
 		                          
 		                        </tr>
@@ -74,6 +75,7 @@
 		                          <td>{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td>{{$a->uso}}</td>
+		                          <td>{{$a->bdapp_gigdisp}}</td>
 		                          <td class=" last" width="14%">
 			                          <div class="btn-group">
 										<div class="btn-group">
