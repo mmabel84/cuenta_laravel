@@ -57,7 +57,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="form2" class="form-horizontal form-label-left" novalidate method="POST" action="{{route('apps.store')}}" onsubmit="event.preventDefault(); commit();">
+                    <form id="form2" class="form-horizontal form-label-left" novalidate method="POST" action="{{route('apps.store')}}">
                     {{ csrf_field() }}
 
 
@@ -114,7 +114,7 @@
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button" onclick="location.href = '{{ URL::to('apps') }}';">Cancelar</button>
-                          <button type="submit" class="btn btn-success" >Generar</button>
+                          <button type="submit" class="btn btn-success" onclick="commit(event);">Generar</button>
                         </div>
                       </div>
 
@@ -258,7 +258,7 @@
           
         }
 
-        function commit()
+        function commit(e)
         {
           var cantAsign = document.getElementById('cant_asign').value;
           var cantDisp = document.getElementById('cant_disp').value;
@@ -267,19 +267,18 @@
           if (checkCant == false)
           {
             alert('No puede asignar una cantidad superior a la disponible');
+            e.preventDefault() ;
             returnToPreviousPage();
-            return false;
           }
           else if(cantAsign == 0 && cantDisp > 0)
           {
             alert('Debe asignar un espacio para solución a crear');
+            e.preventDefault() ;
             returnToPreviousPage();
-            return false;
           }
           else
           {
             showWaitingModal();
-            return true;
           }
           
         }
