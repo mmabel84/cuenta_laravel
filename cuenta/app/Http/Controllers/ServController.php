@@ -738,10 +738,12 @@ class ServController extends Controller
 
 	   		if (array_key_exists('cta',$alldata) && isset($alldata['cta']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname']))
 	   		{
+
 	   			$dbcon = $alldata['cta'].'_cta';
 	   			$instdbname = $alldata['dbname'];
 
 	   			$cta_bloq = DB::connection($dbcon)->select('select ctaconf_bloq from ctaconf');
+
 	   			if (count($cta_bloq) > 0)
 	   			{
 	   				$bloq = $cta_bloq[0];
@@ -760,7 +762,6 @@ class ServController extends Controller
 	   				$app = DB::connection($dbcon)->table('app')->where('id', '=', $app_id)->get();
 	   				if (count($app) > 0)
 	   				{
-	   					Log::info($bloq);
 	   					if (!$bloq)
 	   					{
 	   						if ($app[0]->app_activa == false)
