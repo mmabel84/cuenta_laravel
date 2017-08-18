@@ -730,7 +730,7 @@ class ServController extends Controller
 
 	    //Verifica si existe determinada instancia
 	     public function verifyInstance(Request $request){
-	   	
+	   		Log::info('entro');
 	    	$alldata = $request->all();
 	   		$status = 1;
 	   		$msg = 'Existe solución';
