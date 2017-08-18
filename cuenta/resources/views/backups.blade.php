@@ -55,8 +55,8 @@
 		                          <th>Fecha de creación</th>
 		                          <th>Usuario</th>
 		                          <th>Comentario</th>
-		                          <th>Respaldado</th>
-		                          <th>Fecha de respaldo</th>
+		                          <th>Restaurado</th>
+		                          <th>Fecha de restauración</th>
 		                          <th>Acciones</th>
 		                         
 		                        </tr>
