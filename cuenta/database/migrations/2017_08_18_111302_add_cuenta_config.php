@@ -13,7 +13,7 @@ class AddCuentaConfig extends Migration
      */
     public function up()
     {
-        Schema::table('ctaconf', function (Blueprint $table) {
+        Schema::create('ctaconf', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('ctaconf_bloq')->default(false);
             $table->dateTime('ctaconf_f_creacion')->nullable();
