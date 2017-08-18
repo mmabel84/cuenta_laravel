@@ -102,6 +102,9 @@ class ServController extends Controller
 		        \Artisan::call('migrate', ['--database'=>$dbname]);
 		        \Artisan::call('db:seed', ['--database'=>$dbname]);
 		        
+		        //Guardando datos generales de la cuenta
+		        DB::connection($dbname)->insert('insert into ctaconf (ctaconf_f_creacion, ctaconf_rfc) values (?, ?)', [date('Y-m-d H:i:s'), $alldata['rfc_nombrebd']]);
+
 		        //Recuperando datos de primer usuario a crear
 		        $email = 'test@gmail.com';
 		        $pass = bcrypt('test');
@@ -731,11 +734,19 @@ class ServController extends Controller
 	    	$alldata = $request->all();
 	   		$status = 1;
 	   		$msg = 'Existe solución';
+	   		$bloq = false;
 
 	   		if (array_key_exists('cta',$alldata) && isset($alldata['cta']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname']))
 	   		{
 	   			$dbcon = $alldata['cta'].'_cta';
 	   			$instdbname = $alldata['dbname'];
+
+	   			$cta_bloq = DB::connection($dbname)->select('select ctaconf_bloq from ctaconf');
+	   			if (count($cta_bloq) > 0)
+	   			{
+	   				$bloq = $cta_bloq[0];
+	   			}
+
 	   			$dbapps = DB::connection($dbcon)->table('bdapp')->where('bdapp_nombd', '=', $instdbname)->get();
 
 	   			if (count($dbapps) == 0)
@@ -749,12 +760,22 @@ class ServController extends Controller
 	   				$app = DB::connection($dbcon)->table('app')->where('id', '=', $app_id)->get();
 	   				if (count($app) > 0)
 	   				{
-	   					if ($app[0]->app_activa == false)
+	   					if (!$bloq)
+	   					{
+	   						if ($app[0]->app_activa == false)
+		   					{
+		   						$status = 0;
+		   						$msg = 'Aplicación bloqueada desde control';
+		   					}
+	   					}
+	   					else
 	   					{
 	   						$status = 0;
-	   						$msg = 'Aplicación bloqueada desde cuenta';
+		   					$msg = 'Cuenta bloqueada';
 	   					}
+	   					
 	   				}
+	   				
 	   			}
 
 	   		}

@@ -55,6 +55,8 @@ Route::post('/getrolesbd/{bdid}', 'UsrController@getrolepermissionbd')->name('ge
 
 Route::get('/redirectapp/{numcta}/{rfc}/{appcod}', 'HomeController@redirectapp')->name('redirectapp');
 
+Route::post('/getespdisp', 'AppController@getEspDisp')->name('getespdisp');
+
 
 
 

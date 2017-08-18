@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BasedatosApp extends Model
 {
     protected $table = "bdapp";
-    protected $fillable = ['bdapp_app_id','bdapp_nombd','bdapp_nomserv','bdapp_empr_id'];
+    protected $fillable = ['bdapp_app_id','bdapp_nombd','bdapp_nomserv','bdapp_empr_id','bdapp_gigdisp'];
 
     public function __construct(array $attributes = [])
     {

@@ -103,6 +103,7 @@ class AppController extends Controller
         $app = Aplicacion::find($request->bdapp_app_id);
         $exist = 0;
         $gener_inst = config('app.advans_apps_gener_inst.'.$app->app_cod);
+        $megas = $request->cant_asign;
 
     	foreach ($bdapps as $a )
     	{
@@ -128,6 +129,7 @@ class AppController extends Controller
             $appbd->bdapp_app_id = $app->id;
             $appbd->bdapp_app = $app->app_cod;
             $appbd->bdapp_empr_id = $empresa->id;
+            $appbd->bdapp_gigdisp = $megas;
             //TODO llamar archivo de configuracion para seleccionar base de datos
             $appbd->bdapp_nomserv = '';
             $appbd->bdapp_nombd = '';
@@ -166,8 +168,16 @@ class AppController extends Controller
                 $arrayparams['dbname'] = $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
                 //$url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
                 $url_inst = config('app.advans_apps_url.'.$app->app_cod).'/login';
-                
 
+                $arrayparams['megas'] = $megas;
+
+                $dbcta = $ctarfc.'_cta';
+                $linea_tiempo_act = DB::connection($dbcta)->table('paqapp')->where('paqapp_activo', '=', true)->get();
+                if (count($linea_tiempo_act) > 0)
+                {
+                    $arrayparams['f_corte'] = $linea_tiempo_act[0]->paqapp_f_caduc;
+                }
+                
                 $acces_vars = $this->getAccessToken($app->app_cod);
                 $service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
                 
@@ -412,6 +422,46 @@ class AppController extends Controller
         }
 
         $response = array ('status' => $status, 'msg' => $msg, 'result' => $result);
+        return \Response::json($response);
+
+    }
+
+    public function getEspDisp(Request $request)
+    {
+        $alldata = $request->all();
+        $megdisp = 0;
+        $megasign = 0;
+        $msg = 'Espacio devuelto';
+        $status = 'success';
+        if(array_key_exists('appid',$alldata) && isset($alldata['appid']))
+        {
+
+            $app = Aplicacion::find($alldata['appid']);
+            if ($app)
+            {
+                $esp_total = $app->app_megs;
+                
+                $inst_app = BasedatosApp::where('bdapp_app','=',$app->app_cod)->get();
+
+                foreach ($inst_app as $inst) {
+                    $megasign += $inst->bdapp_gigdisp;
+                }
+                $megdisp = $esp_total - $megasign;
+
+            }
+            else
+            {
+                $msg = 'Aplicación no encontrada';
+                $status = 'failure';
+            }
+        }
+        else
+        {
+            $msg = 'Parámetro no recibido';
+            $status = 'failure';
+        }
+
+        $response = array ('status' => $status, 'msg' => $msg, 'megdisp' => $megdisp);
         return \Response::json($response);
 
     }

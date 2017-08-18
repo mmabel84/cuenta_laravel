@@ -62,11 +62,23 @@
 
 
                     <input type="hidden" id="apps" name="apps" value="{{ $aplicaciones }}">
-
                     <div class="item form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                               <select class="js-example-basic-single js-states form-control" name="bdapp_empr_id" id="bdapp_empr_id" required title="Empresa" >
+                                <option value="">Seleccione una empresa...</option>
+                                @foreach($empresas as $empr)
+                                    <option value="{{ $empr->id }}">{{ $empr->empr_nom }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                           
+                          </div>
+                    
+                     <input type="hidden" id="emps" name="emps" value="{{ $empresas }}" onchange="filldata();">
+	                      <div class="item form-group">
                         <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Aplicación</label>-->
                           <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id" required="required" title="Aplicación">
+                            <select class="js-example-data-array form-control" tabindex="-1" name="bdapp_app_id" id="bdapp_app_id" required="required" title="Aplicación" onchange="showMegasDisp(this);">
                                <option value="">Seleccione una aplicación ...</option>
                                 @foreach($aplicaciones as $app)
                                     <option value="{{ $app->id }}">{{ $app->app_nom }}</option>
@@ -76,19 +88,17 @@
                           </div>
                      </div>
 
-                     
-                     <input type="hidden" id="emps" name="emps" value="{{ $empresas }}" onchange="filldata();">
-	                      <div class="item form-group">
-	                          <div class="col-md-9 col-sm-9 col-xs-12">
-	                             <select class="js-example-basic-single js-states form-control" name="bdapp_empr_id" id="bdapp_empr_id" required title="Empresa">
-		                            <option value="">Seleccione una empresa...</option>
-                                @foreach($empresas as $empr)
-		                                <option value="{{ $empr->id }}">{{ $empr->empr_nom }}</option>
-		                            @endforeach
-		                          </select>
-	                          </div>
-                           
-	                        </div>
+                     <div class="item form-group">
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                        <input id="cant_disp" class="form-control has-feedback-left" name="cant_disp" type="number" title="Megas disponibles para soluciones de aplicación seleccionada" readonly>
+                        <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
+                      </div>
+                      <div class="col-md-5 col-sm-5 col-xs-12">
+                        <input id="cant_asign" class="form-control has-feedback-left" name="cant_asign" type="number" title="Megas a asignar para solución" onchange="alertMsg();" required value=0>
+                        <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
+                      </div>
+                     </div>
+
 
                           <div class="item form-group">
                              @if (Session::has('loginrfcerr'))
@@ -104,7 +114,7 @@
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button" onclick="location.href = '{{ URL::to('apps') }}';">Cancelar</button>
-                          <button type="submit" class="btn btn-success" onclick="showWaitingModal()">Generar</button>
+                          <button type="submit" class="btn btn-success" onclick="commit()">Generar</button>
                         </div>
                       </div>
 
@@ -195,6 +205,77 @@
                   placeholder: 'Seleccione una aplicación...'
                    
                });
+        }
+
+        function showMegasDisp(select)
+        {
+          var appid = document.getElementById("bdapp_app_id").value;
+          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+             console.log(CSRF_TOKEN);
+
+             $.ajax({
+                url: 'getespdisp',
+                type: 'POST',
+                data: {_token: CSRF_TOKEN,appid:appid},
+                dataType: 'JSON',
+                success: function (data) {
+                  console.log(data['megdisp']);
+                  if (data['status'] == 'success')
+                  {
+                    $('#cant_disp').value = data['megdisp'];
+                  }
+
+                }
+            });
+        }
+
+        function checkCantAsign(cantAsign, cantDisp)
+        {
+           
+           if (cantDisp)
+           {
+            if (cantAsign >= cantDisp)
+            {
+              return false;
+            }
+           }
+           return true;
+        }
+
+        function alertMsg()
+        {
+          var cantAsign = document.getElementById('cant_asign').value;
+          var cantDisp = document.getElementById('cant_disp').value;
+
+          var checkCant = checkCantAsign(cantAsign, cantDisp);
+          if (checkCant == false)
+          {
+            alert('No puede asignar una cantidad superior a la disponible');
+            $('#cant_asign').value = 0;
+          }
+          
+        }
+
+        function commit()
+        {
+          var cantAsign = document.getElementById('cant_asign').value;
+          var cantDisp = document.getElementById('cant_disp').value;
+
+          var checkCant = checkCantAsign(cantAsign, cantDisp);
+          if (checkCant == false)
+          {
+            alert('No puede asignar una cantidad superior a la disponible');
+          }
+          else if(cantAsign == 0 && cantDisp > 0)
+          {
+            alert('Debe asignar un espacio para solución a crear');
+          }
+          else
+          {
+            showWaitingModal();
+          }
+          
         }
 
       </script>

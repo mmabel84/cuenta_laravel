@@ -43,8 +43,10 @@ class ChangeBD
                         \Session::put('selected_database',$dbname);
                         \Config::set('database.default', $dbname);
                         $request->session()->pull('loginrfcerr');
+                        \DB::connection($dbname)->update('update ctaconf set ctaconf_bloq = false');
                         
                     }else{
+                        \DB::connection($dbname)->update('update ctaconf set ctaconf_bloq = true');
                         $request->session()->flash('midred', '1');
                         $request->session()->put('loginrfcerr', 'Cuenta bloqueada');
                         $request->session()->put('login_rfc', $dbname);  

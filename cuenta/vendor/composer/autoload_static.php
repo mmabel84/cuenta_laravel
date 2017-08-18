@@ -416,6 +416,7 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
         'AddBitctaTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_164403_add_bitcta_table.php',
         'AddBlockedUser' => __DIR__ . '/../..' . '/database/migrations/2017_07_03_125319_add_blocked_user.php',
         'AddCertificado' => __DIR__ . '/../..' . '/database/migrations/2017_07_05_173628_add_certificado.php',
+        'AddCuentaConfig' => __DIR__ . '/../..' . '/database/migrations/2017_08_18_111302_add_cuenta_config.php',
         'AddEmprFecha' => __DIR__ . '/../..' . '/database/migrations/2017_07_04_114142_add_empr_fecha.php',
         'AddEmpresaTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_150120_add_empresa_table.php',
         'AddLinkBackup' => __DIR__ . '/../..' . '/database/migrations/2017_06_22_152251_add_link_backup.php',

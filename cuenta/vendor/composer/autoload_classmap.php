@@ -12,6 +12,7 @@ return array(
     'AddBitctaTable' => $baseDir . '/database/migrations/2017_05_31_164403_add_bitcta_table.php',
     'AddBlockedUser' => $baseDir . '/database/migrations/2017_07_03_125319_add_blocked_user.php',
     'AddCertificado' => $baseDir . '/database/migrations/2017_07_05_173628_add_certificado.php',
+    'AddCuentaConfig' => $baseDir . '/database/migrations/2017_08_18_111302_add_cuenta_config.php',
     'AddEmprFecha' => $baseDir . '/database/migrations/2017_07_04_114142_add_empr_fecha.php',
     'AddEmpresaTable' => $baseDir . '/database/migrations/2017_05_31_150120_add_empresa_table.php',
     'AddLinkBackup' => $baseDir . '/database/migrations/2017_06_22_152251_add_link_backup.php',
