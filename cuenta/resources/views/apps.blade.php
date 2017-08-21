@@ -217,7 +217,7 @@
 		                          			<button class="btn btn-xs" data-placement="left" title="Transferir megas" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-share fa-3x" onclick="showModalShare({{ $a->id }})"></i> </button>
 
 
-		                          			<div class="modal fade{{$a->id}} bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="share{{$a->id}}">
+		                          			<div class="modal{{$a->id}} fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="share{{$a->id}}">
 		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
 		                          			    
 								                    <div class="modal-dialog modal-lg">
@@ -259,19 +259,6 @@
 								                    </div>
 								                  </div>
 			                          	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
