@@ -473,7 +473,7 @@ class AppController extends Controller
         $status = 'failure';
         $resp = true;
         $msg = 'No tiene disponibilidad para transferir la cantidad señalada';
-        $hash = "Q0ZESSBTT0xVQ0lPTkVTIEFEVkFOUw==";
+        $hash = "Q0ZESSBTT0xVQ0lPTkVTIEFEVkFOUw==1";
         if (array_key_exists('bdid_orig',$alldata) && isset($alldata['bdid_orig']) && array_key_exists('bdid_dest',$alldata) && isset($alldata['bdid_dest']) && array_key_exists('cant_megas',$alldata) && isset($alldata['cant_megas']))
         {
 
