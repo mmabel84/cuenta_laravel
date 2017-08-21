@@ -274,6 +274,7 @@
           else if(cantAsign == 0 && cantDisp > 0)
           {
             alert('Debe asignar un espacio para solución a crear');
+            document.getElementById('cant_asign').value = document.getElementById('cant_disp').value;
             e.preventDefault() ;
             returnToPreviousPage();
           }
