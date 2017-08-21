@@ -255,18 +255,11 @@
 				                          						</div>
 	                          								</form>
 								                        </div>
-								                        <div class="modal-footer">
-									                       <div  class="form-group col-md-12 col-sm-12 col-xs-12">
-		                                                     <div id="result_notrasnf{{$a->id}}" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+								                        <div id="result_notrasnf{{$a->id}}" class="col-md-9 	col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
 		                                                     	
-		                                                     </div>
-
-		                                                     <div class="form-group col-md-3 col-sm-3 col-xs-12">
+		                                                </div>
+								                        <div class="modal-footer">
 		                                                     	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanModalShare({{$a->id}});">Cerrar</button>
-		                                                      	
-		                                                     </div>
-	                                                    	</div>
-
 								                        </div>
 
 								                      </div>
@@ -598,6 +591,8 @@
 
 	    function transferirMegas(bdid)
 	    {
+	    	var cant_megas = document.getElementById('cant_transf'+bdid);
+	    	var cant_megas_disp = document.getElementById('appmegdisp'+bdid);
 	    	$("#result_notrasnf"+bdid).html('');
 
 	    	if ($("#select_bd_transf_id"+bdid).val() == 'null')
@@ -611,11 +606,14 @@
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir megas a la misma solución'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
 	    	}
+	    	else if (cant_megas > cant_megas_disp)
+	    	{
+	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir más de lo disponible'+"</label>";
+	    		$("#result_notrasnf"+bdid).html($msg);
+	    	}
 	    	else
 	    	{	
-	    		var bdid_dest 
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	    		var cant_megas = document.getElementById('cant_transf'+bdid);
 	    		var bdid_dest = $("#select_bd_transf_id"+bdid).val();
 
 	    		$.ajax({
