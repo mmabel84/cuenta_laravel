@@ -217,7 +217,47 @@
 		                          			<button class="btn btn-xs" data-placement="left" title="Transferir megas" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-share fa-3x" onclick="showModalShare({{ $a->id }})"></i> </button>
 
 
-		                          			
+		                          			<div class="modal{{$a->id}} fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="share{{$a->id}}">
+		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
+		                          			    
+								                    <div class="modal-dialog modal-lg">
+								                      <div class="modal-content">
+
+								                        <div class="modal-header">
+								                          <button type="button" class="close" data-dismiss="modal">
+								                          </button>
+								                          <h4 class="modal-title" id="myModalLabel"></h4>
+								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">Transferir megas de solución de aplicación {{$a->aplicacion->app_nom}} de empresa {{$a->empresa->empr_nom}}</label>
+								                        </div>
+								                        <div class="modal-body">
+			                        						<form id="modalform">
+		                            							<div class="col-md-12 col-sm-12 col-xs-12">
+					                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_bd_transf_id" id="select_bd_transf_id{{$a->id}}" style="width:100%;" onchange="transferirMegas(this,{{$a->id}})";>
+					                            						<option value="null">Seleccione una solución para recibir megas...</option>
+					                            						@foreach($apps as $ad)
+					                                						<option value="{{ $ad->id }}">{{ $ad->empresa->empr_nom }} {{ $ad->aplicacion->app_nom }}</option>
+					                           							@endforeach
+				                          							</select>
+				                          						</div>
+				                          						 <div class="col-md-12 col-sm-12 col-xs-12">
+											                        <input id="cant_transf{{ $a->id }}" class="form-control has-feedback-left" name="cant_transf" type="number" title="Megas a transferir" required value="{{ $a->bdapp_gigdisp }}">
+											                        <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
+											                      </div>
+											                      <input type="hidden" id="appmegdisp{{$a->id}}" name="appmegdisp" value="{{ $a->bdapp_gigdisp }}">
+
+				                          						<div id="result_notrasnf{{$a->id}}" class="col-md-12 col-sm-12 col-xs-12">
+
+				                          						</div>
+	                          								</form>
+								                        </div>
+								                        <div class="modal-footer">
+								                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanModalShare({{$a->id}});">Cerrar</button>
+								                          
+								                        </div>
+
+								                      </div>
+								                    </div>
+								                  </div>
 			                          	</div>
 
 
@@ -547,7 +587,7 @@
 
 	    	if ($("#select_bd_transf_id"+bdid).val() == 'null')
 	    	{
-	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".'Debe escoger una opción'."</label>";
+	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'Debe escoger una opción'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
 	    	}
 
