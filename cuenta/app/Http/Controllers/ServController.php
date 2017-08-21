@@ -210,13 +210,13 @@ class ServController extends Controller
 		        {
 		        	//$empresa_id = DB::connection($dbname)->insertGetId('insert into empr (empr_nom, empr_rfc, empr_principal, empr_f_iniciovig, empr_f_finvig) values (?, ?, ?, ?, ?)', [$name, $alldata['client_rfc'], true, $alldata['client_f_inicio'], $alldata['client_f_fin']]);
 
-		        	 $empresa_id = DB::connection($dbname)->table('empr')->insertGetId(['empr_nom'=>$name, 'empr_rfc'=>$$alldata['client_rfc'], 'empr_principal'=>true, 'empr_f_iniciovig'=>$alldata['client_f_inicio'], 'empr_f_finvig'=>$alldata['client_f_fin']]);
+		        	 $empresa_id = DB::connection($dbname)->table('empr')->insertGetId(['empr_nom'=>$name, 'empr_rfc'=>$alldata['client_rfc'], 'empr_principal'=>true, 'empr_f_iniciovig'=>$alldata['client_f_inicio'], 'empr_f_finvig'=>$alldata['client_f_fin']]);
 		        }
 		        else 
 		        {
 		        	//$empresa_id = DB::connection($dbname)->insertGetId('insert into empr (empr_nom, empr_rfc, empr_principal) values (?, ?, ?)', [$name, $alldata['client_rfc'], true]);
 
-		        	$empresa_id = DB::connection($dbname)->table('empr')->insertGetId(['empr_nom'=>$name, 'empr_rfc'=>$$alldata['client_rfc'], 'empr_principal'=>true]);
+		        	$empresa_id = DB::connection($dbname)->table('empr')->insertGetId(['empr_nom'=>$name, 'empr_rfc'=>$alldata['client_rfc'], 'empr_principal'=>true]);
 		        }
 
 		        // Desplegando en cuenta la línea de tiempo en caso de venir
