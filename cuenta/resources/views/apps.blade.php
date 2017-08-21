@@ -497,6 +497,7 @@
 	        cleanusersandroles(bdid);
 	    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 	    	$("#modalusr"+bdid).modal('show');
+	    	console.log('abre modal de usuario');
 	        $.ajax({
 	        	url:"/getrolesbd/"+bdid,
 	        	type:'POST',
