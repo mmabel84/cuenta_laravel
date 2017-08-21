@@ -252,12 +252,12 @@
 			                          							  </div>
 											                      <input type="hidden" id="appmegdisp{{$a->id}}" name="appmegdisp{{$a->id}}" value="{{ $a->bdapp_gigdisp }}">
 
-				                          						</div>
 	                          								</form>
-								                        </div>
-								                        <div id="result_notrasnf{{$a->id}}" class="col-md-9 	col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+	                          								<div id="result_notrasnf{{$a->id}}" class="col-md-9 	col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
 		                                                     	
-		                                                </div>
+		                                                	</div>
+								                        </div>
+								                        
 								                        <div class="modal-footer">
 		                                                     	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="hideModalShare({{$a->id}});">Cerrar</button>
 								                        </div>
