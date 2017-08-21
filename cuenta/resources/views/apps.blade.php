@@ -596,8 +596,9 @@
 
 	    function transferirMegas(bdid)
 	    {
-	    	var cant_megas = document.getElementById('cant_transf'+bdid);
-	    	var cant_megas_disp = document.getElementById('appmegdisp'+bdid);
+	    	var cant_megas = document.getElementById('cant_transf'+bdid).value;
+	    	var cant_megas_disp = document.getElementById('appmegdisp'+bdid).value;
+
 	    	$("#result_notrasnf"+bdid).html('');
 
 	    	if ($("#select_bd_transf_id"+bdid).val() == 'null')
