@@ -94,7 +94,7 @@
                         <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
                       </div>
                       <div class="col-md-5 col-sm-5 col-xs-12">
-                        <input id="cant_asign" class="form-control has-feedback-left" name="cant_asign" type="number" title="Megas a asignar para solución" onchange="alertMsg();" required value=0>
+                        <input id="cant_asign" class="form-control has-feedback-left" name="cant_asign" type="number" title="Megas a asignar para solución" onchange="alertMsg();" required>
                         <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
                       </div>
                      </div>
@@ -225,6 +225,7 @@
                   {
                     console.log(data['megdisp']);
                     document.getElementById('cant_disp').value = data['megdisp'];
+                    document.getElementById('cant_asign').value = data['megdisp'];
                   }
 
                 }
@@ -253,7 +254,7 @@
           if (checkCant == false)
           {
             alert('No puede asignar una cantidad superior a la disponible');
-            document.getElementById('cant_asign').value = 0;
+            document.getElementById('cant_asign').value = document.getElementById('cant_disp').value;
           }
           
         }
