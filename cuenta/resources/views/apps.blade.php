@@ -76,7 +76,7 @@
 		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td>{{$a->uso}}</td>
 		                          <td>{{$a->bdapp_gigdisp}}</td>
-		                          <td class=" last" width="14%">
+		                          <td class=" last" width="16%">
 			                          <div class="btn-group">
 										<div class="btn-group">
 		                          			@permission('asociar.usuario')
