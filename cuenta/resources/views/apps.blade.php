@@ -250,7 +250,7 @@
 											                      <div class="item form-group col-md-12 col-sm-12 col-xs-12">
 				                          							<button id="btnshare{{$a->id}}" type="button" class="btn btn-primary" onclick="transferirMegas({{$a->id}});">Agregar</button>
 			                          							  </div>
-											                      <input type="hidden" id="appmegdisp{{$a->id}}" name="appmegdisp" value="{{ $a->bdapp_gigdisp }}">
+											                      <input type="hidden" id="appmegdisp{{$a->id}}" name="appmegdisp{{$a->id}}" value="{{ $a->bdapp_gigdisp }}">
 
 				                          						</div>
 	                          								</form>
@@ -259,7 +259,7 @@
 		                                                     	
 		                                                </div>
 								                        <div class="modal-footer">
-		                                                     	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanModalShare({{$a->id}});">Cerrar</button>
+		                                                     	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="hideModalShare({{$a->id}});">Cerrar</button>
 								                        </div>
 
 								                      </div>
@@ -576,10 +576,15 @@
 	          $("#result_notrasnf"+bdid).html('');
 	    }
 
+	    function hideModalShare(bdid) {
+	          var modalid = "share"+bdid;
+	          $("#"+modalid).modal('hide');
+	          $("#result_notrasnf"+bdid).html('');
+	    }
+
 	    function cleanModalShare(bdid_orig,bdid_dest,cant_megas){
 
-	    	var modalid = "share"+bdid;
-	        $("#"+modalid).modal('hide');
+	    	hideModalShare(bdid_orig);
 	        var orig_meg_old = document.getElementById('appmegdisp'+bdid_orig);
 	        var dest_meg_old = document.getElementById('appmegdisp'+bdid_dest);
 
@@ -606,7 +611,7 @@
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir megas a la misma solución'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
 	    	}
-	    	else if (cant_megas > cant_megas_disp)
+	    	else if (Number(cant_megas) > Number(cant_megas_disp))
 	    	{
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir más de lo disponible'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
@@ -631,13 +636,13 @@
 	        		{
 	        			$("#result_notrasnf"+bdid).html(response['msg']);
 	        		}
-	        },
-	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-	        		console.log(XMLHttpRequest);
-                    alert("Error: " + errorThrown); 
-                } 
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		        		console.log(XMLHttpRequest);
+	                    alert("Error: " + errorThrown); 
+	                } 
 
-	    	});
+		    	});
 
 	    	}
 
