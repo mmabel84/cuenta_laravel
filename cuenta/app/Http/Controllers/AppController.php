@@ -487,9 +487,9 @@ class AppController extends Controller
                 $megas_a_trans = $alldata['cant_megas'];
 
                 $params_orig = array(
-                'dbname' => $db_orig->bdapp_nombd,
-                'cantidad' => $megas_a_trans,
-                'operac' => 'restar',
+                'dbname' => base64_encode($db_orig->bdapp_nombd),
+                'cantidad' =>base64_encode($megas_a_trans),
+                'operac' => base64_encode('restar'),
                 'hash' => $hash
                 );
 
@@ -507,9 +507,9 @@ class AppController extends Controller
                 if ($resp)
                 {
                     $params_dest = array(
-                    'dbname' => $db_dest->bdapp_nombd,
-                    'cantidad' => $megas_a_trans,
-                    'operac' => 'sumar',
+                    'dbname' =>base64_encode($db_dest->bdapp_nombd),
+                    'cantidad' =>base64_encode($megas_a_trans),
+                    'operac' =>base64_encode('sumar'),
                     'hash' => $hash
                     );
 
@@ -523,13 +523,14 @@ class AppController extends Controller
                     catch(Exception $e) {
                         die($e->getMessage());
                     }*/
-                    $msg = 'Megas transferidos';
+                    $msg = 'Megas transferidos de solución '.$db_orig->aplicacion->app_nom.' de empresa '.$db_orig->empresa->empr_nom.' a solución '.$db_dest->aplicacion->app_nom.' de empresa '.$db_dest->empresa->empr_nom;
                     $status = 'success';
                     $db_orig->bdapp_gigdisp = $megas_db_orig - $megas_a_trans;
                     $db_orig->save();
                     $db_dest->bdapp_gigdisp = $megas_db_dest + $megas_a_trans;
                     $db_dest->save();
                     \Session::flash('message',$msg);
+                    $this->registroBitacora($request,'space transfer',$msg); 
                 }
             }
         }
