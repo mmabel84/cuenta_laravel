@@ -115,7 +115,7 @@ class ServController extends Controller
 		        	
 		        	$pass = bcrypt($alldata['password']);
 		        	Log::info($alldata['password']);
-		        	$pass_sin_bcrypt = $alldata['password']
+		        	$pass_sin_bcrypt = $alldata['password'];
 		        	$arrayparams['password'] = $pass_sin_bcrypt;
 
 		        }
