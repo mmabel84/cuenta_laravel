@@ -146,7 +146,7 @@ class ServController extends Controller
 
 
 		        //Insertando usuario avanzado de advans en base de datos de cuenta
-		        $advansusr_id = DB::connection($dbname)->table('users')->insertGetId(['name'=>'Usuario Advans', 'users_nick'=>'advans', 'email'=>'advans@advans.mx', 'password'=>bcrypt('advans'), 'users_control'=>true]);
+		          
 
 		        //Registrando en bitácora creación de bd
 		        $bitcta_msg = 'Base de datos '.$dbname. ' creada desde control';
@@ -208,11 +208,15 @@ class ServController extends Controller
 		       	//Insertando primera empresa en base de datos de cuenta		        
 		        if (array_key_exists('client_f_fin',$alldata) && isset($alldata['client_f_fin']) && array_key_exists('client_f_inicio',$alldata) && isset($alldata['client_f_inicio']))
 		        {
-		        	$empresa_id = DB::connection($dbname)->insertGetId('insert into empr (empr_nom, empr_rfc, empr_principal, empr_f_iniciovig, empr_f_finvig) values (?, ?, ?, ?, ?)', [$name, $alldata['client_rfc'], true, $alldata['client_f_inicio'], $alldata['client_f_fin']]);
+		        	//$empresa_id = DB::connection($dbname)->insertGetId('insert into empr (empr_nom, empr_rfc, empr_principal, empr_f_iniciovig, empr_f_finvig) values (?, ?, ?, ?, ?)', [$name, $alldata['client_rfc'], true, $alldata['client_f_inicio'], $alldata['client_f_fin']]);
+
+		        	 $empresa_id = DB::connection($dbname)->table('empr')->insertGetId(['empr_nom'=>$name, 'empr_rfc'=>$$alldata['client_rfc'], 'empr_principal'=>true, 'empr_f_iniciovig'=>$alldata['client_f_inicio'], 'empr_f_finvig'=>$alldata['client_f_fin']]);
 		        }
 		        else 
 		        {
-		        	$empresa_id = DB::connection($dbname)->insertGetId('insert into empr (empr_nom, empr_rfc, empr_principal) values (?, ?, ?)', [$name, $alldata['client_rfc'], true]);
+		        	//$empresa_id = DB::connection($dbname)->insertGetId('insert into empr (empr_nom, empr_rfc, empr_principal) values (?, ?, ?)', [$name, $alldata['client_rfc'], true]);
+
+		        	$empresa_id = DB::connection($dbname)->table('empr')->insertGetId(['empr_nom'=>$name, 'empr_rfc'=>$$alldata['client_rfc'], 'empr_principal'=>true]);
 		        }
 
 		        // Desplegando en cuenta la línea de tiempo en caso de venir
@@ -241,13 +245,19 @@ class ServController extends Controller
 		        	$apps = json_decode($alldata['apps_cta']);
 		        	
 		        	foreach ($apps as $appc) {
-		        		$app_id = DB::connection($dbname)->insertGetId('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
+		        		//$app_id = DB::connection($dbname)->insertGetId('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
+
+		        		$app_id = DB::connection($dbname)->table('app')->insertGetId(['app_nom'=>$appc->app_nom, 'app_cod'=>$appc->app_cod, 'app_insts'=>$appc->app_insts, 'app_megs'=>$appc->app_megs, 'app_activa'=>true, 'app_estado'=>$appc->app_estado, 'created_at'=>date('Y-m-d H:i:s')]);
+
 		        		 //Creando soluciones si está marcado el campo generar soluciones en cuenta de control
 		        		if ($gen_sol)
 		        		{
 		        			//Guardando solución en cuenta
 		        			$dbnamesol = $alldata['client_rfc'].'_'.$alldata['client_rfc'].'_'.$appc->app_cod;
-		        			$bd_id = DB::connection($dbname)->insertGetId('insert into bdapp (bdapp_app, bdapp_nombd, bdapp_nomserv, bdapp_gigdisp, bdapp_empr_id, bdapp_app_id, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_cod, $dbnamesol, '', $appc->app_megs, $empresa_id, $app_id, date('Y-m-d H:i:s')]);
+
+		        			//$bd_id = DB::connection($dbname)->insertGetId('insert into bdapp (bdapp_app, bdapp_nombd, bdapp_nomserv, bdapp_gigdisp, bdapp_empr_id, bdapp_app_id, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_cod, $dbnamesol, '', $appc->app_megs, $empresa_id, $app_id, date('Y-m-d H:i:s')]);
+
+		        			$bd_id = DB::connection($dbname)->table('bdapp')->insertGetId(['bdapp_app'=>$appc->app_cod, 'bdapp_nombd'=>$dbnamesol, 'bdapp_nomserv'=>'', 'bdapp_gigdisp'=>$appc->app_megs, 'bdapp_empr_id'=>$empresa_id, 'bdapp_app_id'=>$app_id, 'created_at'=>date('Y-m-d H:i:s')]);
 
 		        			DB::connection($dbname)->insert('insert into bdusr (bdusr_bdapp_id, bdusr_bdusr_id, created_at) values (?, ?, ?)', [$bd_id, $firstusr_id, date('Y-m-d H:i:s')]);
 
