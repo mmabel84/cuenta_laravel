@@ -57,6 +57,8 @@ Route::get('/redirectapp/{numcta}/{rfc}/{appcod}', 'HomeController@redirectapp')
 
 Route::post('/apps/getespdisp', 'AppController@getEspDisp')->name('getespdisp');
 
+Route::post('/transfmegas', 'AppController@transfMegas')->name('transfmegas');
+
 
 
 

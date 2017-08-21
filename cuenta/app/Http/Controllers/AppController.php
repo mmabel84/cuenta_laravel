@@ -466,7 +466,59 @@ class AppController extends Controller
 
     }
 
-    
+
+    public function transfMegas(Request $request)
+    {
+        $alldata = $request->all();
+        $status = 'failure';
+        $resp = true;
+        $msg = 'No tiene disponibilidad para transferir la cantidad señalada';
+        $hash = "Q0ZESSBTT0xVQ0lPTkVTIEFEVkFOUw==";
+        if (array_key_exists('bdid_orig',$alldata) && isset($alldata['bdid_orig']) && array_key_exists('bdid_dest',$alldata) && isset($alldata['bdid_dest']) && array_key_exists('cant_megas',$alldata) && isset($alldata['cant_megas']))
+        {
+
+            $db_orig = BasedatosApp::find($alldata['bdid_orig']);
+            $db_dest = BasedatosApp::find($alldata['bdid_dest']);
+
+            if ($db_orig && $db_dest)
+            {
+                $megas_db_orig = $db_orig->bdapp_gigdisp;
+                $megas_db_dest = $db_dest->bdapp_gigdisp;
+                $megas_a_trans = $alldata['cant_megas'];
+                $params = array(
+                'dbname_orig' => $db_orig->bdapp_nombd,
+                'dbname_dest' => $db_dest->bdapp_nombd,
+                'cantidad' => $megas_a_trans,
+                'hash' => $hash
+                );
+
+                /*$wsdl = 'http://192.168.10.129/advans/bov/public/pushData?wsdl';
+
+                try {
+                    $soap = new \SoapClient($wsdl);
+                    $data = $soap->__soapCall("transfMeg", $params);
+                    $resp = $data['result']
+                }
+                catch(Exception $e) {
+                    die($e->getMessage());
+                }*/
+
+                if ($resp)
+                {
+                    $msg = 'Megas transferidos';
+                    $status = 'success';
+                    $db_orig->bdapp_gigdisp = $megas_db_orig - $megas_a_trans;
+                    $db_orig->save();
+                    $db_dest->bdapp_gigdisp = $megas_db_dest + $megas_a_trans;
+                    $db_dest->save();
+                    \Session::flash('message',$msg);
+                }
+            }
+        }
+        
+        $response = array ('status' => $status, 'msg' => $msg);
+        return \Response::json($response);
+    }
 }
 
 

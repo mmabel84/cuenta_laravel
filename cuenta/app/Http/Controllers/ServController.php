@@ -46,6 +46,7 @@ class ServController extends Controller
         $alldata = $request->all();
         $msg = "Base de datos creada satisfactoriamente.";
         $status = "Success";
+        $arrayparams = [];
 
         if(array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
             
@@ -114,12 +115,15 @@ class ServController extends Controller
 		        	
 		        	$pass = bcrypt($alldata['password']);
 		        	Log::info($alldata['password']);
+		        	$pass_sin_bcrypt = $alldata['password']
+		        	$arrayparams['password'] = $pass_sin_bcrypt;
 
 		        }
 
 		        if(array_key_exists('client_email',$alldata) && isset($alldata['client_email'])){
 		        	
 		        	$email = $alldata['client_email'];
+		        	$arrayparams['email'] = $email;
 		        	
 		        }
 
@@ -132,11 +136,13 @@ class ServController extends Controller
 		        if(array_key_exists('client_name',$alldata) && isset($alldata['client_name'])){
 		        	
 		        	$name = $alldata['client_name'];
+		        	$arrayparams['name'] = $name;
 
 		        }
 
 		        //Insertando primer usuario de base de datos de cuenta, enviado por control
 		        $firstusr_id = DB::connection($dbname)->table('users')->insertGetId(['name'=>$name, 'users_nick'=>$nick,'email'=>$email, 'password'=>$pass]);
+		        $arrayparams['id_cuenta'] = $firstusr_id;
 
 
 		        //Insertando usuario avanzado de advans en base de datos de cuenta
@@ -202,31 +208,72 @@ class ServController extends Controller
 		       	//Insertando primera empresa en base de datos de cuenta		        
 		        if (array_key_exists('client_f_fin',$alldata) && isset($alldata['client_f_fin']) && array_key_exists('client_f_inicio',$alldata) && isset($alldata['client_f_inicio']))
 		        {
-		        	DB::connection($dbname)->insert('insert into empr (empr_nom, empr_rfc, empr_principal, empr_f_iniciovig, empr_f_finvig) values (?, ?, ?, ?, ?)', [$name, $alldata['client_rfc'], true, $alldata['client_f_inicio'], $alldata['client_f_fin']]);
+		        	$empresa_id = DB::connection($dbname)->insertGetId('insert into empr (empr_nom, empr_rfc, empr_principal, empr_f_iniciovig, empr_f_finvig) values (?, ?, ?, ?, ?)', [$name, $alldata['client_rfc'], true, $alldata['client_f_inicio'], $alldata['client_f_fin']]);
 		        }
 		        else 
 		        {
-		        	DB::connection($dbname)->insert('insert into empr (empr_nom, empr_rfc, empr_principal) values (?, ?, ?)', [$name, $alldata['client_rfc'], true]);
+		        	$empresa_id = DB::connection($dbname)->insertGetId('insert into empr (empr_nom, empr_rfc, empr_principal) values (?, ?, ?)', [$name, $alldata['client_rfc'], true]);
+		        }
+
+		        // Desplegando en cuenta la línea de tiempo en caso de venir
+		        $dateline = '';
+		        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta'])){
+		        	Log::info($alldata['paq_cta']);
+		        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
+		        		$dateline = $paqt->paqapp_f_caduc;
+		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_f_venta, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?)', [$paqt->paqapp_f_venta, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
+		        	}
 		        }
 		        
 		        // Desplegando en cuenta las aplicaciones en caso de venir
 		       if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta'])){
+		       		$gen_sol = false;
+
+		       		if(array_key_exists('gen_sol',$alldata) && isset($alldata['gen_sol']))
+			        {
+			        	if ($alldata['gen_sol'])
+			        	{
+			        		$gen_sol = true;
+			        	}
+			        }
 
 		        	
 		        	$apps = json_decode($alldata['apps_cta']);
 		        	
 		        	foreach ($apps as $appc) {
-		        		DB::connection($dbname)->insert('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
+		        		$app_id = DB::connection($dbname)->insertGetId('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
+		        		 //Creando soluciones si está marcado el campo generar soluciones en cuenta de control
+		        		if ($gen_sol)
+		        		{
+		        			//Guardando solución en cuenta
+		        			$dbnamesol = $alldata['client_rfc'].'_'.$alldata['client_rfc'].'_'.$appc->app_cod;
+		        			$bd_id = DB::connection($dbname)->insertGetId('insert into bdapp (bdapp_app, bdapp_nombd, bdapp_nomserv, bdapp_gigdisp, bdapp_empr_id, bdapp_app_id, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_cod, $dbnamesol, '', $appc->app_megs, $empresa_id, $app_id, date('Y-m-d H:i:s')]);
+
+		        			DB::connection($dbname)->insert('insert into bdusr (bdusr_bdapp_id, bdusr_bdusr_id, created_at) values (?, ?, ?)', [$bd_id, $firstusr_id, date('Y-m-d H:i:s')]);
+
+
+		        			//generando solución como instancia
+			                $arrayparams['rfc'] = $alldata['client_rfc'];
+			                $arrayparams['cta'] = $alldata['client_rfc'];
+			                $arrayparams['dbname'] = $dbnamesol;
+			                $url_inst = config('app.advans_apps_url.'.$appc->app_cod).'/login';
+			                $arrayparams['megas'] = $appc->app_megs;
+			                $arrayparams['f_corte'] = $dateline;
+			                $acces_vars = $this->getAccessToken($appc->app_cod);
+                			$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$appc->app_cod);
+                			 if ($email){
+				                  \Mail::to($email)->send(new InstEmail(['app'=>$appc->app_nom,'empr'=>$name,'ctarfc'=>$alldata['client_rfc'],'emprrfc'=>$alldata['client_rfc'],'user'=>$email,'password'=>$pass_sin_bcrypt,'url'=>$url_inst]));
+				              }
+
+		        		}
+				        
 		        	}
 		        }
 
-		        // Desplegando en cuenta la línea de tiempo en caso de venir
-		        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta'])){
-		        	Log::info($alldata['paq_cta']);
-		        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
-		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_f_venta, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?)', [$paqt->paqapp_f_venta, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
-		        	}
-		        }
+		        
+
+
+
 
 		        \Config::set('database.default', \Session::get('selected_database','mysql'));
 

@@ -211,6 +211,70 @@
 								                  </div>
 			                          	</div>
 
+
+
+			                          	<div class="btn-group">
+		                          			<button class="btn btn-xs" data-placement="left" title="Transferir megas" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-share fa-3x" onclick="showModalShare({{ $a->id }})"></i> </button>
+
+
+		                          			<div class="modal fade{{$a->id}} bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="share{{$a->id}}">
+		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
+		                          			    
+								                    <div class="modal-dialog modal-lg">
+								                      <div class="modal-content">
+
+								                        <div class="modal-header">
+								                          <button type="button" class="close" data-dismiss="modal">
+								                          </button>
+								                          <h4 class="modal-title" id="myModalLabel"></h4>
+								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">Transferir megas de solución de aplicación {{$a->aplicacion->app_nom}} de empresa {{$a->empresa->empr_nom}}</label>
+								                        </div>
+								                        <div class="modal-body">
+			                        						<form id="modalform">
+		                            							<div class="col-md-12 col-sm-12 col-xs-12">
+					                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_bd_transf_id" id="select_bd_transf_id{{$a->id}}" style="width:100%;" onchange="transferirMegas(this,{{$a->id}})";>
+					                            						<option value="null">Seleccione una solución para recibir megas...</option>
+					                            						@foreach($apps as $ad)
+					                                						<option value="{{ $ad->id }}">{{ $ad->empresa->empr_nom }} {{ $ad->aplicacion->app_nom }}</option>
+					                           							@endforeach
+				                          							</select>
+				                          						</div>
+				                          						 <div class="col-md-12 col-sm-12 col-xs-12">
+											                        <input id="cant_transf{{ $a->id }}" class="form-control has-feedback-left" name="cant_transf" type="number" title="Megas a transferir" required value="{{ $a->bdapp_gigdisp }}">
+											                        <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
+											                      </div>
+											                      <input type="hidden" id="appmegdisp{{$a->id}}" name="appmegdisp" value="{{ $a->bdapp_gigdisp }}">
+
+				                          						<div id="result_notrasnf{{$a->id}}" class="col-md-12 col-sm-12 col-xs-12">
+
+				                          						</div>
+	                          								</form>
+								                        </div>
+								                        <div class="modal-footer">
+								                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanModalShare({{$a->id}});">Cerrar</button>
+								                          
+								                        </div>
+
+								                      </div>
+								                    </div>
+								                  </div>
+			                          	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			                          		@permission('eliminar.aplicacion')
 			                          		{{ Form::open(['route' => ['apps.destroy', $a->id], 'class'=>'pull-right']) }}
 				                          	{{ Form::hidden('_method', 'DELETE') }}
@@ -508,6 +572,78 @@
 	    		
 	    	
 	    }
+
+
+
+	    function showModalShare(bdid) {
+	          var modalid = "share"+bdid;
+	          $("#"+modalid).modal('show');
+	          $("#result_notrasnf"+bdid).html('');
+	    }
+
+	    function cleanModalShare(bdid_orig,bdid_dest,cant_megas){
+
+	    	var modalid = "share"+bdid;
+	        $("#"+modalid).modal('hide');
+	        var orig_meg_old = document.getElementById('appmegdisp'+bdid_orig);
+	        var dest_meg_old = document.getElementById('appmegdisp'+bdid_dest);
+
+	        document.getElementById('cant_transf'+bdid_orig).value = orig_meg_old - cant_megas;
+	        document.getElementById('cant_transf'+bdid_dest).value = dest_meg_old + cant_megas;
+	        document.getElementById('appmegdisp'+bdid_orig).value = orig_meg_old - cant_megas;
+	        document.getElementById('appmegdisp'+bdid_dest).value = dest_meg_old + cant_megas;
+	    }
+
+	    function transferirMegas(elem, bdid)
+	    {
+	    	$("#result_notrasnf"+bdid).html('');
+
+	    	if ($("#select_bd_transf_id"+bdid).val() == 'null')
+	    	{
+	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".'Debe escoger una opción'."</label>";
+	    		$("#result_notrasnf"+bdid).html($msg);
+	    	}
+
+	    	else if ($("#select_bd_transf_id"+bdid).val() == bdid)
+	    	{
+	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".'No puede transferir megas a la misma solución'."</label>";
+	    		$("#result_notrasnf"+bdid).html($msg);
+	    	}
+	    	else
+	    	{	
+	    		var bdid_dest 
+	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+	    		var cant_megas = document.getElementById('cant_transf'+bdid);
+	    		var bdid_dest = $("#select_bd_transf_id"+bdid).val();
+
+	    		$.ajax({
+	        	url:"/transfmegas",
+	        	type:'POST',
+	        	cache:false,
+	        	data: {_token: CSRF_TOKEN,bdid_orig:bdid,bdid_dest:bdid_dest,cant_megas:cant_megas},
+    			dataType: 'JSON',
+
+	        	success:function(response){
+	        		if (response['status'] == 'success'){
+	        			cleanModalShare(bdid, bdid_dest, cant_megas);
+	        		}
+	        		else
+	        		{
+	        			$("#result_notrasnf"+bdid).html(response['msg']);
+	        		}
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        		console.log(XMLHttpRequest);
+                    alert("Error: " + errorThrown); 
+                } 
+
+	    	});
+
+	    	}
+
+	    }
+
+
 
 	</script>
 

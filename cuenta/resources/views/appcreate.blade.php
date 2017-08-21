@@ -275,7 +275,7 @@
           {
             alert('Debe asignar un espacio para solución a crear');
             document.getElementById('cant_asign').value = document.getElementById('cant_disp').value;
-            e.preventDefault() ;
+            e.preventDefault();
             returnToPreviousPage();
           }
           else
