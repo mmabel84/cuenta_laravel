@@ -231,18 +231,21 @@
 								                        </div>
 								                        <div class="modal-body">
 			                        						<form id="modalform">
-		                            							<div class="col-md-12 col-sm-12 col-xs-12">
-					                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_bd_transf_id" id="select_bd_transf_id{{$a->id}}" style="width:100%;" onchange="transferirMegas(this,{{$a->id}})";>
+		                            							<div class="item form-group col-md-12 col-sm-12 col-xs-12">
+					                             						<select class="js-example-data-array form-control" tabindex="-1" name="select_bd_transf_id" id="select_bd_transf_id{{$a->id}}" style="width:100%;" >
 					                            						<option value="null">Seleccione una solución para recibir megas...</option>
 					                            						@foreach($apps as $ad)
 					                                						<option value="{{ $ad->id }}">{{ $ad->empresa->empr_nom }} {{ $ad->aplicacion->app_nom }}</option>
 					                           							@endforeach
 				                          							</select>
 				                          						</div>
-				                          						 <div class="col-md-12 col-sm-12 col-xs-12">
+				                          						 <div class="item form-group col-md-12 col-sm-12 col-xs-12">
 											                        <input id="cant_transf{{ $a->id }}" class="form-control has-feedback-left" name="cant_transf" type="number" title="Megas a transferir" required value="{{ $a->bdapp_gigdisp }}">
 											                        <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
 											                      </div>
+											                      <div class="item form-group col-md-12 col-sm-12 col-xs-12">
+				                          							<button id="btnshare{{$a->id}}" type="button" class="btn btn-primary" onclick="transferirMegas({{$a->id}});">Agregar</button>
+			                          								</div>
 											                      <input type="hidden" id="appmegdisp{{$a->id}}" name="appmegdisp" value="{{ $a->bdapp_gigdisp }}">
 
 				                          						<div id="result_notrasnf{{$a->id}}" class="col-md-12 col-sm-12 col-xs-12">
@@ -582,7 +585,7 @@
 	        document.getElementById('appmegdisp'+bdid_dest).value = dest_meg_old + cant_megas;
 	    }
 
-	    function transferirMegas(elem, bdid)
+	    function transferirMegas(bdid)
 	    {
 	    	$("#result_notrasnf"+bdid).html('');
 
