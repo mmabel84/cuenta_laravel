@@ -262,7 +262,7 @@ class ServController extends Controller
 
 		        			$bd_id = DB::connection($dbname)->table('bdapp')->insertGetId(['bdapp_app'=>$appc->app_cod, 'bdapp_nombd'=>$dbnamesol, 'bdapp_nomserv'=>'', 'bdapp_gigdisp'=>$appc->app_megs, 'bdapp_empr_id'=>$empresa_id, 'bdapp_app_id'=>$app_id, 'created_at'=>date('Y-m-d H:i:s')]);
 
-		        			DB::connection($dbname)->insert('insert into bdusr (bdusr_bdapp_id, bdusr_bdusr_id, created_at) values (?, ?, ?)', [$bd_id, $firstusr_id, date('Y-m-d H:i:s')]);
+		        			DB::connection($dbname)->insert('insert into bdusr (bdusr_bdapp_id, bdusr_bdusr_id) values (?, ?, ?)', [$bd_id, $firstusr_id]);
 
 
 		        			//generando solución como instancia
