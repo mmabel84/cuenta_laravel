@@ -523,7 +523,7 @@ class AppController extends Controller
                     catch(Exception $e) {
                         die($e->getMessage());
                     }*/
-                    $msg = 'Megas transferidos de solución '.$db_orig->aplicacion->app_nom.' de empresa '.$db_orig->empresa->empr_nom.' a solución '.$db_dest->aplicacion->app_nom.' de empresa '.$db_dest->empresa->empr_nom;
+                    $msg = $megas_a_trans. ' megas transferidos de solución '.$db_orig->aplicacion->app_nom.' de empresa '.$db_orig->empresa->empr_nom.' a solución '.$db_dest->aplicacion->app_nom.' de empresa '.$db_dest->empresa->empr_nom;
                     $status = 'success';
                     $db_orig->bdapp_gigdisp = $megas_db_orig - $megas_a_trans;
                     $db_orig->save();
