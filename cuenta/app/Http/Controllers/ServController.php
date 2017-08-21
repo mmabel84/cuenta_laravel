@@ -233,6 +233,7 @@ class ServController extends Controller
 		       if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta'])){
 		       		$gen_sol = false;
 
+
 		       		if(array_key_exists('gen_sol',$alldata) && isset($alldata['gen_sol']))
 			        {
 			        	if ($alldata['gen_sol'])
@@ -240,6 +241,8 @@ class ServController extends Controller
 			        		$gen_sol = true;
 			        	}
 			        }
+
+			        Log::info('crear soluciones '.$gen_sol);
 
 		        	
 		        	$apps = json_decode($alldata['apps_cta']);
