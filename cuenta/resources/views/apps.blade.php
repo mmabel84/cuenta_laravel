@@ -592,6 +592,7 @@
 	        document.getElementById('cant_transf'+bdid_dest).value = dest_meg_old + cant_megas;
 	        document.getElementById('appmegdisp'+bdid_orig).value = orig_meg_old - cant_megas;
 	        document.getElementById('appmegdisp'+bdid_dest).value = dest_meg_old + cant_megas;
+	        location.reload();
 	    }
 
 	    function transferirMegas(bdid)
@@ -616,6 +617,7 @@
 	    	{
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir más de lo disponible'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
+	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value
 	    	}
 	    	else
 	    	{	

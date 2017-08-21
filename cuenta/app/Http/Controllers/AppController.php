@@ -485,10 +485,11 @@ class AppController extends Controller
                 $megas_db_orig = $db_orig->bdapp_gigdisp;
                 $megas_db_dest = $db_dest->bdapp_gigdisp;
                 $megas_a_trans = $alldata['cant_megas'];
-                $params = array(
-                'dbname_orig' => $db_orig->bdapp_nombd,
-                'dbname_dest' => $db_dest->bdapp_nombd,
+
+                $params_orig = array(
+                'dbname' => $db_orig->bdapp_nombd,
                 'cantidad' => $megas_a_trans,
+                'operac' => 'restar',
                 'hash' => $hash
                 );
 
@@ -496,7 +497,7 @@ class AppController extends Controller
 
                 try {
                     $soap = new \SoapClient($wsdl);
-                    $data = $soap->__soapCall("transfMeg", $params);
+                    $data = $soap->__soapCall("transfMeg", $params_orig);
                     $resp = $data['result']
                 }
                 catch(Exception $e) {
@@ -505,6 +506,23 @@ class AppController extends Controller
 
                 if ($resp)
                 {
+                    $params_dest = array(
+                    'dbname' => $db_dest->bdapp_nombd,
+                    'cantidad' => $megas_a_trans,
+                    'operac' => 'sumar',
+                    'hash' => $hash
+                    );
+
+                    /*$wsdl = 'http://192.168.10.129/advans/bov/public/pushData?wsdl';
+
+                    try {
+                        $soap = new \SoapClient($wsdl);
+                        $data = $soap->__soapCall("transfMeg", $params_dest);
+                        $resp = $data['result']
+                    }
+                    catch(Exception $e) {
+                        die($e->getMessage());
+                    }*/
                     $msg = 'Megas transferidos';
                     $status = 'success';
                     $db_orig->bdapp_gigdisp = $megas_db_orig - $megas_a_trans;
