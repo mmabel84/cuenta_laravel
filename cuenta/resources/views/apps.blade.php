@@ -593,7 +593,7 @@
 
 	    	else if ($("#select_bd_transf_id"+bdid).val() == bdid)
 	    	{
-	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".'No puede transferir megas a la misma solución'."</label>";
+	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir megas a la misma solución'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
 	    	}
 	    	else
