@@ -76,11 +76,11 @@
 		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td>{{$a->uso}}</td>
 		                          <td>{{$a->bdapp_gigdisp}}</td>
-		                          <td class=" last" width="15%">
+		                          <td width="14%">
 			                          <div class="btn-group">
 										<div class="btn-group">
 		                          			@permission('asociar.usuario')
-		                          			<button id="btnmodal" type="button" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>
+		                          			<button id="btnmodal{{$a->id}}" type="button" class="btn btn-xs" data-placement="left" title="Agregar usuario" style=" color:#053666; background-color:#FFFFFF; " onclick="getrolepermissionbd({{$a->id}});"><i class="fa fa-user fa-3x"></i> </button>
 		                          			@endpermission
 
 		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalusr{{$a->id}}">
@@ -164,7 +164,7 @@
 			                          	</div>
 
 			                          	<div class="btn-group">
-		                          			<button class="btn btn-xs" data-placement="left" title="Ver bitácora" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-eye fa-3x" onclick="showModalBit({{ $a->id }})"></i> </button>
+		                          			<button id="btn_bit{{$a->id}}" class="btn btn-xs" data-placement="left" title="Ver bitácora" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-eye fa-3x" onclick="showModalBit({{ $a->id }})"></i> </button>
 
 
 		                          			<div class="modal fade{{$a->id}} bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="bit{{$a->id}}">
@@ -214,7 +214,7 @@
 
 
 			                          	<div class="btn-group">
-		                          			<button class="btn btn-xs" data-placement="left" title="Transferir megas" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-share fa-3x" onclick="showModalShare({{ $a->id }})"></i> </button>
+		                          			<button id="btnshare{{$a->id}}" class="btn btn-xs" data-placement="left" title="Transferir megas" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-share fa-3x" onclick="showModalShare({{ $a->id }})"></i> </button>
 
 
 		                          			<div class="modal{{$a->id}} fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="share{{$a->id}}">
