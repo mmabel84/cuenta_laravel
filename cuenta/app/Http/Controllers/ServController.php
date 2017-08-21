@@ -146,11 +146,11 @@ class ServController extends Controller
 
 
 		        //Insertando usuario avanzado de advans en base de datos de cuenta
-		          
+		          $advansusr_id = DB::connection($dbname)->table('users')->insertGetId(['name'=>'Advans', 'users_nick'=>'advans','email'=>'advans-control@advans.mx', 'password'=>'Advans123*']);
 
 		        //Registrando en bitácora creación de bd
 		        $bitcta_msg = 'Base de datos '.$dbname. ' creada desde control';
-		        $bitcta_tipo_op = 'create account instance';
+		        $bitcta_tipo_op = 'create account solution';
 		        
 		        if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
 		        {
