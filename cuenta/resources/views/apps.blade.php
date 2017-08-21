@@ -239,23 +239,34 @@
 					                           							@endforeach
 				                          							</select>
 				                          						</div>
+				                          						<br>	
+		                          								<br>
 				                          						 <div class="item form-group col-md-12 col-sm-12 col-xs-12">
 											                        <input id="cant_transf{{ $a->id }}" class="form-control has-feedback-left" name="cant_transf" type="number" title="Megas a transferir" required value="{{ $a->bdapp_gigdisp }}">
 											                        <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
 											                      </div>
+											                      <br>	
+		                          								  <br>
 											                      <div class="item form-group col-md-12 col-sm-12 col-xs-12">
 				                          							<button id="btnshare{{$a->id}}" type="button" class="btn btn-primary" onclick="transferirMegas({{$a->id}});">Agregar</button>
-			                          								</div>
+			                          							  </div>
 											                      <input type="hidden" id="appmegdisp{{$a->id}}" name="appmegdisp" value="{{ $a->bdapp_gigdisp }}">
-
-				                          						<div id="result_notrasnf{{$a->id}}" class="col-md-12 col-sm-12 col-xs-12">
 
 				                          						</div>
 	                          								</form>
 								                        </div>
 								                        <div class="modal-footer">
-								                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanModalShare({{$a->id}});">Cerrar</button>
-								                          
+									                       <div  class="form-group col-md-12 col-sm-12 col-xs-12">
+		                                                     <div id="result_notrasnf{{$a->id}}" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+		                                                     	
+		                                                     </div>
+
+		                                                     <div class="form-group col-md-3 col-sm-3 col-xs-12">
+		                                                     	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanModalShare({{$a->id}});">Cerrar</button>
+		                                                      	
+		                                                     </div>
+	                                                    	</div>
+
 								                        </div>
 
 								                      </div>
