@@ -12,6 +12,7 @@ use App\Bitacora;
 use App\BasedatosApp;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Mail\InstEmail;
 
 
 class ServController extends Controller
