@@ -105,7 +105,7 @@
                       
 
                       <div class="modal fade ini" id="passmodalini" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                        <div class="modal-dialog" role="document" style=" width:60%">
+                        <div class="modal-dialog ini" role="document" style=" width:60%">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña: {{ Auth::user()->name}}</h5>
@@ -113,7 +113,7 @@
                                 <!--<span aria-hidden="true">&times;</span>-->
                               </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body ini">
                               <form>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="input-group col-md-4 col-sm-4 col-xs-12">
@@ -129,7 +129,7 @@
                                     </div>
 
                                     <div class="input-group col-md-3 col-sm-3 col-xs-12">
-                                      <button type="button" onclick="changePass({{ Auth::user()->id }});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+                                      <button type="button" onclick="changePassIni({{ Auth::user()->id }});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
                                     </div>
                                 </div>
                               </form>
@@ -432,34 +432,27 @@
           $(document).ready(function() {
             $(window).load(function() {
                 var changepass = document.getElementById('inpasschange').value;
-                alert(changepass);
                 if (changepass == 0)
                 {
-
-                  showModal();
+                  showModalIni();
                 }
             });
         });
 
 
           //Métodos de cambio de contraseña
-          function showModal() {
+          function showModalIni() {
 
           $("#passmodalini").modal('show');
           
         }
 
-    function hideModal() {
+    function hideModalIni() {
           $("#passmodalini").modal('hide');
         }
 
 
-    function cleanmodalPass(usrid){
-      $("#result_failure_pass"+usrid).html('');
-      }
-
-
-    function changePass(user){
+    function changePassIni(user){
 
            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
            var password = document.getElementById('passwordini').value;
@@ -475,7 +468,7 @@
 
                 success: function (data) {
 
-                  hideModal();
+                  hideModalIni();
                   
                },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
