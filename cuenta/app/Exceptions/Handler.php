@@ -79,8 +79,13 @@ class Handler extends ExceptionHandler
         elseif ($exception instanceof \Illuminate\Session\TokenMismatchException || $exception instanceof FatalThrowableError)
         {
             Log::info($exception);
-            //\Session::flash('loginrfcerr','Su sesión expiró');
             $request->session()->put('loginrfcerr', 'Su sesión expiró');
+            return redirect(route('login'));  
+        }
+        elseif ($exception instanceof \Illuminate\Database\QueryException || $exception instanceof \Doctrine\DBAL\Driver\PDOException)
+        {
+            Log::info($exception);
+            $request->session()->put('loginrfcerr', 'La base de datos no existe');
             return redirect(route('login'));  
         }
         

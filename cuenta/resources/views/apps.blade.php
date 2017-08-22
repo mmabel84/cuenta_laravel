@@ -606,12 +606,14 @@
 	    	{
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'Debe escoger una opción'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
+	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value
 	    	}
 
 	    	else if ($("#select_bd_transf_id"+bdid).val() == bdid)
 	    	{
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir megas a la misma solución'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
+	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value
 	    	}
 	    	else if (Number(cant_megas) > Number(cant_megas_disp))
 	    	{
