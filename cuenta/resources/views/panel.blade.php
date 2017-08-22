@@ -104,7 +104,7 @@
 
                       
 
-                      <div class="modal fade" id="passmodalini" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                      <div class="modal fade ini" id="passmodalini" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                         <div class="modal-dialog" role="document" style=" width:60%">
                           <div class="modal-content">
                             <div class="modal-header">
