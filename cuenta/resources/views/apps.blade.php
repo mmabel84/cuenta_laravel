@@ -71,7 +71,7 @@
 		                      <tbody>
 		                      @foreach ($apps as $a)
 		                        <tr>
-		                          <td>{{$a->aplicacion->app_nom}}</td>
+		                          <td width="3%">{{$a->aplicacion->app_nom}}</td>
 		                          <td>{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td>{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td>{{$a->uso}}</td>
