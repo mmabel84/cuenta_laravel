@@ -189,7 +189,7 @@
                  
                   <p style="color: #053666;"><b>{{ $medidaespdispmay }} CONTRATADOS</b></p>
                   <p style="color: #053666;">{{ $cant_gigas_rest }} {{ $medidaesprest }} disponibles</p>
-                  <p style="color: #053666;">{{ $porc_esp_cons }}% de espacio consumido</p>
+                  <p style="color: #053666;">{{ $cantgigasign }} {{ $medidaesprest }} asignados</p>
                 </div>
               </div>
             </div>
