@@ -72,11 +72,11 @@
 		                      @foreach ($apps as $a)
 		                        <tr>
 		                          <td width="5%">{{$a->aplicacion->app_nom}}</td>
-		                          <td width="20%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
+		                          <td width="30%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td width="5%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td width="5%">{{$a->uso}}</td>
 		                          <td width="5%">{{$a->bdapp_gigdisp}}</td>
-		                          <td width="15%">
+		                          <td width="10%">
 			                          <div class="btn-group">
 										<div class="btn-group">
 		                          			@permission('asociar.usuario')
