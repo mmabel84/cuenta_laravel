@@ -79,6 +79,9 @@ class HomeController extends Controller
                 $megtemp += $inst->bdapp_gigcons;
             }
             array_push($megcons, $megtemp);
+
+
+
         }
 
         //diccionario con aplicaciones contratadas activas
@@ -212,7 +215,12 @@ class HomeController extends Controller
         $cant_app_coninst = 0;
         $cantinstcont = 0; 
         $cantgigasign = 0;
+        $cantgigastest = 0;
+        $cantgigasigntest = 0;
+        $cant_gigas_rest_test = 0;
+
         
+
        foreach ($apps as $app) {
            $cantgigas = $cantgigas + $app->app_megs;
             $cantinstcont = $cantinstcont + $app->app_insts;
@@ -225,6 +233,19 @@ class HomeController extends Controller
                 }
             }
        }
+
+       foreach ($appstest as $appt) {
+           $cantgigastest = $cantgigastest + $appt->app_megs;
+           $cant_inst_test = BasedatosApp::where('bdapp_app_id', '=', $appt->id)->get();
+           if (count($cant_inst_test) > 0)
+            {
+                foreach ($cant_inst_test as $instt) {
+                    $cantgigasigntest = $cantgigasigntest + $instt->bdapp_gigdisp;
+                }
+            }
+       }
+
+       $cant_gigas_rest_test = $cantgigastest - $cantgigasigntest;
        $cant_gigas_rest = $cantgigas - $cantgigasign;
 
        
@@ -469,7 +490,8 @@ class HomeController extends Controller
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest,'fecha_act_69'=>$fecha_act_69,'num_cta'=>$num_cta,'pass_change'=>$user_logued->password_change,'cantgigasign'=>$cantgigasign]);
+
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest,'fecha_act_69'=>$fecha_act_69,'num_cta'=>$num_cta,'pass_change'=>$user_logued->password_change,'cantgigasign'=>$cantgigasign,'cantgigastest'=>$cantgigastest,'cantgigasigntest'=>$cantgigasigntest,'cant_gigas_rest_test'=>$cant_gigas_rest_test]);
 
     }
 
