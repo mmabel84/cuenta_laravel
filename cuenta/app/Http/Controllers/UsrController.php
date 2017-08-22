@@ -338,23 +338,43 @@ class UsrController extends Controller
     {
         $user = User::find($id);
         $fmessage = '';
-        $messagetype = '';
+        $messagetype = 'failmessage';
 
         if ($user->id == Auth::user()->id){
             $fmessage = 'No es posible eliminar al usuario: '.$user->name.'  autenticado';
-            $messagetype = 'failmessage';
-
         }
         else
         {
-            $user->detachAllPermissions();
-            $user->detachAllRoles();
-            $user->basedatosapps()->detach();
-            //TODO Eliminar usuario de base de datos de aplicaciones
-            $fmessage = 'Se ha eliminado el usuario: '.$user->name;
-            $messagetype = 'message';
-            $this->registroBitacora($request,'delete',$fmessage); 
-            $user->delete();
+            $bds = $user->basedatosapps();
+            $count_dep = 0;
+            foreach ($bds as $bd) 
+            {
+                $acces_vars = $this->getAccessToken($bd->bdapp_app);
+                $arrayparams['id_cuenta'] = $user->id;
+                $arrayparams['dbname'] = $bd->bdapp_nombd;
+
+                $service_response = $this->getAppService($acces_vars['access_token'],'dropuser',$arrayparams,$bd->bdapp_app);
+
+                if ($service_response['status'] == 0)
+                {
+                    $count_dep += 1;
+                }
+            }
+
+            if ($count_dep == 0)
+            {
+                $user->detachAllPermissions();
+                $user->detachAllRoles();
+                $user->basedatosapps()->detach();
+                $fmessage = 'Se ha eliminado el usuario: '.$user->name;
+                $messagetype = 'message';
+                $user->delete();
+                $this->registroBitacora($request,'delete',$fmessage);
+            }
+            else
+            {
+                $fmessage = 'No es posible eliminar al usuario: '.$user->name.' pues tiene dependencias asociadas en '.$count_dep.' soluciones creadas';
+            }
 
         }
         \Session::flash($messagetype, $fmessage);
