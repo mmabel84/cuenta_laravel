@@ -471,10 +471,10 @@ class AppController extends Controller
                 $megtotalasign = $megtotalasign + $bd->bdapp_gigdisp;
             }
         }
-
-        if ($megtotal <= $megtotalasign)
+        $dif = $megtotal - $megtotalasign;
+        if ($dif < $megdisp)
         {
-            $megdisp = 0;
+            $megdisp = $dif;
         }
 
 
