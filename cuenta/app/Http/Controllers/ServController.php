@@ -199,12 +199,12 @@ class ServController extends Controller
 
 		        }
 		        //Asignando a usuario advans permiso para leer usuarios de advans
-		        $usradvans_perm_id_array = DB::connection($dbname)->select('select id from permissions where slug = ?',['leer.usuario.advans']);
+		        /*$usradvans_perm_id_array = DB::connection($dbname)->select('select id from permissions where slug = ?',['leer.usuario.advans']);
 
 		        if (count($usradvans_perm_id_array) > 0)
 		        {
 		        	DB::connection($dbname)->insert('insert into permission_user (permission_id, user_id) values (?, ?)', [$usradvans_perm_id_array[0]->id, $advansusr_id]);
-		        }
+		        }*/
 		        
 		       	//Insertando primera empresa en base de datos de cuenta		        
 		        if (array_key_exists('client_f_fin',$alldata) && isset($alldata['client_f_fin']) && array_key_exists('client_f_inicio',$alldata) && isset($alldata['client_f_inicio']))
