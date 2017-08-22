@@ -136,7 +136,7 @@
                            </div>
                             <div class="modal-footer">
                             <div  class="form-group col-md-12 col-sm-12 col-xs-12">
-                             <div id="result_failure_pass{{$user->id}}" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+                             <div id="result_failure_pass" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
                              </div>
                              <div class="form-group col-md-3 col-sm-3 col-xs-12">
                               <!--<button type="button" onclick="cleanmodalPass();" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>-->
@@ -480,13 +480,13 @@
                     //alert("Status: " + textStatus); alert("Error: " + errorThrown);
                     console.log(textStatus);
                     console.log(errorThrown);
-                    //$("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+                    $("#result_failure_pass").html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
 
                 }
             });
             }
             else{
-              $("#result_failure_pass"+user).html('<p>La contraseña es obligatoria</p>');
+              $("#result_failure_pass").html('<p>La contraseña es obligatoria</p>');
               
            }
 
