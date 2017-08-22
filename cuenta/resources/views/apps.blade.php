@@ -71,11 +71,11 @@
 		                      <tbody>
 		                      @foreach ($apps as $a)
 		                        <tr>
-		                          <td width="3%">{{$a->aplicacion->app_nom}}</td>
-		                          <td>{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
-		                          <td width="6%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
-		                          <td width="3%">{{$a->uso}}</td>
-		                          <td width="3%">{{$a->bdapp_gigdisp}}</td>
+		                          <td width="5%">{{$a->aplicacion->app_nom}}</td>
+		                          <td width="20%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
+		                          <td width="5%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
+		                          <td width="5%">{{$a->uso}}</td>
+		                          <td width="5%">{{$a->bdapp_gigdisp}}</td>
 		                          <td width="15%">
 			                          <div class="btn-group">
 										<div class="btn-group">
