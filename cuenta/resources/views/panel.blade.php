@@ -432,8 +432,10 @@
           $(document).ready(function() {
             $(window).load(function() {
                 var changepass = document.getElementById('inpasschange').value;
+                alert(changepass);
                 if (!changepass)
                 {
+
                   showModal();
                 }
             });

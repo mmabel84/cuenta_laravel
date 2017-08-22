@@ -33,6 +33,7 @@ class UserEventListener
                 $binnacle->bitcta_msg = 'Acceso de usuario '.$usr->name;
                 if ($usr->users_f_ultacces == null)
                 {
+                    Log::info('first login');
                     $usr->first_login = true;
                     $usr->password_change = false;
                 }
@@ -40,6 +41,8 @@ class UserEventListener
                 {
                     $usr->first_login = false;
                 }
+
+                Log::info('usuario cambio pass '.$usr->password_change);
 
                 $usr->users_f_ultacces = date('Y-m-d H:i:s');
                 $usr->users_blocked = false;
