@@ -346,6 +346,7 @@ class UsrController extends Controller
         else
         {
             $bds = $user->basedatosapps();
+            Log::info($bds);
             $count_dep = 0;
             foreach ($bds as $bd) 
             {
