@@ -433,7 +433,7 @@
             $(window).load(function() {
                 var changepass = document.getElementById('inpasschange').value;
                 alert(changepass);
-                if (!changepass)
+                if (changepass == 0)
                 {
 
                   showModal();
