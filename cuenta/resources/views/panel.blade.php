@@ -189,7 +189,7 @@
                  
                   <p style="color: #053666;"><b>{{ $medidaespdispmay }} CONTRATADOS</b></p>
                   <p style="color: #053666;">{{ $cant_gigas_rest }} {{ $medidaesprest }} disponibles</p>
-                  <p style="color: #053666;">{{ $cantgigasign }} {{ $medidaesprest }} asignados</p>
+                  <p style="color: #053666;">{{ $cantgigasign }} {{ $medidaesprest }} asignados a soluciones</p>
                 </div>
               </div>
             </div>
