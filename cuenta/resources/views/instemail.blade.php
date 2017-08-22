@@ -18,5 +18,5 @@ Se ha creado una solución. Los datos de acceso son:
     Contraseña: {{ $password }}
 </div>    
 <div>
-<a id="aurl" href="{{ $url }}" target='_blank'>Enlace para cambiar contraseña</a>
+<a id="aurl" href="{{ $url }}" target='_blank'>Enlace</a>
 </div>

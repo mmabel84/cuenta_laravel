@@ -461,6 +461,23 @@ class AppController extends Controller
             $status = 'failure';
         }
 
+        $megtotal = 0;
+        $megtotalasign = 0;
+        $allapp = Aplicacion::all();
+        foreach ($allapp as $app) {
+            $megtotal = $megtotal + $app->app_megs;
+            $bds = BasedatosApp::where('bdapp_app','=',$app->app_cod)->get();
+            foreach ($bds as $bd) {
+                $megtotalasign = $megtotalasign + $bd->bdapp_gigdisp;
+            }
+        }
+
+        if ($megtotal == $megtotalasign)
+        {
+            $megdisp = 0;
+        }
+
+
         $response = array ('status' => $status, 'msg' => $msg, 'megdisp' => $megdisp);
         return \Response::json($response);
 
