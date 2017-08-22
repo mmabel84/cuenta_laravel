@@ -36,7 +36,11 @@ class UserEventListener
                     $usr->first_login = true;
                     $usr->password_change = false;
                 }
-                
+                else
+                {
+                    $usr->first_login = false;
+                }
+
                 $usr->users_f_ultacces = date('Y-m-d H:i:s');
                 $usr->users_blocked = false;
                 $usr->save();
