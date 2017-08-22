@@ -31,6 +31,12 @@ class UserEventListener
                 $binnacle->bitc_modulo = '\Login';
                 $binnacle->bitcta_result = '';
                 $binnacle->bitcta_msg = 'Acceso de usuario '.$usr->name;
+                if ($usr->users_f_ultacces == null)
+                {
+                    $usr->first_login = true;
+                    $usr->password_change = false;
+                }
+                
                 $usr->users_f_ultacces = date('Y-m-d H:i:s');
                 $usr->users_blocked = false;
                 $usr->save();

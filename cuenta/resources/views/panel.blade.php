@@ -99,6 +99,70 @@
         <div class="">
 
         <div class="top_tiles">
+
+
+
+                      
+
+                      <div class="modal fade" id="passmodalini" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog" role="document" style=" width:60%">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña: {{ Auth::user()->name}}</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <!--<span aria-hidden="true">&times;</span>-->
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="input-group col-md-4 col-sm-4 col-xs-12">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i>
+                                        </span>
+                                        <input placeholder="Nueva Contraseña" type="password" class="form-control " id="passwordini" name="passwordini">
+                                        @if ($errors->has('password'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                        </span>
+                                        @endif
+                                       
+                                    </div>
+
+                                    <div class="input-group col-md-3 col-sm-3 col-xs-12">
+                                      <button type="button" onclick="changePass({{ Auth::user()->id }});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+                                    </div>
+                                </div>
+                              </form>
+                           </div>
+                            <div class="modal-footer">
+                            <div  class="form-group col-md-12 col-sm-12 col-xs-12">
+                             <div id="result_failure_pass{{$user->id}}" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+                             </div>
+                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                              <!--<button type="button" onclick="cleanmodalPass();" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>-->
+                                
+                             </div>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               
               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="tile-stats">
@@ -172,6 +236,7 @@
                  <input type="hidden" id="inp_colorinterv" name="inp_colorinterv" value="{{ $color_interval }}">
                  <input type="hidden" id="inp_numcta" name="inp_numcta" value="{{ $num_cta }}">
                  <input type="hidden" id="inp_user" name="inp_user" value="{{  Auth::user()->id }}">
+                 <input type="hidden" id="inpasschange" name="inpasschange" value="{{ $pass_change }}">
                 <div class="contenedor_select col-md-9 col-sm-9 col-xs-12" id="diviscons" style="height:80px;">
    
                 </div>
@@ -363,7 +428,74 @@
       <script src="{{ asset('build/js/custom.js') }}"></script>
 
       <script type="text/javascript">
+
+          $(document).ready(function() {
+            $(window).load(function() {
+                var changepass = document.getElementById('inpasschange').value;
+                if (!changepass)
+                {
+                  showModal();
+                }
+            });
+        });
+
+
+          //Métodos de cambio de contraseña
+          function showModal() {
+
+          $("#passmodalini").modal('show');
           
+        }
+
+    function hideModal() {
+          $("#passmodalini").modal('hide');
+        }
+
+
+    function cleanmodalPass(usrid){
+      $("#result_failure_pass"+usrid).html('');
+      }
+
+
+    function changePass(user){
+
+           var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+           var password = document.getElementById('passwordini').value;
+
+           if(password){
+              console.log(password);
+              console.log(user);
+              $.ajax({
+                url: '/cambcont',
+                type: 'POST',
+                data: {_token: CSRF_TOKEN,password:password,user:user},
+                dataType: 'JSON',
+
+                success: function (data) {
+
+                  hideModal();
+                  
+               },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    //alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    //$("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+
+                }
+            });
+            }
+            else{
+              $("#result_failure_pass"+user).html('<p>La contraseña es obligatoria</p>');
+              
+           }
+
+           document.getElementById("passwordini").value = "";
+
+   }
+
+//Fin de métodos de cambio de contraseña
+
           var dataempr = [];
           var empresas =jQuery.parseJSON(document.getElementById('emps').value);
           

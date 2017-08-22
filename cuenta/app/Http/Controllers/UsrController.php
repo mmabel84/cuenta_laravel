@@ -429,6 +429,7 @@ class UsrController extends Controller
                 $this->registroBitacora($request,'password change',$fmessage);
                 //\Session::flash('message', $fmessage); 
             }
+            $usr->password_change = true;
 
             $user->save();
         }

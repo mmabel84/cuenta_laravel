@@ -157,6 +157,7 @@ return array(
     'ChangeTableUsers' => $baseDir . '/database/migrations/2017_05_31_200754_change_table_users.php',
     'ChangeToNullBackup' => $baseDir . '/database/migrations/2017_06_22_155303_change_to_null_backup.php',
     'ChangeToNullBdapp' => $baseDir . '/database/migrations/2017_06_13_204023_change_to_null_bdapp.php',
+    'ChangeUserFirstLogin' => $baseDir . '/database/migrations/2017_08_22_105057_change_user_first_login.php',
     'Collective\\Html\\Componentable' => $vendorDir . '/laravelcollective/html/src/Componentable.php',
     'Collective\\Html\\Eloquent\\FormAccessible' => $vendorDir . '/laravelcollective/html/src/Eloquent/FormAccessible.php',
     'Collective\\Html\\FormBuilder' => $vendorDir . '/laravelcollective/html/src/FormBuilder.php',
