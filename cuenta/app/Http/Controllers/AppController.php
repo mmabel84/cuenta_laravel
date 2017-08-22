@@ -472,7 +472,7 @@ class AppController extends Controller
             }
         }
 
-        if ($megtotal == $megtotalasign)
+        if ($megtotal <= $megtotalasign)
         {
             $megdisp = 0;
         }
