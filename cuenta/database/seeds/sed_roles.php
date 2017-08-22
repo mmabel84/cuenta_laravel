@@ -115,12 +115,12 @@ class sed_roles extends Seeder
 			'model' => 'App\User',
 		]);
 
-		$readAdvansUsrPermission = Permission::create([
+		/*$readAdvansUsrPermission = Permission::create([
 			'name' => 'Leer usuarios de advans',
 			'slug' => 'leer.usuario.advans',
 			'description' => 'Puede leer todos los usuarios',
 			'model' => 'App\User',
-		]);
+		]);*/
 
 		$createUsrPermission = Permission::create([
 			'name' => 'Crear usuarios',

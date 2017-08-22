@@ -50,7 +50,7 @@ class AppController extends Controller
         if ($usr->can('leer.aplicacion'))
         {    
             $apps = BasedatosApp::all();
-            $usrs = User::all();
+            $usrs = User::where('users_control','<>',true)->get();
             $apps_prueba = [];
 
             foreach ($apps as $app ) {
@@ -530,7 +530,7 @@ class AppController extends Controller
                     $db_dest->bdapp_gigdisp = $megas_db_dest + $megas_a_trans;
                     $db_dest->save();
                     \Session::flash('message',$msg);
-                    $this->registroBitacora($request,'space transfer',$msg); 
+                    $this->registroBitacora($request,'space transfer',$msg);  
                 }
             }
         }

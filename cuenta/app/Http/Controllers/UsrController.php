@@ -77,10 +77,10 @@ class UsrController extends Controller
         if ($usr->can('leer.usuario'))
         {
             $usuarios = User::where('users_control','<>',true)->get();
-            if ($usr->can('leer.usuario.advans'))
+            /*if ($usr->can('leer.usuario.advans'))
             {
                 $usuarios = User::all();
-            }
+            }*/
             
             $apps = BasedatosApp::all();
             return view('usuarios',['apps'=>$apps,'usuarios'=>$usuarios]);
