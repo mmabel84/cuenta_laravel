@@ -207,10 +207,11 @@ class HomeController extends Controller
              }
         }
 
-        //Calculando cantidad de aplicaciones con instancias creadas y cantidad de gigas asignados total
+        //Calculando cantidad de aplicaciones con instancias creadas y cantidad de megas asignados total
         $cantgigas = 0;
         $cant_app_coninst = 0;
         $cantinstcont = 0; 
+        $cantgigasign = 0;
         
        foreach ($apps as $app) {
            $cantgigas = $cantgigas + $app->app_megs;
@@ -219,8 +220,12 @@ class HomeController extends Controller
             if (count($cant_inst) > 0)
             {
                 $cant_app_coninst += 1;
+                foreach ($cant_inst as $inst) {
+                    $cantgigasign = $cantgigasign + $inst->bdapp_gigdisp;
+                }
             }
        }
+       $cant_gigas_rest = $cantgigas - $cantgigasign;
 
        
 
@@ -354,7 +359,7 @@ class HomeController extends Controller
             $gigas_cons_emp = array_values($dict_empr_gig);
         }
 
-        $cant_gigas_rest = $cantgigas - $cant_gigas_cons;
+        
         $porc_esp_cons = 0;
         if ($cantgigas > 0)
         {
@@ -464,7 +469,7 @@ class HomeController extends Controller
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest,'fecha_act_69'=>$fecha_act_69,'num_cta'=>$num_cta,'pass_change'=>$user_logued->password_change]);
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest,'fecha_act_69'=>$fecha_act_69,'num_cta'=>$num_cta,'pass_change'=>$user_logued->password_change,'cantgigasign'=>$cantgigasign]);
 
     }
 
