@@ -515,14 +515,20 @@ class AppController extends Controller
                 'operac' => base64_encode('restar'),
                 'hash' => $hash
                 );
+                
+
 
                 $wsdl = 'http://devbov.advans.mx/transfMeg?wsdl';
 
                 if ($db_orig->bdapp_app == 'bov')
                 {
+                    Log::info('Logueando bd origen');
+                    Log::info('bd origen '.$db_orig->bdapp_nombd);
+                    Log::info('megas a restar '.$megas_a_trans);
+                    Log::info($hash);
                     $soap = new \SoapClient($wsdl);
                     $data = $soap->__soapCall("transfMeg", $params_orig);
-                    Log::info(var_dump($data));
+                    Log::info('result del restar '.var_dump($data));
                 }
 
                 if ($data)
@@ -536,6 +542,11 @@ class AppController extends Controller
 
                     if ($db_dest->bdapp_app == 'bov')
                     {
+                        Log::info('Logueando bd destino');
+                        Log::info('bd destino '.$db_dest->bdapp_nombd);
+                        Log::info('megas a restar '.$megas_a_trans);
+                        Log::info($hash);
+
                         $soap = new \SoapClient($wsdl);
                         $datadest = $soap->__soapCall("transfMeg", $params_dest);
                     }
