@@ -640,6 +640,7 @@
 	        		else
 	        		{
 	        			$("#result_notrasnf"+bdid).html(response['msg']);
+	        			document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value;
 	        		}
 		        },
 		        error: function(XMLHttpRequest, textStatus, errorThrown) { 

@@ -488,9 +488,10 @@ class AppController extends Controller
     {
         $alldata = $request->all();
         $status = 'failure';
-        $resp = true;
         $msg = 'No tiene disponibilidad para transferir la cantidad señalada';
+        $messagetype = 'failmessage';
         $hash = "Q0ZESSBTT0xVQ0lPTkVTIEFEVkFOUw==1";
+        $data = true;
         if (array_key_exists('bdid_orig',$alldata) && isset($alldata['bdid_orig']) && array_key_exists('bdid_dest',$alldata) && isset($alldata['bdid_dest']) && array_key_exists('cant_megas',$alldata) && isset($alldata['cant_megas']))
         {
 
@@ -503,6 +504,7 @@ class AppController extends Controller
                 $megas_db_dest = $db_dest->bdapp_gigdisp;
                 $megas_a_trans = $alldata['cant_megas'];
 
+
                 $params_orig = array(
                 'dbname' => base64_encode($db_orig->bdapp_nombd),
                 'cantidad' =>base64_encode($megas_a_trans),
@@ -510,18 +512,16 @@ class AppController extends Controller
                 'hash' => $hash
                 );
 
-                /*$wsdl = 'http://192.168.10.129/advans/bov/public/pushData?wsdl';
+                $wsdl = 'http://devbov.advans.mx/transfMeg?wsdl';
 
-                try {
+                if ($db_orig->bdapp_app == 'bov')
+                {
                     $soap = new \SoapClient($wsdl);
                     $data = $soap->__soapCall("transfMeg", $params_orig);
-                    $resp = $data['result']
+                    Log::info($data);
                 }
-                catch(Exception $e) {
-                    die($e->getMessage());
-                }*/
 
-                if ($resp)
+                if ($data)
                 {
                     $params_dest = array(
                     'dbname' =>base64_encode($db_dest->bdapp_nombd),
@@ -530,27 +530,25 @@ class AppController extends Controller
                     'hash' => $hash
                     );
 
-                    /*$wsdl = 'http://192.168.10.129/advans/bov/public/pushData?wsdl';
-
-                    try {
+                    if ($db_dest->bdapp_app == 'bov')
+                    {
                         $soap = new \SoapClient($wsdl);
-                        $data = $soap->__soapCall("transfMeg", $params_dest);
-                        $resp = $data['result']
+                        $datadest = $soap->__soapCall("transfMeg", $params_dest);
                     }
-                    catch(Exception $e) {
-                        die($e->getMessage());
-                    }*/
+                    
                     $msg = $megas_a_trans. ' megas transferidos de solución '.$db_orig->aplicacion->app_nom.' de empresa '.$db_orig->empresa->empr_nom.' a solución '.$db_dest->aplicacion->app_nom.' de empresa '.$db_dest->empresa->empr_nom;
+                    $messagetype = 'message';
                     $status = 'success';
                     $db_orig->bdapp_gigdisp = $megas_db_orig - $megas_a_trans;
                     $db_orig->save();
                     $db_dest->bdapp_gigdisp = $megas_db_dest + $megas_a_trans;
                     $db_dest->save();
-                    \Session::flash('message',$msg);
                     $this->registroBitacora($request,'space transfer',$msg);  
                 }
             }
         }
+
+        \Session::flash($messagetype,$msg);
         
         $response = array ('status' => $status, 'msg' => $msg);
         return \Response::json($response);
