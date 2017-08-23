@@ -93,12 +93,13 @@
 
 			                          	</div>-->
 			                          	&nbsp;
-			                          	
+			                          	@permission('restaurar.respaldo')
 										<div class="btn-group">
 
 		                          			<a onclick="showWaitingModal()" href="{{ route('restback',['bdid'=>$back->id]) }}" id="rest{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Restaurar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-cogs fa-3x"></i> </a>
 
 			                          	</div>
+			                          	@endpermission
 		                          	</div>
 		                          </div>
 		                          </td>
