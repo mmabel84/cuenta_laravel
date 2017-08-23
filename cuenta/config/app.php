@@ -23,8 +23,8 @@ return [
                                     
                                 'bov'=>[
                                     'grant_type' => 'password',
-                                    'client_id' => '5',
-                                    'client_secret' => 'tgEPkAepbpk8hdxOaSwUqdbJeXyokyzGMsjv7sAp',
+                                    'client_id' => '1',
+                                    'client_secret' => 'fzSOZUKiNQlgu2GLZP54OamrXaqUAWGjtb48oFsW',
                                     'username' => 'api@advans.mx',
                                     'password' => 'Usuarioapi123*',
                                     'scope' => '*',
