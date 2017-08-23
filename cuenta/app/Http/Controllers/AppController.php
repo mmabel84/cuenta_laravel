@@ -528,7 +528,7 @@ class AppController extends Controller
                     Log::info($hash);
                     $soap = new \SoapClient($wsdl);
                     $data = $soap->__soapCall("transfMeg", $params_orig);
-                    Log::info('result del restar '.var_dump($data));
+                    Log::info('result del restar '.$data);
                 }
 
                 if ($data)
