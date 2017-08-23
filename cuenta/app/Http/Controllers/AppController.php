@@ -177,6 +177,10 @@ class AppController extends Controller
                 {
                     $arrayparams['f_corte'] = $linea_tiempo_act[0]->paqapp_f_caduc;
                 }
+
+                Log::info('megas a asignar '.$megas);
+                Log::info('fecha caducidad '.$linea_tiempo_act[0]->paqapp_f_caduc);
+
                 
                 $acces_vars = $this->getAccessToken($app->app_cod);
                 $service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
