@@ -492,7 +492,7 @@ class AppController extends Controller
     {
         $alldata = $request->all();
         $status = 'failure';
-        $msg = 'No tiene disponibilidad para transferir la cantidad señalada';
+        
         $messagetype = 'failmessage';
         $hash = "Q0ZESSBTT0xVQ0lPTkVTIEFEVkFOUw==1";
         $data = true;
@@ -501,14 +501,15 @@ class AppController extends Controller
 
             $db_orig = BasedatosApp::find($alldata['bdid_orig']);
             $db_dest = BasedatosApp::find($alldata['bdid_dest']);
+            $megas_a_trans = $alldata['cant_megas'];
+
+            $msg = 'No tiene disponibilidad para transferir la cantidad '.$megas_a_trans.' megas de solución '.$db_orig->aplicacion->app_nom.' de empresa '.$db_orig->empresa->empr_nom.' a solución '.$db_dest->aplicacion->app_nom.' de empresa '.$db_dest->empresa->empr_nom;
 
             if ($db_orig && $db_dest)
             {
                 $megas_db_orig = $db_orig->bdapp_gigdisp;
                 $megas_db_dest = $db_dest->bdapp_gigdisp;
-                $megas_a_trans = $alldata['cant_megas'];
-
-
+                
                 $params_orig = array(
                 'dbname' => base64_encode($db_orig->bdapp_nombd),
                 'cantidad' =>base64_encode($megas_a_trans),
