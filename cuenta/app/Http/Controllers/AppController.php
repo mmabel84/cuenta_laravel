@@ -522,7 +522,7 @@ class AppController extends Controller
                 {
                     $soap = new \SoapClient($wsdl);
                     $data = $soap->__soapCall("transfMeg", $params_orig);
-                    Log::info($data);
+                    Log::info(var_dump($data));
                 }
 
                 if ($data)
