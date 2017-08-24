@@ -450,8 +450,11 @@ class AppController extends Controller
                 foreach ($inst_app as $inst) {
                     $megasign += $inst->bdapp_gigdisp;
                 }
-                $megdisp = $esp_total - $megasign;
-
+                if ($megasign < $esp_total)
+                {
+                    $megdisp = $esp_total - $megasign;
+                }
+                
             }
             else
             {
