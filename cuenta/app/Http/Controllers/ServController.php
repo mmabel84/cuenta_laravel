@@ -811,7 +811,7 @@ class ServController extends Controller
 
 		   			if (count($cta_bloq) > 0)
 		   			{
-		   				$bloq = $cta_bloq[0];
+		   				$bloq = $cta_bloq[0]->ctaconf_bloq;
 		   			}
 
 
