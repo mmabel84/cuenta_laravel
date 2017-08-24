@@ -278,6 +278,12 @@
             e.preventDefault();
             returnToPreviousPage();
           }
+          else if(cantAsign == 0 && cantDisp == 0)
+          {
+            alert('No tiene espacio disponible para crear la solución');
+            e.preventDefault() ;
+            returnToPreviousPage();
+          }
           else
           {
             showWaitingModal();
