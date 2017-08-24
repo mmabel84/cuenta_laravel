@@ -854,6 +854,10 @@ class ServController extends Controller
 
 	   		}
 
+	   		Log::info($status);
+	   		Log::info($msg);
+
+
 	   		$response = array(
             'status' => $status,
             'msg' => $msg,
