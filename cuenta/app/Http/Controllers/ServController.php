@@ -815,7 +815,7 @@ class ServController extends Controller
 		   			}
 
 
-		   			Log::info('bloqueada '.$bloq)
+		   			Log::info('bloqueada '.$bloq);
 
 		   			$dbapps = DB::connection($dbcon)->table('bdapp')->where('bdapp_nombd', '=', $instdbname)->get();
 
@@ -830,7 +830,7 @@ class ServController extends Controller
 		   				$app = DB::connection($dbcon)->table('app')->where('id', '=', $app_id)->get();
 		   				if (count($app) > 0)
 		   				{
-		   					Log::info('bloqueada antes del if'.$bloq)
+		   					Log::info('bloqueada antes del if'.$bloq);
 		   					if (!$bloq)
 		   					{
 		   						if ($app[0]->app_activa == false)
