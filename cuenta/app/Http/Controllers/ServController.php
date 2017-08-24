@@ -795,7 +795,7 @@ class ServController extends Controller
 	    	$alldata = $request->all();
 	   		$status = 1;
 	   		$msg = 'Existe solución';
-	   		$bloq = false;
+	   		$bloq = 0;
 
 	   		if (array_key_exists('cta',$alldata) && isset($alldata['cta']) && array_key_exists('dbname',$alldata) && isset($alldata['dbname']))
 	   		{
@@ -814,6 +814,9 @@ class ServController extends Controller
 		   				$bloq = $cta_bloq[0];
 		   			}
 
+
+		   			Log::info('bloqueada '.$bloq)
+
 		   			$dbapps = DB::connection($dbcon)->table('bdapp')->where('bdapp_nombd', '=', $instdbname)->get();
 
 		   			if (count($dbapps) == 0)
@@ -827,6 +830,7 @@ class ServController extends Controller
 		   				$app = DB::connection($dbcon)->table('app')->where('id', '=', $app_id)->get();
 		   				if (count($app) > 0)
 		   				{
+		   					Log::info('bloqueada antes del if'.$bloq)
 		   					if (!$bloq)
 		   					{
 		   						if ($app[0]->app_activa == false)
