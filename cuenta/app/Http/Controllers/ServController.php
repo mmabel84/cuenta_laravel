@@ -803,42 +803,53 @@ class ServController extends Controller
 	   			$dbcon = $alldata['cta'].'_cta';
 	   			$instdbname = $alldata['dbname'];
 
-	   			$cta_bloq = DB::connection($dbcon)->select('select ctaconf_bloq from ctaconf');
-
-	   			if (count($cta_bloq) > 0)
+	   			$dbvalues = config('database.connections');
+	   			if(array_key_exists($dbcon,$dbvalues))
 	   			{
-	   				$bloq = $cta_bloq[0];
-	   			}
 
-	   			$dbapps = DB::connection($dbcon)->table('bdapp')->where('bdapp_nombd', '=', $instdbname)->get();
+	   				$cta_bloq = DB::connection($dbcon)->select('select ctaconf_bloq from ctaconf');
 
-	   			if (count($dbapps) == 0)
-	   			{
-	   				$status = 0;
-	   				$msg = 'RFC o número de cuenta no registrado';
+		   			if (count($cta_bloq) > 0)
+		   			{
+		   				$bloq = $cta_bloq[0];
+		   			}
+
+		   			$dbapps = DB::connection($dbcon)->table('bdapp')->where('bdapp_nombd', '=', $instdbname)->get();
+
+		   			if (count($dbapps) == 0)
+		   			{
+		   				$status = 0;
+		   				$msg = 'Solución de RFC no creada';
+		   			}
+		   			else
+		   			{
+		   				$app_id = $dbapps[0]->bdapp_app_id;
+		   				$app = DB::connection($dbcon)->table('app')->where('id', '=', $app_id)->get();
+		   				if (count($app) > 0)
+		   				{
+		   					if (!$bloq)
+		   					{
+		   						if ($app[0]->app_activa == false)
+			   					{
+			   						$status = 0;
+			   						$msg = 'Aplicación bloqueada desde control';
+			   					}
+		   					}
+		   					else
+		   					{
+		   						$status = 0;
+			   					$msg = 'Cuenta bloqueada';
+		   					}
+		   					
+		   				}
+		   				
+		   			}
+
 	   			}
 	   			else
 	   			{
-	   				$app_id = $dbapps[0]->bdapp_app_id;
-	   				$app = DB::connection($dbcon)->table('app')->where('id', '=', $app_id)->get();
-	   				if (count($app) > 0)
-	   				{
-	   					if (!$bloq)
-	   					{
-	   						if ($app[0]->app_activa == false)
-		   					{
-		   						$status = 0;
-		   						$msg = 'Aplicación bloqueada desde control';
-		   					}
-	   					}
-	   					else
-	   					{
-	   						$status = 0;
-		   					$msg = 'Cuenta bloqueada';
-	   					}
-	   					
-	   				}
-	   				
+	   				$status = 0;
+	   				$msg = 'Número de cuenta no registrado';
 	   			}
 
 	   		}
