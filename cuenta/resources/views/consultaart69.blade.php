@@ -358,11 +358,11 @@
 
     <script type="text/javascript">
 
-    	$("#estado_69").select2({
+    	/*$("#estado_69").select2({
                   allowClear: true,
                   placeholder: 'Tipo'
                   
-               });
+               });*/
 
 		function rfcfiltro(filtroelem){
 

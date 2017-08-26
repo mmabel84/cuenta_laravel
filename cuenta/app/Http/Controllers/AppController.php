@@ -194,6 +194,21 @@ class AppController extends Controller
                 if ($user_email){
                     \Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$url_inst]));
                 }
+
+                //Llamando a servicio de control para recuperar correo imap
+
+                /*if ($app->app_cod == 'bov')
+                {
+                    $arrayparamsc['rfc'] = $emprrfc;
+                    $arrayparamsc['cta'] = $ctarfc;
+                    $acces_vars = $this->getAccessToken('control');
+                    $service_response = $this->getAppService($acces_vars['access_token'],'get_imap_email',$arrayparamsc,'control');
+                    if ($service_response['status'] == 'success')
+                    {
+                        $appbd->bdapp_imap_email = $service_response['imap_email'];
+                    }
+                }*/
+               
                 $appbd->save();
                 $appbd->users()->attach($user->id);
              }

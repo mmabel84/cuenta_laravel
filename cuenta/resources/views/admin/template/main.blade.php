@@ -126,7 +126,8 @@
                                         <li><a href="{{ route('login') }}">Login</a></li>
                                         <li><a href="{{ route('register') }}">Register</a></li>
                                     @else
-                                        <li class="dropdown">
+                                            <li class="dropdown">
+                                              <li><a href="{{ route('usuarios.edit',Auth::user()->id) }}"> Perfil</a></li>
                                                 <li>
                                                     <a href="{{ route('logout') }}"
                                                         onclick="event.preventDefault();
@@ -138,7 +139,7 @@
                                                         {{ csrf_field() }}
                                                     </form>
                                                 </li>
-                                                <li><a href="{{ route('usuarios.edit',Auth::user()->id) }}"> Perfil</a></li>
+                                                
 
                                                 </li>
                                             </li>

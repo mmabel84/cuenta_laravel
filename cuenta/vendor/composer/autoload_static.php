@@ -412,6 +412,7 @@ class ComposerStaticInit3161d54e46c8783f8aac1f4bd090b928
     public static $classMap = array (
         'AddAppTable' => __DIR__ . '/../..' . '/database/migrations/2017_06_13_180439_add_app_table.php',
         'AddBackbdTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_155650_add_backbd_table.php',
+        'AddBdappImapEmail' => __DIR__ . '/../..' . '/database/migrations/2017_08_25_110813_add_bdapp_imap_email.php',
         'AddBdappTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_152119_add_bdapp_table.php',
         'AddBitctaTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_164403_add_bitcta_table.php',
         'AddBlockedUser' => __DIR__ . '/../..' . '/database/migrations/2017_07_03_125319_add_blocked_user.php',

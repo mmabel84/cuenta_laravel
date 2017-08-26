@@ -63,6 +63,7 @@
 		                          <th>RFC empresa</th>
 		                          <th>Uso</th>
 		                          <th>Megas asignados</th>
+		                          <th>Correo imap</th>
 		                          <th>Acciones</th>
 		                          
 		                        </tr>
@@ -72,10 +73,11 @@
 		                      @foreach ($apps as $a)
 		                        <tr>
 		                          <td width="5%">{{$a->aplicacion->app_nom}}</td>
-		                          <td width="30%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
+		                          <td width="25%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td width="5%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td width="5%">{{$a->uso}}</td>
 		                          <td width="5%">{{$a->bdapp_gigdisp}}</td>
+		                          <td width="5%">boveda-{{$a->bdapp_imap_email}}@advans.mx</td>
 		                          <td width="15%">
 			                          <div class="btn-group">
 										<div class="btn-group">
@@ -606,20 +608,26 @@
 	    	{
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'Debe escoger una opción'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
-	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value
+	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value;
 	    	}
 
 	    	else if ($("#select_bd_transf_id"+bdid).val() == bdid)
 	    	{
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir megas a la misma solución'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
-	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value
+	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value;
 	    	}
 	    	else if (Number(cant_megas) > Number(cant_megas_disp))
 	    	{
 	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir más de lo disponible'+"</label>";
 	    		$("#result_notrasnf"+bdid).html($msg);
-	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value
+	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value;
+	    	}
+	    	else if (Number(cant_megas) == Number(cant_megas_disp))
+	    	{
+	    		$msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> "+'No puede transferir todo lo disponible'+"</label>";
+	    		$("#result_notrasnf"+bdid).html($msg);
+	    		document.getElementById('cant_transf'+bdid).value = document.getElementById('appmegdisp'+bdid).value;
 	    	}
 	    	else
 	    	{	
