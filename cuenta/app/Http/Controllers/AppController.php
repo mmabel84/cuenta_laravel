@@ -516,6 +516,7 @@ class AppController extends Controller
         $hash = "Q0ZESSBTT0xVQ0lPTkVTIEFEVkFOUw==1";
         $data = true;
         $msg = '';
+        Log::info($alldata);
         if (array_key_exists('bdid_orig',$alldata) && isset($alldata['bdid_orig']) && array_key_exists('bdid_dest',$alldata) && isset($alldata['bdid_dest']) && array_key_exists('cant_megas',$alldata) && isset($alldata['cant_megas']))
         {
 
