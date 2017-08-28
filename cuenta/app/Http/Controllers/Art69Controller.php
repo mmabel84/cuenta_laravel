@@ -237,7 +237,7 @@ class Art69Controller extends Controller
 
     function consulta69(){
 
-        if (\Auth:check())
+        if (\Auth::check())
         {
             return view('consultaart69');
         }
@@ -252,7 +252,7 @@ class Art69Controller extends Controller
 
         $arrayparams = array();
 
-        if (\Auth:check())
+        if (\Auth::check())
         {
             $arrayparams['by_rfc'] = $request['by_rfc'];
             $arrayparams['rfc_value'] = strtoupper($request['rfc_value']);
