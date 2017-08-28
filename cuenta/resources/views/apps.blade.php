@@ -632,7 +632,7 @@
 	    	else
 	    	{	
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	    		var bdid_dest = $("#select_bd_transf_i d"+bdid).val();
+	    		var bdid_dest = $("#select_bd_transf_id"+bdid).val();
 
 	    		$.ajax({
 	        	url:"/transfmegas",
