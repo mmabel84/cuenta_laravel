@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class Art69Controller extends Controller
 {
@@ -234,62 +236,71 @@ class Art69Controller extends Controller
         }
 
     function consulta69(){
-        return view('consultaart69');
+
+        if (\Auth:check())
+        {
+            return view('consultaart69');
+        }
+        else
+        {
+            return redirect(route('login'));  
+        }
+        
     }
 
     function request69consult(Request $request){
 
         $arrayparams = array();
 
-        $arrayparams['by_rfc'] = $request['by_rfc'];
-        $arrayparams['rfc_value'] = strtoupper($request['rfc_value']);
-        $arrayparams['nombre_value'] = $request['nombre_value'];
-        $arrayparams['oficio_value'] = $request['oficio_value'];
-        $arrayparams['estado_value'] = $request['estado_value'];
-        $arrayparams['by_sat'] = $request['by_sat'];
-        $arrayparams['by_sat_specific'] = $request['by_sat_specific'];
-        $arrayparams['fecha_esp_sat'] = $request['fecha_esp_sat'];
-        $arrayparams['fecha_ini_sat'] = $request['fecha_ini_sat'];
-        $arrayparams['fecha_fin_sat'] = $request['fecha_fin_sat'];
-        $arrayparams['by_dof'] = $request['by_dof'];
-        $arrayparams['by_dof_specific'] = $request['by_dof_specific'];
-        $arrayparams['fecha_esp_dof'] = $request['fecha_esp_dof'];
-        $arrayparams['fecha_ini_dof'] = $request['fecha_ini_dof'];
-        $arrayparams['fecha_fin_dof'] = $request['fecha_fin_dof'];
-
-        $registros69 = [];
-
-        
-        try
+        if (\Auth:check())
         {
-            $acces_vars = $this->getAccessToken();
-            $service_response = $this->getAppService($acces_vars['access_token'],'get69response',$arrayparams,'control');
-            Log::info($service_response);
-            if (count($service_response['response69']) > 0){
-                $registros69 = $service_response['response69'];
+            $arrayparams['by_rfc'] = $request['by_rfc'];
+            $arrayparams['rfc_value'] = strtoupper($request['rfc_value']);
+            $arrayparams['nombre_value'] = $request['nombre_value'];
+            $arrayparams['oficio_value'] = $request['oficio_value'];
+            $arrayparams['estado_value'] = $request['estado_value'];
+            $arrayparams['by_sat'] = $request['by_sat'];
+            $arrayparams['by_sat_specific'] = $request['by_sat_specific'];
+            $arrayparams['fecha_esp_sat'] = $request['fecha_esp_sat'];
+            $arrayparams['fecha_ini_sat'] = $request['fecha_ini_sat'];
+            $arrayparams['fecha_fin_sat'] = $request['fecha_fin_sat'];
+            $arrayparams['by_dof'] = $request['by_dof'];
+            $arrayparams['by_dof_specific'] = $request['by_dof_specific'];
+            $arrayparams['fecha_esp_dof'] = $request['fecha_esp_dof'];
+            $arrayparams['fecha_ini_dof'] = $request['fecha_ini_dof'];
+            $arrayparams['fecha_fin_dof'] = $request['fecha_fin_dof'];
+
+            $registros69 = [];
+
+            
+            try
+            {
+                $acces_vars = $this->getAccessToken();
+                $service_response = $this->getAppService($acces_vars['access_token'],'get69response',$arrayparams,'control');
+                Log::info($service_response);
+                if (count($service_response['response69']) > 0){
+                    $registros69 = $service_response['response69'];
+                }
+            } 
+            catch (\GuzzleHttp\Exception\ServerException $e) 
+            {
+                 \Session::put('newserror', 'Sin comunicación a servicio de control para consulta de artículo 69');
+
             }
-        } 
-        catch (\GuzzleHttp\Exception\ServerException $e) 
-        {
-             \Session::put('newserror', 'Sin comunicación a servicio de control para consulta de artículo 69');
 
+
+           $response = array(
+                'status' => 'Success',
+                'msg' => 'Registers returned',
+                'registros69' => $registros69,
+                );
+        }
+        else
+        {
+            return redirect(route('login'));  
         }
 
         
-
-
-        /*$registros69 = array(
-            array('rfc'=>'rrrrr', 'contribuyente'=>'rrrrr','tipo'=>'rrrr', 'oficio'=>'rrrr','fecha_sat'=>'rrrr','fecha_dof'=>'rrr','url_oficio'=>'rrrr','url_anexo'=>'rrrr'),
-            array('rfc'=>'rrrrr', 'contribuyente'=>'rrrrr','tipo'=>'rrrr', 'oficio'=>'rrrr','fecha_sat'=>'rrrr','fecha_dof'=>'rrr','url_oficio'=>'rrrr','url_anexo'=>'rrrr'),
-           array('rfc'=>'rrrrr', 'contribuyente'=>'rrrrr','tipo'=>'rrrr', 'oficio'=>'rrrr','fecha_sat'=>'rrrr','fecha_dof'=>'rrr','url_oficio'=>'rrrr','url_anexo'=>'rrrr'),
-        );*/
-
-       $response = array(
-            'status' => 'Success',
-            'msg' => 'Registers returned',
-            'registros69' => $registros69,
-            );
-
          return \Response::json($response);
 
     }
