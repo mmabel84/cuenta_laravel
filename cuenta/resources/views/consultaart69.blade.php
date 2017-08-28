@@ -99,19 +99,14 @@
 
 
 			        <div id="div_rfc" class="item form-group col-md-6 col-sm-6 col-xs-12">
-			        <div  class="item form-group {{ $errors->has('empr_rfc') ? 'bad' : '' }}">
+			         <div  class="item form-group">
                         
-                        
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="rfc_69" class="form-control has-feedback-left" name="rfc_60" placeholder="RFC" type="text" data-validate-words="1" value="{{ old('empr_rfc') }}" autocomplete="off" data-inputmask="'mask' : '*************'" style="text-transform: uppercase;" title="RFC a buscar">
-                              <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-	                            <span style="float: left; color: red;" id="span_empr_rfc" {{$errors->has('empr_rfc') ? '' : 'hidden'}}>
-	                                {{ $errors->first('empr_rfc') }}
-	                            </span>
-                        	</div>
-                          </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="rfc_69" class="form-control has-feedback-left" name="rfc_60" placeholder="RFC" type="text" data-validate-words="1" value="{{ old('empr_rfc') }}" autocomplete="off" data-inputmask="'mask' : '*************'" style="text-transform: uppercase;" title="RFC a buscar">
+                        <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                      </div>
+                      
+                </div>
 			        	
 			        </div>
 
