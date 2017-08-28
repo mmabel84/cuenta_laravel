@@ -88,7 +88,13 @@ class Handler extends ExceptionHandler
             $request->session()->put('loginrfcerr', 'La base de datos no existe');
             return redirect(route('login'));  
         }
+        elseif ($exception instanceof ErrorException) 
+        {
+            Log::info($exception);
+            return redirect(route('login'));  
+        }
         
+
         return parent::render($request, $exception);
     }
 
