@@ -205,7 +205,8 @@ class AppController extends Controller
                     $service_response = $this->getAppService($acces_vars['access_token'],'get_imap_email',$arrayparamsc,'control');
                     if ($service_response['status'] == 'success')
                     {
-                        $appbd->bdapp_imap_email = $service_response['imap_email'];
+                        $imap = 'boveda-'.$service_response['imap_email'].'@advans.mx'
+                        $appbd->bdapp_imap_email = $imap;
                     }
                 }*/
                

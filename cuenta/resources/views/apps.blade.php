@@ -77,7 +77,7 @@
 		                          <td width="5%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td width="5%">{{$a->uso}}</td>
 		                          <td width="5%">{{$a->bdapp_gigdisp}}</td>
-		                          <td width="5%">boveda-{{$a->bdapp_imap_email}}@advans.mx</td>
+		                          <td width="5%">{{$a->bdapp_imap_email}}</td>
 		                          <td width="15%">
 			                          <div class="btn-group">
 										<div class="btn-group">
@@ -632,7 +632,7 @@
 	    	else
 	    	{	
 	    		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	    		var bdid_dest = $("#select_bd_transf_id"+bdid).val();
+	    		var bdid_dest = $("#select_bd_transf_i d"+bdid).val();
 
 	    		$.ajax({
 	        	url:"/transfmegas",
