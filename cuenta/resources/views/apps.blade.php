@@ -62,7 +62,7 @@
 		                          <th>Empresa</th>
 		                          <th>RFC empresa</th>
 		                          <th>Uso</th>
-		                          <th>Megas asignados</th>
+		                          <th>Megas</th>
 		                          <th>Correo imap</th>
 		                          <th>Acciones</th>
 		                          
@@ -78,7 +78,7 @@
 		                          <td width="5%">{{$a->uso}}</td>
 		                          <td width="5%">{{$a->bdapp_gigdisp}}</td>
 		                          <td width="5%">{{$a->bdapp_imap_email}}</td>
-		                          <td width="15%">
+		                          <td width="20%">
 			                          <div class="btn-group">
 										<div class="btn-group">
 		                          			@permission('asociar.usuario')
