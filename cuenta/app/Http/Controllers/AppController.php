@@ -204,7 +204,7 @@ class AppController extends Controller
                     $arrayparamsc['account_prefix'] = $app->app_cod;
                     $acces_vars = $this->getAccessToken('control');
                     $service_response = $this->getAppService($acces_vars['access_token'],'mailAccount',$arrayparamsc,'control');
-                    $imap = 'boveda-'.$service_response['uniq_id'].'@advans.mx'
+                    $imap = 'boveda-'.$service_response['uniq_id'].'@advans.mx';
                     $appbd->bdapp_imap_email = $imap;
                 }
                
