@@ -204,7 +204,7 @@ class AppController extends Controller
                     $arrayparamsc['account_prefix'] = $app->app_cod;
                     $acces_vars = $this->getAccessToken('control');
                     $service_response = $this->getAppService($acces_vars['access_token'],'mailAccount',$arrayparamsc,'control');
-                    $imap = 'boveda-'.$service_response['uniq_id'].'@advans.mx';
+                    $imap = $service_response['uniq_id'];
                     $appbd->bdapp_imap_email = $imap;
                 }
                
@@ -248,6 +248,13 @@ class AppController extends Controller
             else
             {
                $fmessage = 'Solución de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' no encontrada. Eliminada de cuenta';
+            }
+
+            if ($appd->app_cod == 'bov')
+            {
+                $arrayparamsc['uniq_id'] = $appd->bdapp_imap_email;
+                $acces_vars = $this->getAccessToken('control');
+                $service_response = $this->getAppService($acces_vars['access_token'],'delMailAccount',$arrayparamsc,'control');
             }
 
         }
