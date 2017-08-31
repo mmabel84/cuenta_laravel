@@ -251,7 +251,7 @@ class AppController extends Controller
                $fmessage = 'Solución de aplicación '.$appd->aplicacion->app_nom.' de empresa '.$appd->empresa->empr_nom.' no encontrada. Eliminada de cuenta';
             }
 
-            if ($appd->app_cod == 'bov')
+            if ($appd->bdapp_app == 'bov')
             {
                 $arrayparamsc['uniq_id'] = $appd->bdapp_imap_email;
                 $acces_vars = $this->getAccessToken('control');
