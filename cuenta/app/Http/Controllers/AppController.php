@@ -197,18 +197,16 @@ class AppController extends Controller
 
                 //Llamando a servicio de control para recuperar correo imap
 
-                /*if ($app->app_cod == 'bov')
+                if ($app->app_cod == 'bov')
                 {
-                    $arrayparamsc['rfc'] = $emprrfc;
-                    $arrayparamsc['cta'] = $ctarfc;
+                    $arrayparamsc['rfc_client'] = $emprrfc;
+                    $arrayparamsc['rfc_account'] = $ctarfc;
+                    $arrayparamsc['account_prefix'] = $app->app_cod;
                     $acces_vars = $this->getAccessToken('control');
-                    $service_response = $this->getAppService($acces_vars['access_token'],'get_imap_email',$arrayparamsc,'control');
-                    if ($service_response['status'] == 'success')
-                    {
-                        $imap = 'boveda-'.$service_response['imap_email'].'@advans.mx'
-                        $appbd->bdapp_imap_email = $imap;
-                    }
-                }*/
+                    $service_response = $this->getAppService($acces_vars['access_token'],'mailAccount',$arrayparamsc,'control');
+                    $imap = 'boveda-'.$service_response['uniq_id'].'@advans.mx'
+                    $appbd->bdapp_imap_email = $imap;
+                }
                
                 $appbd->save();
                 $appbd->users()->attach($user->id);

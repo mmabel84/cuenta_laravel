@@ -95,7 +95,7 @@
 			                            </label>
 			                         </div>
 			                         <div class="ln_solid"></div>
-			        </div>
+			             </div>
 
 
 			        <div id="div_rfc" class="item form-group col-md-6 col-sm-6 col-xs-12">
