@@ -546,7 +546,7 @@ class AppController extends Controller
                 
 
 
-                $wsdl = 'http://devbov.advans.mx/transfMeg?wsdl';
+                $wsdl = 'http://appbov.advans.mx/transfMeg?wsdl';
 
                 if ($db_orig->bdapp_app == 'bov')
                 {
