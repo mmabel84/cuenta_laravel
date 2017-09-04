@@ -504,6 +504,10 @@
         function cleanmodalPass(usrid){
 
 			$("#result_failure_pass"+usrid).html('');
+			var passid = "password"+usrid;
+           	var passcid = "password-confirm"+usrid;
+           	document.getElementById(passid).value = "";
+            document.getElementById(passcid).value = "";
 			
 		}
 
@@ -526,9 +530,9 @@
                 data: {_token: CSRF_TOKEN,password:password,password_confirmation:passwordc,user:user},
                 dataType: 'JSON',
                 success: function (data) {
-
-                  hideModal(data['user']);
                   cleanmodalPass(user);
+                  hideModal(data['user']);
+                  
 
                   var content = '<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;"><button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong id="alertpassmsg"></strong></div>';
                   
