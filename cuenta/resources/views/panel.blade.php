@@ -449,6 +449,7 @@
 
            if(password && passwordc){
               console.log(password);
+              console.log(passwordc);
               console.log(user);
               $.ajax({
                 url: '/cambcont',
@@ -479,7 +480,6 @@
               
            }
 
-           document.getElementById("passwordini").value = "";
 
    }
 
