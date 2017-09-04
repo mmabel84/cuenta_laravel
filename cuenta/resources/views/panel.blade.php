@@ -124,6 +124,13 @@
                                
                             </div>
 
+                            <div class="input-group col-md-4 col-sm-4 col-xs-12">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i>
+                                </span>
+                                <input placeholder="Confirme Contraseña" type="password" class="form-control " id="passwordini-confirm" name="passwordini_confirmation">
+                                
+                            </div>
+
                             <div class="input-group col-md-3 col-sm-3 col-xs-12">
                               <button type="button" onclick="changePassIni({{ Auth::user()->id }});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
                             </div>
@@ -438,14 +445,15 @@
 
            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
            var password = document.getElementById('passwordini').value;
+           var passwordc = document.getElementById('passwordini-confirm').value;
 
-           if(password){
+           if(password && passwordc){
               console.log(password);
               console.log(user);
               $.ajax({
                 url: '/cambcont',
                 type: 'POST',
-                data: {_token: CSRF_TOKEN,password:password,user:user},
+                data: {_token: CSRF_TOKEN,password:password,password_confirmation:passwordc,user:user},
                 dataType: 'JSON',
 
                 success: function (data) {
@@ -457,13 +465,15 @@
                     //alert("Status: " + textStatus); alert("Error: " + errorThrown);
                     console.log(textStatus);
                     console.log(errorThrown);
-                    $("#result_failure_pass").html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+                    var error = XMLHttpRequest.responseJSON['password'][0];
+                    $("#result_failure_pass"+user).html(error);
+                    //$("#result_failure_pass").html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
 
                 }
             });
             }
             else{
-              $("#result_failure_pass").html('<p>La contraseña es obligatoria</p>');
+              $("#result_failure_pass").html('<p>La contraseña y su confirmación son obligatorias</p>');
               
            }
 

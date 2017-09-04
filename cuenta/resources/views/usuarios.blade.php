@@ -201,6 +201,11 @@
 										                                    </span>
 										                                @endif
 		                                                        </div>
+
+		                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
+			                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+			                                                          <input placeholder="Confirme Contraseña" type="password" class="form-control " id="password-confirm{{$u->id}}" name="password_confirmation">
+		                                                        </div>
 		                                                        <br>
 		                                                        <div class="input-group col-md-3 col-sm-3 col-xs-12">
 							                                      <button type="button" onclick="changePass({{$u->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
@@ -509,14 +514,16 @@
            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
            var passid = "password"+user;
+           var passcid = "password-confirm"+user;
 
            var password = document.getElementById(passid).value;
+           var passwordc = document.getElementById(passcid).value;
 
-           if(password){
+           if(password && passwordc){
               $.ajax({
                 url: 'cambcont',
                 type: 'POST',
-                data: {_token: CSRF_TOKEN,password:password,user:user},
+                data: {_token: CSRF_TOKEN,password:password,password_confirmation:passwordc,user:user},
                 dataType: 'JSON',
                 success: function (data) {
 
@@ -542,12 +549,14 @@
                },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     console.log(XMLHttpRequest);
-                    $("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+                    var error = XMLHttpRequest.responseJSON['password'][0];
+                    $("#result_failure_pass"+user).html(error);
+                    //$("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
 
                 }
             });
             }else{
-              $("#result_failure_pass"+user).html('<p>La contraseña es obligatoria</p>');
+              $("#result_failure_pass"+user).html('<p>La contraseña y su confirmación son obligatorias</p>');
               
            }
 
