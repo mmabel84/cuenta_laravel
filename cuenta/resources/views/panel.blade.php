@@ -444,6 +444,7 @@
     function changePassIni(user){
 
            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+           $("#result_failure_pass_ini").html('');
            var password = document.getElementById('passwordini').value;
            var passwordc = document.getElementById('passwordini-confirm').value;
 
