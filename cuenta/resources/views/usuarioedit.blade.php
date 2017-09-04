@@ -365,7 +365,7 @@
                     console.log(textStatus);
                     console.log(errorThrown);
                     console.log(XMLHttpRequest);
-                    var error = XMLHttpRequest.responseJSON;
+                    var error = XMLHttpRequest.responseJSON['password'][0];
                     $("#result_failure_pass"+user).html(error);
                     
                     //$("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
