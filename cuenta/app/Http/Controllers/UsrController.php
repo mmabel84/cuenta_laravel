@@ -429,7 +429,7 @@ class UsrController extends Controller
 
         Log::info($alldata['password']);
 
-        $rules = ['password' => 'min:8|passwordsat'];
+        $rules = ['password' => 'min:8|passwordsat|confirmed'];
         //$messages = ['passwordsat' => 'Contraseña inválida'];
 
         $validator = Validator::make($alldata, $rules)->validate();
