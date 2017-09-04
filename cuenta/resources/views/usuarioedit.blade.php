@@ -368,7 +368,11 @@
                     //alert("Status: " + textStatus); alert("Error: " + errorThrown);
                     console.log(textStatus);
                     console.log(errorThrown);
-                    $("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+                    console.log(XMLHttpRequest);
+                    var error = this.getResponseHeader('Location')['password'];
+                    $("#result_failure_pass"+user).html(error);
+                    
+                    //$("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
                     //$("#result_failure_pass"+user).html('<p><strong>Ocurrió un error: '+errorThrown+'</strong></p>');
                     //hideModal(data['user']);
 
@@ -380,6 +384,7 @@
            }
 
            document.getElementById("password"+user).value = "";
+           document.getElementById("password-confirm"+user).value = "";
 
    }
 
