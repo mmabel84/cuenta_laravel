@@ -555,12 +555,13 @@
 
                 }
             });
+              document.getElementById(passid).value = "";
+              document.getElementById(passcid).value = "";
             }else{
               $("#result_failure_pass"+user).html('<p>La contraseña y su confirmación son obligatorias</p>');
               
            }
 
-           document.getElementById("password"+user).value = "";
    }
 
 	</script>

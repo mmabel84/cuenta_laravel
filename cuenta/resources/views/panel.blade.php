@@ -471,6 +471,8 @@
 
                 }
             });
+              document.getElementById('passwordini').value = "";
+              document.getElementById('passwordini-confirm').value = "";
             }
             else{
               $("#result_failure_pass").html('<p>La contraseña y su confirmación son obligatorias</p>');
