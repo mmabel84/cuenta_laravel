@@ -139,7 +139,7 @@
                    </div>
                     <div class="modal-footer">
                     <div  class="form-group col-md-12 col-sm-12 col-xs-12">
-                     <div id="result_failure_pass" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+                     <div id="result_failure_pass_ini" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
                      </div>
                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
                       <!--<button type="button" onclick="cleanmodalPass();" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>-->
@@ -467,7 +467,7 @@
                     console.log(textStatus);
                     console.log(errorThrown);
                     var error = XMLHttpRequest.responseJSON['password'][0];
-                    $("#result_failure_pass"+user).html(error);
+                    $("#result_failure_pass_ini"+user).html(error);
                     //$("#result_failure_pass").html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
 
                 }
@@ -476,7 +476,7 @@
               document.getElementById('passwordini-confirm').value = "";
             }
             else{
-              $("#result_failure_pass").html('<p>La contraseña y su confirmación son obligatorias</p>');
+              $("#result_failure_pass_ini").html('<p>La contraseña y su confirmación son obligatorias</p>');
               
            }
 
