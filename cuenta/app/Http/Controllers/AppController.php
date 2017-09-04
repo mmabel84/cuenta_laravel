@@ -388,7 +388,7 @@ class AppController extends Controller
                 $app_cod = $bdp->bdapp_app;
 
                 $arrayparams['id_cuenta'] = $usrp->id;
-                $arrayparams['dbname'] = $dbname;
+                $arrayparams['dbna me'] = $dbname;
 
                 $acces_vars = $this->getAccessToken($app_cod);
                 $service_response = $this->getAppService($acces_vars['access_token'],'dropuser',$arrayparams,$app_cod);

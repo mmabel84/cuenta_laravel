@@ -103,6 +103,18 @@
                                        
                                     </div>
 
+                                    <div class="input-group col-md-4 col-sm-4 col-xs-12">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i>
+                                        </span>
+                                        <input placeholder="Confirme Contraseña" type="password" class="form-control " id="password-confirm{{$user->id}}" name="password_confirmation">
+                                        @if ($errors->has('password'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                        </span>
+                                        @endif
+                                       
+                                    </div>
+
                                     <div class="input-group col-md-3 col-sm-3 col-xs-12">
                                       <button type="button" onclick="changePass({{$user->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
                                     </div>
