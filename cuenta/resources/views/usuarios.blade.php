@@ -201,7 +201,7 @@
 										                                    </span>
 										                                @endif
 		                                                        </div>
-
+		                                                        <br>
 		                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
 			                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
 			                                                          <input placeholder="Confirme Contraseña" type="password" class="form-control " id="password-confirm{{$u->id}}" name="password_confirmation">
