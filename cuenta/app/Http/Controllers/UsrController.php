@@ -315,6 +315,10 @@ class UsrController extends Controller
             $user->name = $alldata['name'];
         }
 
+        if(array_key_exists('email',$alldata) && isset($alldata['email'])){
+            $user->email = $alldata['email'];
+        }
+
         /*if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
             $user->users_nick = $alldata['users_nick'];
         }*/
