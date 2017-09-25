@@ -11,6 +11,7 @@ use View;
 use Illuminate\Support\Facades\Redirect;
 use App\Bitacora;
 use App\Mail\InstEmail;
+use App\Mail\UsrAppEmail;
 use Illuminate\Support\Facades\Log;
 
 class AppController extends Controller
@@ -348,6 +349,16 @@ class AppController extends Controller
                                         '</tr>');
                         Log::info('row id al crear'.$usrp->id.$bdp->id);
 
+                        /*$ctalink = config('app.advans_apps_url.cuenta');
+                        if (!$ctalink)
+                        {
+                            $ctalink = 'http://appcuenta.advans.mx';
+                        }
+
+                        if ($usrp->email){
+                            \Mail::to($usrp->email)->send(new UsrAppEmail(['app'=>$bdp->aplicacion->app_nom,'empr'=>$bdp->empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$bdp->empresa->empr_rfc,'url'=>$ctalink]));
+                        }*/
+
                     }
                 }
                 else
@@ -388,7 +399,7 @@ class AppController extends Controller
                 $app_cod = $bdp->bdapp_app;
 
                 $arrayparams['id_cuenta'] = $usrp->id;
-                $arrayparams['dbna me'] = $dbname;
+                $arrayparams['dbname'] = $dbname;
 
                 $acces_vars = $this->getAccessToken($app_cod);
                 $service_response = $this->getAppService($acces_vars['access_token'],'dropuser',$arrayparams,$app_cod);

@@ -41,6 +41,7 @@ class ChangeBD
                     if ($service_response['accstate'] == 'Activa'){
 
                         \Session::put('selected_database',$dbname);
+                        \Session::put('ctarfc',$rfc);
                         \Config::set('database.default', $dbname);
                         $request->session()->pull('loginrfcerr');
                         \DB::connection($dbname)->update('update ctaconf set ctaconf_bloq = false');

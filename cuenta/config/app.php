@@ -8,7 +8,7 @@ return [
 
     'advans_apps_gener_inst' => ['cont'=>'1','bov'=>'1','nom'=>'1','pld'=>'0','cc'=>'1','not'=>'1','fact'=>'0'],
 
-    'advans_apps_url' => ['control'=>'http://devctrl.advans.mx','cont'=>'http://devcont.advans.mx','bov'=>'http://devbov.advans.mx','nom'=>'http://lab1.advans.mx/control/login#','pld'=>'http://pld-beta.advans.mx/app/usuarios/login#','cc'=>'http://ecacc.selfip.org/cc_beta/index.php/usuarios/login','not'=>'http://lab1.advans.mx/control/login#','fact'=>'https://app.advans.mx/'],
+    'advans_apps_url' => ['control'=>'http://devctrl.advans.mx','cont'=>'http://devcont.advans.mx','bov'=>'http://devbov.advans.mx','nom'=>'http://lab1.advans.mx/control/login#','pld'=>'http://pld-beta.advans.mx/app/usuarios/login#','cc'=>'http://ecacc.selfip.org/cc_beta/index.php/usuarios/login','not'=>'http://lab1.advans.mx/control/login#','fact'=>'https://app.advans.mx/','cuenta'=>'http://devcta.advans.mx'],
 
     'advans_apps_doc_url' => ['cont'=>'http://www.advans.mx/content/sobre-advans','bov'=>'http://www.advans.mx/content/validacion-cfdi-advans','nom'=>'http://www.advans.mx/content/sobre-advans','pld'=>'http://mejorapld.mx/software/','cc'=>'http://www.advans.mx/content/sobre-advans','not'=>'http://www.advans.mx/content/sobre-advans','fact'=>'http://www.advans.mx/content/factura-electronica-advans'],
 

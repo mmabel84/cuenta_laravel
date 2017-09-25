@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Mail\UsrEmail;
 
 class UsrController extends Controller
 {
@@ -66,6 +67,20 @@ class UsrController extends Controller
         event(new Registered($user = $this->customcreate($values)));
 
         $this->registered($request, $user);
+
+        /*$password = $values['password'];
+        $email => $values['email'];
+
+        $ctalink = config('app.advans_apps_url.cuenta');
+        if (!$ctalink)
+        {
+            $ctalink = 'http://appcuenta.advans.mx';
+        }
+        $ctarfc = \Session::get('ctarfc');
+        
+        if ($user->email && $ctarfc){
+            \Mail::to($user->email)->send(new UsrEmail(['ctarfc'=>$ctarfc,'user'=>$email,'password'=>$password,'url'=>$ctalink]));
+        }*/
 
         return $user;
     } 
