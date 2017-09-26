@@ -69,7 +69,7 @@ class UsrController extends Controller
         $this->registered($request, $user);
 
         $password = $values['password'];
-        $email => $values['email'];
+        $email = $values['email'];
 
         $ctalink = config('app.advans_apps_url.cuenta');
         if (!$ctalink)
