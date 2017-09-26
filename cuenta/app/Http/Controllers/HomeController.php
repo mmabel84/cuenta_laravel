@@ -719,7 +719,7 @@ class HomeController extends Controller
             {
                 if (!$exists)
                 {
-                    $url_final = $url_app.'/logout'
+                    $url_final = $url_app.'/logout';
                 }
                 else
                 {
