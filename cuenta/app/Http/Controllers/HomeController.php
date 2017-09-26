@@ -711,21 +711,23 @@ class HomeController extends Controller
             $arrayparams['cod']=$codapp;
             $arrayparams['id_usuario']=$user_id;
             $service_response = $this->getAppService($acces_vars['access_token'],'loginservice',$arrayparams,$codapp);
-            if(array_key_exists('msg', $service_response))
+
+            if (!$exists)
             {
-                $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg'];
+                $url_final = $url_app.'/logout';
             }
             else
             {
-                if (!$exists)
+                if(array_key_exists('msg', $service_response))
                 {
-                    $url_final = $url_app.'/logout';
+                    $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg'];
                 }
                 else
                 {
                     $url_final = $url_app.$rfc;
                 }
             }
+            
             
             return response()->redirectTo($url_final);
         }
