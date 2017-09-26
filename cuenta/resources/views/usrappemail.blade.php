@@ -1,20 +1,20 @@
 Hola!
-
+</br>
 Ha sido vinculado a solución de {{ $app }} de empresa {{ $empr }}, con los siguientes datos: 
-
+</br>
 <div>
-    Número de cuenta: {{ $ctarfc }}
+    <strong>Número de cuenta</strong>: {{ $ctarfc }}
 </div>
 <div>
-    RFC de empresa: {{ $emprrfc }}
+    <strong>RFC de empresa</strong>: {{ $emprrfc }}
 </div>
-
+</br>
 Para acceder a la solución anterior puede entrar a través de su cuenta de Advans SA de CV con sus respectivas credenciales de Cuenta.
 
 
 </br>
 <p><strong>Acceso a la aplicación web de cuenta.</strong></p>
-</br>
+
 <div>
     <u>URL</u>: <a href="{{ $url }}">Haga click en este vínculo para accesar a su Cuenta</a>
 </div>
