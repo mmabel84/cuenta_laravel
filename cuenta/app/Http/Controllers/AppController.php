@@ -360,6 +360,7 @@ class AppController extends Controller
                         {
                             $ctalink = 'http://appcuenta.advans.mx';
                         }
+                        $ctarfc = \Session::get('ctarfc');
 
                         if ($usrp->email){
                             \Mail::to($usrp->email)->send(new UsrAppEmail(['app'=>$bdp->aplicacion->app_nom,'empr'=>$bdp->empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$bdp->empresa->empr_rfc,'url'=>$ctalink]));
