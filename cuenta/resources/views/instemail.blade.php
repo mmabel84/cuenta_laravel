@@ -2,6 +2,7 @@ Hola!
 </br>
 Se ha creado una nueva solución de {{ $app }} para empresa {{ $empr }}, con los siguientes datos:
 </br>
+</br>
 <div>
     <strong>Número de cuenta</strong>: {{ $ctarfc }}
 </div>
