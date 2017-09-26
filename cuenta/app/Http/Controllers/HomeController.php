@@ -690,7 +690,7 @@ class HomeController extends Controller
     {
         $url_app = config('app.advans_apps_url.'.$codapp);
         $dbname = $numcta.'_'.$rfc.'_'.$codapp;
-        $user = \Auth::user()
+        $user = \Auth::user();
         $user_id = $user->id;
         $bdapp = BasedatosApp::where('bdapp_nombd', '=', $dbname)->get()
         $bdapp_id = 0;
