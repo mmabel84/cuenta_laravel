@@ -68,7 +68,7 @@ class UsrController extends Controller
 
         $this->registered($request, $user);
 
-        /*$password = $values['password'];
+        $password = $values['password'];
         $email => $values['email'];
 
         $ctalink = config('app.advans_apps_url.cuenta');
@@ -80,7 +80,7 @@ class UsrController extends Controller
         
         if ($user->email && $ctarfc){
             \Mail::to($user->email)->send(new UsrEmail(['ctarfc'=>$ctarfc,'user'=>$email,'password'=>$password,'url'=>$ctalink]));
-        }*/
+        }
 
         return $user;
     } 

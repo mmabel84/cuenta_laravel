@@ -1,13 +1,13 @@
 
 Hola! 
-
+</br>
 Bienvenido, a continuación se detallan los datos necesarios para comenzar a operar su nueva cuenta.
 
 </br>
 <p><strong>Acceso a la aplicación web de cuenta.</strong></p>
 </br>
 <div>
-    <u>Cuenta</u>: {{ $ctarfc }}
+    <u>Número de cuenta</u>: {{ $ctarfc }}
 </div>
 <div>
     <u>URL</u>: <a href="{{ $url }}">Haga click en este vínculo para accesar al sistema</a>
