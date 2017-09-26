@@ -192,8 +192,14 @@ class AppController extends Controller
                 echo '</pre>';
                 die();*/
 
+                $ctalink = config('app.advans_apps_url.cuenta');
+                if (!$ctalink)
+                {
+                    $ctalink = 'http://appcuenta.advans.mx';
+                }
+
                 if ($user_email){
-                    \Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$url_inst]));
+                    \Mail::to($user_email)->send(new InstEmail(['app'=>$app->app_nom,'empr'=>$empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$emprrfc,'user'=>$user_email,'password'=>$password,'url'=>$ctalink]));
                 }
 
                 //Llamando a servicio de control para recuperar correo imap
@@ -349,7 +355,7 @@ class AppController extends Controller
                                         '</tr>');
                         Log::info('row id al crear'.$usrp->id.$bdp->id);
 
-                        /*$ctalink = config('app.advans_apps_url.cuenta');
+                        $ctalink = config('app.advans_apps_url.cuenta');
                         if (!$ctalink)
                         {
                             $ctalink = 'http://appcuenta.advans.mx';
@@ -357,7 +363,7 @@ class AppController extends Controller
 
                         if ($usrp->email){
                             \Mail::to($usrp->email)->send(new UsrAppEmail(['app'=>$bdp->aplicacion->app_nom,'empr'=>$bdp->empresa->empr_nom,'ctarfc'=>$ctarfc,'emprrfc'=>$bdp->empresa->empr_rfc,'url'=>$ctalink]));
-                        }*/
+                        }
 
                     }
                 }

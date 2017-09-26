@@ -1,22 +1,37 @@
-Se ha creado una solución. Los datos de acceso son:
-<div>
-    Aplicación: {{ $app }}
-</div>
-<div>
-    Empresa: {{ $empr }}
-</div>
+Hola!
+
+Se ha creado una nueva solución de {{ $app }} para empresa {{ $empr }}, con los siguientes datos:
+
 <div>
     Número de cuenta: {{ $ctarfc }}
 </div>
 <div>
     RFC de empresa: {{ $emprrfc }}
 </div>
+
+
+Para acceder a la solución anterior puede entrar a través de su Cuenta de Advans SA de CV con sus respectivas credenciales de Cuenta.
+
+</br>
+<p><strong>Acceso a la aplicación web de cuenta.</strong></p>
+</br>
 <div>
-    Usuario: {{ $user }}
+    <u>URL</u>: <a href="{{ $url }}">Haga click en este vínculo para accesar a su Cuenta</a>
 </div>
+
+</br>
+<hr>
 <div>
-    Contraseña: {{ $password }}
-</div>    
-<div>
-<a id="aurl" href="{{ $url }}" target='_blank'>Enlace</a>
-</div>
+    <div>
+        <h1 style="color:#5c154d ;">Soluciones Advans SA de CV</h1>
+    </div>
+    <div>
+        <p>01-800-841-6655</p>
+    </div>
+    <div>
+        <p>(999) 289 7048</p>
+    </div>
+    <div>
+        <a href="www.advans.mx">www.advans.mx</a>
+    </div>
+</div>  

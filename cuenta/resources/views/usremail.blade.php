@@ -1,4 +1,6 @@
 
+Hola! 
+
 Bienvenido, a continuación se detallan los datos necesarios para comenzar a operar su nueva cuenta.
 
 </br>

@@ -1,8 +1,16 @@
 Hola!
 
-Ha sido vinculado a solución de {{ $app }} de empresa {{ $empr }} cuyo RFC es {{ $emprrfc }}.
+Ha sido vinculado a solución de {{ $app }} de empresa {{ $empr }}, con los siguientes datos: 
 
-Para acceder a la solución anterior puede entrar a través de su cuenta de Advans SA de CV con RFC registrado  {{ $ctarfc }} y sus respectivas credenciales de Cuenta.
+<div>
+    Número de cuenta: {{ $ctarfc }}
+</div>
+<div>
+    RFC de empresa: {{ $emprrfc }}
+</div>
+
+Para acceder a la solución anterior puede entrar a través de su cuenta de Advans SA de CV con sus respectivas credenciales de Cuenta.
+
 
 </br>
 <p><strong>Acceso a la aplicación web de cuenta.</strong></p>
