@@ -689,13 +689,23 @@ class HomeController extends Controller
     function redirectapp($numcta,$rfc,$codapp)
     {
         $url_app = config('app.advans_apps_url.'.$codapp);
-        $user_id = \Auth::user()->id;
-        Log::info($codapp);
+        $dbname = $numcta.'_'.$rfc.'_'.$codapp;
+        $user = \Auth::user()
+        $user_id = $user->id;
+        $bdapp = BasedatosApp::where('bdapp_nombd', '=', $dbname)->get()
+        $bdapp_id = 0;
+        if (count($bdapp) > 0)
+        {
+            $bdapp_id = $bdapp[0]->id;
+        }
+
+        $exists = $user->basedatosapps->contains($bdapp_id);
+
 
         if ($codapp != 'fact')
         {
             $acces_vars = $this->getAccessToken($codapp);
-            $arrayparams['dbname']=$numcta.'_'.$rfc.'_'.$codapp;
+            $arrayparams['dbname']=$dbname;
             $arrayparams['rfc']=$rfc;
             $arrayparams['cta']=$numcta;
             $arrayparams['cod']=$codapp;
@@ -707,7 +717,14 @@ class HomeController extends Controller
             }
             else
             {
-                $url_final = $url_app.$rfc;
+                if (!$exists)
+                {
+                    $url_final = $url_app.'/logout'
+                }
+                else
+                {
+                    $url_final = $url_app.$rfc;
+                }
             }
             
             return response()->redirectTo($url_final);
