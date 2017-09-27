@@ -701,6 +701,11 @@ class HomeController extends Controller
 
         $exists = $user->basedatosapps->contains($bdapp_id);
 
+        if (!$exists)
+        {
+            $exists =  false;
+        }
+
 
         if ($codapp != 'fact')
         {
