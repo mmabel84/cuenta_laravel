@@ -705,7 +705,7 @@ class HomeController extends Controller
 
         if (!$exists)
         {
-            $exists =  false;
+            $exists =  0;
         }
 
 
