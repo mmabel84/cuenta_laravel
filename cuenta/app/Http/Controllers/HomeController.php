@@ -701,8 +701,6 @@ class HomeController extends Controller
 
         $exists = $user->basedatosapps->contains($bdapp_id);
 
-
-
         if (!$exists)
         {
             $exists =  0;
@@ -723,7 +721,7 @@ class HomeController extends Controller
             Log::info($exists);
             if(array_key_exists('msg', $service_response))
             {
-                $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg'].'/'.$exists; 
+                $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg']; 
             }
             else
             {
