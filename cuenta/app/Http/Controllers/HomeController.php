@@ -701,6 +701,8 @@ class HomeController extends Controller
 
         $exists = $user->basedatosapps->contains($bdapp_id);
 
+
+
         if (!$exists)
         {
             $exists =  false;
@@ -716,6 +718,9 @@ class HomeController extends Controller
             $arrayparams['cod']=$codapp;
             $arrayparams['id_usuario']=$user_id;
             $service_response = $this->getAppService($acces_vars['access_token'],'loginservice',$arrayparams,$codapp);
+
+            Log::info($service_response['msg']);
+            Log::info($exists);
             if(array_key_exists('msg', $service_response))
             {
                 $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg'].'/'.$exists; 
