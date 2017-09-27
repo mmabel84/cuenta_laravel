@@ -692,7 +692,7 @@ class HomeController extends Controller
         $dbname = $numcta.'_'.$rfc.'_'.$codapp;
         $user = \Auth::user();
         $user_id = $user->id;
-        $bdapp = BasedatosApp::where('bdapp_nombd', '=', $dbname)->get();
+        $bdapp = BasedatosApp::where('bdapp_nombd', '=', $dbname)->get()
         $bdapp_id = 0;
         if (count($bdapp) > 0)
         {
@@ -711,23 +711,14 @@ class HomeController extends Controller
             $arrayparams['cod']=$codapp;
             $arrayparams['id_usuario']=$user_id;
             $service_response = $this->getAppService($acces_vars['access_token'],'loginservice',$arrayparams,$codapp);
-
-            if (!$exists)
+            if(array_key_exists('msg', $service_response))
             {
-                $url_final = $url_app.'/logout';
+                $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg'].'/'.$exists; 
             }
             else
             {
-                if(array_key_exists('msg', $service_response))
-                {
-                    $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg'];
-                }
-                else
-                {
-                    $url_final = $url_app.$rfc;
-                }
+                $url_final = $url_app.$rfc;
             }
-            
             
             return response()->redirectTo($url_final);
         }
