@@ -692,7 +692,7 @@ class HomeController extends Controller
         $dbname = $numcta.'_'.$rfc.'_'.$codapp;
         $user = \Auth::user();
         $user_id = $user->id;
-        $bdapp = BasedatosApp::where('bdapp_nombd', '=', $dbname)->get()
+        $bdapp = BasedatosApp::where('bdapp_nombd', '=', $dbname)->get();
         $bdapp_id = 0;
         if (count($bdapp) > 0)
         {
