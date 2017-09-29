@@ -226,7 +226,7 @@ class ServController extends Controller
 		        if(array_key_exists('paq_cta',$alldata) && isset($alldata['paq_cta'])){
 		        	Log::info($alldata['paq_cta']);
 		        	foreach (json_decode($alldata['paq_cta']) as $paqt) {
-		        		$dateline = $paqt->paqapp_f_caduc;
+		        		$dateline = $paqt->paqapp_f_caduc; 
 		        		DB::connection($dbname)->insert('insert into paqapp (paqapp_f_venta, paqapp_f_fin, paqapp_f_caduc, paqapp_control_id, created_at) values (?, ?, ?, ?, ?)', [$paqt->paqapp_f_venta, $paqt->paqapp_f_fin, $paqt->paqapp_f_caduc, $paqt->paqapp_control_id, date('Y-m-d H:i:s')]);
 		        	}
 		        }
@@ -339,11 +339,88 @@ class ServController extends Controller
 		        	foreach ($apps as $appc) {
 		        		$appexist = DB::connection($dbname)->select('select id from app where app_cod = ?', [$appc->app_cod]);
 
-		        		if (count($appexist) == 0){
-		        			DB::connection($dbname)->insert('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);
+		        		if (count($appexist) == 0)
+		        		{
+		        			/*DB::connection($dbname)->insert('insert into app (app_nom, app_cod, app_insts, app_megs, app_activa, app_estado, created_at) values (?, ?, ?, ?, ?, ?, ?)', [$appc->app_nom, $appc->app_cod, $appc->app_insts, $appc->app_megs, true, $appc->app_estado, date('Y-m-d H:i:s')]);*/
+
+		        			$app_id = DB::connection($dbname)->table('app')->insertGetId(['app_nom'=>$appc->app_nom, 'app_cod'=>$appc->app_cod, 'app_insts'=>$appc->app_insts, 'app_megs'=>$appc->app_megs, 'app_activa'=>true, 'app_estado'=>$appc->app_estado, 'created_at'=>date('Y-m-d H:i:s')]);
+
+
 		        			$bitcta_msg = 'Aplicación '.$appc->app_nom. ' añadida desde control';
+
+		        			//Si se requiere generar solución
+		        			if ($appc->gen_sol)
+		        			{
+		        				$dbnamesol = $alldata['rfc_nombrebd'].'_'.$alldata['rfc_nombrebd'].'_'.$appc->app_cod;
+		        				//Buscando primera empresa creada en cuenta
+		        				$empresas = \DB::connection($dbname)->table('empr')->where('id', DB::raw("(select min(`id`) from empr)"))->get();
+		        				$empresa_id = null;
+		        				$empresa_nom = '';
+		        				if (count($empresas) > 0)
+		        				{
+		        					$empresa_id = $empresas[0]->id;
+		        					$empresa_nom = $empresas[0]->empr_nom;
+		        				}
+		        				
+		        				//Registrando solución en cuenta
+		        				$bd_id = DB::connection($dbname)->table('bdapp')->insertGetId(['bdapp_app'=>$appc->app_cod, 'bdapp_nombd'=>$dbnamesol, 'bdapp_nomserv'=>'', 'bdapp_gigdisp'=>$appc->app_megs, 'bdapp_empr_id'=>$empresa_id, 'bdapp_app_id'=>$app_id, 'created_at'=>date('Y-m-d H:i:s')]);
+
+		        				//Buscando primer usuario creado en cuenta
+		        				$firstusr = \DB::connection($dbname)->table('users')->where('id', DB::raw("(select min(`id`) from users)"))->get();
+		        				$firstusr_id = null;
+		        				$email = '';
+		        				if (count($firstusr) > 0)
+		        				{
+		        					$firstusr_id = $firstusr[0]->id;
+		        					$email = $firstusr[0]->email;
+		        					$name = $firstusr[0]->name;
+		        				}
+		        				
+		        				//Registrando relación entre primer usuario y solución creada
+		        				DB::connection($dbname)->insert('insert into bdusr (bdusr_bdapp_id, bdusr_bdusr_id) values (?, ?)', [$bd_id, $firstusr_id]);
+
+		        				$bitcta_tipo_op1 = 'generate solution from control';
+		        				$bitcta_msg1 = 'Solución de '.$appc->app_nom. ' de empresa '.$empresa_nom. ' generada desde control';
+
+		        				//generando solución como instancia consumiendo servicio web de aplicación
+				                $arrayparams['rfc'] = $alldata['rfc_nombrebd'];
+				                $arrayparams['cta'] = $alldata['rfc_nombrebd'];
+				                $arrayparams['dbname'] = $dbnamesol;
+				                $url_inst = config('app.advans_apps_url.'.$appc->app_cod).'/login';
+				                $arrayparams['megas'] = $appc->app_megs;
+				                $arrayparams['email'] = $email;
+								$arrayparams['name'] = $name;
+								$arrayparams['id_cuenta'] = $firstusr_id;
+
+				                $linea_tiempo_act = \DB::connection($dbcta)->table('paqapp')->where('paqapp_activo', '=', true)->get();
+				                if (count($linea_tiempo_act) > 0)
+				                {
+				                    $arrayparams['f_corte'] = $linea_tiempo_act[0]->paqapp_f_caduc;
+				                }
+
+
+				                $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
+				                $password = $this->rand_chars($caracteres,8);
+				                $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+
+				                while(!$resultm || count($matchesm) == 0){
+				                    $password = $this->rand_chars($caracteres,8);
+				                    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+				                }
+
+				                $arrayparams['password'] = $password;
+				                $acces_vars = $this->getAccessToken($appc->app_cod);
+	                			$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$appc->app_cod);
+	                			
+	                			 if ($email){
+					                  \Mail::to($email)->send(new InstEmail(['app'=>$appc->app_nom,'empr'=>$empresa_nom,'ctarfc'=>$alldata['rfc_nombrebd'],'emprrfc'=>$alldata['rfc_nombrebd'],'user'=>$email,'password'=>$password,'url'=>$url_inst]));
+					              }
+
+		        			}
+
 		        		}
-		        		else{
+		        		else
+		        		{
 		        			DB::connection($dbname)->update('update app set app_activa = true, updated_at = ?  where app_cod = ?', [date('Y-m-d H:i:s'), $appc->app_cod]);
 		        			$bitcta_tipo_op = 'activate application';
 		        			$bitcta_msg = 'Aplicación '.$appc->app_nom. ' activada desde control';
@@ -354,10 +431,19 @@ class ServController extends Controller
 				        {
 				        	$user_name = $alldata['user_name'];
 				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        	if ($appc->gen_sol)
+				        	{
+				        		$this->registrarBitacora($bitcta_msg1, $bitcta_tipo_op1, $dbname, $user_name);
+				        	}
 				        }
 				        else
 				        {	
 				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
+				        	if ($appc->gen_sol)
+				        	{
+				        		$this->registrarBitacora($bitcta_msg1, $bitcta_tipo_op1, $dbname);
+				        	}
+
 				        }
 		        	}
 		        }

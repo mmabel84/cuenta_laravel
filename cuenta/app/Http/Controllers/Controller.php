@@ -83,4 +83,15 @@ class Controller extends BaseController
 
        return json_decode((string) $response->getBody(), true);
     }
+
+    public function rand_chars($characters,$length)
+    {
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+
+    }
 }
