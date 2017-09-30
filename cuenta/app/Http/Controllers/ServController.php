@@ -382,14 +382,23 @@ class ServController extends Controller
 
 		        				$bitcta_tipo_op1 = 'generate solution from control';
 		        				$bitcta_msg1 = 'Solución de '.$appc->app_nom. ' de empresa '.$empresa_nom. ' generada desde control';
+		        				$url_inst = config('app.advans_apps_url.'.$appc->app_cod).'/login';
+		        				
+		        				//Generando password
+		        				$caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
+				                $password = $this->rand_chars($caracteres,8);
+				                $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
 
+				                while(!$resultm || count($matchesm) == 0){
+				                    $password = $this->rand_chars($caracteres,8);
+				                    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
+				                }
 		        				if ($appc->app_cod != 'fact')
 			        			{
 			        				//generando solución como instancia consumiendo servicio web de aplicación
 					                $arrayparams['rfc'] = $alldata['rfc_nombrebd'];
 					                $arrayparams['cta'] = $alldata['rfc_nombrebd'];
 					                $arrayparams['dbname'] = $dbnamesol;
-					                $url_inst = config('app.advans_apps_url.'.$appc->app_cod).'/login';
 					                $arrayparams['megas'] = $appc->app_megs;
 					                $arrayparams['email'] = $email;
 									$arrayparams['name'] = $name;
@@ -400,24 +409,13 @@ class ServController extends Controller
 					                {
 					                    $arrayparams['f_corte'] = $linea_tiempo_act[0]->paqapp_f_caduc;
 					                }
-
-
-					                $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
-					                $password = $this->rand_chars($caracteres,8);
-					                $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
-
-					                while(!$resultm || count($matchesm) == 0){
-					                    $password = $this->rand_chars($caracteres,8);
-					                    $resultm = preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[a-zA-Z\d$@$!%*?&#.$($‌​)$-$_]{8,50}$/u', $password, $matchesm);
-					                }
-
+					                
 					                $arrayparams['password'] = $password;
 					                $acces_vars = $this->getAccessToken($appc->app_cod);
 		                			$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$appc->app_cod);
 			        				
 			        			}
 		        				
-	                			
 	                			 if ($email){
 					                  \Mail::to($email)->send(new InstEmail(['app'=>$appc->app_nom,'empr'=>$empresa_nom,'ctarfc'=>$alldata['rfc_nombrebd'],'emprrfc'=>$alldata['rfc_nombrebd'],'user'=>$email,'password'=>$password,'url'=>$url_inst]));
 					              }
