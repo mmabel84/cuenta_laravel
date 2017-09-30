@@ -404,7 +404,7 @@ class ServController extends Controller
 									$arrayparams['name'] = $name;
 									$arrayparams['id_cuenta'] = $firstusr_id;
 
-					                $linea_tiempo_act = \DB::connection($dbcta)->table('paqapp')->where('paqapp_activo', '=', true)->get();
+					                $linea_tiempo_act = \DB::connection($dbname)->table('paqapp')->where('paqapp_activo', '=', true)->get();
 					                if (count($linea_tiempo_act) > 0)
 					                {
 					                    $arrayparams['f_corte'] = $linea_tiempo_act[0]->paqapp_f_caduc;
