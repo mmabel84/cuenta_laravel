@@ -5,7 +5,6 @@
 <div>
     <p>Se ha creado una nueva solución de {{ $app }} para empresa {{ $empr }}, con los siguientes datos:</p>
 </div>
-</br>
 <div>
     <strong>Número de cuenta</strong>: {{ $ctarfc }}
 </div>
@@ -13,7 +12,6 @@
     <strong>RFC de empresa</strong>: {{ $emprrfc }}
 </div>
 
-</br>
 <div>
     <p>Para acceder a la solución anterior puede entrar a través de su Cuenta de Advans SA de CV con sus respectivas credenciales de Cuenta.</p>
 </div>

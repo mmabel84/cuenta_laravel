@@ -1,12 +1,10 @@
 <div>
     <p>Hola!</p>
 </div>
-</br>
 
 <div>
     <p>Ha sido vinculado a solución de {{ $app }} de empresa {{ $empr }}, con los siguientes datos:</p> 
 </div>
-</br>
 <div>
     <strong>Número de cuenta</strong>: {{ $ctarfc }}
 </div>
