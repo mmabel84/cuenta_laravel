@@ -11,7 +11,6 @@
 <div>
     <strong>RFC de empresa</strong>: {{ $emprrfc }}
 </div>
-
 <div>
     <p>Para acceder a la solución anterior puede entrar a través de su Cuenta de Advans SA de CV con sus respectivas credenciales de Cuenta.</p>
 </div>
