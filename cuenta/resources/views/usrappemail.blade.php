@@ -1,7 +1,11 @@
-Hola!
+<div>
+    <p>Hola!</p>
+</div>
 </br>
-Ha sido vinculado a solución de {{ $app }} de empresa {{ $empr }}, con los siguientes datos: 
-</br>
+
+<div>
+    <p>Ha sido vinculado a solución de {{ $app }} de empresa {{ $empr }}, con los siguientes datos:</p> 
+</div>
 </br>
 <div>
     <strong>Número de cuenta</strong>: {{ $ctarfc }}
@@ -10,11 +14,11 @@ Ha sido vinculado a solución de {{ $app }} de empresa {{ $empr }}, con los sigu
     <strong>RFC de empresa</strong>: {{ $emprrfc }}
 </div>
 </br>
-Para acceder a la solución anterior puede entrar a través de su cuenta de Advans SA de CV con sus respectivas credenciales de Cuenta.
-
+<div>
+    <p>Para acceder a la solución anterior puede entrar a través de su cuenta de Advans SA de CV con sus respectivas credenciales de Cuenta.</p>
+</div>
 
 </br>
-<p><strong>Acceso a la aplicación web de cuenta.</strong></p>
 
 <div>
     <u>URL</u>: <a href="{{ $url }}">Haga click en este vínculo para accesar a su Cuenta</a>
