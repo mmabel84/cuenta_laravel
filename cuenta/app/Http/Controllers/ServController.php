@@ -413,6 +413,19 @@ class ServController extends Controller
 					                $arrayparams['password'] = $password;
 					                $acces_vars = $this->getAccessToken($appc->app_cod);
 		                			$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$appc->app_cod);
+
+		                			if ($appc->app_cod == 'bov')
+					                {
+					                    $arrayparamsc1['rfc_client'] = $alldata['rfc_nombrebd'];
+					                    $arrayparamsc1['rfc_account'] = $alldata['rfc_nombrebd'];
+					                    $arrayparamsc1['account_prefix'] = $appc->app_cod;
+					                    $acces_vars = $this->getAccessToken('control');
+					                    $service_response = $this->getAppService($acces_vars['access_token'],'mailAccount',$arrayparamsc1,'control');
+					                    $imap = $service_response['uniq_id'];
+
+					                    DB::connection($dbname)->update('update bdapp set bdapp_imap_email = ?, updated_at = ?  where id = ?', [$imap, date('Y-m-d H:i:s'), $bd_id]);
+
+					                }
 			        				
 			        			}
 		        				
