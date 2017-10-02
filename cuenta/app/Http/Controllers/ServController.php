@@ -323,6 +323,7 @@ class ServController extends Controller
 	        $status = "Success";
 	        $apps = [];
 	        $dbname = '';
+	        $actapp = false;
 
 	        if(array_key_exists('apps_cta',$alldata) && isset($alldata['apps_cta']) && array_key_exists('rfc_nombrebd',$alldata) && isset($alldata['rfc_nombrebd'])){
 
@@ -438,30 +439,29 @@ class ServController extends Controller
 		        		}
 		        		else
 		        		{
+		        			$actapp = true;
 		        			DB::connection($dbname)->update('update app set app_activa = true, updated_at = ?  where app_cod = ?', [date('Y-m-d H:i:s'), $appc->app_cod]);
 		        			$bitcta_tipo_op = 'activate application';
 		        			$bitcta_msg = 'Aplicación '.$appc->app_nom. ' activada desde control';
 
 		        		}
 
+		        		$user_name = 'Control';
 		        		if(array_key_exists('user_name',$alldata) && isset($alldata['user_name']))
 				        {
 				        	$user_name = $alldata['user_name'];
-				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        }
+				        $this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname, $user_name);
+				        if (!$actapp)
+				        {
 				        	if ($appc->gen_sol)
 				        	{
 				        		$this->registrarBitacora($bitcta_msg1, $bitcta_tipo_op1, $dbname, $user_name);
 				        	}
 				        }
-				        else
-				        {	
-				        	$this->registrarBitacora($bitcta_msg, $bitcta_tipo_op, $dbname);
-				        	if ($appc->gen_sol)
-				        	{
-				        		$this->registrarBitacora($bitcta_msg1, $bitcta_tipo_op1, $dbname);
-				        	}
-
-				        }
+				        
+				        
+				        
 		        	}
 		        }
 	        }
