@@ -107,7 +107,7 @@
                             <div class="col-md-4 col-md-offset-3">
                                 
                                 <a class="btn btn-link" href="{{ route('password.request') }}" style="font-size: 13px; color: black">
-                                    Olvidó su constraseña?
+                                    Olvidó su contraseña?
                                 </a>
                             </div>
                         </div>
