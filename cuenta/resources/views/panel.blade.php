@@ -13,12 +13,14 @@
 
     <style type="text/css">
       .disabled {
+                 display: inline-block;
                  pointer-events: none;
                  cursor: default;
                  opacity: 0.4;
                  color:grey;
               }
       .disabledblocked {
+                 display: inline-block;
                  pointer-events: none;
                  cursor: default;
                  opacity: 0.3;
