@@ -130,6 +130,7 @@ class AppController extends Controller
             //Si aplicación genera instancia, se ejecuta servicio web para crear base de datos
              if ($app->app_cod != 'fact')
              {
+                Log::info('Entre como si fuera cc');
                 //Llamar a servicio web que genera base de datos en aplicación
                 $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
                 $password = $this->rand_chars($caracteres,8);
@@ -149,6 +150,7 @@ class AppController extends Controller
                 }
 
                 $appbd->bdapp_nombd =  $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
+                Log::info('base de datos de solucion '.$appbd);
                 
                 $user_email = $user->email;
                 $arrayparams['email'] = $user_email;
@@ -160,6 +162,8 @@ class AppController extends Controller
                 $arrayparams['dbname'] = $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
                 //$url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
                 $url_inst = config('app.advans_apps_url.'.$app->app_cod).'/login';
+
+                Log::info('url de solucion cc '.$url_inst);
 
                 $arrayparams['megas'] = $megas;
 
@@ -213,6 +217,7 @@ class AppController extends Controller
              }
              else
              {
+                Log::info('Entre como si fuera facturacion');
                 $appbd->save();
              }
             
