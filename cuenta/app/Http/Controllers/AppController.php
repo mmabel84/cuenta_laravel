@@ -175,6 +175,7 @@ class AppController extends Controller
 
                 
                 $acces_vars = $this->getAccessToken($app->app_cod);
+                Log::info($app->app_cod);
                 $service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
                 
                 /*echo '<pre>';
