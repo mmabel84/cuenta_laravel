@@ -452,6 +452,7 @@ class AppController extends Controller
             $bitacora = $service_response['bitacora'];
             foreach ($bitacora as $b) {
                 $navegador = json_decode($b['navegador']);
+                Log::info($navegador);
                 $navegador_name = $navegador->name;
                 array_push($result, ['bitc_fecha'=>$b['bitc_fecha'],'bitcta_tipo_op'=>$b['bitcta_tipo_op'],'bitcta_ip'=>$b['bitcta_ip'],'bitc_modulo'=>$b['bitc_modulo'],'navegador'=>$navegador_name]);
             }
