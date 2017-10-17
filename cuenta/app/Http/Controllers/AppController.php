@@ -163,7 +163,6 @@ class AppController extends Controller
                 //$url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
                 $url_inst = config('app.advans_apps_url.'.$app->app_cod).'/login';
 
-                Log::info('url de solucion cc '.$url_inst);
 
                 $arrayparams['megas'] = $megas;
 
@@ -530,7 +529,7 @@ class AppController extends Controller
     }
 
 
-    public function transfMegas(Request $request)
+    public function transfMegas1(Request $request)
     {
         $alldata = $request->all();
         $status = 'failure';
@@ -604,6 +603,79 @@ class AppController extends Controller
                     $db_dest->bdapp_gigdisp = $megas_db_dest + $megas_a_trans;
                     $db_dest->save();
                     $this->registroBitacora($request,'space transfer',$msg);  
+                }
+            }
+        }
+
+        \Session::flash($messagetype,$msg);
+        
+        $response = array ('status' => $status, 'msg' => $msg);
+        return \Response::json($response);
+    }
+
+
+
+
+
+    public function transfMegas(Request $request)
+    {
+        $alldata = $request->all();
+        $status = 'failure';
+        
+        $messagetype = 'failmessage';
+        $data = true;
+        $msg = '';
+        Log::info($alldata);
+        if (array_key_exists('bdid_orig',$alldata) && isset($alldata['bdid_orig']) && array_key_exists('bdid_dest',$alldata) && isset($alldata['bdid_dest']) && array_key_exists('cant_megas',$alldata) && isset($alldata['cant_megas']))
+        {
+
+            $db_orig = BasedatosApp::find($alldata['bdid_orig']);
+            $db_dest = BasedatosApp::find($alldata['bdid_dest']);
+            $megas_a_trans = $alldata['cant_megas'];
+
+            $msg = 'No tiene disponibilidad para transferir la cantidad '.$megas_a_trans.' megas de solución '.$db_orig->aplicacion->app_nom.' de empresa '.$db_orig->empresa->empr_nom.' a solución '.$db_dest->aplicacion->app_nom.' de empresa '.$db_dest->empresa->empr_nom;
+
+            if ($db_orig && $db_dest)
+            {
+                $megas_db_orig = $db_orig->bdapp_gigdisp;
+                $megas_db_dest = $db_dest->bdapp_gigdisp;
+
+                $arrayparams['dbname'] = $db_orig->bdapp_nombd;
+                $arrayparams['megas_a_trans'] = $megas_a_trans;
+                $acces_vars = $this->getAccessToken($db_orig->bdapp_app);
+                $service_response = $this->getAppService($acces_vars['access_token'],'restarmg',$arrayparams,$db_orig->bdapp_app);
+                $status = $service_response['status'];
+
+                if ($status == 'Success')
+                {
+                    $arrayparams['dbname'] = $db_dest->bdapp_nombd;
+                    $arrayparams['megas_a_trans'] = $megas_a_trans;
+                    $acces_vars = $this->getAccessToken($db_dest->bdapp_app);
+                    $service_response = $this->getAppService($acces_vars['access_token'],'sumarmg',$arrayparams,$db_dest->bdapp_app);
+                    $statussum = $service_response['status'];
+
+                    if ($statussum == 'Success')
+                    {
+                        $msg = $megas_a_trans. ' megas transferidos de solución '.$db_orig->aplicacion->app_nom.' de empresa '.$db_orig->empresa->empr_nom.' a solución '.$db_dest->aplicacion->app_nom.' de empresa '.$db_dest->empresa->empr_nom;
+                        $messagetype = 'message';
+                        $status = 'success';
+                        $db_orig->bdapp_gigdisp = $megas_db_orig - $megas_a_trans;
+                        $db_orig->save();
+                        $db_dest->bdapp_gigdisp = $megas_db_dest + $megas_a_trans;
+                        $db_dest->save();
+                        $this->registroBitacora($request,'space transfer',$msg);  
+
+                    }
+                    else
+                    {
+                        $msg = 'Solución de '.$db_dest->aplicacion->app_nom.' de empresa '.$db_dest->empresa->empr_nom.' no encontrada';
+                        $arrayparams['dbname'] = $db_orig->bdapp_nombd;
+                        $arrayparams['megas_a_trans'] = $megas_a_trans;
+                        $acces_vars = $this->getAccessToken($db_orig->bdapp_app);
+                        $service_response = $this->getAppService($acces_vars['access_token'],'sumarmg',$arrayparams,$db_orig->bdapp_app);
+
+                    }
+                    
                 }
             }
         }
