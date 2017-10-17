@@ -280,6 +280,9 @@ class UsrController extends Controller
     {
         $alldata = $request->all();
         $user = User::findOrFail($id);
+        //$arrayparams['users_cuentaid'] = $id;
+        $usrarray = [];
+        $usrarray[0] = ['users_cuentaid'=>$id];
 
         /*echo "<pre>";
         print_r($alldata);die();
@@ -313,10 +316,23 @@ class UsrController extends Controller
 
         if(array_key_exists('name',$alldata) && isset($alldata['name'])){
             $user->name = $alldata['name'];
+            $usrarray[0].append('name'=>$alldata['name']);
+            //$arrayparams['name'] = $alldata['name'];
+
+        }
+        else
+        {
+            $usrarray[0].append('name'=>$user->name);
         }
 
         if(array_key_exists('email',$alldata) && isset($alldata['email'])){
             $user->email = $alldata['email'];
+            //$arrayparams['email'] = $alldata['email'];
+            $usrarray[0].append('email'=>$alldata['email']);
+        }
+        else
+        {
+            $usrarray[0].append('email'=>$user->email);
         }
 
         /*if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
@@ -342,6 +358,16 @@ class UsrController extends Controller
                 $user->attachPermission($permobj);
 
             }
+        }
+
+        //actualizando email y nombre de usuario en instancias
+        $inst_bd = $user->basedatosapps()->get();
+        $arrayparams['usr'] = $usrarray;
+
+        foreach ($inst_bd as $inst) {
+            $arrayparams['dbname'] = $inst->bdapp_nombd;
+            $acces_vars = $this->getAccessToken($inst->bdapp_app);
+            $service_response = $this->getAppService($acces_vars['access_token'],'moduser',$arrayparams,$inst->bdapp_app);
         }
 
         $fmessage = 'Se ha modificado el usuario: '.$alldata['name'];
