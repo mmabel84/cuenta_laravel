@@ -143,6 +143,7 @@ class AppController extends Controller
 
                 $empresaprincipal = Empresa::where('empr_principal', '=', true)->get();
                 $emprrfc = $empresa->empr_rfc;
+                $emprnom = $empresa->empr_nom;
                 $ctarfc = $emprrfc; 
                 if (count($empresaprincipal) > 0)
                 {
@@ -158,6 +159,7 @@ class AppController extends Controller
                 $arrayparams['id_cuenta'] = $user->id;
                 $arrayparams['password'] = $password;
                 $arrayparams['rfc'] = $emprrfc;
+                $arrayparams['rfc_nom'] = $emprnom;
                 $arrayparams['cta'] = $ctarfc;
                 $arrayparams['dbname'] = $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
                 //$url_inst = config('app.advans_apps_url.'.$app->app_cod).'/loginservice'.'/'.$ctarfc.'/'.$emprrfc;
