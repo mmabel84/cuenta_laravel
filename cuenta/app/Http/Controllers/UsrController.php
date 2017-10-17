@@ -280,9 +280,9 @@ class UsrController extends Controller
     {
         $alldata = $request->all();
         $user = User::findOrFail($id);
-        //$arrayparams['users_cuentaid'] = $id;
-        $usrarray = [];
-        $usrarray[0] = ['users_cuentaid'=>$id];
+        $name = '';
+        $email ='';
+     
 
         /*echo "<pre>";
         print_r($alldata);die();
@@ -316,23 +316,21 @@ class UsrController extends Controller
 
         if(array_key_exists('name',$alldata) && isset($alldata['name'])){
             $user->name = $alldata['name'];
-            $usrarray[0].append('name'=>$alldata['name']);
-            //$arrayparams['name'] = $alldata['name'];
+            $name = $alldata['name'];
 
         }
         else
         {
-            $usrarray[0].append('name'=>$user->name);
+            $name = $user->name;
         }
 
         if(array_key_exists('email',$alldata) && isset($alldata['email'])){
             $user->email = $alldata['email'];
-            //$arrayparams['email'] = $alldata['email'];
-            $usrarray[0].append('email'=>$alldata['email']);
+            $email = $alldata['email'];
         }
         else
         {
-            $usrarray[0].append('email'=>$user->email);
+            $email = $user->email;
         }
 
         /*if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
@@ -362,7 +360,7 @@ class UsrController extends Controller
 
         //actualizando email y nombre de usuario en instancias
         $inst_bd = $user->basedatosapps()->get();
-        $arrayparams['usr'] = $usrarray;
+        $arrayparams['usr'] = array('users_cuentaid'=>$id, 'name'=>$name, 'email'=>$email);
 
         foreach ($inst_bd as $inst) {
             $arrayparams['dbname'] = $inst->bdapp_nombd;
