@@ -507,7 +507,7 @@ class UsrController extends Controller
                 {
                     $password = $password[0]->password;
                 }
-                $arrayparams['usr'] = array('users_cuentaid'=>$id, 'password'=>$password);
+                $arrayparams['usr'] = array('users_cuentaid'=>$user->id, 'password'=>$password);
 
                 foreach ($inst_bd as $inst) {
                     $arrayparams['dbname'] = $inst->bdapp_nombd;
