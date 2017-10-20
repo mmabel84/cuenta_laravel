@@ -161,7 +161,7 @@ class AppController extends Controller
                 $password = DB::connection($dbcta)->select('select password from users where id = ?',[$user->id]);
                 if (count($password) > 0)
                 {
-                    $password = $password[0];
+                    $password = $password[0]->password;
                 }
                 
 
