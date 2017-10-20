@@ -150,25 +150,27 @@ class AppController extends Controller
                     $ctarfc = $empresaprincipal[0]->empr_rfc;
                 }
 
+                $dbcta = $ctarfc.'_cta';
+
                 $appbd->bdapp_nombd =  $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
                 Log::info('base de datos de solucion '.$appbd);
 
                 //Tomando password en hash del usuario logueado
-                $dbname = \Session::get('selected_database',false);
-                if ($dbname != false)
+                //$dbname = \Session::get('selected_database',false);
+                
+                $password = DB::connection($dbcta)->select('select password from users where id = ?',[$user->id]);
+                if (count($password) > 0)
                 {
-                    $password = DB::connection($dbname)->select('select password from users where id = ?',[$user->id]);
-                    if (count($password) > 0)
-                    {
-                        $password = $password[0];
-                    }
+                    $password = $password[0];
                 }
+                
+
+                Log::info($password);
                 
                 $user_email = $user->email;
                 $arrayparams['email'] = $user_email;
                 $arrayparams['name'] = $user->name;
                 $arrayparams['id_cuenta'] = $user->id;
-
                 $arrayparams['password'] = $password;
                 $arrayparams['rfc'] = $emprrfc;
                 $arrayparams['rfc_nom'] = $emprnom;
@@ -180,7 +182,7 @@ class AppController extends Controller
 
                 $arrayparams['megas'] = $megas;
 
-                $dbcta = $ctarfc.'_cta';
+                
                 $linea_tiempo_act = \DB::connection($dbcta)->table('paqapp')->where('paqapp_activo', '=', true)->get();
                 if (count($linea_tiempo_act) > 0)
                 {
@@ -190,7 +192,6 @@ class AppController extends Controller
                 Log::info('megas a asignar '.$megas);
                 Log::info('fecha caducidad '.$linea_tiempo_act[0]->paqapp_f_caduc);
 
-                
                 $acces_vars = $this->getAccessToken($app->app_cod);
                 Log::info($app->app_cod);
                 $service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$app->app_cod);
