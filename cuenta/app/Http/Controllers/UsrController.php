@@ -496,6 +496,27 @@ class UsrController extends Controller
             $user->password_change = true;
 
             $user->save();
+
+            //actualizando password de usuario en instancias
+            $inst_bd = $user->basedatosapps()->get();
+            $dbname = \Session::get('selected_database',false);
+            if ($dbname != false)
+            {
+                $password = DB::connection($dbname)->select('select password from users where id = ?',[$user->id]);
+                if (count($password) > 0)
+                {
+                    $password = $password[0]->password;
+                }
+                $arrayparams['usr'] = array('users_cuentaid'=>$id, 'password'=>$password);
+
+                foreach ($inst_bd as $inst) {
+                    $arrayparams['dbname'] = $inst->bdapp_nombd;
+                    $acces_vars = $this->getAccessToken($inst->bdapp_app);
+                    $service_response = $this->getAppService($acces_vars['access_token'],'moduser',$arrayparams,$inst->bdapp_app);
+                }
+            }
+
+            
         }
 
        
