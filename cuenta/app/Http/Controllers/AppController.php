@@ -130,7 +130,6 @@ class AppController extends Controller
             //Si aplicación genera instancia, se ejecuta servicio web para crear base de datos
              if ($app->app_cod != 'fact')
              {
-                Log::info('Entre como si fuera cc');
                 //Llamar a servicio web que genera base de datos en aplicación
                 $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789!"$%&/()=?¿*/[]{}.,;:';
                 $password = $this->rand_chars($caracteres,8);
@@ -152,11 +151,23 @@ class AppController extends Controller
 
                 $appbd->bdapp_nombd =  $ctarfc.'_'.$emprrfc.'_'.$app->app_cod;
                 Log::info('base de datos de solucion '.$appbd);
+
+                //Tomando password en hash del usuario logueado
+                $dbname = \Session::get('selected_database',false);
+                if ($dbname != false)
+                {
+                    $password = DB::connection($dbname)->select('select password from users where id = ?',[$user->id]);
+                    if (count($password) > 0)
+                    {
+                        $password = $password[0];
+                    }
+                }
                 
                 $user_email = $user->email;
                 $arrayparams['email'] = $user_email;
                 $arrayparams['name'] = $user->name;
                 $arrayparams['id_cuenta'] = $user->id;
+
                 $arrayparams['password'] = $password;
                 $arrayparams['rfc'] = $emprrfc;
                 $arrayparams['rfc_nom'] = $emprnom;
@@ -328,7 +339,19 @@ class AppController extends Controller
                             $tel = $usrp->users_tel;
                         }
 
-                         $usrarray = array('name'=>$usrp->name,'email'=>$usrp->email,'users_tel'=>$tel,'id_cuenta'=>$usrp->id);
+                         //Tomando password en hash del usuario logueado
+                        $dbname = \Session::get('selected_database',false);
+                        $password = '';
+                        if ($dbname != false)
+                        {
+                            $password = DB::connection($dbname)->select('select password from users where id = ?',[$usrp->id]);
+                            if (count($password) > 0)
+                            {
+                                $password = $password[0];
+                            }
+                        }
+
+                         $usrarray = array('name'=>$usrp->name,'email'=>$usrp->email,'users_tel'=>$tel,'id_cuenta'=>$usrp->id, 'password'=>$password);
                          
                          $app_cod = $bdp->bdapp_app;
                          $arrayparams['usr'] = $usrarray;
