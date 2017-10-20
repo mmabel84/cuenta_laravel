@@ -13,6 +13,7 @@ use App\Bitacora;
 use App\Mail\InstEmail;
 use App\Mail\UsrAppEmail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class AppController extends Controller
 {
