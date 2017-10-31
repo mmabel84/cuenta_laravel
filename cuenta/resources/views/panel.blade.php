@@ -100,7 +100,7 @@
           } 
 
       .icon-accessibilitycc{ 
-            background-position: 0 0; width: 100px; height: 70px; 
+            background-position: 0 0; width: 100px; height: 60px; 
           } 
 
       .icon-accessibilitycont{ 
