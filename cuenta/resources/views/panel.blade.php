@@ -50,11 +50,23 @@
             background: url("{{asset('boveda.png')}}") no-repeat top left;
 
             }
+
+      .iconcc {
+            display: inline-block;
+            background: url("{{asset('cc.png')}}") no-repeat top left;
+
+            }
       .iconbovtest {
             display: inline-block;
             background: url("{{asset('boveda.png')}}") no-repeat top left;
             -webkit-filter: sepia(100%)
             }
+      .iconcctest {
+            display: inline-block;
+            background: url("{{asset('cc.png')}}") no-repeat top left;
+            -webkit-filter: sepia(100%)
+            }
+
       .iconfact {
             display: inline-block;
             background: url("{{asset('logo_advans_edited.jpg')}}") no-repeat top left;
@@ -84,6 +96,10 @@
       } 
 
       .icon-accessibilitybov{ 
+            background-position: 0 0; width: 100px; height: 70px; 
+          } 
+
+      .icon-accessibilitycc{ 
             background-position: 0 0; width: 100px; height: 70px; 
           } 
 

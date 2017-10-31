@@ -115,8 +115,7 @@ class HomeController extends Controller
                     
                     'not'=>"<a href='#' data-dir='".$url_not."' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='' data-dir='".$url_cc."' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>TAREAS</b></span></i></a>
+                    'cc'=>"<a href='' data-dir='".$url_cc."' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank' title='Acceso a aplicación de control de calidad'><i class='iconcc icon-accessibilitycc' padding: 0 25px;'></i></a>
                     ");
 
         //diccionario con aplicaciones en prueba activas
@@ -135,8 +134,7 @@ class HomeController extends Controller
                     
                     'not'=>"<a href='#' data-dir='".$url_not."' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Notaría' ><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='' data-dir='".$url_cc."' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Control de Calidad' ><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>TAREAS</b></span></i></a>
+                    'cc'=>"<a href='' data-dir='".$url_cc."' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Control de Calidad' ><i class='iconcctest icon-accessibilitycc' padding: 0 25px;'></i></a>
                     ");
 
         //diccionario de aplicaciones bloqueadas
@@ -154,8 +152,7 @@ class HomeController extends Controller
                     
                     'not'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='not' class='disabledblocked' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='cc' class='disabledblocked' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>TAREAS</b></span></i></a>
+                    'cc'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='cc' class='disabledblocked' target='_blank'><i class='iconcc icon-accessibilitycc' padding: 0 25px;'></i></a>
                     ");
 
         //diccionario de aplicaciones no contratadas
@@ -173,8 +170,8 @@ class HomeController extends Controller
                     
                     'not'=>"<a href='".$url_doc_not."' data-toggle='tooltip' data-placement='right' id='notd' title='Aplicación para el manejo de notarías' target='_blank'><i class='fa fa-bank fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='".$url_doc_cc."' data-toggle='tooltip' data-placement='right' id='ccd' title='Aplicación para el seguimiento de tareas' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>TAREAS</b></span></i></a>
+                    'cc'=>"<a href='".$url_doc_cc."' data-toggle='tooltip' data-placement='right' id='ccd' title='Aplicación para el seguimiento de tareas' target='_blank'><i class='iconcc icon-accessibilitycc' padding: 0 25px;'>
+                    </i></a>
                     ");
 
         
