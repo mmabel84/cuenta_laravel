@@ -752,6 +752,8 @@
 	    		var operacion = 'liberar';
 	    	}
 
+	    	console.log(operacion);
+
 	    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
     		$.ajax({
@@ -762,6 +764,7 @@
 			dataType: 'JSON',
 
         	success:function(response){
+        		console.log(response['status']);
         		if (response['status'] == 'success'){
         			$("#cant_mg"+bdid).html('');
         			hideModalMg(bdid);
