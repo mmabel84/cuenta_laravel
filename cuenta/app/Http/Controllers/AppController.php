@@ -513,6 +513,7 @@ class AppController extends Controller
                 $inst_app = BasedatosApp::where('bdapp_app','=',$app->app_cod)->get();
 
                 Log::info($inst_app);
+                Log::info($esp_total);
 
                 foreach ($inst_app as $inst) {
                     $megasign += $inst->bdapp_gigdisp;
@@ -535,7 +536,7 @@ class AppController extends Controller
             $status = 'failure';
         }
 
-        $megtotal = 0;
+        /*$megtotal = 0;
         $megtotalasign = 0;
         $allapp = Aplicacion::all();
         foreach ($allapp as $app) {
@@ -549,7 +550,7 @@ class AppController extends Controller
         if ($dif < $megdisp)
         {
             $megdisp = $dif;
-        }
+        }*/
 
 
         $response = array ('status' => $status, 'msg' => $msg, 'megdisp' => $megdisp);
