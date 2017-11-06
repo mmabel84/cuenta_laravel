@@ -59,6 +59,8 @@ Route::post('/apps/getespdisp', 'AppController@getEspDisp')->name('getespdisp');
 
 Route::post('/transfmegas', 'AppController@transfMegas')->name('transfmegas');
 
+Route::post('/modifMegas', 'AppController@modifMegas')->name('modifMegas');
+
 
 
 

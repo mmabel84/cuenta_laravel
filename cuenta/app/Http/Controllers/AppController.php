@@ -712,6 +712,71 @@ class AppController extends Controller
         $response = array ('status' => $status, 'msg' => $msg);
         return \Response::json($response);
     }
+
+
+    public function modifMegas(Request $request)
+    {
+        $alldata = $request->all();
+        $status = 'success';
+
+        if (array_key_exists('bdid',$alldata) && isset($alldata['bdid']) && array_key_exists('cant_megas',$alldata) && isset($alldata['cant_megas']) && array_key_exists('operacion',$alldata) && isset($alldata['operacion']))
+        {
+            $cant_megas = $alldata['cant_megas'];
+            $bd = BasedatosApp::find($alldata['bdid']);
+            $app = $bd->aplicacion;
+
+            if ($alldata['operacion'] == 'incrementar')
+            {
+                $appmgcons = 0;
+                $bdsapp = BasedatosApp::where('bdapp_app_id','=',$app->id);
+                foreach ($bdsapp as $bdapp) {
+                    $appmgcons = $appmgcons + $bdapp->bdapp_gigdisp;
+                }
+
+                $disp = $app->app_megs - $appmgcons;
+                $arrayparams['megas_a_trans'] = $cant_megas;
+                $arrayparams['dbname'] = $bd->bdapp_nombd;
+
+                if ($disp >= $cant_megas)
+                {
+                    $acces_vars = $this->getAccessToken($bd->bdapp_app);
+                    $service_response = $this->getAppService($acces_vars['access_token'],'sumarmg',$arrayparams,$bd->bdapp_app);
+                    $bd->bdapp_gigdisp = $bd->bdapp_gigdisp + $cant_megas;
+                    $bd->save();
+                    $msg = 'Megas incrementados satisfactoriamente';
+                }
+                else
+                {   
+                    $status = 'failure';
+                    $msg = 'La cantidad especificada excede los '.$disp.' Megas disponibles de '.$bd->aplicacion->app_nom;
+                }
+            }
+            else
+            {
+                $acces_vars = $this->getAccessToken($bd->bdapp_app);
+                $service_response = $this->getAppService($acces_vars['access_token'],'restarmg',$arrayparams,$bd->bdapp_app);
+                $status = $service_response['status'];
+
+                if ($status == 'Success')
+                {
+                    $bd->bdapp_gigdisp = $bd->bdapp_gigdisp - $cant_megas;
+                    $bd->save();
+                    $msg = 'Megas decrementados satisfactoriamente';
+                }
+                else
+                {
+                    $status = 'failure';
+                    $msg = 'Falta de disponibilidad en solución para decrementar '.$cant_megas.' Megas';
+                }
+
+            }
+        }
+
+        \Session::flash('message',$msg);
+        
+        $response = array ('status' => $status, 'msg' => $msg);
+        return \Response::json($response);
+    }
 }
 
 

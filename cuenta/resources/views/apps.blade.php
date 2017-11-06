@@ -216,7 +216,7 @@
 
 
 			                          	<div class="btn-group">
-		                          			<button id="btnshare{{$a->id}}" class="btn btn-xs" data-placement="left" title="Transferir megas" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-share fa-3x" onclick="showModalShare({{ $a->id }})"></i> </button>
+		                          			<button id="btnshare{{$a->id}}" class="btn btn-xs" data-placement="left" title="Transferir megas a otra aplicación" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-share fa-3x" onclick="showModalShare({{ $a->id }})"></i> </button>
 
 
 		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="share" id="share{{$a->id}}">
@@ -262,6 +262,69 @@
 								                        
 								                        <div class="modal-footer">
 		                                                     	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="hideModalShare({{$a->id}});">Cerrar</button>
+								                        </div>
+
+								                      </div>
+								                    </div>
+								                  </div>
+			                          	</div>
+
+
+
+
+			                          	<div class="btn-group">
+		                          			<button id="btngetmg{{$a->id}}" class="btn btn-xs" data-placement="left" title="Incrementar/liberar megas" style=" color:#053666; background-color:#FFFFFF; "><i class="fa fa-pie-chart fa-3x" onclick="showModalMg({{ $a->id }})"></i> </button>
+
+
+		                          			<div class="modal fade bs-example-modal-lg{{$a->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="mg" id="mg{{$a->id}}">
+		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
+		                          			    
+								                    <div class="modal-dialog modal-lg">
+								                      <div class="modal-content">
+
+								                        <div class="modal-header">
+								                          <button type="button" class="close" data-dismiss="modal">
+								                          </button>
+								                          <h4 class="modal-title" id="myModalLabel"></h4>
+								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">Modificación de espacio de solución de aplicación {{$a->aplicacion->app_nom}} de empresa {{$a->empresa->empr_nom}}</label>
+								                        </div>
+								                        <div class="modal-body">
+			                        						<form id="modalform">
+		                            							<div class="item form-group col-md-12 col-sm-12 col-xs-12">
+					                             						<label>Operación a realizar:</label>
+												                        <div class="radio">
+												                            <label>
+												                              <input type="radio" id="filtroinc{{$a->id}}"  checked name="iCheckfiltro" value="1"> Incrementar espacio
+												                            </label>
+												                         </div>
+												                         <div class="radio">
+												                            <label>
+												                              <input type="radio" id="filtrolib{{$a->id}}" name="iCheckfiltro" value="2"> Liberar espacio
+												                            </label>
+												                         </div>
+												                         <div class="ln_solid"></div>
+				                          						</div>
+				                          						<br>	
+		                          								<br>
+				                          						 <div class="item form-group col-md-12 col-sm-12 col-xs-12">
+											                        <input id="cant_mg{{ $a->id }}" class="form-control has-feedback-left" name="cant_mg" type="number" title="Cantidad de Megas" required>
+											                        <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
+											                      </div>
+											                      <br>	
+		                          								  <br>
+											                      <div class="item form-group col-md-12 col-sm-12 col-xs-12">
+				                          							<button id="btnmg{{$a->id}}" type="button" class="btn btn-primary" onclick="modificarMegas({{$a->id}});">Ejecutar</button>
+			                          							  </div>
+											                     
+
+	                          								</form>
+	                          								<div id="result_nomg{{$a->id}}" class="col-md-9 	col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+		                                                     	
+		                                                	</div>
+								                        </div>
+								                        
+								                        <div class="modal-footer">
+		                                                     	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="hideModalMg({{$a->id}});">Cerrar</button>
 								                        </div>
 
 								                      </div>
@@ -584,6 +647,18 @@
 	          $("#result_notrasnf"+bdid).html('');
 	    }
 
+	    function showModalMg(bdid) {
+	          var modalid = "mg"+bdid;
+	          $("#"+modalid).modal('show');
+	          $("#result_nomg"+bdid).html('');
+	    }
+
+	    function hideModalMg(bdid) {
+	          var modalid = "mg"+bdid;
+	          $("#"+modalid).modal('hide');
+	          $("#result_nomg"+bdid).html('');
+	    }
+
 	    function cleanModalShare(bdid_orig,bdid_dest,cant_megas){
 
 	    	hideModalShare(bdid_orig);
@@ -661,6 +736,46 @@
 
 	    	}
 
+	    }
+
+
+	    function modificarMegas(bdid)
+	    {
+	    	var cant_megas = document.getElementById('cant_mg'+bdid).value;
+	    	$("#result_nomg"+bdid).html('');
+	    	var filtrolib = document.getElementById('filtrolib');
+
+	    	var operacion = 'incrementar';
+	    	if (filtrolib.checked == false){
+	    		var operacion = 'liberar';
+	    	}
+
+	    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    		$.ajax({
+        	url:"/modifMegas",
+        	type:'POST',
+        	cache:false,
+        	data: {_token: CSRF_TOKEN,bdid:bdid,cant_megas:cant_megas,operacion:operacion},
+			dataType: 'JSON',
+
+        	success:function(response){
+        		if (response['status'] == 'success'){
+        			$("#cant_mg"+bdid).html('');
+        			hideModalMg(bdid);
+        		}
+        		else
+        		{
+        			$("#result_nomg"+bdid).html(response['msg']);
+        			
+        		}
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        		console.log(XMLHttpRequest);
+                    alert("Error: " + errorThrown); 
+                } 
+
+	    	});
 	    }
 
 
