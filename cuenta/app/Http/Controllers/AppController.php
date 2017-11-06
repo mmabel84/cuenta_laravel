@@ -512,6 +512,8 @@ class AppController extends Controller
 
                 $inst_app = BasedatosApp::where('bdapp_app','=',$app->app_cod)->get();
 
+                Log::info($inst_app);
+
                 foreach ($inst_app as $inst) {
                     $megasign += $inst->bdapp_gigdisp;
                 }

@@ -64,7 +64,6 @@
 		                          <th>Uso</th>
 		                          <th>Megas</th>
 		                          <th>Correo imap</th>
-		                          <th>Codigo</th>
 		                          <th>Acciones</th>
 		                          
 		                        </tr>
@@ -79,7 +78,6 @@
 		                          <td width="5%">{{$a->uso}}</td>
 		                          <td width="2%">{{$a->bdapp_gigdisp}}</td>
 		                          <td width="5%">{{$a->bdapp_imap_email}}</td>
-		                          <td width="5%">{{$a->bdapp_app}}</td>
 		                          <td width="23%">
 			                          <div class="btn-group">
 										<div class="btn-group">
