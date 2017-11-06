@@ -745,7 +745,7 @@
 	    {
 	    	var cant_megas = document.getElementById('cant_mg'+bdid).value;
 	    	$("#result_nomg"+bdid).html('');
-	    	var filtrolib = document.getElementById('filtrolib');
+	    	var filtrolib = document.getElementById('filtrolib'+bdid);
 
 	    	var operacion = 'incrementar';
 	    	if (filtrolib.checked == false){
