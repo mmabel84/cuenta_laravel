@@ -766,9 +766,9 @@ class AppController extends Controller
             {
                 $acces_vars = $this->getAccessToken($bd->bdapp_app);
                 $service_response = $this->getAppService($acces_vars['access_token'],'restarmg',$arrayparams,$bd->bdapp_app);
-                $status = $service_response['status'];
+                $statuss = $service_response['status'];
 
-                if ($status == 'Success')
+                if ($statuss == 'Success')
                 {
                     $bd->bdapp_gigdisp = $bd->bdapp_gigdisp - $cant_megas;
                     $bd->save();
