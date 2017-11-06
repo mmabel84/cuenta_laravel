@@ -724,6 +724,7 @@ class AppController extends Controller
             $cant_megas = $alldata['cant_megas'];
             $bd = BasedatosApp::find($alldata['bdid']);
             $app = $bd->aplicacion;
+            Log::info('total de meg app'. $app->app_megs);
             $arrayparams['megas_a_trans'] = $cant_megas;
             $arrayparams['dbname'] = $bd->bdapp_nombd;
 
@@ -731,11 +732,17 @@ class AppController extends Controller
             {
                 $appmgcons = 0;
                 $bdsapp = BasedatosApp::where('bdapp_app_id','=',$app->id);
+
                 foreach ($bdsapp as $bdapp) {
+                    Log::info($bdapp->bdapp_gigdisp);
                     $appmgcons = $appmgcons + $bdapp->bdapp_gigdisp;
                 }
 
+                Log::info('Consumido '.$appmgcons);
+
                 $disp = $app->app_megs - $appmgcons;
+
+                Log::info('Disponible '.$disp);
                 
                 if ($disp >= $cant_megas)
                 {
