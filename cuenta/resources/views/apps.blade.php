@@ -748,7 +748,7 @@
 	    	var filtrolib = document.getElementById('filtrolib'+bdid);
 
 	    	var operacion = 'incrementar';
-	    	if (filtrolib.checked == false){
+	    	if (filtrolib.checked == true){
 	    		operacion = 'liberar';
 	    	}
 

@@ -724,6 +724,8 @@ class AppController extends Controller
             $cant_megas = $alldata['cant_megas'];
             $bd = BasedatosApp::find($alldata['bdid']);
             $app = $bd->aplicacion;
+            $arrayparams['megas_a_trans'] = $cant_megas;
+            $arrayparams['dbname'] = $bd->bdapp_nombd;
 
             if ($alldata['operacion'] == 'incrementar')
             {
@@ -734,9 +736,7 @@ class AppController extends Controller
                 }
 
                 $disp = $app->app_megs - $appmgcons;
-                $arrayparams['megas_a_trans'] = $cant_megas;
-                $arrayparams['dbname'] = $bd->bdapp_nombd;
-
+                
                 if ($disp >= $cant_megas)
                 {
                     $acces_vars = $this->getAccessToken($bd->bdapp_app);
