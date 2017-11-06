@@ -749,7 +749,7 @@
 
 	    	var operacion = 'incrementar';
 	    	if (filtrolib.checked == false){
-	    		var operacion = 'liberar';
+	    		operacion = 'liberar';
 	    	}
 
 	    	console.log(operacion);
