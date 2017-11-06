@@ -315,8 +315,6 @@
 											                      <br>	
 		                          								  <br>
 		                          								  <br>	
-		                          								  <br>
-
 											                      <div class="item form-group col-md-12 col-sm-12 col-xs-12">
 				                          							<button id="btnmg{{$a->id}}" type="button" class="btn btn-primary" onclick="modificarMegas({{$a->id}});">Ejecutar</button>
 			                          							  </div>
