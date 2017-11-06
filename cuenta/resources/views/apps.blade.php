@@ -76,9 +76,9 @@
 		                          <td width="25%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td width="5%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
 		                          <td width="5%">{{$a->uso}}</td>
-		                          <td width="5%">{{$a->bdapp_gigdisp}}</td>
+		                          <td width="2%">{{$a->bdapp_gigdisp}}</td>
 		                          <td width="5%">{{$a->bdapp_imap_email}}</td>
-		                          <td width="20%">
+		                          <td width="23%">
 			                          <div class="btn-group">
 										<div class="btn-group">
 		                          			@permission('asociar.usuario')
@@ -314,9 +314,7 @@
 											                      </div>
 											                      <br>	
 		                          								  <br>
-											                      <div class="item form-group col-md-12 col-sm-12 col-xs-12">
-				                          							<button id="btnmg{{$a->id}}" type="button" class="btn btn-primary" onclick="modificarMegas({{$a->id}});">Ejecutar</button>
-			                          							  </div>
+											                      
 											                     
 
 	                          								</form>
