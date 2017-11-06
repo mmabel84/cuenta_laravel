@@ -744,44 +744,53 @@
 	    function modificarMegas(bdid)
 	    {
 	    	var cant_megas = document.getElementById('cant_mg'+bdid).value;
-	    	$("#result_nomg"+bdid).html('');
-	    	var filtrolib = document.getElementById('filtrolib'+bdid);
+	    	if (cant_megas > 0)
+	    	{
+	    		$("#result_nomg"+bdid).html('');
+		    	var filtrolib = document.getElementById('filtrolib'+bdid);
 
-	    	var operacion = 'incrementar';
-	    	if (filtrolib.checked == true){
-	    		operacion = 'liberar';
+		    	var operacion = 'incrementar';
+		    	if (filtrolib.checked == true){
+		    		operacion = 'liberar';
+		    	}
+
+		    	console.log(operacion);
+
+		    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+	    		$.ajax({
+	        	url:"/modifMegas",
+	        	type:'POST',
+	        	cache:false,
+	        	data: {_token: CSRF_TOKEN,bdid:bdid,cant_megas:cant_megas,operacion:operacion},
+				dataType: 'JSON',
+
+	        	success:function(response){
+	        		console.log(response['status']);
+	        		if (response['status'] == 'success'){
+	        			$("#cant_mg"+bdid).html('');
+	        			hideModalMg(bdid);
+	        			location.reload();
+	        		}
+	        		else
+	        		{
+	        			$("#result_nomg"+bdid).html(response['msg']);
+	        			
+	        		}
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		        		console.log(XMLHttpRequest);
+	                    alert("Error: " + errorThrown); 
+	                } 
+
+		    	});
+
 	    	}
-
-	    	console.log(operacion);
-
-	    	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-    		$.ajax({
-        	url:"/modifMegas",
-        	type:'POST',
-        	cache:false,
-        	data: {_token: CSRF_TOKEN,bdid:bdid,cant_megas:cant_megas,operacion:operacion},
-			dataType: 'JSON',
-
-        	success:function(response){
-        		console.log(response['status']);
-        		if (response['status'] == 'success'){
-        			$("#cant_mg"+bdid).html('');
-        			hideModalMg(bdid);
-        			location.reload();
-        		}
-        		else
-        		{
-        			$("#result_nomg"+bdid).html(response['msg']);
-        			
-        		}
-	        },
-	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-	        		console.log(XMLHttpRequest);
-                    alert("Error: " + errorThrown); 
-                } 
-
-	    	});
+	    	else
+	    	{
+	    		$("#result_nomg"+bdid).html('Debe especificar un valor mayor que 0');
+	    	}
+	    	
 	    }
 
 
