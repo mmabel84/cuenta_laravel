@@ -291,7 +291,7 @@
 								                        <div class="modal-body">
 			                        						<form id="modalform">
 		                            							<div class="item form-group col-md-12 col-sm-12 col-xs-12">
-					                             						<label>Operación a realizar:</label>
+					                             						<label>Operación:</label>
 												                        <div class="radio">
 												                            <label>
 												                              <input type="radio" id="filtroinc{{$a->id}}"  checked name="iCheckfiltro" value="1"> Incrementar espacio
@@ -309,6 +309,8 @@
 				                          						 <div class="item form-group col-md-12 col-sm-12 col-xs-12">
 											                        <input id="cant_mg{{ $a->id }}" class="form-control has-feedback-left" name="cant_mg" type="number" title="Cantidad de Megas" required>
 											                        <span class="fa fa-pie-chart form-control-feedback left" aria-hidden="true"></span>
+
+											                        <button id="btnmg{{$a->id}}" type="button" class="btn btn-primary" onclick="modificarMegas({{$a->id}});">Ejecutar</button>
 											                      </div>
 											                      <br>	
 		                          								  <br>
