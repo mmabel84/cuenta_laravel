@@ -70,16 +70,11 @@
 
 		                      <tbody>
 		                      @foreach ($apps as $a)
-		                      	@if ($a->uso == 'Prueba') 
-								   $color = "green";
-								@else
-								   $color = "red";
-								@endif
-		                        <tr style="background-color:{{$color}}">
+		                        <tr>
 		                          <td width="5%">{{$a->aplicacion->app_nom}}</td>
 		                          <td width="25%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td width="5%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
-		                          <td width="2%">{{$a->bdapp_gigdisp}}</td>
+		                          <td width="2%" bgcolor="@if ($a->uso == 'Prueba') #81BEF7 @else #81F7BE @endif">{{$a->bdapp_gigdisp}}</td>
 		                          <td width="5%">{{$a->bdapp_imap_email}}</td>
 		                          <td width="28%">
 			                          <div class="btn-group">
