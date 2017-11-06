@@ -61,7 +61,6 @@
 		                          <th>Aplicación</th>
 		                          <th>Empresa</th>
 		                          <th>RFC empresa</th>
-		                          <th>Uso</th>
 		                          <th>Megas</th>
 		                          <th>Correo imap</th>
 		                          <th>Acciones</th>
@@ -75,10 +74,9 @@
 		                          <td width="5%">{{$a->aplicacion->app_nom}}</td>
 		                          <td width="25%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td width="5%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
-		                          <td width="5%">{{$a->uso}}</td>
 		                          <td width="2%">{{$a->bdapp_gigdisp}}</td>
 		                          <td width="5%">{{$a->bdapp_imap_email}}</td>
-		                          <td width="23%">
+		                          <td width="28%">
 			                          <div class="btn-group">
 										<div class="btn-group">
 		                          			@permission('asociar.usuario')
