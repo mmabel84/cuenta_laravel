@@ -731,7 +731,7 @@ class AppController extends Controller
             if ($alldata['operacion'] == 'incrementar')
             {
                 $appmgcons = 0;
-                $bdsapp = BasedatosApp::where('bdapp_app_id','=',$app->id);
+                $bdsapp = BasedatosApp::where('bdapp_app','=',$app->app_cod);
 
                 foreach ($bdsapp as $bdapp) {
                     Log::info($bdapp->bdapp_gigdisp);

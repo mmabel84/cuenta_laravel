@@ -768,6 +768,7 @@
         		if (response['status'] == 'success'){
         			$("#cant_mg"+bdid).html('');
         			hideModalMg(bdid);
+        			location.reload();
         		}
         		else
         		{
