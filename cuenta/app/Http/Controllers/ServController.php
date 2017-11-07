@@ -276,9 +276,24 @@ class ServController extends Controller
 			                $arrayparams['f_corte'] = $dateline;
 			                $acces_vars = $this->getAccessToken($appc->app_cod);
                 			$service_response = $this->getAppService($acces_vars['access_token'],'createbd',$arrayparams,$appc->app_cod);
-                			 if ($email){
-				                  \Mail::to($email)->send(new InstEmail(['app'=>$appc->app_nom,'empr'=>$name,'ctarfc'=>$alldata['client_rfc'],'emprrfc'=>$alldata['client_rfc'],'user'=>$email,'password'=>$pass_sin_bcrypt,'url'=>$url_inst]));
-				              }
+	            			if ($email)
+		            			{
+					            	\Mail::to($email)->send(new InstEmail(['app'=>$appc->app_nom,'empr'=>$name,'ctarfc'=>$alldata['client_rfc'],'emprrfc'=>$alldata['client_rfc'],'user'=>$email,'password'=>$pass_sin_bcrypt,'url'=>$url_inst]));
+					            }
+
+				            if ($appc->app_cod == 'bov')
+				                {
+				                    $arrayparamsc['rfc_client'] = $alldata['client_rfc'];
+				                    $arrayparamsc['rfc_account'] = $alldata['client_rfc'];
+				                    $arrayparamsc['account_prefix'] = $appc->app_cod;
+				                    $acces_vars = $this->getAccessToken('control');
+				                    $service_response = $this->getAppService($acces_vars['access_token'],'mailAccount',$arrayparamsc,'control');
+				                    Log::info($service_response['uniq_id']);
+				                    $imap = $service_response['uniq_id'];
+				                    DB::connection($dbname)->update('update bdapp set bdapp_imap_email = ?, updated_at = ?  where id = ?', [$imap, date('Y-m-d H:i:s'), $bd_id]);
+				                }
+
+
 
 		        		}
 				        
