@@ -182,7 +182,7 @@
 								                        <div class="modal-body">
 			                        						<form id="modalform">
 		                            							<div class="col-md-12 col-sm-12 col-xs-12">
-				                             						<table id="datatable-buttons-bit{{$a->id}}" class="table table-striped table-bordered">
+				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered dt-responsive nowrap">
 		                      												<thead>
 		                        												<tr id="header{{$a->id}}">
 		                          													<th>Fecha</th>
@@ -404,7 +404,7 @@
     <script>
 
     	function cleanBitTable(bdid){
-			var table = document.getElementById("datatable-buttons-bit"+bdid);
+			var table = document.getElementById("datatable-responsive"+bdid);
    			var rowCount = table.rows.length;
 
 			while(table.rows.length > 1) {
@@ -429,7 +429,7 @@
 	        	success:function(response){
 	        		if (response['status'] == 'success'){
 	        			var bit = response['result'];
-	        			var table = document.getElementById("datatable-buttons-bit"+bdid);
+	        			var table = document.getElementById("datatable-responsive"+bdid);
 	        			console.log(bit[0]);
 
 	        			if (bit.length > 0) {
