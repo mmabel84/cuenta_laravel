@@ -181,12 +181,8 @@
 								                        </div>
 								                        <div class="modal-body">
 			                        						<form id="modalform">
-			                        							<div class="container">
-			                        							<div class="row">
-		                            							<div class="col-md-12 col-sm-12 col-xs-12">
-		                            							<div class="x_panel">
-		                            							<div class="x_content">
-				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+		                            							<div class="x_content table-responsive">
+				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered" cellspacing="0" width="100%">
 		                      												<thead>
 		                        												<tr id="header{{$a->id}}" style="color:#FFFFFF; background-color:#2d5986; ">
 		                          													<th>Fecha</th>
@@ -199,10 +195,6 @@
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
 		                          											</tbody>
 		                          									</table>
-				                          						</div>
-				                          						</div>
-				                          						</div>
-				                          						</div>
 				                          						</div>
 				                          						<div id="result_sinbitc{{$a->id}}" class="col-md-12 col-sm-12 col-xs-12">
 
@@ -462,6 +454,25 @@
 				            }
 
 				            $("#datatable-responsive"+bdid).addClass("table table-striped table-bordered dt-responsive nowrap");
+
+				            $("#datatable-responsive"+bdid).DataTable( {
+								        responsive: {
+								            details: {
+								                display: $.fn.dataTable.Responsive.display.modal( {
+								                    header: function ( row ) {
+								                        var data = row.data();
+								                        return 'Details for '+data[0]+' '+data[1];
+								                    }
+								                } ),
+								                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+								                    tableClass: 'table'
+								                } )
+								            }
+								        }
+								    } );
+
+
+
 				          }
 	        		}
 	        		else
