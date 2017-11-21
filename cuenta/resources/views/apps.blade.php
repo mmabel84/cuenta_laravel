@@ -178,8 +178,8 @@
 								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">Bitácora de {{$a->aplicacion->app_nom}} de  {{$a->empresa->empr_nom}}</label>
 								                        </div>
 								                        <div class="modal-body">
-			                        						<form id="modalform">
-		                            							<div class="col-md-12 col-sm-12 col-xs-12" style="overflow:auto;">
+			                        						<form id="modalform" style="overflow:auto;">
+		                            							<div class="col-md-12 col-sm-12 col-xs-12" >
 				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered" cellspacing="0" width="100%">
 		                      												<thead>
 		                        												<tr id="header{{$a->id}}" style="color:#FFFFFF; background-color:#2d5986; ">
