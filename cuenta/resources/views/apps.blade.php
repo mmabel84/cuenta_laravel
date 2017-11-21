@@ -188,6 +188,7 @@
 		                          													<th>IP</th>
 															                        <th>Módulo</th>
 															                        <th>Navegador</th>
+															                        <th>Mensaje</th>
 		                        												</tr>
 		                      												</thead>
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
@@ -446,6 +447,7 @@
                             { data: 'bitcta_ip', title: 'Dirección IP' },
                             { data: 'bitc_modulo', title: 'Módulo' },
                             { data: 'navegador', title: 'Navegador' },
+                            { data: 'bitac_msg', title: 'Mensaje' },
                         ]
 
 	        				
