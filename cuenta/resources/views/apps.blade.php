@@ -458,9 +458,7 @@
 				            $("#datatable-responsive"+bdid).DataTable( {
 								        responsive: {
 								            details: {
-								                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-								                    tableClass: 'table'
-								                } )
+								                
 								            }
 								        }
 								    } );
