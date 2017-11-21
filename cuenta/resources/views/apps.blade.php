@@ -460,6 +460,8 @@
 				              var cell6 = row.insertCell(4);
 				              cell6.innerHTML = bit[i].navegador;
 				            }
+
+				            table.addClass("table table-striped table-bordered dt-responsive nowrap");
 				          }
 	        		}
 	        		else
