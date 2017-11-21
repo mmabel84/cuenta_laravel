@@ -458,7 +458,7 @@
 				              cell6.innerHTML = bit[i].navegador;
 				            }
 
-				            myTable.responsive.recalc();
+				            table.responsive.recalc();
 
 
 				        }
