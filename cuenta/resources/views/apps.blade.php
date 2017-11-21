@@ -189,8 +189,6 @@
 		                          													<th>Operación</th>
 		                          													<th>IP</th>
 															                        <th>Módulo</th>
-															                        <th>Módulo</th>
-															                        <th>Módulo</th>
 		                        												</tr>
 		                      												</thead>
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
@@ -442,7 +440,7 @@
 	        			if (bit.length > 0) {
 	        				
 	        				$("#datatable-responsive"+bdid).DataTable({
-	        				data: bitsource,
+	        				data: bit,
 	        				columns: [
                             { data: 'bitc_fecha', title: 'Fecha' },
                             { data: 'bitcta_tipo_op' , title: 'Operación' },

@@ -902,7 +902,7 @@ class ServController extends Controller
 
 	   		if (array_key_exists('dbname',$alldata) && isset($alldata['dbname'])){
 	   			$dbname = $alldata['dbname'].'_cta';
-	   			$bitacoras = DB::connection($dbname)->select('select bitc_fecha, bitc_modulo, bitcta_ip, bitcta_tipo_op, bitcta_msg from bitcta order by bitc_fecha DESC limit 10;');
+	   			$bitacoras = DB::connection($dbname)->select('select bitc_fecha, bitc_modulo, bitcta_ip, bitcta_tipo_op, bitcta_msg from bitcta order by bitc_fecha DESC;');
 	   		}
 	        return \Response::json($bitacoras);
 	    }
