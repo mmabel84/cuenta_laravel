@@ -54,7 +54,7 @@
 	                    <strong>{{ Session::get('failmessage') }}</strong>
 	                  </div>
 	                  @endif
-		                  <div class="x_content">
+		                  <div class="x_content" style="overflow: auto">
 		                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
