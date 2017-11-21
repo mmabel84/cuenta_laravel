@@ -181,7 +181,6 @@
 								                        </div>
 								                        <div class="modal-body">
 			                        						<form id="modalform">
-			                        							<div class="right_col">
 			                        							<div class="container">
 			                        							<div class="row">
 		                            							<div class="col-md-12 col-sm-12 col-xs-12">
@@ -200,7 +199,6 @@
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
 		                          											</tbody>
 		                          									</table>
-				                          						</div>
 				                          						</div>
 				                          						</div>
 				                          						</div>
