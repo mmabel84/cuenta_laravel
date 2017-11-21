@@ -181,7 +181,10 @@
 								                        </div>
 								                        <div class="modal-body">
 			                        						<form id="modalform">
-		                            							<div class="x_content col-md-12 col-sm-12 col-xs-12">
+			                        							<div class="container">
+			                        							<div class="row">
+		                            							<div class="col-md-12 col-sm-12 col-xs-12">
+		                            							<div class="x_content">
 				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      												<thead>
 		                        												<tr id="header{{$a->id}}" style="color:#FFFFFF; background-color:#2d5986; ">
@@ -195,6 +198,9 @@
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
 		                          											</tbody>
 		                          									</table>
+				                          						</div>
+				                          						</div>
+				                          						</div>
 				                          						</div>
 				                          						<div id="result_sinbitc{{$a->id}}" class="col-md-12 col-sm-12 col-xs-12">
 
