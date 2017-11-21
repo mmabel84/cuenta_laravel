@@ -168,7 +168,7 @@
 		                          			<div class="modal fade{{$a->id}} bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="bit{{$a->id}}">
 		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
 		                          			    
-								                    <div class="modal-dialog modal-lg" style="overflow:auto;">
+								                    <div class="modal-dialog modal-lg" style=" width:60%">
 								                      <div class="modal-content" >
 
 								                        <div class="modal-header">
