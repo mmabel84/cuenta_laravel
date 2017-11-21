@@ -453,9 +453,9 @@
 				              cell6.innerHTML = bit[i].navegador;
 				            }
 
-				            $("#datatable-responsive"+bdid).addClass("table table-striped table-bordered dt-responsive nowrap");
+				            //$("#datatable-responsive"+bdid).addClass("table table-striped table-bordered dt-responsive nowrap");
 
-				            $("#datatable-responsive"+bdid).DataTable( {
+				            /*$("#datatable-responsive"+bdid).DataTable( {
 								        responsive: {
 								            details: {
 								                display: $.fn.dataTable.Responsive.display.modal( {
@@ -469,7 +469,7 @@
 								                } )
 								            }
 								        }
-								    } );
+								    } );*/
 
 
 
