@@ -490,7 +490,7 @@ class AppController extends Controller
             $msg = "<label  style=' color:#790D4E' class='control-label col-md-12 col-sm-12 col-xs-12'> ".'No aplica la acción de retornar bitácora'."</label>";
         }
 
-        $response = array ('status' => $status, 'msg' => $msg, 'result' => $result);
+        $response = array ('status' => $status, 'msg' => $msg, 'result' => $result, 'bitacora'=>$bitacora);
         return \Response::json($response);
 
     }

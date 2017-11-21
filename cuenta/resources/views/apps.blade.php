@@ -419,7 +419,6 @@
 
 	    function showModalBit(bdid) {
 	          var modalid = "bit"+bdid;
-	          var table = $("#datatable-responsive"+bdid).DataTable({});
 	          $("#"+modalid).modal('show');
 	          $("#result_sinbitc"+bdid).html('');
 	          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -434,11 +433,29 @@
 	        	success:function(response){
 	        		if (response['status'] == 'success'){
 	        			var bit = response['result'];
+	        			var bitsource = response['bitacora'];
 	        			//var table = document.getElementById("datatable-responsive"+bdid);
 	        			console.log(bit[0]);
 
+
 	        			if (bit.length > 0) {
-				            for (var i = 0; i < bit.length; i++) {
+	        				
+	        				$("#datatable-responsive"+bdid).DataTable({
+	        				data: bitsource,
+	        				columns: [
+                            { data: 'bitc_fecha', title: 'Fecha' },
+                            { data: 'bitcta_tipo_op' , title: 'Operación' },
+                            { data: 'bitcta_ip', title: 'Dirección IP' },
+                            { data: 'bitc_modulo', title: 'Módulo' },
+                        ]
+
+	        				
+	        				});
+
+	        				//table.responsive.recalc();
+
+
+				            /*for (var i = 0; i < bit.length; i++) {
 
 				              var row = table.insertRow(i+1);
 				              
@@ -456,9 +473,9 @@
 
 				              var cell6 = row.insertCell(4);
 				              cell6.innerHTML = bit[i].navegador;
-				            }
+				            }*/
 
-				            table.responsive.recalc();
+				            
 
 
 				        }
