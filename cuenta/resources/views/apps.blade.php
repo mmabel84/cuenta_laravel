@@ -419,7 +419,7 @@
 
 	    function showModalBit(bdid) {
 	          var modalid = "bit"+bdid;
-	          var mytable = $("#datatable-responsive"+bdid).DataTable({});
+	          var table = $("#datatable-responsive"+bdid).DataTable({});
 	          $("#"+modalid).modal('show');
 	          $("#result_sinbitc"+bdid).html('');
 	          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -434,7 +434,7 @@
 	        	success:function(response){
 	        		if (response['status'] == 'success'){
 	        			var bit = response['result'];
-	        			var table = document.getElementById("datatable-responsive"+bdid);
+	        			//var table = document.getElementById("datatable-responsive"+bdid);
 	        			console.log(bit[0]);
 
 	        			if (bit.length > 0) {
