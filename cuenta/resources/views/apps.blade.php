@@ -185,7 +185,10 @@
 				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered" cellspacing="0" width="100%">
 		                      												<thead>
 		                        												<tr id="header{{$a->id}}" style="color:#FFFFFF; background-color:#2d5986; ">
-		                          													
+		                          													<th>Fecha</th>
+		                          													<th>Operación</th>
+		                          													<th>IP</th>
+															                        <th>Módulo</th>
 		                        												</tr>
 		                      												</thead>
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
