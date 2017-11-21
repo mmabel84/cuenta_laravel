@@ -415,6 +415,7 @@
 
 	    function showModalBit(bdid) {
 	          var modalid = "bit"+bdid;
+	          var mytable = $("#datatable-responsive"+bdid).DataTable({});
 	          $("#"+modalid).modal('show');
 	          $("#result_sinbitc"+bdid).html('');
 	          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -453,19 +454,10 @@
 				              cell6.innerHTML = bit[i].navegador;
 				            }
 
-				            //$("#datatable-responsive"+bdid).addClass("table table-striped table-bordered dt-responsive nowrap");
-
-				            $("#datatable-responsive"+bdid).DataTable( {
-								        responsive: {
-								            details: {
-								                
-								            }
-								        }
-								    } );
+				            myTable.responsive.recalc();
 
 
-
-				          }
+				        }
 	        		}
 	        		else
 	        		{
