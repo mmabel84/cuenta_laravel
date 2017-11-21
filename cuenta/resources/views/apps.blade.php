@@ -179,7 +179,7 @@
 								                        </div>
 								                        <div class="modal-body">
 			                        						<form id="modalform">
-		                            							<div class="col-md-12 col-sm-12 col-xs-12 responsive-table">
+		                            							<div class="col-md-12 col-sm-12 col-xs-12" style="overflow:auto;">
 				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered" cellspacing="0" width="100%">
 		                      												<thead>
 		                        												<tr id="header{{$a->id}}" style="color:#FFFFFF; background-color:#2d5986; ">
