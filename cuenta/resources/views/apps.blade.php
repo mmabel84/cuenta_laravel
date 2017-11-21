@@ -185,7 +185,6 @@
 		                        												<tr id="header{{$a->id}}" style="color:#FFFFFF; background-color:#2d5986; ">
 		                          													<th>Fecha</th>
 		                          													<th>Operación</th>
-		                          													<th>IP</th>
 															                        <th>Módulo</th>
 															                        <th>Navegador</th>
 															                        <th>Mensaje</th>
@@ -444,7 +443,6 @@
 	        				columns: [
                             { data: 'bitc_fecha', title: 'Fecha' },
                             { data: 'bitcta_tipo_op' , title: 'Operación' },
-                            { data: 'bitcta_ip', title: 'Dirección IP' },
                             { data: 'bitc_modulo', title: 'Módulo' },
                             { data: 'navegador', title: 'Navegador' },
                             { data: 'bitac_msg', title: 'Mensaje' },
