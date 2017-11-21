@@ -184,7 +184,7 @@
 		                            							<div class="col-md-12 col-sm-12 col-xs-12">
 				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 		                      												<thead>
-		                        												<tr id="header{{$a->id}}">
+		                        												<tr id="header{{$a->id}}" style="color:#FFFFFF; background-color:#2d5986; ">
 		                          													<th>Fecha</th>
 		                          													<th>Operación</th>
 		                          													<th>IP</th>
