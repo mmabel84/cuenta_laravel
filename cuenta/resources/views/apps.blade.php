@@ -189,6 +189,8 @@
 		                          													<th>Operación</th>
 		                          													<th>IP</th>
 															                        <th>Módulo</th>
+															                        <th>Módulo</th>
+															                        <th>Módulo</th>
 		                        												</tr>
 		                      												</thead>
 		                      												<tbody id="datatable-body-bit{{$a->id}}">
@@ -445,8 +447,6 @@
                             { data: 'bitc_fecha', title: 'Fecha' },
                             { data: 'bitcta_tipo_op' , title: 'Operación' },
                             { data: 'bitcta_ip', title: 'Dirección IP' },
-                            { data: 'bitc_modulo', title: 'Módulo' },
-                            { data: 'bitc_modulo', title: 'Módulo' },
                             { data: 'bitc_modulo', title: 'Módulo' },
                             { data: 'bitc_modulo', title: 'Módulo' },
                             { data: 'bitc_modulo', title: 'Módulo' },
