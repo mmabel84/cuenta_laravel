@@ -411,6 +411,10 @@
 
 			  table.deleteRow(1);
 			}
+
+			if ($.fn.DataTable.isDataTable("#datatable-responsive"+bdid)) {
+				  $("#datatable-responsive"+bdid).DataTable().clear().destroy();
+			}
 		}
 
 	    function showModalBit(bdid) {
