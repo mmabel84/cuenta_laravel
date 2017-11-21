@@ -177,7 +177,7 @@
 								                          <h4 class="modal-title" id="myModalLabel"></h4>
 								                          <label class="control-label col-md-12 col-sm-12 col-xs-12">Bitácora de {{$a->aplicacion->app_nom}} de  {{$a->empresa->empr_nom}}</label>
 								                        </div>
-								                        <div class="modal-body">
+								                        <div class="modal-body" style="overflow:auto;">
 			                        						<form id="modalform">
 		                            							<div class="col-md-12 col-sm-12 col-xs-12" >
 				                             						<table id="datatable-responsive{{$a->id}}" class="table table-striped table-bordered" cellspacing="0" width="100%">
