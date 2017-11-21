@@ -446,6 +446,10 @@
                             { data: 'bitcta_tipo_op' , title: 'Operación' },
                             { data: 'bitcta_ip', title: 'Dirección IP' },
                             { data: 'bitc_modulo', title: 'Módulo' },
+                            { data: 'bitc_modulo', title: 'Módulo' },
+                            { data: 'bitc_modulo', title: 'Módulo' },
+                            { data: 'bitc_modulo', title: 'Módulo' },
+                            { data: 'bitc_modulo', title: 'Módulo' },
                         ]
 
 	        				
