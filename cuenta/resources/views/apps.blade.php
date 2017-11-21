@@ -461,7 +461,7 @@
 				              cell6.innerHTML = bit[i].navegador;
 				            }
 
-				            table.addClass("table table-striped table-bordered dt-responsive nowrap");
+				            $("#datatable-responsive"+bdid).addClass("table table-striped table-bordered dt-responsive nowrap");
 				          }
 	        		}
 	        		else
