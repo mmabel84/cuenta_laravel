@@ -60,7 +60,6 @@
 		                        <tr style="color:#FFFFFF; background-color:#2d5986; ">
 		                          <th>Aplicación</th>
 		                          <th>Empresa</th>
-		                          <th>RFC empresa</th>
 		                          <th>Megas</th>
 		                          <th>Correo imap</th>
 		                          <th>Acciones</th>
@@ -72,8 +71,7 @@
 		                      @foreach ($apps as $a)
 		                        <tr>
 		                          <td width="5%" bgcolor="@if ($a->uso == 'Prueba') #A9E2F3 @else #CEF6D8 @endif">{{$a->aplicacion->app_nom}}</td>
-		                          <td width="25%">{{$a->empresa ? $a->empresa->empr_nom: ''}}</td>
-		                          <td width="5%">{{$a->empresa ? $a->empresa->empr_rfc: ''}}</td>
+		                          <td width="25%">{{$a->empresa ? $a->empresa->empr_rfc: '' . '-'. $a->empresa ? $a->empresa->empr_nom: ''}}</td>
 		                          <td width="2%">{{$a->bdapp_gigdisp}}</td>
 		                          <td width="5%">{{$a->bdapp_imap_email}}</td>
 		                          <td width="28%">
