@@ -14,6 +14,7 @@ use SoapClient;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 //define("URL_WS_69", 'http://lista69.advans.mx/Lista69b/index/consultarLista.wsdl');
 
@@ -27,6 +28,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        
     }
 
     /**
@@ -36,6 +38,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user_logued = Auth::user();
+        Log::info('Usuario logueado '.$user_logued);
         $emps = Empresa::all();
         $appsall = Aplicacion::all();
         $appsact = $appsall->where('app_activa', '=', true);
@@ -75,84 +79,99 @@ class HomeController extends Controller
                 $megtemp += $inst->bdapp_gigcons;
             }
             array_push($megcons, $megtemp);
+
+
+
         }
 
         //diccionario con aplicaciones contratadas activas
+        $url_fact = config('app.advans_apps_url.fact');
+        $url_bov = config('app.advans_apps_url.bov');
+        $url_cont = config('app.advans_apps_url.cont');
+        $url_nom = config('app.advans_apps_url.nom');
+        $url_pld = config('app.advans_apps_url.pld');
+        $url_cc = config('app.advans_apps_url.cc');
+        $url_not = config('app.advans_apps_url.not');
+
+        $url_doc_fact = config('app.advans_apps_doc_url.fact');
+        $url_doc_bov = config('app.advans_apps_doc_url.bov');
+        $url_doc_cont = config('app.advans_apps_doc_url.cont');
+        $url_doc_nom = config('app.advans_apps_doc_url.nom');
+        $url_doc_pld = config('app.advans_apps_doc_url.pld');
+        $url_doc_cc = config('app.advans_apps_doc_url.cc');
+        $url_doc_not = config('app.advans_apps_doc_url.not');
 
         $appsicons = array (
-                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso a aplicación de facturación electrónica'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
+                    'fact'=>"<a href='' data-dir='".$url_fact."' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso a aplicación de facturación electrónica'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
-                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    'bov'=>"<a href='' data-dir='".$url_bov."' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>CONTAB</b></span></i></a>",
-                     'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cont'=>"<a href='' data-dir='".$url_cont."' data-toggle='tooltip' data-placement='right' id='cont' class='disabled' target='_blank' title='Acceso a aplicación de contabilidad'><i class='iconcont icon-accessibilitycont' padding: 0 25px;'>
+                    </i></a>",
+                     'nom'=>"<a href='#' data-dir='".$url_nom."' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    'pld'=>"<a href='' data-dir='".$url_pld."' title='Acceso a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
-                    'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='#' data-dir='".$url_not."' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='' data-dir='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>TAREAS</b></span></i></a>
+                    'cc'=>"<a href='' data-dir='".$url_cc."' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank' title='Acceso a aplicación de control de calidad'><i class='iconcc icon-accessibilitycc' padding: 0 25px;'></i></a>
                     ");
 
         //diccionario con aplicaciones en prueba activas
 
         $appsenprueba = array (
-                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso de prueba a aplicación de facturación electrónica'><i class='iconfacttest icon-accessibilityfact' padding: 0 25px;'>
+                    'fact'=>"<a href='' data-dir='".$url_fact."' data-toggle='tooltip' data-placement='right' id='fact' target='_blank' class='disabled' title='Acceso de prueba a aplicación de facturación electrónica'><i class='iconfacttest icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
-                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso de prueba a aplicación de bóveda'><i class='iconbovtest icon-accessibilitybov' padding: 0 25px;'>
+                    'bov'=>"<a href='' data-dir='".$url_bov."' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabled' title='Acceso de prueba a aplicación de bóveda'><i class='iconbovtest icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='' data-dir='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Contabilidad' ><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>CONTAB</b></span></i></a>",
-                     'nom'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Nómina' ><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cont'=>"<a href='' data-dir='".$url_cont."' data-toggle='tooltip' data-placement='right' id='cont' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Contabilidad' ><i class='iconconttest icon-accessibilitycont' padding: 0 25px;'>
+                    </i></a>",
+                     'nom'=>"<a href='#' data-dir='".$url_nom."' data-toggle='tooltip' data-placement='right' id='nom' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Nómina' ><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' title='Acceso de prueba a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpldtest icon-accessibility' padding: 0 25px;'>
+                    'pld'=>"<a href='' data-dir='".$url_pld."' title='Acceso de prueba a aplicación de PLD' data-toggle='tooltip' data-placement='right' id='pld' class='disabled' target='_blank'><i class='iconpldtest icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
-                    'not'=>"<a href='#' data-dir='#' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Notaría' ><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='#' data-dir='".$url_not."' data-toggle='tooltip' data-placement='right' id='not' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Notaría' ><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='' data-dir='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Control de Calidad' ><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>TAREAS</b></span></i></a>
+                    'cc'=>"<a href='' data-dir='".$url_cc."' data-toggle='tooltip' data-placement='right' id='cc' class='disabled' target='_blank' title='Acceso de prueba a aplicación de Control de Calidad' ><i class='iconcctest icon-accessibilitycc' padding: 0 25px;'></i></a>
                     ");
 
         //diccionario de aplicaciones bloqueadas
         $appsiconsblocked = array (
-                    'fact'=>"<a href='' data-dir='https://app.advans.mx/' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='fact' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
+                    'fact'=>"<a href='' data-dir='' class='disabledblocked' data-toggle='tooltip' data-placement='right' id='fact' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'>
                     </i></a>",
-                    'bov'=>"<a href='' data-dir='http://lab1.advans.mx/control/login#' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    'bov'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='bov' target='_blank' class='disabledblocked' title='Acceso a aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='http://lab1.advans.mx/control/login/' data-toggle='tooltip' data-placement='top' id='cont' class='disabledblocked' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>CONTAB</b></span></i></a>",
-                     'nom'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='nom' class='disabledblocked' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cont'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='top' id='cont' class='disabledblocked' target='_blank'><i class='iconcont icon-accessibilitycont' padding: 0 25px;'>
+                    </i></a>",
+                     'nom'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='nom' class='disabledblocked' target='_blank'><i class='fa fa-table fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='' data-dir='http://pld-beta.advans.mx/app/usuarios/login#' data-toggle='tooltip' data-placement='right' id='pld' class='disabledblocked' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    'pld'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='pld' class='disabledblocked' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
-                    'not'=>"<a href='#' data-toggle='tooltip' data-placement='right' id='not' class='disabledblocked' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='not' class='disabledblocked' target='_blank'><i class='fa fa-bank fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='http://ecacc.selfip.org/cc_beta/index.php/usuarios/login' data-toggle='tooltip' data-placement='right' id='cc' class='disabledblocked' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#053666; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>TAREAS</b></span></i></a>
+                    'cc'=>"<a href='' data-dir='' data-toggle='tooltip' data-placement='right' id='cc' class='disabledblocked' target='_blank'><i class='iconcc icon-accessibilitycc' padding: 0 25px;'></i></a>
                     ");
 
         //diccionario de aplicaciones no contratadas
         $appdisp = array (
-                    'fact'=>"<a href='http://www.advans.mx/content/factura-electronica-advans' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'></i></a>",
+                    'fact'=>"<a href='".$url_doc_fact."' data-toggle='tooltip' data-placement='right' id='factd' title='Aplicación para facturación electrónica' target='_blank'><i class='iconfact icon-accessibilityfact' padding: 0 25px;'></i></a>",
 
-                    'bov'=>"<a href='http://www.advans.mx/content/validacion-cfdi-advans' data-toggle='tooltip' data-placement='right' id='bovd' target='_blank' title='Aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
+                    'bov'=>"<a href='".$url_doc_bov."' data-toggle='tooltip' data-placement='right' id='bovd' target='_blank' title='Aplicación de bóveda'><i class='iconbov icon-accessibilitybov' padding: 0 25px;'>
                     </i></a>",
-                    'cont'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='contd' title='Aplicación para la contabilidad interna de la empresa' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'cont'=>"<a href='".$url_doc_cont."' data-toggle='tooltip' data-placement='right' id='contd' title='Aplicación para la contabilidad interna de la empresa' target='_blank'><i class='fa fa-briefcase fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>CONTAB</b></span></i></a>",
-                     'nom'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='nomd' title='Aplicación para el cálculo de la nómina' target='_blank'><i class='fa fa-table fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                     'nom'=>"<a href='".$url_doc_nom."' data-toggle='tooltip' data-placement='right' id='nomd' title='Aplicación para el cálculo de la nómina' target='_blank'><i class='fa fa-table fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NÓMINA</b></span></i></a>",
-                    'pld'=>"<a href='http://mejorapld.mx/software/' data-toggle='tooltip' data-placement='right' id='pldd' title='Mejpra PLD para la prevención de lavado de dinero' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
+                    'pld'=>"<a href='".$url_doc_pld."' data-toggle='tooltip' data-placement='right' id='pldd' title='Mejpra PLD para la prevención de lavado de dinero' target='_blank'><i class='iconpld icon-accessibility' padding: 0 25px;'>
                     </i></a>",
                     
-                    'not'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='notd' title='Aplicación para el manejo de notarías' target='_blank'><i class='fa fa-bank fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
+                    'not'=>"<a href='".$url_doc_not."' data-toggle='tooltip' data-placement='right' id='notd' title='Aplicación para el manejo de notarías' target='_blank'><i class='fa fa-bank fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
                     <b>NOTARÍA</b></span></i></a>",
-                    'cc'=>"<a href='http://www.advans.mx/content/sobre-advans' data-toggle='tooltip' data-placement='right' id='ccd' title='Aplicación para el seguimiento de tareas' target='_blank'><i class='fa fa-tasks fa-4x' style='color:#5c154d; padding: 0 25px;'><span style='display:block; font-size:12px; margin-top: 5px; text-align: center, margin: 0 auto;'>
-                    <b>TAREAS</b></span></i></a>
+                    'cc'=>"<a href='".$url_doc_cc."' data-toggle='tooltip' data-placement='right' id='ccd' title='Aplicación para el seguimiento de tareas' target='_blank'><i class='iconcc icon-accessibilitycc' padding: 0 25px;'>
+                    </i></a>
                     ");
 
         
@@ -188,10 +207,17 @@ class HomeController extends Controller
              }
         }
 
-        //Calculando cantidad de aplicaciones con instancias creadas
+        //Calculando cantidad de aplicaciones con instancias creadas y cantidad de megas asignados total
         $cantgigas = 0;
         $cant_app_coninst = 0;
         $cantinstcont = 0; 
+        $cantgigasign = 0;
+        $cantgigastest = 0;
+        $cantgigasigntest = 0;
+        $cant_gigas_rest_test = 0;
+
+        
+
        foreach ($apps as $app) {
            $cantgigas = $cantgigas + $app->app_megs;
             $cantinstcont = $cantinstcont + $app->app_insts;
@@ -199,8 +225,27 @@ class HomeController extends Controller
             if (count($cant_inst) > 0)
             {
                 $cant_app_coninst += 1;
+                foreach ($cant_inst as $inst) {
+                    $cantgigasign = $cantgigasign + $inst->bdapp_gigdisp;
+                }
             }
        }
+
+       foreach ($appstest as $appt) {
+           $cantgigastest = $cantgigastest + $appt->app_megs;
+           $cant_inst_test = BasedatosApp::where('bdapp_app_id', '=', $appt->id)->get();
+           if (count($cant_inst_test) > 0)
+            {
+                foreach ($cant_inst_test as $instt) {
+                    $cantgigasigntest = $cantgigasigntest + $instt->bdapp_gigdisp;
+                }
+            }
+       }
+
+       $cant_gigas_rest_test = $cantgigastest - $cantgigasigntest;
+       $cant_gigas_rest = $cantgigas - $cantgigasign;
+
+       
 
        //Calculando porcentaje de tiempo consumido
         $fecha_venta = '';
@@ -313,6 +358,7 @@ class HomeController extends Controller
         $dict_empr_gig = array();
         $gigas_cons_emp = array();
         $empr_cons = array();
+
         
         foreach ($bdapps as $a) {
             if ($a->bdapp_gigcons != null){
@@ -330,6 +376,32 @@ class HomeController extends Controller
             $empr_cons = array_keys($dict_empr_gig);
             $gigas_cons_emp = array_values($dict_empr_gig);
         }
+
+        
+        $porc_esp_cons = 0;
+        if ($cantgigas > 0)
+        {
+            $porc_esp_cons = round(($cant_gigas_cons / $cantgigas) * 100, 2);
+        }
+
+        
+
+        $medidaespdisp = 'megas';
+        if ($cantgigas >= 1024)
+        {
+            $cantgigas = round($cantgigas / 1024, 2);
+            $medidaespdisp = 'gigas';
+        }
+
+        $medidaesprest = 'megas';
+        if ($cant_gigas_cons >= 1024)
+        {
+            $cant_gigas_cons = round($cant_gigas_cons / 1024, 2);
+            $medidaesprest = 'gigas';
+
+        }
+
+
 
         //Calculando vigencia de certificados
         $certificados = Certificado::all();
@@ -389,11 +461,34 @@ class HomeController extends Controller
         catch (\GuzzleHttp\Exception\ServerException $e) 
         {
              \Session::put('newserror', 'Sin comunicación a servicio de control para noticias');
+        }
 
+        //recuperando fecha de actualización de artículo 69
+         $fecha_act_69 = '';
+         try
+        {
+            $service_response = $this->getAppService($acces_vars['access_token'],'getmax69',$arrayparams,'control');
+            if (count($service_response['response69']) > 0){
+                $fecha_act_69 = $service_response['response69'][0]['fecha'];
+                //Log::info($fecha_act_69[0]['fecha']);
+            }
+        } 
+        catch (\GuzzleHttp\Exception\ServerException $e) 
+        {
+             \Session::put('newserror', 'Sin comunicación a servicio de control para noticias');
+        }
+
+        //Tomando número de cuenta
+        $empresaprincipal = Empresa::where('empr_principal', '=', true)->get();
+        $num_cta = '';
+        if (count($empresaprincipal) > 0)
+        {
+            $num_cta = $empresaprincipal[0]->empr_rfc;
         }
 
         
-        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest]);
+
+        return view('panel',['emps'=>json_encode($emps),'appvisible'=>$appvisible, 'appdispvisible'=>$appdispvisible,'insts'=>$cantinstcont,'gigas'=>$cantgigas,'rfccreados'=>count($emps), 'cantinstcreadas'=>count($bdapps),'apps'=>count($apps),'appsact'=>count($appsact), 'cant_app_coninst'=>$cant_app_coninst,'usrs'=>count($usrs),'porc_final'=>$porc_fin,'fecha_fin'=>$fecha_fin,'fecha_caduc'=>$fecha_caduc,'gigas_cons'=>$cant_gigas_cons,'gigas_empresa'=>json_encode($gigas_cons_emp),'empr_cons'=>json_encode($empr_cons), 'intervalshow'=>$intervalshow, 'medida_tiempo'=>$medida_tiempo, 'htmlcert'=>$htmlcert, 'cant_cert_vencidos'=>count($cert_vencidos), 'cant_cert'=>count($certificados), 'noticias'=>$noticias, 'noticiasstr'=>json_encode($noticias), 'appnames'=>json_encode($appnames),'instcont'=>json_encode($instcont), 'instcreadas'=>json_encode($instcreadas), 'megcons'=>json_encode($megcons),'appsall'=>count($appsall), 'appstest'=>count($appstest), 'appsdesact'=>count($appsdesact), 'color_interval'=>$color_interval, 'cantbdappstest'=>$bdappstest,'medidaespdispmay'=>strtoupper($medidaespdisp),'cant_gigas_rest'=>$cant_gigas_rest,'porc_esp_cons'=>$porc_esp_cons,'medidaesprest'=>$medidaesprest,'fecha_act_69'=>$fecha_act_69,'num_cta'=>$num_cta,'pass_change'=>$user_logued->password_change,'cantgigasign'=>$cantgigasign,'cantgigastest'=>$cantgigastest,'cantgigasigntest'=>$cantgigasigntest,'cant_gigas_rest_test'=>$cant_gigas_rest_test]);
 
     }
 
@@ -406,6 +501,7 @@ class HomeController extends Controller
         if(array_key_exists('selected',$alldata) && isset($alldata['selected'])){
             $emprfc = $alldata['selected'];
             $emp = Empresa::where('empr_rfc', '=', $emprfc)->get();
+            Log::info($emp);
             $bdapps = [];
 
             if (count($emp) > 0){
@@ -430,49 +526,49 @@ class HomeController extends Controller
     }
 
     function auditar69b(Request $request) {
-        //recibe el rfc en post
-        //$rfc = $this->input->post('rfc', TRUE);
-        $rfc = $request->rfc;
+        $rfc = strtoupper($request->rfc);
         $data['error'] = 1;
         $data['reporte'] = 0;
-
-            //inicializando el cliente (_*-*)_
-       
-        $cliente = new SoapClient('http://lista69.advans.mx/Lista69b/index/consultarLista?wsdl');//WEB_SERVICE_69 url del webserice definido en constans de Laravel
-
+        $arrayparams = array();
+        $arrayparams['by_rfc'] = true;
+        $arrayparams['rfc_value'] = $rfc;
+        $reporte = [];
+        try
+        {
+            $acces_vars = $this->getAccessToken();
+            $service_response = $this->getAppService($acces_vars['access_token'],'get69response',$arrayparams,'control');
             
-            //base64 el rfc antes de enviar
-            $rfc64 = base64_encode($rfc);
-            //preparando parametros, en este caso solo uno
-            $params = array($rfc64);
-            //llamamos el metodo declarodo en el servidor SOAP
-            $result = $cliente->__soapCall("consultarLista", $params);
-            //convertimos ajson la respuesta y luego a un array
-            $json = json_decode($result, true);
-            //verificamos que sea array
+            if (count($service_response['response69']) > 0){
+                $registros69 = $service_response['response69'];
+                
 
-
-           if(is_array($json)){
-                //verificamos que esxista el indice de error
-                if(in_array('error',$json)){
-                    //verificamos que no hay errores y que el reporte regreso algo
-                    if($json['error']==0){
-                        //preparamos el reporte para retornar
-                        $response = $this->_reporteA69($json['reporte'],$rfc);
-                        $data['reporte'] = $response['htmldef'];
-                        $data['tienerep'] = $response['tienerep'];
+                foreach ($registros69 as $r) {
+                    if ($r['tipo'] == 'Presunto'){
+                        $reporte['69'] = [];
+                       array_push($reporte['69'], $r);
                     }
-
+                    elseif ($r['tipo'] == 'Definitivo')
+                    {
+                        $reporte['69b'] = [];
+                        array_push($reporte['69b'], $r);
+                    }
+                    else
+                    {
+                        $reporte['desvirtuados'] = [];
+                        array_push($reporte['desvirtuados'], $r);
+                    }
                 }
-                //notificamos que se realizo el proceso sin errores
-                $data['error'] = 0;
             }
-        //retornamos la respuesta del servidor SOAP _(*-*_)
-        //echo json_encode($data);
+           $response = $this->_reporteA69($reporte,$rfc);
+            $data['reporte'] = $response['htmldef'];
+            $data['tienerep'] = $response['tienerep'];
 
-            //$data =  array('reporte' => 'helloooo');
+        } 
+        catch (\GuzzleHttp\Exception\ServerException $e) 
+        {
+             \Session::put('newserror', 'Sin comunicación a servicio de control para consulta de artículo 69');
+        }
         return \Response::json($data);
-            //return  $data;
 
     }
 
@@ -489,100 +585,89 @@ class HomeController extends Controller
 
         $html .= '<dl class="dl-horizontal">';
 
-        /*$html .= '<div class="bootbox-body">
-            <dl class="dl-horizontal">
-                <dt>RFC:</dt>
-                    <dd>'.$rfc.'</dd>
-            ';*/
-        //verificamos que no regreasar numerico
+        //verificando si es un array
+        if(count($json69) > 0){
 
-        if(!is_numeric($json69)){
-            //verificando si es un array
-            if(is_array($json69)){
+                //buscando el array key 69b
+                if(array_key_exists('69b',$json69)){
+                    $tienerep = true;
+                       $html .= '
+                        <dt>Encontrado en:</dt>
+                            <dd>Lista 69 - B definitivos</dd>
+                        <br>
+                        <ul class="list-group">';
+                       //recorremos los datos de la respuesta
+                       for ($i=0; $i < count($json69['69b']); $i++) {
+                            $html .='
+                            <li class="list-group-item list-group-item-danger">
+                                #'.$json69['69b'][$i]['id'].'<br>
+                                Empresa: '.$json69['69b'][$i]['contribuyente'].'<br>
+                                Número de oficio: '.$json69['69b'][$i]['oficio'].'<br>
+                                Fecha de SAT: '.$json69['69b'][$i]['fecha_sat'].'<br>
+                                Fecha de DOF: '.$json69['69b'][$i]['fecha_dof'].'<br>
+                                Acceso a oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                Acceso a anexo: <a target="_blank" href="'.$json69['69b'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                            </li><br>';
+                        }
+                        $html.='</ul>';
+                }
+                //buscando el array key 69
+                if(array_key_exists('69',$json69)){
+                    $tienerep = true;
+                        $html .= '
+                        <dt>Encontrado en:</dt>
+                            <dd>Lista 69 presuntos</dd>
+                        <br>
+                        <ul class="list-group">';
+                        //recorremos los datos de la respuesta
+                       for ($i=0; $i < count($json69['69']); $i++) {
+                            $html .='
+                            <li class="list-group-item list-group-item-warning">
+                                #'.$json69['69'][$i]['id'].'<br>
+                                Empresa: '.$json69['69'][$i]['contribuyente'].'<br>
+                                Número de oficio: '.$json69['69'][$i]['oficio'].'<br>
+                                Fecha de SAT: '.$json69['69'][$i]['fecha_sat'].'<br>
+                                Fecha de DOF: '.$json69['69'][$i]['fecha_dof'].'<br>
+                                Acceso a oficio: <a target="_blank" href="'.$json69['69'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                               Acceso a anexo: <a target="_blank" href="'.$json69['69'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                            </li><br>';
+                        }
+                        $html.='</ul>';
 
-                    //buscando el array key 69b
-                    if(array_key_exists('69b',$json69)){
-                        $tienerep = true;
-                           $html .= '
-                            <dt>Encontrado en:</dt>
-                                <dd>Lista 69 - B definitivos</dd>
-                            <br>
-                            <ul class="list-group">';
-                           //recorremos los datos de la respuesta
-                           for ($i=0; $i < count($json69['69b']); $i++) {
-                                $html .='
-                                <li class="list-group-item list-group-item-danger">
-                                    #'.$json69['69b'][$i]['iddefinitivos_69b'].'<br>
-                                    Empresa: '.$json69['69b'][$i]['nombre_empresa_definitivos_69b'].'<br>
-                                    Fecha de oficio: '.$json69['69b'][$i]['fecha_oficio_definitivos_69b'].'<br>
-                                    Numero de oficio: '.$json69['69b'][$i]['numero_oficio_definitivos_69b'].'<br>
-                                    Oficio: <a target="_blank" href="'.$json69['69b'][$i]['url_definitivos_69b'].'">Ver oficio.pdf</a><br>
-                                </li><br>';
-                            }
-                            $html.='</ul>';
-                    }
-                    //buscando el array key 69
-                    if(array_key_exists('69',$json69)){
-                        $tienerep = true;
-                            $html .= '
-                            <dt>Encontrado en:</dt>
-                                <dd>Lista 69 presuntos</dd>
-                            <br>
-                            <ul class="list-group">';
-                            //recorremos los datos de la respuesta
-                           for ($i=0; $i < count($json69['69']); $i++) {
-                                $html .='
-                                <li class="list-group-item list-group-item-warning">
-                                    #'.$json69['69'][$i]['idpresuncion_69'].'<br>
-                                    Empresa: '.$json69['69'][$i]['nombre_empresa_presuncion_69'].'<br>
-                                    Fecha de oficio: '.$json69['69'][$i]['fecha_oficio_presuncion_69'].'<br>
-                                    Presuncion: '.$json69['69'][$i]['tipo_presuncion'].'<br>
-                                </li><br>';
-                            }
-                            $html.='</ul>';
+                }
+                //buscando el array key desvirtuados
+                if(array_key_exists('desvirtuados',$json69)){
+                    $tienerep = true;
 
-                    }
-                    //buscando el array key desvirtuados
-                    if(array_key_exists('desvirtuados',$json69)){
-                        $tienerep = true;
+                        $html .= '
+                        <dt>Encontrado en:</dt>
+                            <dd>Desvirtuados</dd>
+                        <br>
+                        <ul class="list-group">';
+                        //recorremos los datos de la respuesta
+                       for ($i=0; $i < count($json69['desvirtuados']); $i++) {
+                            $html .='
+                            <li class="list-group-item list-group-item-success">
+                                #'.$json69['desvirtuados'][$i]['id'].'<br>
+                                Empresa: '.$json69['desvirtuados'][$i]['contribuyente'].'<br>
+                                Número de oficio: '.$json69['desvirtuados'][$i]['oficio'].'<br>
+                                Fecha de SAT: '.$json69['desvirtuados'][$i]['fecha_sat'].'<br>
+                                Fecha de DOF: '.$json69['desvirtuados'][$i]['fecha_dof'].'<br>
+                                Acceso a oficio: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_oficio'].'">Ver oficio.pdf</a><br>
+                                Acceso a anexo: <a target="_blank" href="'.$json69['desvirtuados'][$i]['url_anexo'].'">Ver anexo.pdf</a><br>
+                            </li><br>';
+                        }
+                        $html.='</ul>';
+                }
 
-                            $html .= '
-                            <dt>Encontrado en:</dt>
-                                <dd>Desvirtuados</dd>
-                            <br>
-                            <ul class="list-group">';
-                            //recorremos los datos de la respuesta
-                           for ($i=0; $i < count($json69['desvirtuados']); $i++) {
-                                $html .='
-                                <li class="list-group-item list-group-item-success">
-                                    #'.$json69['desvirtuados'][$i]['iddesvirtuados'].'<br>
-                                    Empresa: '.$json69['desvirtuados'][$i]['nombre_empresa_desvirtuados'].'<br>
-                                    Desvirtuado: '.$json69['desvirtuados'][$i]['tipo_desvirtuados'].'<br>
-                                    Oficio: '.$json69['desvirtuados'][$i]['numero_fecha_oficio_desvirtuados'].'<br>
-                                </li><br>';
-                            }
-                            $html.='</ul>';
-                    }
-
-
-
-            }
-        }else{
+        }else
+        {
             //si no se encontro nada
-
             $htmlsinreporte = '
                               <div>
                                 <label style="color: #3DB1A5" id="norep">No se encontró incidencia</label>
                               </div>';
-            
-            /*$html .= '<br>
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-success">
-                                <span class="badge alert-success">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                </span>No se encontraron reportes del RFC proporcionado.
-                            </li>
-                        </ul>';*/
+
         }
         $html .='</dl>';
 
@@ -596,5 +681,59 @@ class HomeController extends Controller
 
         return  array('htmldef' => $htmldef, 'tienerep'=> $tienerep);
     }
+
+
+    function redirectapp($numcta,$rfc,$codapp)
+    {
+        $url_app = config('app.advans_apps_url.'.$codapp);
+        $dbname = $numcta.'_'.$rfc.'_'.$codapp;
+        $user = \Auth::user();
+        $user_id = $user->id;
+        $bdapp = BasedatosApp::where('bdapp_nombd', '=', $dbname)->get();
+        $bdapp_id = 0;
+        if (count($bdapp) > 0)
+        {
+            $bdapp_id = $bdapp[0]->id;
+        }
+
+        $exists = $user->basedatosapps->contains($bdapp_id);
+
+        if (!$exists)
+        {
+            $exists =  0;
+        }
+
+
+        if ($codapp != 'fact')
+        {
+            $acces_vars = $this->getAccessToken($codapp);
+            $arrayparams['dbname']=$dbname;
+            $arrayparams['rfc']=$rfc;
+            $arrayparams['cta']=$numcta;
+            $arrayparams['cod']=$codapp;
+            $arrayparams['id_usuario']=$user_id;
+            $service_response = $this->getAppService($acces_vars['access_token'],'loginservice',$arrayparams,$codapp);
+
+            Log::info($service_response['msg']);
+            Log::info($exists);
+            if(array_key_exists('msg', $service_response))
+            {
+                $url_final = $url_app.'/msl/'.$arrayparams['dbname'].'/'.$service_response['msg']; 
+            }
+            else
+            {
+                $url_final = $url_app.$rfc;
+            }
+            
+            return response()->redirectTo($url_final);
+        }
+        else
+        {
+            $url_final = $url_app.$rfc;
+            return response()->redirectTo($url_final);
+        }
+    }
+
+
     
 }

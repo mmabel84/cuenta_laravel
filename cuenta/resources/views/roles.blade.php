@@ -1,10 +1,6 @@
  @extends('admin.template.main')
 
 
-@section('app_title')
-      Roles
-@endsection 
-
 @section('app_css')
     @parent
     <!-- Datatables -->
@@ -19,21 +15,19 @@
 		<div class="container">
 			<div class="row">
 				
-
 				<div class="col-md-12 col-sm-12 col-xs-12">
-		                <div class="x_panel">
-		                  <div class="x_title">
-		                    <h2>Lista de roles</h2>
-		                    
-		                    <div class="clearfix"></div>
-		                  </div>
+	                <div class="x_panel">
+	                  <div class="x_title">
+	                    <h2>Lista de roles</h2>
+	                    
+	                    <div class="clearfix"></div>
+	                  </div>
 
 		                  @permission('crear.rol')
 		                  <div class="form-group">
 		                  <button type="button" onclick="location.href = '{{ URL::to('roles/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nuevo rol</b></button>
 		                  </div>
 		                  @endpermission
-		                  
 		                  
 		                  <br/>
 		                  @if (Session::has('message'))
@@ -57,7 +51,6 @@
 		                          
 		                        </tr>
 		                      </thead>
-
 
 		                      <tbody>
 		                      	@foreach ($roles as $r)
@@ -86,14 +79,9 @@
 		                </div>
 		              </div>
 
-
-
-
 			</div>
 		</div>
 	
-			
-
 
 @endsection
 

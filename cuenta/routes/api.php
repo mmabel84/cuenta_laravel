@@ -40,3 +40,5 @@ Route::get('/getusr', 'ServController@returnUsersControl')->middleware('auth:api
 Route::get('/unlockusr', 'ServController@unlockUserControl')->middleware('auth:api');
 
 Route::get('/getbit', 'ServController@getBitControl')->middleware('auth:api');
+
+Route::get('/verifinst', 'ServController@verifyInstance')->middleware('auth:api');

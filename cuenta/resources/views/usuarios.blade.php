@@ -1,9 +1,6 @@
   @extends('admin.template.main')
 
 
-@section('app_title')
-      Usuarios
-@endsection 
 
 @section('app_css')
     @parent
@@ -22,39 +19,39 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 		        <div class="x_panel">
-		                  <div class="x_title">
-		                    <h2>Lista de Usuarios</h2>
-		                    <div class="clearfix"></div>
-		                  </div>
+                  <div class="x_title">
+                    <h2>Lista de Usuarios</h2>
+                    <div class="clearfix"></div>
+                  </div>
 		                  
-		                  @permission('crear.usuario')
-		                  <div class="form-group">
-		                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nuevo usuario</b></button>
-		                  </div>
-		                  @endpermission
+	                  @permission('crear.usuario')
+	                  <div class="form-group">
+	                  <button type="button" onclick="location.href = '{{ URL::to('usuarios/create') }}';" class="btn btn-primary" style="color:#FFFFFF; background-color:#2d5986; "><b>Nuevo usuario</b></button>
+	                  </div>
+	                  @endpermission
 
-		                  <br/>
-		                  	<div id="cont_pass_change_div">
-			                  	<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;">
-				                    <button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-				                    </button>
-				                    <strong id="alertpassmsg"></strong>
-				                 </div>
-			                </div>
-		                  @if (Session::has('message'))
-			                  <div class="alert alert-success alert-dismissible fade in" role="alert">
-			                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	                  <br/>
+	                  	<div id="cont_pass_change_div">
+		                  	<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;">
+			                    <button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
 			                    </button>
-			                    <strong>{{ Session::get('message') }}</strong>
-			                  </div>
-			                  @endif
-			               @if (Session::has('failmessage'))
-			                  <div class="alert alert-warning alert-dismissible fade in" role="alert">
-			                    <button id="alertmsgfaildelete" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-			                    </button>
-			                    <strong>{{ Session::get('failmessage') }}</strong>
-			                  </div>
-			                  @endif
+			                    <strong id="alertpassmsg"></strong>
+			                 </div>
+		                </div>
+	                  @if (Session::has('message'))
+		                  <div class="alert alert-success alert-dismissible fade in" role="alert">
+		                    <button id="alertmsgcreation" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+		                    </button>
+		                    <strong>{{ Session::get('message') }}</strong>
+		                  </div>
+		                  @endif
+		               @if (Session::has('failmessage'))
+		                  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+		                    <button id="alertmsgfaildelete" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+		                    </button>
+		                    <strong>{{ Session::get('failmessage') }}</strong>
+		                  </div>
+		                  @endif
 
 		                  <div class="x_content">
 		                    
@@ -69,7 +66,6 @@
 		                          
 		                        </tr>
 		                      </thead>
-
 
 		                      <tbody>
 		                      @foreach ($usuarios as $u)
@@ -89,10 +85,9 @@
 
 										<div class="btn-group">
 											@permission('asociar.usuario')
-		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" class="btn btn-xs" data-placement="left" title="Agregar a aplicación" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModalBD({{$u->id}})"><i class="fa fa-plus-square-o fa-3x"></i> </button>
+		                          			<button id="btnmodal" data-usrid="{{$u->id}}" type="button" data-toggle="modal" class="btn btn-xs hidden" data-placement="left" title="Agregar a aplicación" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModalBD({{$u->id}})"><i class="fa fa-plus-square-o fa-3x"></i> </button>
 		                          			@endpermission
 
-		                          				
 		                          			     <div class="modal fade bs-example-modal-lg{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true" name="relatemodal" id="modalUsrBd{{$u->id}}">
 		                          			     <meta name="csrf-token" content="{{ csrf_token() }}" />
 		                          			    
@@ -180,8 +175,8 @@
 
 			                          	<div class="btn-group">
                                               
-
-                                                <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModal({{$u->id}})"><i class="fa fa-key fa-3x"></i> </button>
+                                              <button id="passmodallink{{$u->id}}" data-usrid="{{$u->id}}" type="button" data-toggle="modal" data-target=".passmodal{{$u->id}}" class="btn btn-xs" data-placement="left" title="Cambiar contraseña" style=" color:#062c51; background-color:#FFFFFF; " onclick="showModal({{$u->id}})">
+                                              <i class="fa fa-key fa-3x"></i> </button>
 
 
                                               <div class="modal fade" id="passmodal{{$u->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
@@ -195,22 +190,29 @@
                                                     </div>
                                                     <div class="modal-body">
                                                       <form>
-                                                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} col-md-12 col-sm-12 col-xs-12">
-	                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
-		                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-		                                                          <input placeholder="Nueva Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
-		                                                           @if ($errors->has('password'))
-									                                    <span class="help-block">
-									                                        <strong>{{ $errors->first('password') }}</strong>
-									                                    </span>
-									                                @endif
+	                                                      <div class="col-md-12 col-sm-12 col-xs-12">
+	                                                      	<div class="item form-group{{ $errors->has('password') ? ' has-error' : '' }} col-md-9 col-sm-9 col-xs-12">
+		                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
+			                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+			                                                          <input placeholder="Nueva Contraseña" required="required" type="password" class="form-control" id="password{{$u->id}}">
+			                                                           @if ($errors->has('password'))
+										                                    <span class="help-block">
+										                                        <strong>{{ $errors->first('password') }}</strong>
+										                                    </span>
+										                                @endif
+		                                                        </div>
+		                                                        <br>
+		                                                        <div class="input-group col-md-6 col-sm-6 col-xs-12">
+			                                                          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+			                                                          <input placeholder="Confirme Contraseña" type="password" class="form-control " id="password-confirm{{$u->id}}" name="password_confirmation">
+		                                                        </div>
+		                                                        <br>
+		                                                        <div class="input-group col-md-3 col-sm-3 col-xs-12">
+							                                      <button type="button" onclick="changePass({{$u->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+							                                    </div>
 	                                                        </div>
-	                                                        
-                                                        </div>
+	                                                      </div>
                                                       </form>
-
-                                                     
-
                                                    </div>
                                                     <div class="modal-footer">
                                                     <div  class="form-group col-md-12 col-sm-12 col-xs-12">
@@ -220,9 +222,8 @@
 
                                                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
                                                      	<button type="button" onclick="cleanmodalPass({{$u->id}});" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                      	<button type="button"  onclick="changePass({{$u->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+                                                      	
                                                      </div>
-                                                      
                                                       
                                                     </div>
                                                     </div>
@@ -241,9 +242,7 @@
 
 			                          	</div>
 
-
 		                          </td>
-		                          
 		                        </tr>
 		                        @endforeach
 		                       
@@ -312,8 +311,6 @@
           fillroles(this, usr1);
         });
 		
-
-		
 		
 		//Función para limpiar el selet2 de roles y el select2 de las bases de datos del modal de bd
 		function cleanRoles(usrid){
@@ -329,9 +326,7 @@
                
            });
 				
-
 		}
-
 
 		//Función para limpiar el div que se muestra cuando hay error asociando usuario a base de datos
 		function cleanFailureDiv(usrid){
@@ -477,7 +472,6 @@
 	    		});
 
     		}
-    		
 	        
 	    };
 
@@ -510,9 +504,12 @@
         function cleanmodalPass(usrid){
 
 			$("#result_failure_pass"+usrid).html('');
+			var passid = "password"+usrid;
+           	var passcid = "password-confirm"+usrid;
+           	document.getElementById(passid).value = "";
+            document.getElementById(passcid).value = "";
 			
-
-			}
+		}
 
 
        //Función para cambiar contraseña
@@ -521,23 +518,21 @@
            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
            var passid = "password"+user;
+           var passcid = "password-confirm"+user;
 
            var password = document.getElementById(passid).value;
+           var passwordc = document.getElementById(passcid).value;
 
-
-
-           if(password){
+           if(password && passwordc){
               $.ajax({
                 url: 'cambcont',
                 type: 'POST',
-                data: {_token: CSRF_TOKEN,password:password,user:user},
+                data: {_token: CSRF_TOKEN,password:password,password_confirmation:passwordc,user:user},
                 dataType: 'JSON',
                 success: function (data) {
-
-                 //console.log(data);
-                  hideModal(data['user']);
                   cleanmodalPass(user);
-                  //$('#alertmsgcreation').trigger('click');
+                  hideModal(data['user']);
+                  
 
                   var content = '<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;"><button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong id="alertpassmsg"></strong></div>';
                   
@@ -555,23 +550,21 @@
 
 		          }, 4e3);
                   
-
                },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    //alert("Status: " + textStatus); alert("Error: " + errorThrown);
                     console.log(XMLHttpRequest);
-                    $("#result_failure_pass"+user).html('<p>La contraseña es inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
-                    //$("#result_failure_pass"+user).html('<p><strong>Ocurrió un error: '+errorThrown+'</strong></p>');
-                    //hideModal(data['user']);
+                    var error = XMLHttpRequest.responseJSON['password'][0];
+                    $("#result_failure_pass"+user).html(error);
+                    //$("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
 
                 }
             });
+              document.getElementById(passid).value = "";
+              document.getElementById(passcid).value = "";
             }else{
-              $("#result_failure_pass"+user).html('<p>La contraseña es obligatoria</p>');
+              $("#result_failure_pass"+user).html('<p>La contraseña y su confirmación son obligatorias</p>');
               
            }
-
-           document.getElementById("password"+user).value = "";
 
    }
 

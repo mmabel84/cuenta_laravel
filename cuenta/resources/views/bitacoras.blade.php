@@ -1,9 +1,6 @@
  @extends('admin.template.main')
 
 
-@section('app_title')
-      Bitácora
-@endsection 
 
 @section('app_css')
     @parent
@@ -19,7 +16,6 @@
 		<div class="container">
 			<div class="row">
 				
-
 				<div class="col-md-12 col-sm-12 col-xs-12">
 		                <div class="x_panel">
 		                  <div class="x_title">
@@ -51,7 +47,7 @@
 		                        <tr>
 		                          <td>{{$b->bitc_fecha}}</td>
 		                          <td>{{$b->bitcta_tipo_op}}</td>
-		                          <td>{{$b->user ? $b->user->name:''}}</td>
+		                          <td>{{$b->bitcta_user}}</td>
 		                          <td>{{$b->bitc_modulo}}</td>
 		                          <td>{{$b->bitcta_msg}}</td>
 		                          <td>{{$b->bitcta_ip}}</td>
@@ -65,15 +61,9 @@
 		                  </div>
 		                </div>
 		              </div>
-
-
-
-
 			</div>
 		</div>
 	
-			
-
 
 @endsection
 

@@ -1,9 +1,6 @@
    @extends('admin.template.main')
 
 
-@section('app_title')
-      Respaldos
-@endsection 
 
 @section('app_css')
     @parent
@@ -19,7 +16,6 @@
 		<div class="container">
 			<div class="row">
 				
-
 				<div class="col-md-12 col-sm-12 col-xs-12">
 		                <div class="x_panel">
 		                  <div class="x_title">
@@ -56,11 +52,13 @@
 		                        <tr style="color:#FFFFFF; background-color:#2d5986 ">
 		                          <th>Empresa</th>
 		                          <th>Aplicación</th>
-		                          <th>Fecha</th>
+		                          <th>Fecha de creación</th>
 		                          <th>Usuario</th>
+		                          <th>Comentario</th>
+		                          <th>Restaurado</th>
+		                          <th>Fecha de restauración</th>
 		                          <th>Acciones</th>
 		                         
-		                          
 		                        </tr>
 		                      </thead>
 
@@ -72,6 +70,9 @@
 		                          <td>{{$back->basedatosapp->aplicacion->app_nom}}</td>
 		                          <td>{{$back->backbd_fecha}}</td>
 		                          <td>{{$back->backbd_user}}</td>
+		                          <td>{{$back->backbd_coment}}</td>
+		                          <td>{{$back->backbd_respaldado ? 'Sí' : 'No'}}</td>
+		                          <td>{{$back->backbd_f_respaldo}}</td>
 		                          
 		                          <td class=" last" width="12%">
 		                          <div>
@@ -85,21 +86,23 @@
 										{{ Form::close() }}
 										@endpermission
 
-										&nbsp;
+										<!--&nbsp;
 										<div class="btn-group">
-		                          			<!--<button onclick="downloadback(this);" id="{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Descargar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-download fa-3x"></i> </button>-->
+
 		                          			<a href="{{ route('downlback',['bdid'=>$back->id]) }}" id="{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Descargar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-download fa-3x"></i> </a>
 
+			                          	</div>-->
+			                          	&nbsp;
+			                          	@permission('restaurar.respaldo')
+										<div class="btn-group">
+
+		                          			<a onclick="showWaitingModal()" href="{{ route('restback',['bdid'=>$back->id]) }}" id="rest{{ $back->id }}" class="btn btn-xs" data-placement="left" title="Restaurar respaldo" style=" color:#053666; background-color:#FFFFFF;"><i class="fa fa-cogs fa-3x"></i> </a>
+
 			                          	</div>
-
+			                          	@endpermission
 		                          	</div>
-		                          	   	
-
-
 		                          </div>
-		 
 		                          </td>
-		                          
 		                        </tr>
 		                        @endforeach
 		                       		                       
@@ -108,16 +111,9 @@
 		                  </div>
 		                </div>
 		              </div>
-
-
-
-
 			</div>
 		</div>
 	
-			
-
-
 @endsection
 
 @section('app_js') 
@@ -141,6 +137,16 @@
 	    	<script src="{{ asset('build/js/custom.js') }}"></script>
 
    <script>
+
+   /*$('a').click(function() {
+              $('#loadingmodal').modal('show');
+          });*/
+
+          function showWaitingModal()
+          {
+          	$('#loadingmodal').modal('show');
+          }
+
       $( function() {
           $('#alertmsgcreation').click(function() {
               console.log('alertmsgcreation button clicked');
@@ -185,23 +191,14 @@
 	        		else{
 	        			console.log(response);
 	        		}
-
-	        		
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown) { 
 	        		console.log(XMLHttpRequest);
                     alert("Error: " + errorThrown); 
                 } 
 
-
 	    });
 	    };
-
-
-
-
-
-
 
     </script>
 @endsection

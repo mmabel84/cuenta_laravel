@@ -29,6 +29,7 @@ use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use League\OAuth2\Server\RequestEvent;
 use League\OAuth2\Server\RequestTypes\AuthorizationRequest;
 use Psr\Http\Message\ServerRequestInterface;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Abstract grant class.

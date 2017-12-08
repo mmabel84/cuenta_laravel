@@ -13,7 +13,6 @@
 
     <link href="{{ asset('vendors/chosen/chosen.css') }}" rel="stylesheet" type="text/css" />
 
-
     <style>
     .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
         margin: 0;
@@ -61,8 +60,6 @@
                 <form id="permcreateform" class="form-horizontal form-label-left" novalidate action="{{ route('permisos.store') }}" method='POST' enctype="multipart/form-data">
 
                       {{ csrf_field() }}
-
-                    
 
                     <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>

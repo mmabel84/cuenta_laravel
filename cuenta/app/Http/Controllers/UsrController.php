@@ -14,6 +14,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Mail\UsrEmail;
 
 class UsrController extends Controller
 {
@@ -54,8 +56,7 @@ class UsrController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'users_nick' => $data['users_nick']
+            'password' => bcrypt($data['password'])
         ]);
     } 
 
@@ -67,6 +68,20 @@ class UsrController extends Controller
 
         $this->registered($request, $user);
 
+        $password = $values['password'];
+        $email = $values['email'];
+
+        $ctalink = config('app.advans_apps_url.cuenta');
+        if (!$ctalink)
+        {
+            $ctalink = 'http://appcuenta.advans.mx';
+        }
+        $ctarfc = \Session::get('ctarfc');
+        
+        if ($user->email && $ctarfc){
+            \Mail::to($user->email)->send(new UsrEmail(['ctarfc'=>$ctarfc,'user'=>$email,'password'=>$password,'url'=>$ctalink]));
+        }
+
         return $user;
     } 
 
@@ -77,10 +92,10 @@ class UsrController extends Controller
         if ($usr->can('leer.usuario'))
         {
             $usuarios = User::where('users_control','<>',true)->get();
-            if ($usr->can('leer.usuario.advans'))
+            /*if ($usr->can('leer.usuario.advans'))
             {
                 $usuarios = User::all();
-            }
+            }*/
             
             $apps = BasedatosApp::all();
             return view('usuarios',['apps'=>$apps,'usuarios'=>$usuarios]);
@@ -265,28 +280,34 @@ class UsrController extends Controller
     {
         $alldata = $request->all();
         $user = User::findOrFail($id);
+        $name = '';
+        $email ='';
+     
 
         /*echo "<pre>";
         print_r($alldata);die();
         echo "</pre>";*/
 
-        $file     = false;
+        $file = false;
         if(array_key_exists('users_pic',$alldata)){
-            $file     = request()->file('users_pic');
+            $file = request()->file('users_pic');
             $path = $request->file('users_pic')->storeAs(
             'public', $user->id.'.'.$file->getClientOriginalName()
-        );
-        }else{
-            if(array_key_exists('deleted_pic',$alldata)){
-                if($alldata['deleted_pic']=='1'){
-                    $user->users_pic = 'default_avatar_male.jpg';
-                }
-            }
+            );
+           
         }
 
-
         if($file!=false){
+            
             $user->users_pic = $user->id.'.'.$file->getClientOriginalName();
+        }
+        else
+        {
+            if(array_key_exists('checkpic',$alldata)){
+                if($alldata['checkpic']==0 || $alldata['checkpic']=='0'){
+                    $user->users_pic = null;
+                }
+            }
         }
 
         if(array_key_exists('users_tel',$alldata) && isset($alldata['users_tel'])){
@@ -295,6 +316,21 @@ class UsrController extends Controller
 
         if(array_key_exists('name',$alldata) && isset($alldata['name'])){
             $user->name = $alldata['name'];
+            $name = $alldata['name'];
+
+        }
+        else
+        {
+            $name = $user->name;
+        }
+
+        if(array_key_exists('email',$alldata) && isset($alldata['email'])){
+            $user->email = $alldata['email'];
+            $email = $alldata['email'];
+        }
+        else
+        {
+            $email = $user->email;
         }
 
         /*if(array_key_exists('users_nick',$alldata) && isset($alldata['users_nick'])){
@@ -322,6 +358,16 @@ class UsrController extends Controller
             }
         }
 
+        //actualizando email y nombre de usuario en instancias
+        $inst_bd = $user->basedatosapps()->get();
+        $arrayparams['usr'] = array('users_cuentaid'=>$id, 'name'=>$name, 'email'=>$email);
+
+        foreach ($inst_bd as $inst) {
+            $arrayparams['dbname'] = $inst->bdapp_nombd;
+            $acces_vars = $this->getAccessToken($inst->bdapp_app);
+            $service_response = $this->getAppService($acces_vars['access_token'],'moduser',$arrayparams,$inst->bdapp_app);
+        }
+
         $fmessage = 'Se ha modificado el usuario: '.$alldata['name'];
         \Session::flash('message',$fmessage);
         $this->registroBitacora($request,'update',$fmessage);
@@ -335,23 +381,44 @@ class UsrController extends Controller
     {
         $user = User::find($id);
         $fmessage = '';
-        $messagetype = '';
+        $messagetype = 'failmessage';
 
         if ($user->id == Auth::user()->id){
             $fmessage = 'No es posible eliminar al usuario: '.$user->name.'  autenticado';
-            $messagetype = 'failmessage';
-
         }
         else
         {
-            $user->detachAllPermissions();
-            $user->detachAllRoles();
-            $user->basedatosapps()->detach();
-            //TODO Eliminar usuario de base de datos de aplicaciones
-            $fmessage = 'Se ha eliminado el usuario: '.$user->name;
-            $messagetype = 'message';
-            $this->registroBitacora($request,'delete',$fmessage); 
-            $user->delete();
+            $bds = $user->basedatosapps()->get();
+            Log::info($bds);
+            $count_dep = 0;
+            foreach ($bds as $bd) 
+            {
+                $acces_vars = $this->getAccessToken($bd->bdapp_app);
+                $arrayparams['id_cuenta'] = $user->id;
+                $arrayparams['dbname'] = $bd->bdapp_nombd;
+
+                $service_response = $this->getAppService($acces_vars['access_token'],'dropuser',$arrayparams,$bd->bdapp_app);
+
+                if ($service_response['status'] == 0)
+                {
+                    $count_dep += 1;
+                }
+            }
+
+            if ($count_dep == 0)
+            {
+                $user->detachAllPermissions();
+                $user->detachAllRoles();
+                $user->basedatosapps()->detach();
+                $fmessage = 'Se ha eliminado el usuario: '.$user->name;
+                $messagetype = 'message';
+                $user->delete();
+                $this->registroBitacora($request,'delete',$fmessage);
+            }
+            else
+            {
+                $fmessage = 'No es posible eliminar al usuario: '.$user->name.' pues tiene dependencias asociadas en '.$count_dep.' soluciones creadas';
+            }
 
         }
         \Session::flash($messagetype, $fmessage);
@@ -403,7 +470,9 @@ class UsrController extends Controller
         $alldata = $request->all();
         //$this->customvalidator($alldata)->validate();
 
-        $rules = ['password' => 'min:8|passwordsat'];
+        Log::info($alldata['password']);
+
+        $rules = ['password' => 'min:8|passwordsat|confirmed'];
         //$messages = ['passwordsat' => 'Contraseña inválida'];
 
         $validator = Validator::make($alldata, $rules)->validate();
@@ -424,8 +493,30 @@ class UsrController extends Controller
                 $this->registroBitacora($request,'password change',$fmessage);
                 //\Session::flash('message', $fmessage); 
             }
+            $user->password_change = true;
 
             $user->save();
+
+            //actualizando password de usuario en instancias
+            $inst_bd = $user->basedatosapps()->get();
+            $dbname = \Session::get('selected_database',false);
+            if ($dbname != false)
+            {
+                $password = DB::connection($dbname)->select('select password from users where id = ?',[$user->id]);
+                if (count($password) > 0)
+                {
+                    $password = $password[0]->password;
+                }
+                $arrayparams['usr'] = array('users_cuentaid'=>$user->id, 'password'=>$password);
+
+                foreach ($inst_bd as $inst) {
+                    $arrayparams['dbname'] = $inst->bdapp_nombd;
+                    $acces_vars = $this->getAccessToken($inst->bdapp_app);
+                    $service_response = $this->getAppService($acces_vars['access_token'],'moduser',$arrayparams,$inst->bdapp_app);
+                }
+            }
+
+            
         }
 
        
@@ -442,38 +533,33 @@ class UsrController extends Controller
     public function getrolepermissionbd($bdid){
 
         $bd = BasedatosApp::find($bdid);
-        
-        //TODO llamar a sevricio que trae arreglo de roles
-        /*
-         //$app_cod = $bd->bdapp_app;
-         //$arrayparams['bd'] = $bd->bdapp_nombd;
+        $app_cod = $bd->bdapp_app;
+        $gener_inst = config('app.advans_apps_gener_inst.'.$app_cod);
+        $status = 0;
+        $msg = 'Sin roles';
+        $roles = array();
 
-         //$acces_vars = $this->getAccessToken($app_cod);
-        //$service_response = $this->getAppService($acces_vars['access_token'],'gerroles',$arrayparams,$app_cod);
-         if ($service_response['roles']){
-            $response = array(
-            'status' => 'Success',
-            'msg' => 'Roles returned',
-            'roles' => $service_response['roles']);
-        
-            return \Response::json($response);
+        if ($app_cod != 'fact')
+        {
+            $arrayparams['dbname'] = $bd->bdapp_nombd;
+            $acces_vars = $this->getAccessToken($app_cod);
+            $service_response = $this->getAppService($acces_vars['access_token'],'getroles',$arrayparams,$app_cod);
+            $status = $service_response['status'];
+            $msg = $service_response['msg'];
+             if ($service_response['status'] == 1){
+                $roles = $service_response['roles'];
+             }
+        }
 
-         }*/
-         
-        $roles_array = array(
-            array('slug'=>'rol1','name'=>'Rol 1'),
-            array('slug'=>'rol2','name'=>'Rol 2'),
-            array('slug'=>'rol3','name'=>'Rol 3'),
-        );
-        
          $response = array(
-            'status' => 'Success',
-            'msg' => 'Roles returned',
-            'roles' => $roles_array);
+            'status' => $status,
+            'msg' => $msg,
+            'roles' => $roles,
+            );
 
          return \Response::json($response);
+
+        
+         
     }
-
-    
-
 }

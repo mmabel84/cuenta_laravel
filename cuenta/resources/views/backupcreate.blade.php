@@ -1,11 +1,6 @@
  @extends('admin.template.main')
 
 
-@section('app_title')
-      Respaldos
-@endsection 
-
-
 @section('app_css')
         @parent
         
@@ -63,8 +58,8 @@
                     <input type="hidden" id="apps" name="apps" value="{{ $bdapp }}" onchange="filldata();">
                     <div class="item form-group">
                           <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select class="js-example-basic-single js-states form-control" name="bdapp_app_id" id="bdapp_app_id" required title="Instancia de aplicación">
-                                <option value="">Seleccione una instancia de aplicación...</option>
+                            <select class="js-example-basic-single js-states form-control" name="bdapp_app_id" id="bdapp_app_id" required title="Solución">
+                                <option value="">Seleccione una solución...</option>
                                 @foreach($bdapp as $bd)
                                     <option value="{{ $bd->id }}">{{ $bd->empresa->empr_nom }} {{ $bd->aplicacion->app_nom }}</option>
                                 @endforeach
@@ -73,23 +68,18 @@
                           </div>
                      </div>
 
+                     <div class="item form-group">
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input id="backbd_coment" class="form-control has-feedback-left" name="backbd_coment" placeholder="Comentario" type="text" title="Comentario sobre respaldo">
+                              <span class="fa fa-pencil-square-o form-control-feedback left" aria-hidden="true"></span>
+                          </div>
+                     </div>
 
-                     
-
-	                      <!--<div class="form-group">
-	                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de servidor <span class="required">*</span>
-	                        </label>
-	                        <div class="col-md-6 col-sm-6 col-xs-12">
-	                          <input type="text" id="bdapp_nomserv" name="bdapp_nomserv" required="required" class="form-control col-md-7 col-xs-12">
-	                        </div>
-	                      </div>-->
-
-	                       
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button" onclick="location.href = '{{ URL::to('backups') }}';">Cancelar</button>
-                          <button type="submit" class="btn btn-success">Generar</button>
+                          <button type="submit" class="btn btn-success" onclick="showWaitingModal()">Generar</button>
                         </div>
                       </div>
 
@@ -121,6 +111,11 @@
     <script src="{{ asset('vendors/switchery/dist/switchery.min.js') }}"></script>
 
 	    	<script>
+
+        function showWaitingModal()
+      {
+        $('#loadingmodal').modal('show');
+      }
           $( function() {
               $('#alertmsgcreation').click(function() {
                   console.log('alertmsgcreation button clicked');
@@ -146,14 +141,10 @@
                       
             $("#bdapp_app_id").select2({
                   allowClear: true,
-                  placeholder: 'Seleccione una instancia de aplicación...'
+                  placeholder: 'Seleccione una solución...'
                    
                });
-
-
         }
         </script>
 
-
-	    		      
 		@endsection 

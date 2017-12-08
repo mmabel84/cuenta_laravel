@@ -27,6 +27,9 @@ Route::resource('certificados', 'CertController');
 Route::get('certvencidos', 'CertController@indexvencidos')->name('certvencidos');
 Route::get('appsprueba', 'AppController@indexprueba')->name('appsprueba');
 
+Route::get('consulta69', 'Art69Controller@consulta69')->name('consulta69');
+Route::post('request69consult', 'Art69Controller@request69consult')->name('request69consult');
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('/addusrdb', 'UsrController@relateUsrApp')->name('relatedb');
@@ -45,9 +48,19 @@ Route::post('/appbyemp', 'HomeController@appbyemp');
 Route::post('/artconsult', 'HomeController@auditar69b')->name('art');
 
 Route::get('/downloadback/{bdid}', 'BackController@downloadBackup')->name('downlback');
+Route::get('/restoreback/{bdid}', 'BackController@restore')->name('restback');
 
 //Ruta para consumir servicio web que expone roles de BD de aplicación
 Route::post('/getrolesbd/{bdid}', 'UsrController@getrolepermissionbd')->name('getrolesbd');
+
+Route::get('/redirectapp/{numcta}/{rfc}/{appcod}', 'HomeController@redirectapp')->name('redirectapp');
+
+Route::post('/apps/getespdisp', 'AppController@getEspDisp')->name('getespdisp');
+
+Route::post('/transfmegas', 'AppController@transfMegas')->name('transfmegas');
+
+Route::post('/modifMegas', 'AppController@modifMegas')->name('modifMegas');
+
 
 
 

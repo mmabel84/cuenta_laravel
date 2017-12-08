@@ -58,6 +58,14 @@
                 </ul>
                 <div class="clearfix"></div>
               </div>
+
+              <div id="cont_pass_change_div">
+                      <div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;">
+                        <button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                        </button>
+                        <strong id="alertpassmsg"></strong>
+                     </div>
+                  </div>
                   @if (Session::has('message'))
                   <div class="alert alert-success alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -65,6 +73,64 @@
                     <strong>{{ Session::get('message') }}</strong>
                   </div>
                   @endif
+
+                  <div class="btn-group">
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                        <button id="changepassbutton{{$user->id}}" type="button" class="btn " data-placement="left" onclick="showModal({{$user->id}})">Cambiar contraseña</button>
+                      </div>
+
+                      <div class="modal fade" id="passmodal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog" role="document" style=" width:60%">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña: {{$user->name}}</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <!--<span aria-hidden="true">&times;</span>-->
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="input-group col-md-4 col-sm-4 col-xs-12">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i>
+                                        </span>
+                                        <input placeholder="Nueva Contraseña" type="password" class="form-control " id="password{{$user->id}}" name="password">
+                                        @if ($errors->has('password'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                        </span>
+                                        @endif
+                                       
+                                    </div>
+
+                                    <div class="input-group col-md-4 col-sm-4 col-xs-12">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i>
+                                        </span>
+                                        <input placeholder="Confirme Contraseña" type="password" class="form-control " id="password-confirm{{$user->id}}" name="password_confirmation">
+                                    </div>
+
+                                    <div class="input-group col-md-3 col-sm-3 col-xs-12">
+                                      <button type="button" onclick="changePass({{$user->id}});" class="btn btn-primary" style=" background-color:#062c51; ">Guardar</button>
+                                    </div>
+                                </div>
+                              </form>
+                           </div>
+                            <div class="modal-footer">
+                            <div  class="form-group col-md-12 col-sm-12 col-xs-12">
+                             <div id="result_failure_pass{{$user->id}}" class="col-md-9 col-sm-9 col-xs-12" style="color: red;text-align: left; overflow-x: auto; font-size: 13px" >
+                             </div>
+                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                              <button type="button" onclick="cleanmodalPass({{$user->id}});" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                
+                             </div>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+             
               <div class="x_content">
 
                 <!--<form class="form-horizontal form-label-left input_mask">-->
@@ -72,29 +138,20 @@
 
                     {{ Form::hidden('_method', 'PUT') }}
 
+                  <input type="hidden" name="checkpic" id="checkpic" value="{{$user->users_pic ? 1 : 0}}">
 
-                    <div id="invimg">
-                        <img id='imageiddef' src="{{asset('default_avatar_male.jpg')}}">
-                        @if (count($user->users_pic) >= 1)
-                            <img id='imageid' src="{{asset('storage/'.$user->users_pic)}}">
-                        @else
-                            <img id='imageid' src="{{asset('default_avatar_male.jpg')}}">
-                        @endif
-
-                        <input id="deleted_pic" name="deleted_pic" type="text" value="0">
-
-                    </div>
-
-                    <table border="0" class="col-md-12 col-sm-12 col-xs-12">
+                  <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
                     <td width="25%">
                         <div class="row">
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <div class="kv-avatar center-block text-center" style="width:200px">
-                                    <input id="avatar-2" name="users_pic" type="file" class="file-loading">
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                <div id="imgcontainer" class="file-preview-frame">
+                                    <img id='imageiddef' src="{{asset('default_avatar_male.jpg')}}" hidden>
+                                    <img id="blah" alt="your image" width="150" height="150" src="{{$user->users_pic ? asset('storage/'.$user->users_pic) : asset('default_avatar_male.jpg')}}" />
+                                    <button id="cleanpic" type="button" onclick="cleanFunc();"  class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -146,18 +203,22 @@
 
                     </td>
                     </tr>
-                    </table>
+                    <tr>
+                        <td>
+                            <div id="fileinputcontainer" class="col-md-6 col-sm-6 col-xs-6">
+                                <input id="users_pic" name="users_pic" style='position:absolute;z-index:2;top:0;' type="file"/>
+                            </div>
+                        </td>
+                        <td></td>
+                    </tr>
+                  </table>
 
-
-                    
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         </br>
                         </br>
                     </div>
 
-
-                      
-                        <div class="x_content">
+                    <div class="x_content">
                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
                           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Roles y Permisos</a>
@@ -188,13 +249,7 @@
                                           </select>
                                           </div>
                                   </div>
-
-
-
-
                             </div>
-
-
                           </div>
                         </div>
                     </div>
@@ -246,7 +301,133 @@
 
     <script type="text/javascript">
 
-    //$('#edit').trigger('change');
+    function showModal(user) {
+          var modalid = "passmodal"+user;
+
+          $("#"+modalid).modal('show');
+          
+        }
+
+    function hideModal(user) {
+          var modalid = "passmodal"+user;
+          $("#"+modalid).modal('hide');
+        }
+
+
+    function cleanmodalPass(usrid){
+      $("#result_failure_pass"+usrid).html('');
+      var passid = "password"+usrid;
+      var passcid = "password-confirm"+usrid;
+      document.getElementById(passid).value = "";
+      document.getElementById(passcid).value = "";
+      }
+
+
+    function changePass(user){
+
+           var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+           var passid = "password"+user;
+           var passcid = "password-confirm"+user;
+           var password = document.getElementById(passid).value;
+           var passwordc = document.getElementById(passcid).value;
+
+           if(password && passwordc){
+              console.log(password);
+              console.log(user);
+              $.ajax({
+                url: '/cambcont',
+                type: 'POST',
+                data: {_token: CSRF_TOKEN,password:password,password_confirmation:passwordc,user:user},
+                dataType: 'JSON',
+
+                success: function (data) {
+
+                 //console.log(data);
+                 cleanmodalPass(user);
+                  hideModal(data['user']);
+                  
+
+                   var content = '<div class="alert alert-success alert-dismissible fade in" role="alert" id="divpasschange" style="display: none;"><button id="alertpasschange" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><strong id="alertpassmsg"></strong></div>';
+                  
+
+                  console.log(document.getElementById("divpasschange"));
+                  console.log(document.getElementById("alertpasschange"));
+                  
+                  document.getElementById("divpasschange").style.display = 'block';
+
+                  document.getElementById("alertpassmsg").innerHTML = data['msg'];
+                  setTimeout(function() {
+                  $('#alertpasschange').trigger('click');
+                  document.getElementById("cont_pass_change_div").innerHTML = content;
+
+
+              }, 4e3);
+
+                  
+               },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    //alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    console.log(XMLHttpRequest);
+                    var error = XMLHttpRequest.responseJSON['password'][0];
+                    $("#result_failure_pass"+user).html(error);
+                    
+                    //$("#result_failure_pass"+user).html('<p>Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial</p>');
+                    //$("#result_failure_pass"+user).html('<p><strong>Ocurrió un error: '+errorThrown+'</strong></p>');
+                    //hideModal(data['user']);
+
+                }
+            });
+            
+              document.getElementById(passid).value = "";
+              document.getElementById(passcid).value = "";
+            }else{
+              $("#result_failure_pass"+user).html('<p>La contraseña y su confirmación son obligatorias</p>');
+              
+           }
+
+           
+
+   }
+
+
+    function cleanFunc(){
+            $("#blah").attr("src", document.getElementById('imageiddef').src);
+            $("#users_pic").val('');
+            document.getElementById('checkpic').value = 0;
+        }
+
+
+        $("#users_pic").on('change', function () {
+
+
+             var countFiles = $(this)[0].files.length;
+             console.log();
+             var imgPath = $(this)[0].value;
+             var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+
+
+             if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                 if (typeof (FileReader) != "undefined") {
+                     for (var i = 0; i < countFiles; i++) {
+
+                         var reader = new FileReader();
+                         reader.onload = function (e) {
+                             $("#blah").attr("src", e.target.result);
+                         }
+                      reader.readAsDataURL($(this)[0].files[i]);
+                      document.getElementById('checkpic').value = 1;
+                     }
+
+                 } else {
+                     alert("This browser does not support FileReader.");
+                 }
+             } else {
+                 alert("Pls select only images");
+             }
+         }); 
+
 
         function getSelectValues(select) {
           var result = [];
@@ -332,6 +513,7 @@
 
          var imgdiv = document.getElementById("invimg");
          imgdiv.style.display='none';
+         
 
          $("#avatar-2").fileinput({
             overwriteInitial: true,
@@ -346,7 +528,7 @@
             removeTitle: 'Cancel or reset changes',
             elErrorContainer: '#kv-avatar-errors-2',
             msgErrorClass: 'alert alert-block alert-danger',
-            defaultPreviewContent: "<img src={{asset('default_avatar_male.jpg')}} alt='Your Avatar' style='width:160px'><h6 class='text-muted'>Click to select</h6>",
+            defaultPreviewContent: "<img id='imageid' src={{asset('default_avatar_male.jpg')}} alt='Your Avatar' style='width:160px'><h6 class='text-muted'>Click to select</h6>",
             layoutTemplates: {main2: '{preview} {remove} {browse}'},
             browseLabel: 'Foto Usuario',
             allowedFileExtensions: ["jpg", "png", "gif"]

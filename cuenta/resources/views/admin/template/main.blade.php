@@ -1,17 +1,12 @@
 @extends('admin.template.apptemplate')
 
-@section('app_title','Cuenta App')
+@section('app_title','Cuenta')
 
 @section('app_css')
     @parent
       
-
-   
     <!-- bootstrap-daterangepicker -->
     <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-    <!-- Custom Theme Style -->
-    
-    
 
 @endsection
 
@@ -19,6 +14,20 @@
     <body class="nav-md" style="background-color: #001a33">
         <div class="container body">
             <div class="main_container" style="background-color: #001a33">
+
+              <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="loadingmodal">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+
+                       <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                          </button>
+                          <h4 class="modal-title" id="myModalLabel2">Procesando ...</h4>
+                        </div>
+
+                     </div>
+                    </div>
+                  </div>
                 
                 @section('app_left_menu')
                     <div class="col-md-3 left_col" style="background-color: #001a33">
@@ -39,7 +48,7 @@
                           <br />
                           <!-- sidebar menu -->
                            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                          <div class="menu_section">
+                            <div class="menu_section">
                               <ul class="nav side-menu">
                                 
                                   <li><a href="/"><i class="fa fa-dashboard"></i> INICIO </a></li>
@@ -53,7 +62,7 @@
                                       <li><a href="{{ URL::to('usuarios') }}">USUARIOS</a></li>
                                       @endpermission
                                       @permission('leer.aplicacion')
-                                      <li><a href="{{ URL::to('apps') }}">INSTANCIAS DE APLICACIONES</a></li>
+                                      <li><a href="{{ URL::to('apps') }}">SOLUCIONES</a></li>
                                       @endpermission
                                       @permission('leer.respaldo')
                                       <li><a href="{{ URL::to('backups') }}">RESPALDOS</a></li>
@@ -61,12 +70,12 @@
                                       @permission('leer.certificado')
                                       <li><a href="{{ URL::to('certificados') }}">CERTIFICADOS</a></li>
                                       @endpermission
+
+                                      <li><a href="{{ URL::to('consulta69') }}">CONSULTAR ARTÍCULO 69</a></li>
+
                                       
                                     </ul>
                                   </li>
-
-                                  <!--<li><a href="{{ URL::to('empresas') }}"><i class="fa fa-building"></i> EMPRESAS </a></li>
-                                  <li><a href="{{ URL::to('apps') }}"><i class="fa fa-database"></i> APLICACIONES </a></li>-->
 
                                   <li><a><i class="fa fa-wrench"></i> CONFIGURACIÓN <span class="fa fa-chevron-down"></span></a>
                                       <ul class="nav child_menu">
@@ -80,24 +89,19 @@
                                           @endpermission
                                         
                                       </ul>
-
-
                                   </li>
                                   @permission('leer.bitacora')
                                   <li><a href="{{ URL::to('bitacoras') }}"><i class="fa fa-eye"></i> BITÁCORA </a></li>
                                   @endpermission
                               </ul>
                           </div>
-
-                            
-
-                          </div>
+                        </div>
                           <!-- /sidebar menu -->
                           <!-- /menu footer buttons -->
                           
                           <!-- /menu footer buttons -->
-                        </div>
                       </div>
+                    </div>
                 @show
 
                 @section('app_top_navigation')
@@ -122,7 +126,8 @@
                                         <li><a href="{{ route('login') }}">Login</a></li>
                                         <li><a href="{{ route('register') }}">Register</a></li>
                                     @else
-                                        <li class="dropdown">
+                                            <li class="dropdown">
+                                              <li><a href="{{ route('usuarios.edit',Auth::user()->id) }}"> Perfil</a></li>
                                                 <li>
                                                     <a href="{{ route('logout') }}"
                                                         onclick="event.preventDefault();
@@ -134,16 +139,17 @@
                                                         {{ csrf_field() }}
                                                     </form>
                                                 </li>
-                                        </li>
-                                    @endif
-                                  </ul>
-                                </li>
+                                                
 
-                                
-                              </ul>
-                            </nav>
-                          </div>
-                        </div>
+                                                </li>
+                                            </li>
+                                        @endif
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </nav>
+                              </div>
+                            </div>
                     <!-- /top navigation -->
                 @show
 
@@ -155,31 +161,26 @@
                           </div>
                         </div>
                     <!-- /page content -->
-              @section('app_footer')
-              <footer>
-                  <div class="pull-right">
-                      <b>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</b>  </div>
-                    
-                  <div class="span6">
-                          <div class="content">
-                            <nav id="sub-menu">
-                                <ul>
-                                  <li><a href="http://www.advans.mx/content/aviso-de-privacidad" target='_blank'><b>Aviso de Privacidad</b></a></li>
-                                  <li><a href="http://www.advans.mx/content/terminos-y-condiciones" target='_blank'><b>Términos y Condiciones</b></a></li>
-                                </ul>
-                            </nav>
-                          </div>  
-                    
-                  </div>
-                  <div class="clearfix"></div>
-            </footer>
-
-            
-            @show
-
-
+                        @section('app_footer')
+                        <footer>
+                            <div class="pull-right">
+                                <b>Soluciones Advans S.A de C.V © 2017 Derechos Reservados</b>  </div>
+                              
+                            <div class="span6">
+                                    <div class="content">
+                                      <nav id="sub-menu">
+                                          <ul>
+                                            <li><a href="http://www.advans.mx/content/aviso-de-privacidad" target='_blank'><b>Aviso de Privacidad</b></a></li>
+                                            <li><a href="http://www.advans.mx/content/terminos-y-condiciones" target='_blank'><b>Términos y Condiciones</b></a></li>
+                                          </ul>
+                                      </nav>
+                                    </div>  
+                              
+                            </div>
+                            <div class="clearfix"></div>
+                      </footer>
+                      @show
             </div>
-
         </div>
 
         @section('app_js')
@@ -193,6 +194,8 @@
             <script src="{{ asset('vendors/nprogress/nprogress.js') }}"></script>
             <!-- iCheck -->
             <script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
+
+
         @show
     </body>
 @endsection

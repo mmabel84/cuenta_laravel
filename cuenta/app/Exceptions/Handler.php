@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -49,7 +50,51 @@ class Handler extends ExceptionHandler
         {
             return redirect()->back();
         }
+        elseif ($exception instanceof \GuzzleHttp\Exception\ClientException)
+        {
+            Log::info($exception);
+             $request->session()->put('loginrfcerr', 'Excepción de cliente');
+             $request->session()->flash('midred', '1');
+             return redirect()->back();
+        }
+        elseif ($exception instanceof \GuzzleHttp\Exception\ServerException)
+        {
+            Log::info($exception);
+             $request->session()->put('loginrfcerr', 'Excepción de servidor');
+             $request->session()->flash('midred', '1');
+             return redirect()->back();
+        }
+
+        elseif ($exception instanceof \GuzzleHttp\Exception\ConnectException)
+        {
+            Log::info($exception);
+             $request->session()->put('loginrfcerr', 'Sin conexión a servicio');
+             $request->session()->flash('midred', '1');
+             return redirect()->back();
+        }
+        elseif ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
+        {
+             return redirect()->back();
+        }
+        elseif ($exception instanceof \Illuminate\Session\TokenMismatchException || $exception instanceof FatalThrowableError)
+        {
+            Log::info($exception);
+            $request->session()->put('loginrfcerr', 'Su sesión expiró');
+            return redirect(route('login'));  
+        }
+        elseif ($exception instanceof \Illuminate\Database\QueryException || $exception instanceof \Doctrine\DBAL\Driver\PDOException)
+        {
+            Log::info($exception);
+            $request->session()->put('loginrfcerr', 'La base de datos no existe');
+            return redirect(route('login'));  
+        }
+        elseif ($exception instanceof ErrorException) 
+        {
+            Log::info($exception);
+            return redirect(route('login'));  
+        }
         
+
         return parent::render($request, $exception);
     }
 

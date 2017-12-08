@@ -87,7 +87,7 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
-    'passwordsat'          => 'Contraseña inválida, debe tener mínimo 8 dígitos y contener al menos una mayúscula, una minúscula, un número y un caracter especial.',
+    'passwordsat'          => 'Contraseña inválida, debe contener al menos una mayúscula, una minúscula, un número y un caracter especial.',
 
     /*
     |--------------------------------------------------------------------------

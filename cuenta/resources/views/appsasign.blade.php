@@ -51,7 +51,7 @@
 		                      <thead>
 		                        <tr style="color:#FFFFFF; background-color:#2d5986;">
 		                          <th>Nombre</th>
-		                          <th>Instancias contratadas</th>
+		                          <th>Soluciones contratadas</th>
 		                          <th>Megas contratados</th>
 		                          <th>Estado</th>
 		                          <th>Uso</th>

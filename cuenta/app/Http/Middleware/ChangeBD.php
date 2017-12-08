@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class ChangeBD
 {
@@ -29,24 +30,24 @@ class ChangeBD
 
                     //Consumir servicio de control para verificar que la cuenta está activa
                     $cont = new Controller;
-                    $acces_vars = $cont->getAccessToken();
+                    
                     $arrayparams['rfc'] = $alldata['login_rfc'];
-                    try
-                    {
-                        $service_response = $cont->getAppService($acces_vars['access_token'],'getaccstate',$arrayparams,'control');
-                    } 
-                    catch (\GuzzleHttp\Exception\ServerException $e) 
-                    {
-                         $request->session()->put('loginrfcerr', 'Sin comunicación a servicio de control');
-                    }
+                 
+                    $acces_vars = $cont->getAccessToken();
+                    $service_response = $cont->getAppService($acces_vars['access_token'],'getaccstate',$arrayparams,'control');
+                  
+                                       
                     
                     if ($service_response['accstate'] == 'Activa'){
 
                         \Session::put('selected_database',$dbname);
+                        \Session::put('ctarfc',$rfc);
                         \Config::set('database.default', $dbname);
                         $request->session()->pull('loginrfcerr');
+                        \DB::connection($dbname)->update('update ctaconf set ctaconf_bloq = false');
                         
                     }else{
+                        \DB::connection($dbname)->update('update ctaconf set ctaconf_bloq = true');
                         $request->session()->flash('midred', '1');
                         $request->session()->put('loginrfcerr', 'Cuenta bloqueada');
                         $request->session()->put('login_rfc', $dbname);  

@@ -24,7 +24,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','users_nick','users_tel','users_f_ultacces','users_activo', 'users_pic'
+        'name', 'email', 'password','users_nick','users_tel','users_f_ultacces','users_activo', 'users_pic','first_login','password_change'
     ];
 
     /**
@@ -39,7 +39,19 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->connection = \Session::get('selected_database','mysql');
+        //$this->connection = \Session::get('selected_database','mysql');
+
+        $dbname = \Session::get('selected_database',false);
+
+        if ($dbname == false)
+        {
+            $this->connection = \Config::get('database.default');
+            
+        }
+        else
+        {
+            $this->connection = \Session::get('selected_database','mysql');
+        }
     }
     
     public function basedatosapps(){

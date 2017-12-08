@@ -1,9 +1,6 @@
 
 @extends('admin.template.main')
 
-@section('app_title')
-      Usuarios
-@endsection 
 
 @section('app_css')
     @parent
@@ -16,6 +13,7 @@
     <!-- Chosen -->
 
     <link href="{{ asset('vendors/chosen/chosen.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('vendors/select2/dist/css/select2.css') }}" rel="stylesheet">
 
 
     <style>
@@ -66,24 +64,18 @@
 
                       {{ csrf_field() }}
 
-                    <div id="invimg">
-                        <img id='imageiddef' src="{{asset('default_avatar_male.jpg')}}">
-                        <img id='imageid' src="{{asset('default_avatar_male.jpg')}}">
-                        <input id="deleted_pic" name="deleted_pic" type="text" value="0">
-                    </div>
-
-                    <table border="0" class="col-md-12 col-sm-12 col-xs-12">
+                  <table border="0" class="col-md-12 col-sm-12 col-xs-12">
                     <tr>
                     <td width="25%">
                         <div class="row">
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <div class="kv-avatar center-block text-center" style="width:200px">
-                                    <input id="avatar-2" value="{{asset('default_avatar_male.jpg')}}" name="users_pic" type="file" class="file-loading" >
-
-
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                <div id="imgcontainer" class="file-preview-frame">
+                                    <img id='imageiddef' src="{{asset('default_avatar_male.jpg')}}" hidden>
+                                    <img id="blah" alt="your image" width="150" height="150" src="{{asset('default_avatar_male.jpg')}}" />
+                                    <button id="cleanpic" type="button" onclick="cleanFunc();"  class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -99,19 +91,7 @@
                                 @endif
                             </div>
                         </div>
-
-                          <!--<div class="item form-group">
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="users_nick" class="form-control has-feedback-left" name="users_nick" placeholder="Usuario *" required="required" type="text" data-validate-words="1" value="{{ old('users_nick') }}" autocomplete="off">
-                              <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                              @if ($errors->has('users_nick'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('users_nick') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                          </div>-->
-
+                         
                           <div class="item form-group">
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="password" class="form-control has-feedback-left" value="" name="password" placeholder="Contraseña *" required="required" type="password" data-validate-words="1" autocomplete="off" title="Contraseña del usuario">
@@ -152,19 +132,22 @@
 
                     </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <div id="fileinputcontainer" class="col-md-6 col-sm-6 col-xs-6">
+                                <input id="users_pic" name="users_pic" style='position:absolute;z-index:2;top:0;' type="file"/>
+                            </div>
+                        </td>
+                        <td></td>
+                    </tr>
                     </table>
-
-
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         </br>
                         </br>
                     </div>
 
-
-                      
-
-                        <div class="x_content">
+                    <div class="x_content">
                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
                           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Roles y Permisos</a>
@@ -196,10 +179,7 @@
                                           </div>
                                   </div>
 
-
-
                             </div>
-
 
                           </div>
                         </div>
@@ -237,6 +217,7 @@
 
     <!-- File Input -->
     <script src="{{ asset('vendors/bootstrap-fileinput-master/js/fileinput.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendors/select2/dist/js/select2.min.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('build/js/custom.js') }}"></script>
@@ -249,6 +230,37 @@
 
     <script type="text/javascript">
 
+        function cleanFunc(){
+            $("#blah").attr("src", document.getElementById('imageiddef').src);
+            $("#users_pic").val('');
+        }
+
+        $("#users_pic").on('change', function () {
+
+             var countFiles = $(this)[0].files.length;
+             console.log();
+             var imgPath = $(this)[0].value;
+             var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+
+
+             if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                 if (typeof (FileReader) != "undefined") {
+                     for (var i = 0; i < countFiles; i++) {
+
+                         var reader = new FileReader();
+                         reader.onload = function (e) {
+                             $("#blah").attr("src", e.target.result);
+                         }
+                      reader.readAsDataURL($(this)[0].files[i]);
+                     }
+
+                 } else {
+                     alert("This browser does not support FileReader.");
+                 }
+             } else {
+                 alert("Pls select only images");
+             }
+         }); 
 
          function getSelectValues(select) {
           var result = [];
@@ -272,11 +284,7 @@
 
              console.log(selected);
 
-
-
              var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-             //console.log(CSRF_TOKEN);
 
              $.ajax({
                 url: 'permsbyroles',
